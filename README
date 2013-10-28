@@ -1,3 +1,17 @@
+This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your
+browser. 
+
+The product can be installed on the Raspberry Pi. Then run:
+sudo /etc/init.d/pi-web-agent start
+to start the apache2 instance that serves the application.
+Access the appliation via:
+https://raspberrypi:8003
+Default username and password is admin. If raspberrypi does not work on the server address use
+the full ip as you internet router may not match the hostnames.
+
+This product is in beta version. Report any problems to help as make the final release soon.
+
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
