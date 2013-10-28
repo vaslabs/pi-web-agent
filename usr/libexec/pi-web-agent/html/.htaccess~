@@ -1,0 +1,5 @@
+AuthName "Restricted Area" 
+AuthType Basic 
+AuthUserFile /usr/libexec/cernvm-appliance-agent/.htpasswd 
+AuthGroupFile /dev/null 
+require user admin

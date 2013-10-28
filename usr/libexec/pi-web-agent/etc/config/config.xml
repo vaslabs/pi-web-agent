@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cern-vm-wi version="1.0">
+    <system extension=".actions">            
+
+        <action>
+            <title>Updates</title>
+            <id>System Update</id>
+            <url>/cgi-bin/toolkit/update.py</url>
+        </action>
+
+        <action>
+            <title>Change Password</title>
+            <id>Change Password</id>
+            <url>/cgi-bin/toolkit/change_password.py</url>
+        </action>
+        
+           <action>
+            <title>Power Management</title>
+            <id>Power Management</id>
+            <url>/cgi-bin/toolkit/power_management.py</url>
+        </action>
+
+        <action>
+            <title>Services</title>
+            <id>Services web app</id>
+            <url>/cgi-bin/toolkit/services_app.py</url>
+        </action>
+
+        <action>
+            <title>VNC</title>
+            <id>VNC</id>
+            <url>/cgi-bin/toolkit/vnc.py</url>
+        </action>
+
+        <action>
+            <title>Package Management</title>
+            <id>Package Management</id>
+            <url>/cgi-bin/toolkit/package_recommendations.py</url>
+        </action>
+
+        <action>
+            <title>Firewall Management</title>
+            <id>Firewall</id>
+            <url>/cgi-bin/toolkit/pi_iptables.py</url>
+        </action>
+        <action>
+            <title>GPIO</title>
+            <id>GPIO Management</id>
+            <url>/cgi-bin/toolkit/gpio_manager.py</url>
+        </action>
+        
+        <action>
+            <title>API</title>
+            <id>API Management</id>
+            <url>/cgi-bin/toolkit/enable_api.py</url>
+        </action>
+    </system>    
+        
+</cern-vm-wi>

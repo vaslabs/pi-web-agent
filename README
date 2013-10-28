@@ -1,0 +1,8 @@
+====dependencies====
+apache2
+libapache2-mod-dnssd
+chkconfig
+====future dependencies for vnc=====
+openjdk-7-jre
+tightvnc
+

@@ -1,0 +1,206 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module HTML</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>HTML</strong></big></big> (version 0.04, 2009-07-28)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="html.py">html.py</a></font></td></tr></table>
+    <p><tt>HTML.py&nbsp;-&nbsp;v0.04&nbsp;2009-07-28&nbsp;Philippe&nbsp;Lagadec<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;a&nbsp;few&nbsp;classes&nbsp;to&nbsp;easily&nbsp;generate&nbsp;HTML&nbsp;code&nbsp;such&nbsp;as&nbsp;tables<br>
+and&nbsp;lists.<br>
+&nbsp;<br>
+Project&nbsp;website:&nbsp;<a href="http://www.decalage.info/python/html">http://www.decalage.info/python/html</a><br>
+&nbsp;<br>
+License:&nbsp;CeCILL&nbsp;(open-source&nbsp;GPL&nbsp;compatible),&nbsp;see&nbsp;source&nbsp;code&nbsp;for&nbsp;details.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.cecill.info">http://www.cecill.info</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="HTML.html#List">List</a>
+</font></dt><dt><font face="helvetica, arial"><a href="HTML.html#Table">Table</a>
+</font></dt><dt><font face="helvetica, arial"><a href="HTML.html#TableCell">TableCell</a>
+</font></dt><dt><font face="helvetica, arial"><a href="HTML.html#TableRow">TableRow</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="List">class <strong>List</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>a&nbsp;<a href="#List">List</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;is&nbsp;used&nbsp;to&nbsp;create&nbsp;an&nbsp;ordered&nbsp;or&nbsp;unordered&nbsp;list&nbsp;in&nbsp;HTML.<br>
+(UL/OL&nbsp;tag)<br>
+&nbsp;<br>
+Attributes:<br>
+-&nbsp;lines:&nbsp;list,&nbsp;tuple&nbsp;or&nbsp;any&nbsp;iterable,&nbsp;containing&nbsp;one&nbsp;string&nbsp;for&nbsp;each&nbsp;line<br>
+-&nbsp;ordered:&nbsp;bool,&nbsp;choice&nbsp;between&nbsp;an&nbsp;ordered&nbsp;(OL)&nbsp;or&nbsp;unordered&nbsp;list&nbsp;(UL)<br>
+-&nbsp;attribs:&nbsp;dict,&nbsp;additional&nbsp;attributes&nbsp;for&nbsp;the&nbsp;OL/UL&nbsp;tag<br>
+&nbsp;<br>
+Reference:&nbsp;<a href="http://www.w3.org/TR/html4/struct/lists.html">http://www.w3.org/TR/html4/struct/lists.html</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="List-__init__"><strong>__init__</strong></a>(self, lines<font color="#909090">=None</font>, ordered<font color="#909090">=False</font>, start<font color="#909090">=None</font>, attribs<font color="#909090">=None</font>)</dt><dd><tt><a href="#List">List</a>&nbsp;constructor</tt></dd></dl>
+
+<dl><dt><a name="List-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>return&nbsp;the&nbsp;HTML&nbsp;code&nbsp;for&nbsp;the&nbsp;list&nbsp;as&nbsp;a&nbsp;string</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Table">class <strong>Table</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>a&nbsp;<a href="#Table">Table</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;is&nbsp;used&nbsp;to&nbsp;create&nbsp;a&nbsp;HTML&nbsp;table.&nbsp;(TABLE&nbsp;tag)<br>
+&nbsp;<br>
+Attributes:<br>
+-&nbsp;rows:&nbsp;list,&nbsp;tuple&nbsp;or&nbsp;any&nbsp;iterable,&nbsp;containing&nbsp;one&nbsp;iterable&nbsp;or&nbsp;<a href="#TableRow">TableRow</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;for&nbsp;each&nbsp;row<br>
+-&nbsp;header_row:&nbsp;list,&nbsp;tuple&nbsp;or&nbsp;any&nbsp;iterable,&nbsp;containing&nbsp;the&nbsp;header&nbsp;row&nbsp;(optional)<br>
+-&nbsp;border:&nbsp;str&nbsp;or&nbsp;int,&nbsp;border&nbsp;width<br>
+-&nbsp;style:&nbsp;str,&nbsp;table&nbsp;style&nbsp;in&nbsp;CSS&nbsp;syntax&nbsp;(thin&nbsp;black&nbsp;borders&nbsp;by&nbsp;default)<br>
+-&nbsp;width:&nbsp;str,&nbsp;width&nbsp;of&nbsp;the&nbsp;table&nbsp;on&nbsp;the&nbsp;page<br>
+-&nbsp;attribs:&nbsp;dict,&nbsp;additional&nbsp;attributes&nbsp;for&nbsp;the&nbsp;TABLE&nbsp;tag<br>
+-&nbsp;col_width:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;defining&nbsp;width&nbsp;for&nbsp;each&nbsp;column<br>
+-&nbsp;col_align:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;defining&nbsp;horizontal&nbsp;alignment&nbsp;for&nbsp;each&nbsp;column<br>
+-&nbsp;col_char:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;defining&nbsp;alignment&nbsp;character&nbsp;for&nbsp;each&nbsp;column<br>
+-&nbsp;col_charoff:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;defining&nbsp;charoff&nbsp;attribute&nbsp;for&nbsp;each&nbsp;column<br>
+-&nbsp;col_valign:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;defining&nbsp;vertical&nbsp;alignment&nbsp;for&nbsp;each&nbsp;column<br>
+-&nbsp;col_styles:&nbsp;list&nbsp;or&nbsp;tuple&nbsp;of&nbsp;HTML&nbsp;styles&nbsp;for&nbsp;each&nbsp;column<br>
+&nbsp;<br>
+Reference:&nbsp;<a href="http://www.w3.org/TR/html4/struct/tables.html#h-11.2.1">http://www.w3.org/TR/html4/struct/tables.html#h-11.2.1</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Table-__init__"><strong>__init__</strong></a>(self, rows<font color="#909090">=None</font>, border<font color="#909090">='1'</font>, style<font color="#909090">=None</font>, width<font color="#909090">=None</font>, cellspacing<font color="#909090">=None</font>, cellpadding<font color="#909090">=4</font>, attribs<font color="#909090">=None</font>, header_row<font color="#909090">=None</font>, col_width<font color="#909090">=None</font>, col_align<font color="#909090">=None</font>, col_valign<font color="#909090">=None</font>, col_char<font color="#909090">=None</font>, col_charoff<font color="#909090">=None</font>, col_styles<font color="#909090">=None</font>)</dt><dd><tt><a href="#TableCell">TableCell</a>&nbsp;constructor</tt></dd></dl>
+
+<dl><dt><a name="Table-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>return&nbsp;the&nbsp;HTML&nbsp;code&nbsp;for&nbsp;the&nbsp;table&nbsp;as&nbsp;a&nbsp;string</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TableCell">class <strong>TableCell</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>a&nbsp;<a href="#TableCell">TableCell</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;is&nbsp;used&nbsp;to&nbsp;create&nbsp;a&nbsp;cell&nbsp;in&nbsp;a&nbsp;HTML&nbsp;table.&nbsp;(TD&nbsp;or&nbsp;TH)<br>
+&nbsp;<br>
+Attributes:<br>
+-&nbsp;text:&nbsp;text&nbsp;in&nbsp;the&nbsp;cell&nbsp;(may&nbsp;contain&nbsp;HTML&nbsp;tags).&nbsp;May&nbsp;be&nbsp;any&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;which<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;can&nbsp;be&nbsp;converted&nbsp;to&nbsp;a&nbsp;string&nbsp;using&nbsp;str().<br>
+-&nbsp;header:&nbsp;bool,&nbsp;false&nbsp;for&nbsp;a&nbsp;normal&nbsp;data&nbsp;cell&nbsp;(TD),&nbsp;true&nbsp;for&nbsp;a&nbsp;header&nbsp;cell&nbsp;(TH)<br>
+-&nbsp;bgcolor:&nbsp;str,&nbsp;background&nbsp;color<br>
+-&nbsp;width:&nbsp;str,&nbsp;width<br>
+-&nbsp;align:&nbsp;str,&nbsp;horizontal&nbsp;alignement&nbsp;(left,&nbsp;center,&nbsp;right,&nbsp;justify&nbsp;or&nbsp;char)<br>
+-&nbsp;char:&nbsp;str,&nbsp;alignment&nbsp;character,&nbsp;decimal&nbsp;point&nbsp;if&nbsp;not&nbsp;specified<br>
+-&nbsp;charoff:&nbsp;str,&nbsp;see&nbsp;HTML&nbsp;specs<br>
+-&nbsp;valign:&nbsp;str,&nbsp;vertical&nbsp;alignment&nbsp;(top|middle|bottom|baseline)<br>
+-&nbsp;style:&nbsp;str,&nbsp;CSS&nbsp;style<br>
+-&nbsp;attribs:&nbsp;dict,&nbsp;additional&nbsp;attributes&nbsp;for&nbsp;the&nbsp;TD/TH&nbsp;tag<br>
+&nbsp;<br>
+Reference:&nbsp;<a href="http://www.w3.org/TR/html4/struct/tables.html#h-11.2.6">http://www.w3.org/TR/html4/struct/tables.html#h-11.2.6</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TableCell-__init__"><strong>__init__</strong></a>(self, text<font color="#909090">=''</font>, bgcolor<font color="#909090">=None</font>, header<font color="#909090">=False</font>, width<font color="#909090">=None</font>, align<font color="#909090">=None</font>, char<font color="#909090">=None</font>, charoff<font color="#909090">=None</font>, valign<font color="#909090">=None</font>, style<font color="#909090">=None</font>, attribs<font color="#909090">=None</font>)</dt><dd><tt><a href="#TableCell">TableCell</a>&nbsp;constructor</tt></dd></dl>
+
+<dl><dt><a name="TableCell-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>return&nbsp;the&nbsp;HTML&nbsp;code&nbsp;for&nbsp;the&nbsp;table&nbsp;cell&nbsp;as&nbsp;a&nbsp;string</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TableRow">class <strong>TableRow</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>a&nbsp;<a href="#TableRow">TableRow</a>&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;is&nbsp;used&nbsp;to&nbsp;create&nbsp;a&nbsp;row&nbsp;in&nbsp;a&nbsp;HTML&nbsp;table.&nbsp;(TR&nbsp;tag)<br>
+&nbsp;<br>
+Attributes:<br>
+-&nbsp;cells:&nbsp;list,&nbsp;tuple&nbsp;or&nbsp;any&nbsp;iterable,&nbsp;containing&nbsp;one&nbsp;string&nbsp;or&nbsp;<a href="#TableCell">TableCell</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;for&nbsp;each&nbsp;cell<br>
+-&nbsp;header:&nbsp;bool,&nbsp;true&nbsp;for&nbsp;a&nbsp;header&nbsp;row&nbsp;(TH),&nbsp;false&nbsp;for&nbsp;a&nbsp;normal&nbsp;data&nbsp;row&nbsp;(TD)<br>
+-&nbsp;bgcolor:&nbsp;str,&nbsp;background&nbsp;color<br>
+-&nbsp;col_align,&nbsp;col_valign,&nbsp;col_char,&nbsp;col_charoff,&nbsp;col_styles:&nbsp;see&nbsp;<a href="#Table">Table</a>&nbsp;class<br>
+-&nbsp;attribs:&nbsp;dict,&nbsp;additional&nbsp;attributes&nbsp;for&nbsp;the&nbsp;TR&nbsp;tag<br>
+&nbsp;<br>
+Reference:&nbsp;<a href="http://www.w3.org/TR/html4/struct/tables.html#h-11.2.5">http://www.w3.org/TR/html4/struct/tables.html#h-11.2.5</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TableRow-__init__"><strong>__init__</strong></a>(self, cells<font color="#909090">=None</font>, bgcolor<font color="#909090">=None</font>, header<font color="#909090">=False</font>, attribs<font color="#909090">=None</font>, col_align<font color="#909090">=None</font>, col_valign<font color="#909090">=None</font>, col_char<font color="#909090">=None</font>, col_charoff<font color="#909090">=None</font>, col_styles<font color="#909090">=None</font>)</dt><dd><tt><a href="#TableCell">TableCell</a>&nbsp;constructor</tt></dd></dl>
+
+<dl><dt><a name="TableRow-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>return&nbsp;the&nbsp;HTML&nbsp;code&nbsp;for&nbsp;the&nbsp;table&nbsp;row&nbsp;as&nbsp;a&nbsp;string</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-Link"><strong>Link</strong></a>(text, url)</dt><dd><tt>#&nbsp;much&nbsp;simpler&nbsp;definition&nbsp;of&nbsp;a&nbsp;link&nbsp;as&nbsp;a&nbsp;function:</tt></dd></dl>
+ <dl><dt><a name="-link"><strong>link</strong></a>(text, url)</dt></dl>
+ <dl><dt><a name="-list"><strong>list</strong></a>(*args, **kwargs)</dt><dd><tt>return&nbsp;HTML&nbsp;code&nbsp;for&nbsp;a&nbsp;list&nbsp;as&nbsp;a&nbsp;string.&nbsp;See&nbsp;<a href="#List">List</a>&nbsp;class&nbsp;for&nbsp;parameters.</tt></dd></dl>
+ <dl><dt><a name="-table"><strong>table</strong></a>(*args, **kwargs)</dt><dd><tt>return&nbsp;HTML&nbsp;code&nbsp;for&nbsp;a&nbsp;table&nbsp;as&nbsp;a&nbsp;string.&nbsp;See&nbsp;<a href="#Table">Table</a>&nbsp;class&nbsp;for&nbsp;parameters.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>TABLE_STYLE_THINBORDER</strong> = 'border: 1px solid #000000; border-collapse: collapse;'<br>
+<strong>__author__</strong> = 'Philippe Lagadec'<br>
+<strong>__date__</strong> = '2009-07-28'<br>
+<strong>__version__</strong> = '0.04'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Philippe&nbsp;Lagadec</td></tr></table>
+</body></html>

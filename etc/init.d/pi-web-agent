@@ -1,0 +1,132 @@
+#!/bin/sh
+# Copyright (c) 2013 CERN
+# All rights reserved.
+#
+# Author: Vasilis Nicolaou, 2013
+#
+# /etc/init.d/pi-web-agent
+#   and its symbolic link
+# /usr/sbin/pi-web-agent
+
+### BEGIN INIT INFO
+# Provides:          pi-web-agent
+# Required-Start:    $network $local_fs $remote_fs 
+# Required-Stop:     
+# Default-Start:     3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive: true
+# Short-Description: Start update sync in boot, act and then die
+# Description:       Executes the program that runs the post update actions 
+### END INIT INFO
+
+#. /etc/init.d/functions 
+echo_success() {
+	echo -n " [ OK ]"
+}
+
+echo_failure() {
+	echo -n " [ FAILED ]"
+}
+start() {
+        echo -n "Starting pi web agent"
+        [ -d '/var/log/pi-web-agent' ] || {
+            mkdir -p /var/log/pi-web-agent
+        }
+        [ -f '/var/log/pi-web-agent/service.log' ] || {
+            touch /var/log/pi-web-agent/service.log
+        }
+        $apache2_BIN -f "$CONFIG_FILE" -k start 2>/var/log/pi-web-agent/service.log
+        if [ $? -eq 0 ]; then
+            echo_success
+            echo
+        else
+            echo_failure
+            echo
+        fi
+}
+
+stop() {
+        echo -n "Stopping pi web agent "
+        if [ ! -f /var/run/pi-web-agent.pid ]; then
+            echo "Service is not running"
+            echo_failure
+            echo
+            exit 3
+        fi
+        
+        kill $(cat /var/run/pi-web-agent.pid)
+        if [ $? -eq 0 ]; then
+            echo_success
+            rm /var/run/pi-web-agent.pid
+        else
+            echo_failure
+            echo
+        fi
+        exit 0
+            
+}
+
+
+# Check for missing binaries
+apache2_BIN="/usr/sbin/apache2"
+CONFIG_FILE="/etc/pi-web-agent/conf/apache2-appliance.conf"
+test -x $apache2_BIN || { 
+        echo "$update_BIN not installed";
+        if [ "$1" = "stop" ]; then exit 0;
+        else exit 5; fi; }
+        
+[ -f "$CONFIG_FILE" ] || { 
+        echo "$CONFIG_FILE missing";
+        if [ "$1" = "stop" ]; then exit 0;
+        else exit 5; fi; }
+
+ case "$1" in
+    start)
+        start
+        exit "$?"
+        ;;
+    stop)
+        stop
+        # Remember status and be verbose
+        exit 3
+        ;;
+    restart)
+        # Stop the service and regardless of whether it was
+        # running or not, start it again.
+        $0 stop
+        $0 start
+        exit "$?"
+        # Remember status and be quiet
+        
+        ;;
+    reload)
+
+        ## Otherwise if it does not support reload:
+        return 3
+        ;;
+    status)
+        echo -n "Checking for service $0: "
+        if [ -f "/var/run/pi-web-agent.pid" ]; then
+            echo "Running"
+            exit 0
+            
+        else
+            echo "Not running"
+            exit 3
+        fi
+        # 0 - service up and running
+        # 1 - service dead, but /var/run/  pid  file exists
+        # 2 - service dead, but /var/lock/ lock file exists
+        # 3 - service not running (unused)
+        # 4 - service status unknown :-(
+        # 5--199 reserved (5--99 LSB, 100--149 distro, 150--199 appl.)
+
+        exit 3
+        
+        ;;
+    *?)
+        # If no parameters are given, print which are avaiable.
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

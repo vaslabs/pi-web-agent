@@ -1,0 +1,20 @@
+Metadata-Version: 1.0
+Name: HTML.py
+Version: 0.04
+Summary: A Python module to easily generate HTML code (tables, lists, ...).
+See http://www.decalage.info/python/html for more information.
+
+Home-page: http://www.decalage.info/python/html
+Author: Philippe Lagadec
+Author-email: decalage (a) laposte.net
+License: CeCILL (open-source GPL compatible)
+Download-URL: http://www.decalage.info/python/html
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Natural Language :: English
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
