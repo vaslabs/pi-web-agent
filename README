@@ -11,6 +11,8 @@ the full ip as your internet router may not match the hostnames.
 This product is in beta version. Report any problems to help us make the final release soon.
 
 
+Video: http://www.youtube.com/watch?v=dPDPs9v2o-M
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
