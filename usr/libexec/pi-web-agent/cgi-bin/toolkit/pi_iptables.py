@@ -96,7 +96,7 @@ def main():
     config=Configuration()
     view = View(config.system.actions)
 
-    #if 'action' in form:
+    #this is only for modifying iptables
     html_add_rule='<p></br>Choose action</br></p>'\
                 +'<div class="select-group" id="selectActions">'\
                     +'<select id="selectAction" class="form-control">'\
