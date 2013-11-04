@@ -20,7 +20,7 @@ def main():
 
 def password_changed():
     default_username='admin'
-    default_password='password'
+    default_password='admin'
     content_file = open(os.environ['MY_HOME']+'/.htpasswd', 'r')
     for line in content_file:
         data = line.rstrip(' \n').split(':')
