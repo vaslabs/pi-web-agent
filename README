@@ -22,7 +22,7 @@ tightvnc
 
 == Developer Information ==
 If you are a developer and you want to test or work on this project you don't need to work on a raspberrypi. You just need
-a virtual machine that runs something similar to the raspberry pi. Here is how we did it:
+a virtual machine that runs something similar to the raspberry pi Raspbian. Here is how we did it:
 
 1. Download and install Virtual box. Download this image http://dl.dropbox.com/u/60623239/RaspberryPi.VirtualBox.zip (it's a 
 zip, extract it and you will find it inside). Open the extracted file with virtual box. Now you have ubuntu on your virtual
