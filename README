@@ -26,7 +26,7 @@ a virtual machine that runs something similar to the raspberry pi Raspbian. Here
 
 1. Download and install Virtual box. Download this image http://dl.dropbox.com/u/60623239/RaspberryPi.VirtualBox.zip (it's a 
 zip, extract it and you will find it inside). Open the extracted file with virtual box. Now you have ubuntu on your virtual
-machine that looks like the raspberry pi. It is good enough for testing.
+machine that looks like the raspberry pi. It is good enough for testing. Default username=rpi password=password .
 
 2. Install git (sudo apt-get install git-core)
 Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
