@@ -34,7 +34,9 @@ Go into the directory (pi-web-agent), there is a file setup.sh. Run sudo ./setup
 If that fails run sudo ./setup.sh reinstall . It should work by also installing some of the dependencies. You have to install
 manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
 
-3. Set up a host only adapter on your virtual box if you want to access it from your normal browser. 
+3. Start the pi-web-agent service: sudo pi-web-agent start
+
+4. Set up a host only adapter on your virtual box if you want to access it from your normal browser. 
 The ip to access the application from a browser inside the virtual machine is: http://127.0.0.1:8004
 The ip to access the application from your PC (the host) is https://192.168.56.101:8003 if you set up things correctly (see
 below how to set up network interface)
