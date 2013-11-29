@@ -13,6 +13,10 @@ This product is in beta version. Report any problems to help us make the final r
 
 Video: http://www.youtube.com/watch?v=dPDPs9v2o-M
 
+Supported browsers:
+Chrome
+Firefox
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
