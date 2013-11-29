@@ -15,6 +15,7 @@ LOGS=/var/log/pi-web-agent
 AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
+SUDOERS_D=etc/sudoers.d/pi-web-agent
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -61,10 +62,11 @@ this_install(){
 	chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
 	print_ok
-    echo "Please add pi-web-agent to the sudoers file in order to use all the functionalities of the appliance"
-    echo "e.g. put this line: pi-web-agent ALL=(ALL) NOPASSWD:ALL"
-    echo "to the sudoers file"
-
+    
+    echo "Registering pi-web-agent in sudoers"
+    cp $SUDOERS_D /$SUDOERS_D
+    chown root:root /$SUDOERS_D
+    chmod 0440 /$SUDOERS_D
 
 }
 
@@ -80,6 +82,7 @@ this_uninstall() {
     this_safe_remove "/$SHARE"
     print_ok
     echo "Deleting user account of appliance..."
+    rm /$SUDOERS_D
     userdel -f pi-web-agent
     print_ok "DONE"
 }
