@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
 #def generate_html_code(enabled_pins):
 #    html_code = ''
-#       with open ("/usr/libexec/pi-web-agent/html/gpio_table.html", "r") as myfile:
+#       with open ("/usr/libexec/pi-web-agent/html/utilities/gpio_table.html", "r") as myfile:
 #        html_code=myfile.read().replace('\n', '')
 #        
 #    for pin in enabled_pins:    

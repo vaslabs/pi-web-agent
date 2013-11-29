@@ -2,7 +2,7 @@
 import sys
 import os
 if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/usr/libexec/cernvm-appliance-agent'
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
@@ -15,12 +15,7 @@ import cgitb
 from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
-
-def execute(command):
-    sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    output, err = sp.communicate()
-    sp.wait()
-    return output, err
+from live_info import execute
 '''
 def checkError(view, errorcode) :
     if errorcode != 0 :

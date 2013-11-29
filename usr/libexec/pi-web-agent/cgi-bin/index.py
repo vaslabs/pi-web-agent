@@ -2,8 +2,8 @@
 import sys
 import os
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
-sys.path.append(os.environ['MY_HOME']+'/etc/cernvm-appliance-agent/config')
-sys.path.append(os.environ['MY_HOME']+'/usr/libexec/cernvm-appliance-agent/scripts')
+sys.path.append(os.environ['MY_HOME']+'/etc/pi-web-agent/config')
+sys.path.append(os.environ['MY_HOME']+'/usr/libexec/pi-web-agent/scripts')
 from menu import *
 from view import View
 from cern_vm import Configuration

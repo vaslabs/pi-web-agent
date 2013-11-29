@@ -95,6 +95,12 @@ def composeDocument(references, body):
     print "</body>"
     print "</html>"
 
+def clearDocument():
+    print "Content-type: text/html"
+    print
+    print "<html>"
+    print "</html>"
+    
 def composeXMLDocument(xml):
     print "Content-type: text/html"
     print
