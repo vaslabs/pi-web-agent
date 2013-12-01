@@ -15,11 +15,11 @@ cgitb.enable()
 from live_info import execute
 
 def set_pin_value(pin_no, value):
-	msgValue, errorcode=execute("sudo sh -c 'echo \""+ value +" \" > /sys/class/gpio/gpio" + pin_no + "/value'")
+	msgValue, errorcode=execute("sudo gpio " + value + " " + pin_no)
 	return errorcode
 	
 def set_pin_direction(pin_no, direction):
-	msgDirection, errorcode=execute("sudo sh -c 'echo \""+ direction +" \" > /sys/class/gpio/gpio" + pin_no + "/direction'")
+	msgDirection, errorcode=execute("sudo gpio.py " + direction + " " + pin_no)
 	return errorcode
 
 def main():

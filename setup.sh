@@ -15,6 +15,7 @@ LOGS=/var/log/pi-web-agent
 AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
+GPIO_BIN=usr/bin/gpio.py
 SUDOERS_D=etc/sudoers.d/pi-web-agent
 this_install(){
     echo -n "Installing pi web agent "
@@ -49,20 +50,21 @@ this_install(){
     sudo python setup.py install
     cd $curr_dir
 
-	[ -d $LOGS ] || mkdir -p $LOGS
-	[ -d $AND_LOGS ] || mkdir -p $AND_LOGS
-	cp $VNC_SERVICE /$VNC_SERVICE
-	cp $PI_UPDATE /$PI_UPDATE
+    [ -d $LOGS ] || mkdir -p $LOGS
+    [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
+    cp $VNC_SERVICE /$VNC_SERVICE
+    cp $PI_UPDATE /$PI_UPDATE
+    cp $GPIO_BIN /$GPIO_BIN
     print_ok
-	echo "Installing dependencies"
-	apt-get install $DEPENDENCIES
-	print_ok
-	echo "Post installation actions"    
-	chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
-	chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
+    echo "Installing dependencies"
+    apt-get install $DEPENDENCIES
+    print_ok
+    echo "Post installation actions"    
+    chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
+    chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
-	print_ok
-    
+    print_ok
+
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
     chown root:root /$SUDOERS_D

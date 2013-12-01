@@ -4,85 +4,83 @@ import cgitb
 import os
 cgitb.enable()
 import sys
+from RPi import GPIO
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/scripts')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-from cern_vm import Configuration
-from view import *
+from framework import view, config
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
-from cern_vm import Configuration
-import subprocess
+from live_info import execute
 import HTML
 
 
-leftPins = ['3V3', 'GPIO2', 'GPIO3', 'GPIO4', 'Ground', 'GPIO17', 'GPIO27','GPIO22', '3V3','GPIO10','GPIO9','GPIO11','Ground']
+leftPins = ['3V3', 'GPIO0', 'GPIO1', 'GPIO4', 'Reserved', \
+'GPIO17', 'GPIO21','GPIO22', 'Reserved','GPIO10', \
+'GPIO9','GPIO11','Reserved']
 
-rightPins = ['5V', '5V', 'Ground', 'GPIO14', 'GPIO15', 'GPIO18', 'Ground','GPIO23','GPIO24','Ground','GPIO25','GPIO8','GPIO7']
+rightPins = ['5V', 'Reserved', 'GND', 'GPIO14', 'GPIO15', \
+'GPIO18', 'Reserved','GPIO23','GPIO24', \
+'Reserved','GPIO25','GPIO8','GPIO7']
 
-def export_all_pins():
-    for pin in leftPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'echo "+ pinNo[1] +" > /sys/class/gpio/export'")
-
-    for pin in rightPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'echo "+ pinNo[1] +" > /sys/class/gpio/export'")
-
-
+def name2PinNo(pin_name):
+    gpio_index = pin_name.split('GPIO')
+    if (len(gpio_index) <= 1):
+        return -1
+    isLeft = pin_name in leftPins
+    if isLeft:
+        leftIndex = leftPins.index(pin_name)
+        return leftIndex
+    isRight = pin_name in rightPins
+    if isRight:
+        rightIndex = rightPins.index(pin_name)
+        return rightIndex
+    return -1
+    
 def getDirections():
     leftDirections = []
     for pin in leftPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'cat /sys/class/gpio/gpio"+pinNo[1]+"/direction'")
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0:
+            msgInitialize, errorcode=execute("sudo gpio direction " + str(pinNo))
             leftDirections.append(msgInitialize)
-        else :
-            leftDirections.append('empty')
+        else:
+            leftDirections.append(pin)
             
     rightDirections = []
     for pin in rightPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'cat /sys/class/gpio/gpio"+pinNo[1]+"/direction'")
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0 :
+            msgInitialize, errorcode=execute("sudo gpio direction " + str(pinNo))
             rightDirections.append(msgInitialize)
         else :
-            rightDirections.append('empty')
+            rightDirections.append(pin)
                             
-    return leftDirections, rightDirections
-    
+    return leftDirections, rightDirections  
     
 def getValues():
     leftValues = []
     for pin in leftPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'cat /sys/class/gpio/gpio"+pinNo[1]+"/value'")
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0 :
+            msgInitialize, errorcode=execute("sudo gpio.py state " + str(pinNo))
             leftValues.append(msgInitialize)
         else :
-            leftValues.append('empty')
+            leftValues.append(pin)
             
     rightValues = []
     for pin in rightPins:
-        pinNo = pin.split('GPIO')
-        if len(pinNo) > 1 :
-            msgInitialize, errorcode=execute("sudo sh -c 'cat /sys/class/gpio/gpio"+pinNo[1]+"/value'")
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0 :
+            msgInitialize, errorcode=execute("sudo gpio.py state " + str(pinNo))
             rightValues.append(msgInitialize)
         else :
-            rightValues.append('empty')                
+            rightValues.append(pin)                
     return leftValues, rightValues
 
-
-def execute(command):
-       sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-       output, err = sp.communicate()
-       sp.wait()
-       return [output, sp.returncode]
 
 def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
     if len(left_Pins[index].split('GPIO')) > 1 :
@@ -97,16 +95,18 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
 
 
         directionText = generalText + directionText + directionAttributeText
-        if direction == 'in' :
+        
+        if direction == GPIO.IN :
             directionText += ' >'
-        else :
+        else:
             directionText += ' checked>'
-
+        
+        
         valueText = generalText + valueText + valueAttributeText
-        if value == '1' :
-            valueText += ' >'
-        else :
+        if value == GPIO.HIGH :
             valueText += ' checked>'
+        else :
+            valueText += ' >'
 
         directionLabelText = '<label class="onoffswitch-label" for="D'+left_Pins[index]+'">\n'
         valueLabelText = '<label class="onoffswitch-label" for="V'+left_Pins[index]+'">\n'
@@ -118,18 +118,17 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         valueSummary = valueText + valueLabelText + labelText
         return directionSummary, valueSummary
     else :
-        directionSummary = 'N/A'
+        directionText="<span class=\"label label-warning\">" +left_Pins[index]+"</span>"
+        directionSummary = directionText
         valueSummary = 'N/A'
         return directionSummary, valueSummary
 
 def main():
     form = cgi.FieldStorage()
-    config=Configuration()
-    view = View(config.system.actions)
-    
-    o = export_all_pins()
+
     
     leftValuesPins, rightValuesPins = getValues()
+    
     leftDirectionPins, rightDirectionPins = getDirections()
     
     pins = [[]]
