@@ -1,5 +1,4 @@
 openjdk-6-jre-headless
-apache2
 emacs23
 fortune-mod
 gcc

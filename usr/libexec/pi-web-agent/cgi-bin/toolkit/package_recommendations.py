@@ -38,38 +38,18 @@ def main():
     ins = open( "recommendationsList.txt", "r" )
     packages = []
     for line in ins:
-        packages.append( line )
+      line = line.rstrip() # strip the new line
+      packages.append( line )
 
-    installedPackages = [[]]
-    toInstallPackages = [[]]
     allPackages = [[]]
     
-    i = -1
-    j = -1
-    for pName in packages:
-        pName = pName.rstrip() # strip the new line
-        bashCommand = "dpkg-query -l | grep '" + pName + " '"
-        output, errorcode = execute( bashCommand )
-        #checkError(view, errorcode)
+    for pName in packages :
+      checkedText = createOnOffSwitch( pName )
+      descriptionText = getDpkgInfo( pName, "Description" )
+      versionText = getDpkgInfo( pName, "Version" )
+      allPackages.append( [ pName, checkedText, descriptionText, versionText ] )
 
-        text = '<div class="on_off_switch">\n'
-        text +='<input type="checkbox" name="'+pName+'" onclick="submit_package(this)" class="on_off_switch-checkbox" id="'+pName 
-        if output == "" :
-            i += 1
-            checkedText = text + '" checked>'
-        else :
-            j += 1
-            checkedText = text + '">'
-        checkedText += '<label class="on_off_switch-label" for="'+pName+'">\n'
-        checkedText += '<div class="on_off_switch-inner"></div>\n'
-        checkedText += '<div class="on_off_switch-switch"></div>\n'
-        checkedText += '</label>\n'
-        checkedText += '</div>\n'
-        allPackages.append( [ pName, checkedText ] )
-
-    if i != -1 or j != -1 :
-        htmlcode += HTML.table( allPackages,
-            header_row=['Package Name', 'Status'] )
+    htmlcode += HTML.table( allPackages, header_row=['Package Name', 'Status', 'Description', 'Version'] )
     
     htmlcode += '<div id="overlay" >'
     htmlcode += '<div class="progress progress-striped active" style ="width: 400px; height: 80px; margin: auto; margin-top: 80px">'\
@@ -81,6 +61,31 @@ def main():
     view.setContent('Package Management', htmlcode )
     view.output()
 
+def getDpkgInfo(pName, fieldName) :
+    bashCommand = "./apt-query " + pName + " " + fieldName
+    output, errorcode = execute( bashCommand )
+    if output == "" :
+      return fieldName + " not available"
+    return output
+        
+def createOnOffSwitch( pName ) :
+  checkedText = ""
+  bashCommand = "dpkg-query -l | grep '" + pName + " '"
+  output, errorcode = execute( bashCommand )
+  #checkError(view, errorcode)
+
+  text = '<div class="on_off_switch">\n'
+  text +='<input type="checkbox" name="'+pName+'" onclick="submit_package(this)" class="on_off_switch-checkbox" id="'+pName 
+  if output == "" :
+    checkedText = text + '" checked>'
+  else :
+    checkedText = text + '">'
+  checkedText += '<label class="on_off_switch-label" for="'+pName+'">\n'
+  checkedText += '<div class="on_off_switch-inner"></div>\n'
+  checkedText += '<div class="on_off_switch-switch"></div>\n'
+  checkedText += '</label>\n'
+  checkedText += '</div>\n'
+  return checkedText
 
 if __name__ == '__main__':
     main()
