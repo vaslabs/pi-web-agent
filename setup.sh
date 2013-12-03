@@ -16,6 +16,7 @@ AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
 GPIO_BIN=usr/bin/gpio.py
+APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
 this_install(){
     echo -n "Installing pi web agent "
@@ -55,6 +56,7 @@ this_install(){
     cp $VNC_SERVICE /$VNC_SERVICE
     cp $PI_UPDATE /$PI_UPDATE
     cp $GPIO_BIN /$GPIO_BIN
+    cp $APT_QUERY /$APT_QUERY
     print_ok
     echo "Installing dependencies"
     apt-get install $DEPENDENCIES
