@@ -62,7 +62,7 @@ def main():
     view.output()
 
 def getDpkgInfo(pName, fieldName) :
-    bashCommand = "./apt-query " + pName + " " + fieldName
+    bashCommand = "apt-query " + pName + " " + fieldName
     output, errorcode = execute( bashCommand )
     if output == "" :
       return fieldName + " not available"

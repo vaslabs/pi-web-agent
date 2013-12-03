@@ -8,6 +8,7 @@ mplayer
 mysql-client-core-5.1
 openjdk-7-jdk
 openjdk-7-jre
+openvpn
 perl
 php5-cli
 python
