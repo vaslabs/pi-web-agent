@@ -179,6 +179,26 @@ function submit_gpio_value(element) {
      url+=value
      var info=getResponse(url, null);
 }
+function gpio_clear() {
+    var url='/cgi-bin/toolkit/onOffPin.py?cmd=cleanup'
+    var value='0';
+    var info=getResponse(url, null);
+    result = info;
+    var xmlDoc = result,
+    $xml = $( xmlDoc ),
+    $title = $xml.find("response");
+    value = $title.text();
+    if (value == 0) {
+        html_message = '<div class="success" id="user_message">Successful clean up</div>';
+    } 
+    else {
+        html_message = '<div class="error" id="user_message">Cleanup failed</div>';
+    }
+    $('#gpio_table').remove();
+    $('#user_space').prepend(html_message);
+    setTimeout(function() { location.reload(); }, 1000);
+    
+}
 </script>
 <div class="span35">
 <div class="well" style="padding: 8px 0;">   

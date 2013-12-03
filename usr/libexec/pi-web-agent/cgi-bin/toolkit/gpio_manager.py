@@ -26,6 +26,17 @@ rightPins = ['5V', 'Reserved', 'GND', 'GPIO14', 'GPIO15', \
 'GPIO18', 'Reserved','GPIO23','GPIO24', \
 'Reserved','GPIO25','GPIO8','GPIO7']
 
+def export_all_pins():
+    for pin in leftPins:
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0 :
+            msgInitialize, errorcode=execute("sudo gpio.py in " + str(pinNo))
+
+    for pin in rightPins:
+        pinNo = name2PinNo(pin)
+        if pinNo >= 0 :
+            msgInitialize, errorcode=execute("sudo gpio.py in " + str(pinNo))
+
 def name2PinNo(pin_name):
     gpio_index = pin_name.split('GPIO')
     if (len(gpio_index) <= 1):
@@ -33,11 +44,11 @@ def name2PinNo(pin_name):
     isLeft = pin_name in leftPins
     if isLeft:
         leftIndex = leftPins.index(pin_name)
-        return leftIndex
+        return (leftIndex*2)+1
     isRight = pin_name in rightPins
     if isRight:
         rightIndex = rightPins.index(pin_name)
-        return rightIndex
+        return (rightIndex+1)*2
     return -1
     
 def getDirections():
@@ -61,7 +72,8 @@ def getDirections():
                             
     return leftDirections, rightDirections  
     
-def getValues():
+def getValues(leftDirections, rightDirections):
+
     leftValues = []
     for pin in leftPins:
         pinNo = name2PinNo(pin)
@@ -74,7 +86,7 @@ def getValues():
     rightValues = []
     for pin in rightPins:
         pinNo = name2PinNo(pin)
-        if pinNo >= 0 :
+        if pinNo >= 0:
             msgInitialize, errorcode=execute("sudo gpio.py state " + str(pinNo))
             rightValues.append(msgInitialize)
         else :
@@ -124,6 +136,8 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         return directionSummary, valueSummary
 
 def main():
+
+    export_all_pins()
     form = cgi.FieldStorage()
 
     
@@ -143,33 +157,17 @@ def main():
         rightDirectionText, rightValuesText = getFieldTexts(index, rightPins, rightDirectionPins, rightValuesPins)
         pins[index+1]+=[rightPins[index], rightValuesText, rightDirectionText ]
 
-
-    html_code = HTML.table( pins, header_row=[ 'DIRECTION', 'VALUE', 'LEFT', 'RIGHT', 'VALUE', 'DIRECTION' ] )
-
+    html_code='<div style="clear: both">'+\
+    '<h4 style="float: left">RPi.GPIO version: ' + str(GPIO.VERSION) + '</h4>'+\
+    '<h4 style="float: right">RPi Board Revision: ' + str(GPIO.RPI_REVISION) + '</h4>' +\
+    '</div>' +\
+    '<hr />'
+    html_code += '<div id="gpio_table">\n'
+    html_code += HTML.table( pins, header_row=[ 'DIRECTION', 'VALUE', 'LEFT', 'RIGHT', 'VALUE', 'DIRECTION' ] )
+    html_code += '</div>\n'
+    html_code += '<center><div id="user_space"></div><button class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button></center>' 
     view.setContent('GPIO Manager', html_code)
     view.output()
     
 if __name__ == '__main__':
     main()
-
-
-
-#def generate_html_code(enabled_pins):
-#    html_code = ''
-#       with open ("/usr/libexec/pi-web-agent/html/utilities/gpio_table.html", "r") as myfile:
-#        html_code=myfile.read().replace('\n', '')
-#        
-#    for pin in enabled_pins:    
-#        pin_off_left=html_code.find(<"td class=\"gpio_off\">OFF</td><td>" + pin + "</td>")
-#        pin_off_right=html_code.find("<td>" + pin + "</td><td class=\"gpio_off\">OFF</td>")
-#        if pin_off_left != -1:
-#            html_code.replace("td class=\"gpio_off\">OFF</td><td>" + pin + "</td>", "td class=\"gpio_on\">ON</td><td>" + pin + "</td>")    
-#        elif pin_off_right != -1:
-#            html_code.replace("<td>" + pin + "</td><td class=\"gpio_off\">OFF</td>", "<td>" + pin + "</td><td class=\"gpio_on\">ON</td>")
-#                
-#    return html_code
-
-#def get_default_view():
-#       enabled_pins=get_enabled_pins()
-#       html_code=generate_html_code(enabled_pins)
-#       return html_code
