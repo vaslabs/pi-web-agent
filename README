@@ -57,7 +57,7 @@ OR use VBOXManage:
 3. Launch the RaspberryPi Virtual Machine again and then:
   a) open terminal (inside the VM)
   b) check the interface that is down ifconfig -a (eth1 or eth2)
-  c) sudo nano /etc/network/interface
+  c) sudo nano /etc/network/interfaces
   d) copy paste this below the other content of the file
     # The host-only network interface
     auto eth1
@@ -66,6 +66,7 @@ OR use VBOXManage:
     netmask 255.255.255.0
     network 192.168.56.0
     broadcast 192.168.56.255
+OR run hostonlyifconfig.sh
 4. Reboot (or restart the network service)
 
 Now you can access the application via your browser on your host pc that runs the virtual machine by putting in the
