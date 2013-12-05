@@ -46,6 +46,10 @@ below how to set up network interface)
 and add a host only adapter if there is not already one in the list.
 2. Select the RaspberryPi virtual machine and press settings. Go to network->adapter2 and select host-only-adapter option
 at the Attached to. Select your host only adapter you created on step 1 if it is not already selected and press ok.
+OR use VBOXManage:
+1. $ VBoxManage hostonlyif create
+2. $ VBoxManage modifyvm "RaspberryPi" --nic2 hostonly 
+
 3. Launch the RaspberryPi Virtual Machine again and then:
   a) open terminal (inside the VM)
   b) check the interface that is down ifconfig -a (eth1 or eth2)
