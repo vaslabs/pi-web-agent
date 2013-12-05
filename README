@@ -34,7 +34,7 @@ Go into the directory (pi-web-agent), there is a file setup.sh. Run sudo ./setup
 If that fails run sudo ./setup.sh reinstall . It should work by also installing some of the dependencies. You have to install
 manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
 
-3. Start the pi-web-agent service: sudo pi-web-agent start
+3. Start the pi-web-agent service: sudo service pi-web-agent start
 
 4. Set up a host only adapter on your virtual box if you want to access it from your normal browser. 
 The ip to access the application from a browser inside the virtual machine is: http://127.0.0.1:8004
@@ -46,6 +46,10 @@ below how to set up network interface)
 and add a host only adapter if there is not already one in the list.
 2. Select the RaspberryPi virtual machine and press settings. Go to network->adapter2 and select host-only-adapter option
 at the Attached to. Select your host only adapter you created on step 1 if it is not already selected and press ok.
+OR use VBOXManage:
+1. $ VBoxManage hostonlyif create
+2. $ VBoxManage modifyvm "RaspberryPi" --nic2 hostonly 
+
 3. Launch the RaspberryPi Virtual Machine again and then:
   a) open terminal (inside the VM)
   b) check the interface that is down ifconfig -a (eth1 or eth2)
