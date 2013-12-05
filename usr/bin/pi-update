@@ -36,6 +36,7 @@ if [ $# -gt 0 ]; then
         sudo sh -c 'echo -e "\n\n\n" >> ${verbose_log}'
         sudo apt-get update >> ${verbose_log}
         sudo apt-get -y -qq upgrade 2 >> ${verbose_log} &
+	disown apt-get
         if [ $? -eq 0 ]; then
             date | tr '\n' ' '; echo "Update in progress. Exiting with code 100."
             exit 150;

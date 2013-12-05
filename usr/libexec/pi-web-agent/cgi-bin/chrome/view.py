@@ -56,7 +56,7 @@ class View(object):
      #   return createTitle(self.title, self.titlespan)
         
     def _leftListView(self):
-        with open(os.environ['MY_HOME']+"/html/information_list.html", "r") as listFile:
+        with open(os.environ['MY_HOME']+"/html/utilities/information_list.html", "r") as listFile:
             data = listFile.read()    
         return data
     

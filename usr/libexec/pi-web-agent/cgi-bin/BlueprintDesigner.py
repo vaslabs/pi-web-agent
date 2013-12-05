@@ -1,6 +1,6 @@
 import os
 def initialiseCss():
-    with open(os.environ['MY_HOME']+'/html/blueprint-css.html', 'r') as content_file:
+    with open(os.environ['MY_HOME']+'/html/utilities/blueprint-css.html', 'r') as content_file:
         content = content_file.read()
     return content
     

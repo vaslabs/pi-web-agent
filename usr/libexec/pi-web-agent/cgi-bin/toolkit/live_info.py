@@ -54,12 +54,12 @@ def hostname():
     return execute(command)[0]
     
 def update_check():
-    command = 'pi-update -c'
+    command = 'sudo pi-update -c'
     a=execute(command)
     return [ a[0], a[1] ]
 
 def update_check_js():
-    command = 'pi-update -c'
+    command = 'sudo pi-update -c'
     a=execute(command)
     return a[1] == NEW_UPDATE
 
@@ -69,7 +69,7 @@ def response(msg):
     composeXMLDocument(element)
     
 def update_check_with_version():
-    command = 'pi-update -c'
+    command = 'sudo pi-update -c'
     a=execute(command)
     response=a[1]
     return [response == NEW_UPDATE, a[0]]
