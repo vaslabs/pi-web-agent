@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import cgi
 import cgitb
 import os
 cgitb.enable()
@@ -17,47 +16,29 @@ from BlueprintDesigner import *
 from live_info import execute
 import HTML
 
+gpio="/usr/share/wiringPi/gpio/gpio"
 
-leftPins = ['3V3', 'GPIO0', 'GPIO1', 'GPIO4', 'Reserved', \
-'GPIO17', 'GPIO21','GPIO22', 'Reserved','GPIO10', \
-'GPIO9','GPIO11','Reserved']
+leftPins = ['3V3', 'SDA', 'SCL', 'GPIO7', '0v', \
+'GPIO0', 'GPIO2','GPIO3', '3v3','MOSI', \
+'MISO','SCLK','0v']
 
-rightPins = ['5V', 'Reserved', 'GND', 'GPIO14', 'GPIO15', \
-'GPIO18', 'Reserved','GPIO23','GPIO24', \
-'Reserved','GPIO25','GPIO8','GPIO7']
-
-def export_all_pins():
-    for pin in leftPins:
-        pinNo = name2PinNo(pin)
-        if pinNo >= 0 :
-            msgInitialize, errorcode=execute("sudo gpio.py in " + str(pinNo))
-
-    for pin in rightPins:
-        pinNo = name2PinNo(pin)
-        if pinNo >= 0 :
-            msgInitialize, errorcode=execute("sudo gpio.py in " + str(pinNo))
+rightPins = ['5V', '5v', 'GND', 'TxD', 'RxD', \
+'GPIO1', '0v','GPIO4','GPIO5', \
+'0v','GPIO6','CE0','CE1']
 
 def name2PinNo(pin_name):
     gpio_index = pin_name.split('GPIO')
     if (len(gpio_index) <= 1):
         return -1
-    isLeft = pin_name in leftPins
-    if isLeft:
-        leftIndex = leftPins.index(pin_name)
-        return (leftIndex*2)+1
-    isRight = pin_name in rightPins
-    if isRight:
-        rightIndex = rightPins.index(pin_name)
-        return (rightIndex+1)*2
-    return -1
+    return gpio_index[1]
     
 def getDirections():
     leftDirections = []
     for pin in leftPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0:
-            msgInitialize, errorcode=execute("sudo gpio direction " + str(pinNo))
-            leftDirections.append(msgInitialize)
+            msgInitialize, errorcode=execute("sudo gpio-query mode \"GPIO " + str(pinNo) + "\"")
+            leftDirections.append(msgInitialize.strip())
         else:
             leftDirections.append(pin)
             
@@ -65,31 +46,33 @@ def getDirections():
     for pin in rightPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0 :
-            msgInitialize, errorcode=execute("sudo gpio direction " + str(pinNo))
-            rightDirections.append(msgInitialize)
-        else :
+            msgInitialize, errorcode=execute("sudo gpio-query mode \"GPIO " + str(pinNo) + "\"")
+            rightDirections.append(msgInitialize.strip())
+        else:
             rightDirections.append(pin)
                             
     return leftDirections, rightDirections  
     
-def getValues(leftDirections, rightDirections):
+def getValues():
 
     leftValues = []
     for pin in leftPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0 :
-            msgInitialize, errorcode=execute("sudo gpio.py state " + str(pinNo))
-            leftValues.append(msgInitialize)
-        else :
+            wiringPiIndex, err = execute("sudo gpio-query wiringpi \"GPIO " + str(pinNo) + "\"")
+            msgInitialize, errorcode=execute("sudo " + gpio + " read " + str(wiringPiIndex.strip()))
+            leftValues.append(msgInitialize.strip())
+        else:
             leftValues.append(pin)
             
     rightValues = []
     for pin in rightPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0:
-            msgInitialize, errorcode=execute("sudo gpio.py state " + str(pinNo))
-            rightValues.append(msgInitialize)
-        else :
+            wiringPiIndex, err = execute("sudo gpio-query wiringpi \"GPIO " + str(pinNo) + "\"")
+            msgInitialize, errorcode=execute("sudo " + gpio + " read " + str(wiringPiIndex.strip()))
+            rightValues.append(msgInitialize.strip())
+        else:
             rightValues.append(pin)                
     return leftValues, rightValues
 
@@ -108,8 +91,8 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
 
         directionText = generalText + directionText + directionAttributeText
         
-        if direction == GPIO.IN :
-            directionText += ' >'
+        if direction == "IN":
+            directionText += '>'
         else:
             directionText += ' checked>'
         
@@ -117,7 +100,7 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         valueText = generalText + valueText + valueAttributeText
         if value == GPIO.HIGH :
             valueText += ' checked>'
-        else :
+        else:
             valueText += ' >'
 
         directionLabelText = '<label class="onoffswitch-label" for="D'+left_Pins[index]+'">\n'
@@ -129,7 +112,7 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         directionSummary = directionText + directionLabelText + labelText
         valueSummary = valueText + valueLabelText + labelText
         return directionSummary, valueSummary
-    else :
+    else:
         directionText="<span class=\"label label-warning\">" +left_Pins[index]+"</span>"
         directionSummary = directionText
         valueSummary = 'N/A'
@@ -137,14 +120,9 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
 
 def main():
 
-    export_all_pins()
-    form = cgi.FieldStorage()
-
-    
-    leftValuesPins, rightValuesPins = getValues()
-    
     leftDirectionPins, rightDirectionPins = getDirections()
-    
+    leftValuesPins, rightValuesPins = getValues()
+        
     pins = [[]]
     text = ''
     

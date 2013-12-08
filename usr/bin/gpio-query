@@ -1,0 +1,22 @@
+#!/bin/bash
+gpio_exec="/usr/share/wiringPi/gpio/gpio"
+
+direction=6
+mode=6
+value=7
+name=5
+phys=4
+gpio=3
+wiringpi=2
+query() {
+    if [ -z "${!1}" ]; then
+        exit 1
+    fi
+    column=${!1}
+    output=$($gpio_exec readall | grep "$2" | cut -d '|' -f $column)
+    echo $output
+}
+
+query "$1" "$2"
+
+
