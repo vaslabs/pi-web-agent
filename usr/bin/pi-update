@@ -43,8 +43,7 @@ update_check() {
 }
 
 do_update() {
-    aptitude update
-    aptitude -y safe-upgrade & 
+    nohup pi-upgrade 0<&- &>/dev/null &
 }
 
 print_help() {
@@ -60,7 +59,9 @@ if [ $(id -u) -ne 0 ]; then
     echo 'Error: Root is required for this script'
     exit 1
 fi
-
+if [ -n "$(pgrep aptitude)" ]; then
+    exit $UPDATE_PENDING
+fi
 if [ $# -gt 0 ]; then
     case "$1" in
     -h|--help)
@@ -68,9 +69,7 @@ if [ $# -gt 0 ]; then
     ;;
     
     -a|--apply-updates)
-        (
-            do_update
-        ) >> ${output_log}&disown
+        do_update
     ;;
     -c|--check-updates)
         update_check    
