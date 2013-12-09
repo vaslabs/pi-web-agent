@@ -15,9 +15,10 @@ LOGS=/var/log/pi-web-agent
 AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
-GPIO_BIN=usr/bin/gpio.py
 APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
+wiringPI=usr/share/wiringPi
+GPIO_QUERY=usr/bin/gpio-query
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -55,8 +56,9 @@ this_install(){
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
     cp $VNC_SERVICE /$VNC_SERVICE
     cp $PI_UPDATE /$PI_UPDATE
-    cp $GPIO_BIN /$GPIO_BIN
+    cp $GPIO_QUERY /$GPIO_QUERY
     cp $APT_QUERY /$APT_QUERY
+    
     print_ok
     echo "Installing dependencies"
     apt-get install $DEPENDENCIES
@@ -66,7 +68,12 @@ this_install(){
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
     print_ok
-
+    echo "Installing wiringPi - examples excluded"
+    /bin/cp -av $wiringPI /$wiringPI
+    cd /$wiringPI
+    ./build
+    echo "DONE"
+    cd -
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
     chown root:root /$SUDOERS_D
@@ -87,6 +94,7 @@ this_uninstall() {
     print_ok
     echo "Deleting user account of appliance..."
     rm /$SUDOERS_D
+    rm -r /$wiringPI
     userdel -f pi-web-agent
     print_ok "DONE"
 }

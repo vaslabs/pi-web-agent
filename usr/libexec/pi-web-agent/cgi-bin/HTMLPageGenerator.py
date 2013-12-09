@@ -87,6 +87,7 @@ class InputWidgetGroup(object):
 
 def composeDocument(references, body):
     print "Content-type: text/html"
+    print "Cache-Control: no-store"
     print
     print "<html>"
     print references

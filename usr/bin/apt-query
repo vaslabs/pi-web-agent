@@ -1,19 +1,19 @@
 #!/bin/bash
 description() {
-	pkg_details=$(mktemp)
-	apt-cache show $1 > $pkg_details
-	description_lines=$(($(cat $pkg_details | wc -l)-$(cat $pkg_details | grep ':' | wc -l)+1))
-	description=$(mktemp)
-	cat $pkg_details | grep -A$description_lines "Description:">$description
-	cat $description | tail -n $((${description_lines}-1))
+    pkg_details=$(mktemp)
+    apt-cache show $1 > $pkg_details
+    description_lines=$(($(cat $pkg_details | wc -l)-$(cat $pkg_details | grep ':' | wc -l)+1))
+    description=$(mktemp)
+    cat $pkg_details | grep -A$description_lines "Description:">$description
+    cat $description | tail -n $((${description_lines}-1))
 }
 
 other_tag() {
-	apt-cache show $1 | grep "$2:" | cut -d ':' -f 2
+    apt-cache show $1 | grep "$2:" | cut -d ':' -f 2
 }
 
 if [ "$2" = "LongDescription" ]; then
-	description $1
+    description $1
 else
-	other_tag $1 $2
+    other_tag $1 $2
 fi

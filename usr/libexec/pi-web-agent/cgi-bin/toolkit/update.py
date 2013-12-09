@@ -10,75 +10,82 @@ sys.path.append(os.environ['MY_HOME']+'/scripts')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-from cern_vm import Configuration
 from view import View
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
 from live_info import *
-import random
-import crypt
-import ast
+from framework import view
 
+def parse_package_name(package_entry):
+    package_elements=package_entry.split()
+    for element in package_elements[1:]:
+        if (len(element) > 1):
+            return element
+    return None
+    
+def parse_package_description(package_entry):
+    package_elements=package_entry.split()
+    counter=0
+    for element in package_elements:
+        if (len(element) > 1):
+            break
+        counter+=1
+    counter += 2
+    description=""
+    for element in package_elements[counter:]:
+        description+=element + " "
+    return description
+                
 class UpdateManager(object):
+    
     def getDefaultView(self):
     
         iw_update = '<a class="btn btn-primary" ' +\
         'href="/cgi-bin/toolkit/update.py?action=update">Update</a>'
         button_bar = iw_update
         div = createDiv(button_bar, divClass='form-actions')
-        update_info = update_check()
+        update_info, returncode = update_check()
 
-        if update_info[1] == UPDATE_PENDING:
+        if returncode == UPDATE_PENDING:
             return '<br>Update in progress. Please try again later...'
-        elif update_info[1] == REBOOT_REQUIRED:
-            return '<br>No available updates. Please restart to apply previous updates.'
-        elif update_info[1] != NEW_UPDATE:
+        elif returncode == REBOOT_REQUIRED:
+            return '<br>Reboot is required to apply previous updates.'
+        elif returncode == UPDATE_READY or returncode == NO_ACTION:
             return '<br><h4>System is up to date!</h4>'
-
-        text_area_splitted = update_info[0].split(":")
-        descr_text = "<br>".join(text_area_splitted[0].split("\n"))
+        elif returncode != NEW_UPDATE:
+            execute("sudo dpkg --configure -a")
+            return '<br><h4>Update was corrupted, trying to reconfigure (sudo dpkg --configure -a)</h4>'+\
+            '<h3>If problem persists try to update system from command line (sudo apt-get upgrade)'
         
-        packages_text = text_area_splitted[1].rstrip('\n')
-        packages_for_update = packages_text.split(" ")
-    
+        
         packages_table_string = "<table border=\"1\"/><tr>"
-        counter = 0
-        for word_pack in packages_for_update[:]:
-            if word_pack.isspace() or not word_pack:
+        for package_entry in update_info.split("\n"):
+            package_name=parse_package_name(package_entry)
+            if package_name == None:
                 continue
-            packages_table_string = packages_table_string + "<td>" + word_pack + "</td>"
-            counter = counter + 1
-            if counter == 5:
-                counter = 0
-                packages_table_string = packages_table_string + "</tr><tr>"
+            description=parse_package_description(package_entry)
+            packages_table_string += "<td>" + package_name + "</td>" +\
+            "<td>"+description+"</td>"
+            packages_table_string += "</tr><tr>"
                 
         packages_table_string = packages_table_string + "</tr></table>"
-        return '<br><h5>' + descr_text + ":</h5>" + packages_table_string + div + '<br>'
+        descr_text=str(len(update_info.split("\n")) - 1) + " updates are available!"
+        return '<br><h5>' + descr_text + "</h5>" + packages_table_string + div + '<br>'
 
     def _update(self):
         command = "sudo pi-update -a"
-        [res, err] = execute(command)
+        err = os.system(command)
         self.err=err
         return err
         
     def performUpdate(self):
         err=self._update()
-        if err == UPDATE_PENDING:
-            return '<br><h4>Update procedure initiated!</h4> Please come back in a moment...'
-        else:
-            return '<br>Something went wrong during update...<br><br>Log file: /var/log/pi_update/update.log'
-            
-    def checkRebootRequired():
-        command = "sudo pi-update -c"
-        [res, err] = execute(command)
-        return err
-
+        return '<br><h4>Update procedure initiated!</h4> Please come back in a moment...'
+    
 def main():
     form = cgi.FieldStorage()
-    config=Configuration()
     updMgr = UpdateManager()
-    view = View(config.system.actions)
-    
+
     if 'action' in form:       
         if form['action'].value == 'update':
             view.setContent('Update Manager', updMgr.performUpdate())

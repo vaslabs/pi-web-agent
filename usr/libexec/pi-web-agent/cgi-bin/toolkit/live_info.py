@@ -8,10 +8,10 @@ import xml.etree.ElementTree as ET
 from services import *
 cgitb.enable()
 NO_ACTION=0
-UPDATE_READY=100
+UPDATE_READY=101
 NEW_UPDATE=110
 REBOOT_REQUIRED=120
-UPDATE_PENDING=150
+UPDATE_PENDING=100
 
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
@@ -55,11 +55,10 @@ def hostname():
     
 def update_check():
     command = 'sudo pi-update -c'
-    a=execute(command)
-    return [ a[0], a[1] ]
-
+    return execute(command)
+    
 def update_check_js():
-    command = 'sudo pi-update -c'
+    command = 'sudo pi-update -q'
     a=execute(command)
     return a[1] == NEW_UPDATE
 
