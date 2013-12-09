@@ -59,9 +59,11 @@ if [ $(id -u) -ne 0 ]; then
     echo 'Error: Root is required for this script'
     exit 1
 fi
+
 if [ -n "$(pgrep aptitude)" ]; then
     exit $UPDATE_PENDING
 fi
+
 if [ $# -gt 0 ]; then
     case "$1" in
     -h|--help)
@@ -73,16 +75,16 @@ if [ $# -gt 0 ]; then
     ;;
     -c|--check-updates)
         update_check    
-        ;;
+    ;;
     -q|--quick-check)
         quick_check    
     ;;
     -v|--version)
         echo $VERSION
-        ;;
+    ;;
     -r|--reboot-required)
         check_restart
-        ;;
+    ;;
     *)
         echo "ERROR (pi-update): Invalid parameter provided. Use -h to check usage."
         exit 1;
@@ -90,5 +92,5 @@ if [ $# -gt 0 ]; then
     esac
 else
     echo "ERROR (pi-update): Parameter NOT provided. Use -h to check usage."
-        exit 250;
+    exit 250;
 fi    
