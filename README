@@ -66,6 +66,7 @@ OR use VBOXManage:
     netmask 255.255.255.0
     network 192.168.56.0
     broadcast 192.168.56.255
+OR run hostonlyifconfig.sh
 4. Reboot (or restart the network service)
 
 Now you can access the application via your browser on your host pc that runs the virtual machine by putting in the
