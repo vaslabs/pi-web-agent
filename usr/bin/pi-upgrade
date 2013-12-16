@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ $(id -u) -eq 0 ]; then
+    aptitude update
+    aptitude -y full-upgrade 
+    exit 0
+else
+    exit 1
+fi

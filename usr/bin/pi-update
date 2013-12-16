@@ -1,133 +1,96 @@
 #!/bin/bash
-
-function check_restart () {
-    if [ -e /var/run/reboot-required ]; then
-        echo "true";
-    else
-        echo "false";   
-    fi
+VERSION="0.1"
+var_dir="/var/log/pi_update"
+[ -d "$var_dir" ] || {
+    sudo mkdir "$var_dir";
 }
 
-var_dir="/var/log/pi_update"
 verbose_log="${var_dir}/update_verbose.log"
 output_log="${var_dir}/update.log"
 packages_file="${var_dir}/pi_packages_update"
 
-if [ ! -d "$var_dir" ]; then
-    sudo mkdir "$var_dir";
+NO_ACTION=0
+UPDATE_READY=101
+NEW_UPDATE=110
+REBOOT_REQUIRED=120
+UPDATE_PENDING=100
+check_restart() {
+    if [ -e /var/run/reboot-required ]; then
+        return $REBOOT_REQUIRED;
+    else
+        return $NO_ACTION;   
+    fi
+}
+
+quick_check() {
+    if [ ! -f $packages_file ]; then
+        return 0
+    fi
+    cat $packages_file
+    return $NEW_UPDATE 
+}
+
+update_check() {
+    aptitude search '~U' > $packages_file
+    if [ $(cat $packages_file | wc -l) -eq 0 ]; then
+        rm $packages_file
+        check_restart
+        return $?
+    else
+        cat $packages_file
+        return $NEW_UPDATE
+    fi 
+}
+
+do_update() {
+    nohup pi-upgrade 0<&- &>/dev/null &
+}
+
+print_help() {
+    echo -e "Usage:";
+    echo -e "\t -a|--apply-updates\tPerform system update\t\t100"
+    echo -e "\t -c|--check-updates\tCheck for available updates\t110"
+    echo -e "\t -v|--version\t\tDisplay version of this script"
+    echo -e "\t -h|--help\t\tPrint this message"
+    exit 1;
+}
+
+if [ $(id -u) -ne 0 ]; then
+    echo 'Error: Root is required for this script'
+    exit 1
 fi
 
-#if [ $(id -u) -ne 0 ]; then
-#    sudo sh -u "echo 'Error: User is not root.' >> ${var_dir}/pi_update.log"
-#fi
+if [ -n "$(pgrep aptitude)" ]; then
+    exit $UPDATE_PENDING
+fi
 
 if [ $# -gt 0 ]; then
     case "$1" in
     -h|--help)
-        echo -e "Usage:";
-        echo -e "\t -a|--apply-updates\tPerform system update\t\t100"
-        echo -e "\t -c|--check-updates\tCheck for available updates\t110"
-        echo -e "\t -r|--reboot-required\tCheck if a reboot is required\t120"
-        echo -e "\t -h|--help\t\tPrint this message"
-        exit 0;
-        ;;
+        print_help
+    ;;
+    
     -a|--apply-updates)
-        (
-        sudo sh -c 'echo -e "\n\n\n" >> ${verbose_log}'
-        sudo apt-get update >> ${verbose_log}
-        sudo apt-get -y -qq upgrade 2 >> ${verbose_log} &
-        if [ $? -eq 0 ]; then
-            date | tr '\n' ' '; echo "Update in progress. Exiting with code 100."
-            exit 150;
-        else
-            date | tr '\n' ' '; echo "Error occured during update. Unsuccessfull operation. Exiting with code 250."
-            exit 250;
-        fi
-        ) >> ${output_log}
-        ;;
+        do_update
+    ;;
     -c|--check-updates)
-        unset available_updates;
-        unset number_updates;
-        unset packages_for_update;
-        available_updates=`sudo apt-get upgrade --simulate`
-        if [ $? -eq 100 ]; then
-            echo -e "Update in progress. Please check again in few minutes...";
-            exit 150;
-        fi
-        number_updates=`echo "$available_updates" | grep upgraded | grep installed | grep remove | awk -F " " '{print $1;}' | sed 's/,//'`
-        if [ "$number_updates" == "0" ] || [ "X$number_updates" == "X" ]; then
-            restart_required=check_restart;
-            if [ restart_required == "true" ]; then
-                echo "No updates. Restart required to apply previous updates.";
-                exit 120;
-            else
-                echo "No updates found...";
-                exit 0;
-            fi
-        else
-            packages_for_update=`echo "$available_updates" | sed '1,/The following packages will be upgraded/d' | sed '/not upgraded/,$d'`
-            for current_word in $packages_for_update; do
-                new_format="${new_format} ${current_word}"
-            done
-            echo -e "$number_updates updates found. Packages for update:$new_format";
-            exit 110;
-        fi
-        ;;
-    -d|--daily-check)
-        (
-        unset available_updates;
-        unset number_updates;
-        unset packages_for_update;
-        if [ ! -e ${packages_file} ]; then
-            date '+%Y%m%d' > ${packages_file}
-            available_updates=`sudo apt-get upgrade --simulate`
-            echo "$available_updates" >> ${packages_file}
-        fi
-        file_timestamp=`head -n 1 ${packages_file}`
-        current_timestamp=`date '+%Y%m%d'`
-        time_diff=$((current_timestamp - file_timestamp))
-        if [ $time_diff -gt 5 ]; then
-            rm ${packages_file}
-            date '+%Y%m%d' > ${packages_file}
-            available_updates=`sudo apt-get upgrade --simulate`
-            echo "$available_updates" >> ${packages_file}
-        else
-            available_updates=`cat ${packages_file}`
-        fi
-        number_updates=`echo "$available_updates" | grep upgraded | grep installed | grep remove | awk -F " " '{print $1;}' | sed 's/,//'`
-        if [ "$number_updates" == "0" ] || [ "X$number_updates" == "X" ]; then
-            date | tr '\n' ' '; echo -e " -> No available updates! Check ${packages_file} for more info."
-            exit 0;
-        else
-            packages_for_update=`echo "$available_updates" | sed '1,/The following packages will be upgraded/d' | sed '/not upgraded/,$d'`
-            for current_word in $packages_for_update; do
-                new_format="${new_format} ${current_word}"
-            done
-            rm ${packages_file} > /dev/null
-            date '+%Y%m%d' > ${packages_file}
-            echo -e "$number_updates updates found. Packages for update:$new_format" >> ${packages_file}
-            date | tr '\n' ' '; echo -e " -> $number_updates updates found. System will update!"
-            exit 110;
-        fi
-        ) | tee -a ${output_log}
-        ;;
+        update_check    
+    ;;
+    -q|--quick-check)
+        quick_check    
+    ;;
+    -v|--version)
+        echo $VERSION
+    ;;
     -r|--reboot-required)
-        unset restart_required;
-        restart_required=check_restart;
-        if [ "$restart_required" == "true" ]; then
-            echo "Reboot is required after a recent update. Exiting with code 120."
-            exit 120;
-        else
-            echo "Reboot is NOT required. Exiting with code 0."
-            exit 0;
-        fi
-        ;;
+        check_restart
+    ;;
     *)
-        echo "ERROR (pi-update): Invalid parameter provided. Use -h to check usage. Exiting with code 250."
-        exit 250;
+        echo "ERROR (pi-update): Invalid parameter provided. Use -h to check usage."
+        exit 1;
         ;;
     esac
 else
-    echo "ERROR (pi-update): Parameter NOT provided. Use -h to check usage. Exiting with code 250."
-        exit 250;
+    echo "ERROR (pi-update): Parameter NOT provided. Use -h to check usage."
+    exit 250;
 fi    

@@ -13,11 +13,57 @@ This product is in beta version. Report any problems to help us make the final r
 
 Video: http://www.youtube.com/watch?v=dPDPs9v2o-M
 
+Supported browsers:
+Chrome
+Firefox
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
 chkconfig
-====future dependencies for vnc=====
-openjdk-7-jre
 tightvnc
 
+
+== Developer Information ==
+If you are a developer and you want to test or work on this project you don't need to work on a raspberrypi. You just need
+a virtual machine that runs something similar to the raspberry pi Raspbian. Here is how we did it:
+
+1. Download and install Virtual box. Download this image http://dl.dropbox.com/u/60623239/RaspberryPi.VirtualBox.zip (it's a 
+zip, extract the torrent file that is inside and open it with your torrent client. Open the downloaded file with virtual box. Now you have ubuntu on your virtual
+machine that looks like the raspberry pi. It is good enough for testing. Default username=rpi password=password .
+
+2. Install git (sudo apt-get install git-core)
+Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
+Go into the directory (pi-web-agent), there is a file setup.sh. Run sudo ./setup.sh install . 
+If that fails run sudo ./setup.sh reinstall . It should work by also installing some of the dependencies. You have to install
+manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
+
+3. Start the pi-web-agent service: sudo pi-web-agent start
+
+4. Set up a host only adapter on your virtual box if you want to access it from your normal browser. 
+The ip to access the application from a browser inside the virtual machine is: http://127.0.0.1:8004
+The ip to access the application from your PC (the host) is https://192.168.56.101:8003 if you set up things correctly (see
+below how to set up network interface)
+
+== How to set up the network interface ==
+1. Shut down the virtual machine that runs the Ubuntu mod. From the Virtual box program go to File->preferences->Network
+and add a host only adapter if there is not already one in the list.
+2. Select the RaspberryPi virtual machine and press settings. Go to network->adapter2 and select host-only-adapter option
+at the Attached to. Select your host only adapter you created on step 1 if it is not already selected and press ok.
+3. Launch the RaspberryPi Virtual Machine again and then:
+  a) open terminal (inside the VM)
+  b) check the interface that is down ifconfig -a (eth1 or eth2)
+  c) sudo nano /etc/network/interfaces
+  d) copy paste this below the other content of the file
+    # The host-only network interface
+    auto eth1
+    iface eth1 inet static
+    address 192.168.56.101
+    netmask 255.255.255.0
+    network 192.168.56.0
+    broadcast 192.168.56.255
+4. Reboot (or restart the network service)
+
+Now you can access the application via your browser on your host pc that runs the virtual machine by putting in the
+address bar:
+https://192.168.56.101:8003

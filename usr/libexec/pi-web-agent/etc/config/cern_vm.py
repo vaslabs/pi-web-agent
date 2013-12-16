@@ -1,8 +1,7 @@
 #!/usr/bin/python
 import xml.etree.ElementTree as ET
 import os
-if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/home/vnicolao/cern-vm-wi/cern-vm-wi/cernvm-appliance-agent/usr/libexec/cernvm-appliance-agent'
+
 CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.xml"
 CONFIG_PATH=os.environ['MY_HOME']+"/etc/config"
 

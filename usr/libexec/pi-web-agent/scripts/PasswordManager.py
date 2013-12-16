@@ -4,20 +4,26 @@ import crypt
 import sys
 import os
 if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/usr/libexec/cernvm-appliance-agent'
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
+sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
 import subprocess
+from live_info import execute
 
 def getView():
-    iwpasswd = InputWidget('password', 'passwd', '', 'Current password: ',wClass='form-control password',attribs='placeholder="Current Password"')
-    iwpasswd_new1=InputWidget('password', 'passwd_new1', '', 'Set new Password: ',wClass='form-control password',attribs='placeholder="New Password"')
-    iwpasswd_new2=InputWidget('password', 'passwd_new2', '', 'Retype password: ',wClass='form-control password',attribs='placeholder="Retype Password"')
-    iw_submit=InputWidget('button', '', 'Change password', '',wClass='btn btn-primary')
+    iwpasswd = InputWidget('password', 'passwd', '', 'Current password: ',\
+    wClass='form-control password',attribs='placeholder="Current Password"')
+    iwpasswd_new1=InputWidget('password', 'passwd_new1', '', 'Set new Password: ',\
+    wClass='form-control password',attribs='placeholder="New Password"')
+    iwpasswd_new2=InputWidget('password', 'passwd_new2', '', 'Retype password: ',\
+    wClass='form-control password',attribs='placeholder="Retype Password"')
+    iw_submit=InputWidget('submit', '', 'Change password', '',wClass='btn btn-primary')
     iwg = InputWidgetGroup()
     iwg.widgets=[iwpasswd, iwpasswd_new1, iwpasswd_new2, iw_submit] 
-    return fieldset('/cgi-bin/toolkit/change_password.py', 'POST', 'password_form', iwg, createLegend("Change password"))
+    return fieldset('/cgi-bin/toolkit/change_password.py', 'POST', \
+    'password_form', iwg, createLegend("Change password"))
 
 
 def getSuccessView():
@@ -58,7 +64,7 @@ class PasswordManager(object):
             e=Exception()
             e.strerror="Wrong username/password"
             raise e    
-        #passed all checks, now safely store password
+        #passed all checks, now try to safely store password
         self._store()
         
         
@@ -68,11 +74,12 @@ class PasswordManager(object):
             e=Exception()
             e.strerror="Invalid character `'` in password"
             raise e        
-        command = 'sudo htpasswd -bd ' + pFile + ' \'' + self.username + '\' ' + ' \'' + self.password1 +'\''
-        sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-        output, _ = sp.communicate()
-	
-        sp.wait() 
+        command = 'htpasswd -bd ' + pFile + ' \'' + self.username + '\' ' + ' \'' + self.password1 +'\''
+        output, error_code = execute(command)
+        if error_code != 0:
+            e=Exception()
+            e.strerror="Failed to store password: " + str(error_code)
+            raise e    
 		
     def _check(self):
  
