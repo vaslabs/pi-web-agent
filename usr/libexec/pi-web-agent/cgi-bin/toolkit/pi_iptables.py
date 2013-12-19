@@ -34,6 +34,9 @@ class IPTablesManager(object):
             message+=str(self.chains[chain]) +"\n"
         return message
 
+    def addRule(self):
+        
+
 class Chain(object):
     def __init__(self, body):
         self.body = body
@@ -84,6 +87,10 @@ class Chain(object):
                "Type: " + self.type + "\n" +\
                str(self.rules)
 
+    #executes the command to add a new protocol rule
+    def addProtocolRule(self, chain, action, protocol):
+        self.message=os.system('sudo iptables -A ' + chain + ' -p ' + protocol + ' ' + action)
+
 
 def main():
     '''
@@ -98,21 +105,27 @@ def main():
 
     #this is only for modifying iptables
     html_add_rule='<p></br>Choose action</br></p>'\
-                +'<div class="select-group" id="selectActions">'\
+                    +'<form name="inputRule">'\
                     +'<select id="selectAction" class="form-control">'\
                         +'<option>Accept</option>'\
                         +'<option>Drop</option>'\
                         +'<option>Flush</option>'\
                     +'</select>'\
-                    +'<select id="selectRule" class="form-control">'\
-                        +'<option>Destination</option>'\
-                        +'<option>Protocol</option>'\
-                        +'<option>Interface</option>'\
+                    +'<select id="selectProtocol" class="form-control">'\
+                        +'<option>ALL</option>'\
+                        +'<option>TCP</option>'\
+                        +'<option>UDPLITE</option>'\
+                        +'<option>ICMP</option>'\
+                        +'<option>ESP</option>'\
+                        +'<option>AH</option>'\
+                        +'<option>SCTP</option>'\
                     +'</select>'\
-                +'</div>'\
-            +'</div></div>'
+                    +'<input type="submit" value="Submit">'\
+                    +'</form>' 
+            
     
-    html_tables='<div id="ip_overlay" style="display: none;"><div><h2>Add Rules</h2>' + html_add_rule 
+    html_tables='<div id="ip_overlay" style="display: none;"><div><h2>Add Rules</h2>'\
+                + html_add_rule +'</div></div>'
 
     chain_els=[[]]
     iptables=IPTablesManager()
