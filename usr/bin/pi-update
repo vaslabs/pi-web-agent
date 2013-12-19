@@ -5,15 +5,17 @@ var_dir="/var/log/pi_update"
     sudo mkdir "$var_dir";
 }
 
-verbose_log="${var_dir}/update_verbose.log"
-output_log="${var_dir}/update.log"
+#verbose_log="${var_dir}/update_verbose.log"
+#output_log="${var_dir}/update.log"
 packages_file="${var_dir}/pi_packages_update"
+upgr_status_file="${var_dir}/upgrade_exit_code"
 
 NO_ACTION=0
 UPDATE_READY=101
 NEW_UPDATE=110
 REBOOT_REQUIRED=120
 UPDATE_PENDING=100
+DPKG_CONFIGURE=150
 check_restart() {
     if [ -e /var/run/reboot-required ]; then
         return $REBOOT_REQUIRED;
@@ -31,6 +33,7 @@ quick_check() {
 }
 
 update_check() {
+    test_dpkg
     aptitude search '~U' > $packages_file
     if [ $(cat $packages_file | wc -l) -eq 0 ]; then
         rm $packages_file
@@ -43,7 +46,16 @@ update_check() {
 }
 
 do_update() {
+    test_dpkg
     nohup pi-upgrade 0<&- &>/dev/null &
+}
+
+test_dpkg() {
+    last_upgrade_exit_code=$(cat $upgr_status_file)
+    if [ $last_upgrade_exit_code -ne 0 ]; then
+	    nohup pi-fix 0<&- &>/dev/null &
+	    exit 200
+    fi
 }
 
 print_help() {

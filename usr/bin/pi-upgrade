@@ -1,8 +1,17 @@
 #!/bin/bash
+
+var_dir="/var/log/pi_update"
+[ -d "$var_dir" ] || {
+    sudo mkdir "$var_dir";
+}
+upgr_status_file="${var_dir}/upgrade_exit_code"
+
 if [ $(id -u) -eq 0 ]; then
     aptitude update
-    aptitude -y full-upgrade 
-    exit 0
+    aptitude -y full-upgrade
+    pipe_status=$?
+    echo $pipe_status > $upgr_status_file
+    exit $pipe_status
 else
     exit 1
 fi
