@@ -34,6 +34,7 @@ quick_check() {
 
 update_check() {
     test_dpkg
+    aptitude update
     aptitude search '~U' > $packages_file
     if [ $(cat $packages_file | wc -l) -eq 0 ]; then
         rm $packages_file
