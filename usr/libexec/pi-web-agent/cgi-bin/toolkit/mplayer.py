@@ -14,13 +14,9 @@ from cern_vm import Configuration
 import subprocess
 from view import View
 from urlparse import urlparse
+from live_info import execute
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-def execute(command):
-    sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    output, err = sp.communicate()
-    sp.wait()
-    return [output, sp.returncode]
 def getView():
     iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
 											attribs='placeholder="http ... or rtsp ..."')
