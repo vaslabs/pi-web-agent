@@ -22,13 +22,18 @@ def execute(command):
     sp.wait()
     return [output, sp.returncode]
 def getView():
-    iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',attribs='placeholder="http ... or rtsp ..."')
-    iwpasswd_new1=InputWidget('text', 'volume', '', 'Volume: ',wClass='form-control ',attribs='placeholder="1 to 100"')
-    iwpasswd_new2=InputWidget('text', 'cache', '', 'Cache: ',wClass='form-control',attribs='placeholder="0 to 99"')
-    iw_submit=InputWidget('submit', '', 'Start Stream', '',wClass='btn btn-primary')
+    iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
+											attribs='placeholder="http ... or rtsp ..."')
+    iwpasswd_new1=InputWidget('text', 'volume', '', 'Volume: ',
+    						wClass='form-control ', attribs='placeholder="1 to 100"')
+    iwpasswd_new2=InputWidget('text', 'cache', '', 'Cache: ',
+    wClass='form-control',attribs='placeholder="0 to 99"')
+    iw_submit=InputWidget('submit', '', 'Start Stream', '',
+    																  wClass='btn btn-primary')
     iwg = InputWidgetGroup()
     iwg.widgets=[iwpasswd, iwpasswd_new1, iwpasswd_new2, iw_submit] 
-    return fieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form', iwg, createLegend("Start Streaming"))
+    return fieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form', iwg,
+    														 createLegend("Start Streaming"))
 class MPlayer(object):
 
     
@@ -38,12 +43,18 @@ class MPlayer(object):
         
     def startStream(self):
         '''
-    try to use mplayer for the given marameters
+    try to use mplayer for the given parameters
     '''
         self.uri=self.form.getvalue("uri")
         self.volume=self.form.getvalue("volume")
         self.cache=self.form.getvalue("cache") 
-        command="sh -c '[ -f /tmp/mplayer-control ] || mkfifo /tmp/mplayer-control; sudo mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 -cache-min " +self.cache+ " -volume " + self.volume  +" "+ self.uri+" </dev/null >/dev/null 2>&1 &'"
+        command=("sh -c '[ -f /tmp/mplayer-control ]" 
+                 "|| mkfifo /tmp/mplayer-control;"
+                 " sudo mplayer -slave -input "
+                 "file=/tmp/mplayer-control -ao alsa:device=hw "
+                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 -cache-min ") 
+        command+=self.cache+" -volume "+self.volume+" "
+        command+=self.uri+" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
 
 
@@ -77,15 +88,20 @@ def getRunningView():
 			checkT=setTimeout(function() {checkStatus()},2000);
        
 		</script>
-		<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
-			<span class="ui-icon ui-icon-volume-on" style="float:left; margin:-2px 5px 0 0;"></span>
-			<span class="ui-icon ui-icon-signal" style="float:left; margin:-2px 5px 0 0;"></span>
+		<p class="ui-state-default ui-corner-all ui-helper-clearfix" 
+															style="padding:4px;">
+			<span class="ui-icon ui-icon-volume-on" style="float:left;
+			                             margin:-2px 5px 0 0;"></span>
+			<span class="ui-icon ui-icon-signal" 
+						style="float:left; margin:-2px 5px 0 0;"></span>
 			Main controls and volume
 		</p>
 		<link rel="stylesheet" href="/css/toolbar.css">
 		<script src="/css/player_controls.js"></script>
-		<div id="toolbar" class="ui-widget-header ui-corner-all" style="margin-left:227.5px;">
-		<!---needed in future release <button id="beginning">go to beginning</button>
+		<div id="toolbar" class="ui-widget-header ui-corner-all"
+												style="margin-left:227.5px;">
+		<!---needed in future release <button id="beginning">
+														go to beginning</button>
 		<button id="rewind">rewind</button>
 		<button id="play">pause</button>--->
 		<button id="stop">stop</button>
@@ -94,15 +110,19 @@ def getRunningView():
 		<button id="end">go to end</button>
 		<input type="checkbox" id="shuffle"><label for="shuffle">Shuffle</label>
 		<span id="repeat">
-			<input type="radio" id="repeat0" name="repeat" checked="checked"><label for="repeat0">No Repeat</label>
-			<input type="radio" id="repeat1" name="repeat"><label for="repeat1">Once</label>
-			<input type="radio" id="repeatall" name="repeat"><label for="repeatall">All</label>--->
+			<input type="radio" id="repeat0" name="repeat" checked="checked">
+			<label for="repeat0">No Repeat</label>
+			<input type="radio" id="repeat1" name="repeat">
+			<label for="repeat1">Once</label>
+			<input type="radio" id="repeatall" name="repeat">
+			<label for="repeatall">All</label>--->
 			<div id="master" style="width:260px; margin:15px;"></div>
 		</span>         
        <div id="status">wait...</div></div>
 
 		<p class="ui-state-default ui-corner-all" style="padding:4px;margin-top:4em;">
-			<span class="ui-icon ui-icon-signal" style="float:left; margin:-2px 5px 0 0;"></span>
+			<span class="ui-icon ui-icon-signal" 
+												style="float:left; margin:-2px 5px 0 0;"></span>
 			Graphic EQ
 		</p>
 		<div id="eq" style="margin-left:227.5px;">
