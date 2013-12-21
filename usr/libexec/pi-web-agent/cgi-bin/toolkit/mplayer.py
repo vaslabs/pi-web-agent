@@ -66,12 +66,10 @@ def getRunningView():
 		<script src="/css/sliders.js"></script>
     	<script>
     
-			var checkT;
-         
 			function checkStatus(){
 				$.getJSON( "mplayer_status.py", function( data ) {
 				if (data.redirect) {
-					// data.redirect id the redirection link
+					// data.redirect is the redirection link
             	location.href=data.redirect;
 				}
 				else {
@@ -79,9 +77,9 @@ def getRunningView():
              
 				}});
             
-				checkT=setTimeout(function() {checkStatus()},2000);
+				
 			}
-			checkT=setTimeout(function() {checkStatus()},2000);
+			window.setInterval(function(){checkStatus()},3000);
        
 		</script>
 		<p class="ui-state-default ui-corner-all ui-helper-clearfix" 
@@ -151,7 +149,7 @@ def main():
     		http://www.mplayerhq.hu/DOCS/tech/slave.txt
     	rfc3875:
     		http://www.ietf.org/rfc/rfc3875.txt
-    If you have any questons abou this feature send me an email at:
+    If you have any questons about this feature send me an email at:
     andreasgalazis-AT-yahoo.com(replace -At- with @)
     or for more generic pi-web agent questions
     ask any member of the kupepia team.
