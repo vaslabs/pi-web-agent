@@ -22,9 +22,9 @@ def execute(command):
     sp.wait()
     return [output, sp.returncode]
 def getView():
-    iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',attribs='placeholder="Current Password"')
-    iwpasswd_new1=InputWidget('text', 'volume', '', 'Volume: ',wClass='form-control ',attribs='placeholder="New Password"')
-    iwpasswd_new2=InputWidget('text', 'cache', '', 'Cache: ',wClass='form-control',attribs='placeholder="Retype Password"')
+    iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',attribs='placeholder="http ... or rtsp ..."')
+    iwpasswd_new1=InputWidget('text', 'volume', '', 'Volume: ',wClass='form-control ',attribs='placeholder="1 to 100"')
+    iwpasswd_new2=InputWidget('text', 'cache', '', 'Cache: ',wClass='form-control',attribs='placeholder="0 to 99"')
     iw_submit=InputWidget('submit', '', 'Start Stream', '',wClass='btn btn-primary')
     iwg = InputWidgetGroup()
     iwg.widgets=[iwpasswd, iwpasswd_new1, iwpasswd_new2, iw_submit] 
@@ -45,7 +45,6 @@ class MPlayer(object):
         self.cache=self.form.getvalue("cache") 
         command="sh -c '[ -f /tmp/mplayer-control ] || mkfifo /tmp/mplayer-control; sudo mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 -cache-min " +self.cache+ " -volume " + self.volume  +" "+ self.uri+" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
-        #passed all checks, now safely store password
 
 
 def getRunningView():
@@ -125,7 +124,7 @@ def getRunningView():
 def main():
     """
     The mplayer port for py web agent
-    if you see this code is better acompanied
+    If you read this code, it is better acompanied
     with the following documentation for improved
     understanding:
     http://www.mplayerhq.hu/DOCS/man/en/mplayer.1.txt 
@@ -139,7 +138,7 @@ def main():
     If you have any questons abou this feature send me an email at:
     andreasgalazis-AT-yahoo.com(replace -At- with @)
     or for more generic pi-web agent questions
-    ask any member of the koupepia team.
+    ask any member of the kupepia team.
     """
     form = cgi.FieldStorage()
     config=Configuration()
