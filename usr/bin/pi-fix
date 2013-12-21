@@ -1,10 +1,5 @@
 #!/bin/bash
-VERSION="0.1"
-var_dir="/var/log/pi_update"
-[ -d "$var_dir" ] || {
-    sudo mkdir "$var_dir";
-}
 
-sudo dpkg --configure -a 
+sudo dpkg --configure -a
 
 exit $?

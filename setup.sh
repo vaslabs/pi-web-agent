@@ -15,6 +15,8 @@ LOGS=/var/log/pi-web-agent
 AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
+PI_UPGRADE=usr/bin/pi-upgrade
+PI_FIX=usr/bin/pi-fix
 APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
 wiringPI=usr/share/wiringPi
@@ -56,6 +58,8 @@ this_install(){
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
     cp $VNC_SERVICE /$VNC_SERVICE
     cp $PI_UPDATE /$PI_UPDATE
+    cp $PI_UPGRADE /$PI_UPGRADE
+    cp $PI_FIX /$PI_FIX
     cp $GPIO_QUERY /$GPIO_QUERY
     cp $APT_QUERY /$APT_QUERY
     
