@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cern-vm-wi version="1.0">
-    <system extension=".actions">            
+    <system extension=".actions">
 
         <action>
             <title>Updates</title>
@@ -48,12 +48,16 @@
             <id>GPIO Management</id>
             <url>/cgi-bin/toolkit/gpio_manager.py</url>
         </action>
-        
+        <action>
+            <title>Mplayer</title>
+            <id>Mplayer</id>
+            <url>/cgi-bin/toolkit/mplayer.py</url>
+        </action>   
         <action>
             <title>API</title>
             <id>API Management</id>
             <url>/cgi-bin/toolkit/enable_api.py</url>
         </action>
-    </system>    
+    </system>
         
 </cern-vm-wi>
