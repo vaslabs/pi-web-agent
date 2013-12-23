@@ -26,13 +26,27 @@ function open_iptables_panel(chain_name) {
 
     });
 }
+$(document).ready(function(){
+    $("#selectRule").change(function(){
+        $("#selectActions").find(".field").remove();
+        if( $(this).val()=="Interface"){
+            $("#selectActions").append("<input class='field' type='text' style='width:50'/>");
+        }
+        else if($(this).val()=='Protocol'){
+            $("#selectActions").append("SourcePort<input class='field1' type='text' style='width:50'/>:");
+            $("#selectActions").append("DestPort<input class='field1' type='text' style='width:50'/>:");
+            $("#selectActions").append("Flags<select id=\"selectAction\" class=\"form-control\">" +'<option>Accept</option>' +'<option>Drop</option>' +'<option>Flush</option>' + '</select>');
 
+
+        }
+    });
+});
 </script>
 
 <script language="javascript" type="text/javascript">
  
 $(document).ready(function(){
-  initialise();
+    initialise();
 });
 
 function getMemoryInfo(usage) {
