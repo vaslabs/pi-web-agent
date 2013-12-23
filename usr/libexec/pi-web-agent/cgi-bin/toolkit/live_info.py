@@ -12,6 +12,8 @@ UPDATE_READY=101
 NEW_UPDATE=110
 REBOOT_REQUIRED=120
 UPDATE_PENDING=100
+DPKG_CONFIG_NEEDED=200
+PROCESS_RUNNING=201
 
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
