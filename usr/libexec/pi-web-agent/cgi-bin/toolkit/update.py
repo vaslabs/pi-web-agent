@@ -53,8 +53,8 @@ class UpdateManager(object):
         elif returncode == UPDATE_READY or returncode == NO_ACTION:
             return '<br><h4>System is up to date!</h4>'
         elif returncode != NEW_UPDATE:
-            return '<br><h4>Warning: Last update was interrupted.</h4>\n'+\
-                '<br><h5>Update procedure initiated! Please come back in a moment...</h5>'
+            return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
+                '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
         
         packages_table_string = "<table border=\"1\"/><tr>"
         for package_entry in update_info.split("\n"):
@@ -79,8 +79,8 @@ class UpdateManager(object):
     def performUpdate(self):
         err = self._update()
         if err == DPKG_CONFIG_NEEDED:
-            return '<br><h4>Warning: Last update was interrupted.</h4>\n'+\
-                '<br><h5>Update procedure initiated! Please come back in a moment...</h5>'
+            return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
+                '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
         else:
             return '<br><h4>Update procedure initiated!</h4> Please come back in a moment...'
     
