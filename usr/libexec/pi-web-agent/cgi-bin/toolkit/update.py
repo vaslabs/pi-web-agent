@@ -44,7 +44,7 @@ class UpdateManager(object):
         'href="/cgi-bin/toolkit/update.py?action=update">Update</a>'
         button_bar = iw_update
         div = createDiv(button_bar, divClass='form-actions')
-        update_info, returncode = update_check()
+        update_info, returncode = update_check_quick()
 
         if returncode == UPDATE_PENDING:
             return '<br>Update in progress. Please try again later...'

@@ -21,6 +21,7 @@ APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
 wiringPI=usr/share/wiringPi
 GPIO_QUERY=usr/bin/gpio-query
+CRON_JOBS=etc/cron.daily
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -78,6 +79,7 @@ this_install(){
     ./build
     echo "DONE"
     cd -
+    cp $CRON_JOBS/* /$CRON_JOBS
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
     chown root:root /$SUDOERS_D

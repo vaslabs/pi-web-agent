@@ -59,6 +59,10 @@ def update_check():
     command = 'sudo pi-update -c'
     return execute(command)
     
+def update_check_quick():
+    command = 'sudo pi-update -q'
+    return execute(command)
+        
 def update_check_js():
     command = 'sudo pi-update -q'
     a=execute(command)
