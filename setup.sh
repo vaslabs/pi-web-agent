@@ -41,6 +41,7 @@ this_install(){
     /bin/cp -v "$ANDROID_SERVICE" "/$ANDROID_SERVICE"
     chmod +x "/$ANDROID_SERVICE"
     chmod +x "/$SERVICE_PATH"
+    chmod 640 "/usr/libexec/pi-web-agent/.htpasswd"
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     chown -R pi-web-agent "/$APPLICATION_PATH/etc"
     chown -R pi-web-agent:pi-web-agent "/$SHARE"
