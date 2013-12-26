@@ -4,6 +4,8 @@
 #Author: Vasilis Nicolaou
 #Copyright (c) CERN 2013
 #All rights reserved
+called_from=$(pwd)
+cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
@@ -181,3 +183,4 @@ case $1 in
     ;;
 esac    
 
+cd $called_from
