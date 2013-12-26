@@ -115,7 +115,6 @@ this_uninstall() {
     rm /$SUDOERS_D
     rm -r /$wiringPI
     rm -r /etc/pi-web-agent
-    /etc/init.d/pi-web-agent stop
     userdel -f pi-web-agent
     print_ok "DONE"
 }
