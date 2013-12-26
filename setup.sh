@@ -89,12 +89,13 @@ this_install(){
     chmod 640 "/usr/libexec/pi-web-agent/.htpasswd"
     chown -R pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent
     chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.py
     chmod 770 /usr/libexec/pi-web-agent/html/utilities/*.html
     chmod 770 /usr/libexec/pi-web-agent/html/index.html
-    chmod +x usr/libexec/pi-web-agent/scripts/hostname.sh
-    chmod +x usr/libexec/pi-web-agent/scripts/memory_information
-    chmod +x etc/cron.daily/update-check
-    chmod +x usr/bin/*
+    chmod +x /usr/libexec/pi-web-agent/scripts/hostname.sh
+    chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
+    chmod +x /etc/cron.daily/update-check
+    chmod +x /usr/bin/*
 }
 
 
