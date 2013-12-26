@@ -65,12 +65,12 @@ this_install(){
     cp $PI_FIX /$PI_FIX
     cp $GPIO_QUERY /$GPIO_QUERY
     cp $APT_QUERY /$APT_QUERY
-    
+
     print_ok
     echo "Installing dependencies"
     apt-get install $DEPENDENCIES
     print_ok
-    echo "Post installation actions"    
+    echo "Post installation actions"
     chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
@@ -114,6 +114,8 @@ this_uninstall() {
     echo "Deleting user account of appliance..."
     rm /$SUDOERS_D
     rm -r /$wiringPI
+    rm -r /etc/pi-web-agent
+    /etc/init.d/pi-web-agent stop
     userdel -f pi-web-agent
     print_ok "DONE"
 }
