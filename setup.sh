@@ -78,6 +78,7 @@ this_install(){
     echo "Installing wiringPi - examples excluded"
     /bin/cp -av $wiringPI /$wiringPI
     cd /$wiringPI
+    chmod +x ./build
     ./build
     echo "DONE"
     cd -
@@ -96,6 +97,7 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
+     
 }
 
 
