@@ -93,7 +93,8 @@ this_install(){
     chmod 770 /usr/libexec/pi-web-agent/html/index.html
     chmod +x usr/libexec/pi-web-agent/scripts/hostname.sh
     chmod +x usr/libexec/pi-web-agent/scripts/memory_information
-    
+    chmod +x etc/cron.daily/update-check
+    chmod +x usr/bin/*
 }
 
 
