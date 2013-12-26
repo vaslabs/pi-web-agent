@@ -97,7 +97,6 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
-    ln -s /usr/lib/apache2 /etc/pi-web-agent
 }
 
 
