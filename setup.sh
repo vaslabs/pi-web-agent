@@ -4,10 +4,12 @@
 #Author: Vasilis Nicolaou
 #Copyright (c) CERN 2013
 #All rights reserved
+called_from=$(pwd)
+cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd chkconfig"
+DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer"
 ANDROID_SERVICE="etc/init.d/pi-android-agent"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
@@ -15,10 +17,13 @@ LOGS=/var/log/pi-web-agent
 AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
+PI_UPGRADE=usr/bin/pi-upgrade
+PI_FIX=usr/bin/pi-fix
 APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
 wiringPI=usr/share/wiringPi
 GPIO_QUERY=usr/bin/gpio-query
+CRON_JOBS=etc/cron.daily
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -56,6 +61,8 @@ this_install(){
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
     cp $VNC_SERVICE /$VNC_SERVICE
     cp $PI_UPDATE /$PI_UPDATE
+    cp $PI_UPGRADE /$PI_UPGRADE
+    cp $PI_FIX /$PI_FIX
     cp $GPIO_QUERY /$GPIO_QUERY
     cp $APT_QUERY /$APT_QUERY
     
@@ -71,14 +78,26 @@ this_install(){
     echo "Installing wiringPi - examples excluded"
     /bin/cp -av $wiringPI /$wiringPI
     cd /$wiringPI
+    chmod +x ./build
     ./build
     echo "DONE"
     cd -
+    cp $CRON_JOBS/* /$CRON_JOBS
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
     chown root:root /$SUDOERS_D
     chmod 0440 /$SUDOERS_D
-
+    chmod 640 "/usr/libexec/pi-web-agent/.htpasswd"
+    chown -R pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.py
+    chmod 770 /usr/libexec/pi-web-agent/html/utilities/*.html
+    chmod 770 /usr/libexec/pi-web-agent/html/index.html
+    chmod +x /usr/libexec/pi-web-agent/scripts/hostname.sh
+    chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
+    chmod +x /etc/cron.daily/update-check
+    chmod +x /usr/bin/*
+     
 }
 
 
@@ -174,3 +193,4 @@ case $1 in
     ;;
 esac    
 
+cd $called_from

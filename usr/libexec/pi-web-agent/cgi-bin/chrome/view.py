@@ -70,7 +70,8 @@ class View(object):
         return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
-        return '<footer><center>\n<p>Copyright (c) kupepia 2013</p>\n'+\
+        return '<footer><center>\n<p>Copyright &copy; Kupepia 2013<br>\n'+\
+        '<img src=\'/icons/cy.png\'width="40" height="30"><font size="1"> 100% Cyprus Product</font></p>\n'+\
         '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
         '</center></footer>' 
     

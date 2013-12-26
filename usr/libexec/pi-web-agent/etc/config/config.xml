@@ -49,11 +49,6 @@
             <url>/cgi-bin/toolkit/gpio_manager.py</url>
         </action>
         
-        <action>
-            <title>API</title>
-            <id>API Management</id>
-            <url>/cgi-bin/toolkit/enable_api.py</url>
-        </action>
     </system>    
         
 </cern-vm-wi>

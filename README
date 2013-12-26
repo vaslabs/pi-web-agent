@@ -20,7 +20,6 @@ Firefox
 ====dependencies====
 apache2
 libapache2-mod-dnssd
-chkconfig
 tightvnc
 
 

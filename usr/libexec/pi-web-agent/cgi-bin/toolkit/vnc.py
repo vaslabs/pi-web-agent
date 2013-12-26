@@ -48,7 +48,7 @@ class VNCManager(object):
         '<div class="onoffswitch-inner"></div>\n' +\
         '<div class="onoffswitch-switch"></div>\n</div>\n'
         html = '<a id="startViewer" class="btn btn-primary" ' +\
-        'href="/viewer-applet-example.html" ' + \
+        'href="/utilities/viewer-applet-example.html" ' + \
         'onclick="window.open(this.href); return false;"> ' + \
         'Start VNC</a>'
         html = onoffswitch + '</ br>' + html
