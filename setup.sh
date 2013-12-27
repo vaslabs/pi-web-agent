@@ -24,6 +24,7 @@ SUDOERS_D=etc/sudoers.d/pi-web-agent
 wiringPI=usr/share/wiringPi
 GPIO_QUERY=usr/bin/gpio-query
 CRON_JOBS=etc/cron.daily
+EXECUTE_BIN=/usr/bin/execute.sh
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -41,6 +42,8 @@ this_install(){
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
     /bin/cp -v "$ANDROID_SERVICE" "/$ANDROID_SERVICE"
+    /bin/cp -v "$EXECUTE_BIN" "/$EXECUTE_BIN"
+    chmod +x "/$EXECUTE_BIN"
     chmod +x "/$ANDROID_SERVICE"
     chmod +x "/$SERVICE_PATH"
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
