@@ -1,2 +1,4 @@
 #!/bin/bash
-sudo /etc/init.d/pi-web-agent start
+chmod +x ./execute.sh
+x-terminal-emulator --command="./execute.sh"
+
