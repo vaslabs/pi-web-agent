@@ -119,8 +119,8 @@ this_uninstall() {
     "/$SERVICE_PATH" stop
     this_safe_remove "/$SERVICE_PATH"
     this_safe_remove "/$SHARE"
-    /bin/rm "$EXECUTE_BIN" "/$EXECUTE_BIN"
-    /bin/rm "$PI_APT" "/$PI_APT"
+    /bin/rm "/$EXECUTE_BIN"
+    /bin/rm "/$PI_APT"
     chmod +x "/$EXECUTE_BIN"
 
     print_ok
