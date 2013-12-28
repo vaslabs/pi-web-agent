@@ -2,8 +2,8 @@
 APT_BUSY=105
 APT_FAILED=201
 do_install() {
-    nohup apt-get --assume-yes install $1 0<&- &>/dev/null
-    sleep 3
+    nohup apt-get --assume-yes install $1 0<&- &>/dev/null &
+    sleep 1
     pgrep apt-get || {
         dpkg --configure -a
         exit $APT_FAILED
@@ -13,7 +13,7 @@ do_install() {
 
 do_remove() {
     nohup apt-get --assume-yes remove $1 0<&- &>/dev/null &
-    sleep 3
+    sleep 1
     pgrep apt-get || {
         dpkg --configure -a
         exit $APT_FAILED

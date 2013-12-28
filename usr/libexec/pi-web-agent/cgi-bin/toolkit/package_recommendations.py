@@ -26,6 +26,15 @@ def checkBusy(view) :
          'The package manager is busy right now. . . Try again later!' )
         view.output()
         return True
+        
+def checkFlags(text):
+    lines = text.split('\n')
+    del lines[-1]
+    package_line = lines[-1]
+    flags = package_line.split()[0]
+    if flags.find('r') >= 0:
+        return False
+    return True
 def main():
     '''
     Application to manage all the most used packages using apt-get.
@@ -77,10 +86,12 @@ def createOnOffSwitch( pName ) :
 
     text = '<div class="on_off_switch">\n'
     text +='<input type="checkbox" name="'+pName+'" onclick="submit_package(this)" class="on_off_switch-checkbox" id="'+pName 
-    if errorcode != 0 :
+    if errorcode != 0:
         checkedText = text + '" checked>'
-    else :
+    elif errorcode == 0 and checkFlags(output):
         checkedText = text + '">'
+    else:
+        checkedText = text + '" checked>'
     checkedText += '<label class="on_off_switch-label" for="'+pName+'">\n'
     checkedText += '<div class="on_off_switch-inner"></div>\n'
     checkedText += '<div class="on_off_switch-switch"></div>\n'
