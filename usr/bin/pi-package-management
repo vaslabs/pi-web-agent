@@ -33,6 +33,7 @@ if [ $# -gt 0 ]; then
         do_remove $2
     ;;
     esac
+    exit 250
 else
     exit 250;
 fi
