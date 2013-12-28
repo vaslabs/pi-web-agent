@@ -26,6 +26,7 @@ GPIO_QUERY=usr/bin/gpio-query
 CRON_JOBS=etc/cron.daily
 EXECUTE_BIN=usr/bin/execute.sh
 PI_APT=usr/bin/pi-package-management
+htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -110,6 +111,7 @@ this_install(){
 
 this_uninstall() {
     echo "Removing pi web agent"
+
     this_safe_remove "/$APPLICATION_PATH"
 
     this_safe_remove "/$ETC_PATH"
@@ -145,6 +147,8 @@ this_safe_remove() {
 
 this_reinstall() {
     echo "Reinstalling pi web agent"
+    echo "Keeping the same password"
+    cp /$htpasswd_PATH $htpasswd_PATH 
     this_uninstall
     this_install
 }

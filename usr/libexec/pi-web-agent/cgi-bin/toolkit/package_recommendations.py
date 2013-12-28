@@ -55,9 +55,10 @@ def main():
         descriptionText = getDpkgInfo( pName, "Description" )
         versionText = getDpkgInfo( pName, "Version" )
         allPackages.append( [ pName, checkedText, descriptionText, versionText ] )
-
-    htmlcode += HTML.table( allPackages, header_row=['Package Name', 'Status', 'Description', 'Version'] )
     
+    htmlcode += "\n<div id='packages-table'>"
+    htmlcode += HTML.table( allPackages, header_row=['Package Name', 'Status', 'Description', 'Version'] )
+    htmlcode += "\n</div>"
 
     view.setContent('Package Management', htmlcode )
     view.output()

@@ -20,10 +20,14 @@ function submit_package(element) {
        param2='uninstall';
     }
     url+= param2;   
- 	toggleOverlay();
     var info=getPackageResponse(url);
-    toggleOverlay();
-
+    if (info != 0) {
+        element.checked = !element.checked;
+        alert("Installation failed, please try again. Exit code was: " + info);
+        return;
+    }
+    $('#ip_overlay').html = "Installation in progress. . .";
+    
 }
 
 function toggleOverlay(){
@@ -38,18 +42,23 @@ function toggleOverlay(){
 }
 
 function getPackageResponse(url) {
-    var remote;
+    var value = -1;
 
     $.ajax({
         type: "GET",
         url: url,
         async: false,
         success : function(data) {
-            remote = data;
+            result = data;
+            var xmlDoc = result,
+            $xml = $( xmlDoc ),
+            $title = $xml.find("response");
+            value = $title.text();
+                
         }
     });
 
-    return remote;
+    return value;
     
     //return value;
 }
