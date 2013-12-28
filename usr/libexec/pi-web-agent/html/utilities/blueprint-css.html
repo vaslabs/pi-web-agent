@@ -26,7 +26,8 @@ function submit_package(element) {
         alert("Installation failed, please try again. Exit code was: " + info);
         return;
     }
-    $('#packages-table').innerHTML = "Installation in progress. . .";
+    $('#packages-table').remove();
+    $('#packages-table').prepend("Installation in progress. . .");
     
 }
 
