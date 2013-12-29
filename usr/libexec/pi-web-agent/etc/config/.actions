@@ -8,7 +8,7 @@
             <command-group id="1">
             <command  title="Kernel">uname -sr</command>
             <command title="Host name">uname -n</command>
-            <command title="CPU">cat /proc/cpuinfo | grep "Processor" | head -n 1 | cut -d : -f 2</command>
+            <command title="CPU"> cat /proc/cpuinfo | grep "Processor" || { cat /proc/cpuinfo | grep "model name"; } | head -n 1 | cut -d : -f 2</command>
             </command-group>
             <command-group id="2">
             <command title="Memory">/usr/libexec/pi-web-agent/scripts/memory_information</command>
