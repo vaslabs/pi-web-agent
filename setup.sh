@@ -69,6 +69,7 @@ this_install(){
     [ -d $LOGS ] || mkdir -p $LOGS
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
     cp $VNC_SERVICE /$VNC_SERVICE
+    chown +x "/$VNC_SERVICE"
     cp $PI_UPDATE /$PI_UPDATE
     cp $PI_UPGRADE /$PI_UPGRADE
     cp $PI_FIX /$PI_FIX
