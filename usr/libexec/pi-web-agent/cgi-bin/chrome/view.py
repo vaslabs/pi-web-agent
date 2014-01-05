@@ -10,7 +10,7 @@ from BlueprintDesigner import *
 from menu import *
 from HTMLPageGenerator import *
 import cgi
-
+from cern_vm import VERSION
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -75,7 +75,9 @@ class View(object):
         return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
-        return '<footer><center>\n<p>Copyright &copy; Kupepia 2013<br>\n'+\
+        return '<footer><center>\n'+\
+        '<p><font size="2"> Version: ' + VERSION + '</font></p>' +\
+        '<p><font size="2">Copyright &copy; Kupepia 2013</font><br>\n'+\
         '<img src=\'/icons/cy.png\' width="40" height="30"/><font size="1"> 100% Cyprus Product</font></p>\n'+\
         '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
         '</center></footer>' 
