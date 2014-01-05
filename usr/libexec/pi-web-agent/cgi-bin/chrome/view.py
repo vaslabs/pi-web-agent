@@ -64,14 +64,19 @@ class View(object):
         return str(self.nav_bar)    
         
     def _rightListView(self):
-        return str(self.menu)
+        with open(os.environ['MY_HOME']+"/html/utilities/facebook_page.html", "r") as fbpageFile:
+            fbpage = fbpageFile.read()
+        fbpageFile.close()
+        rightSide = '<div class="span4 last">' +\
+         createMenuList(self.menu.items, span=None) + "\n" + fbpage + '</div>'    
+        return rightSide
         
     def _mainWindow(self):
         return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
         return '<footer><center>\n<p>Copyright &copy; Kupepia 2013<br>\n'+\
-        '<img src=\'/icons/cy.png\'width="40" height="30"><font size="1"> 100% Cyprus Product</font></p>\n'+\
+        '<img src=\'/icons/cy.png\' width="40" height="30"/><font size="1"> 100% Cyprus Product</font></p>\n'+\
         '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
         '</center></footer>' 
     

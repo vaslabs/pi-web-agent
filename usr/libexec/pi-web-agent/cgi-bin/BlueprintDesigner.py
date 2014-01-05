@@ -13,8 +13,10 @@ def createList(items, span):
     return div
     
 def createMenuList(items, span):
-
-    div='<div class="span'+str(span)+'">\n'
+    if span == None:
+        div="<div>"
+    else:
+        div='<div class="span'+str(span)+'">\n'
     div+='<div class="well">'
     
     div+='<ul class="nav nav-list">'
