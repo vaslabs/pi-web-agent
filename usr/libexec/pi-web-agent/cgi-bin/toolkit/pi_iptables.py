@@ -98,7 +98,8 @@ class Chain(object):
                     otherinfo=split_rule[5:]
                 else:
                     otherinfo="--"
-                rule={'target':target, 'protocol':prot, 'option':opt, 'source':source, 'destination':dest, 'otherinfo':otherinfo}
+                rule={'target':target, 'protocol':prot, 'option':opt,\
+                 'source':source, 'destination':dest, 'otherinfo':otherinfo}
                 self.rules.append(rule)
 
     def __str__(self):
@@ -108,7 +109,8 @@ class Chain(object):
 
     #executes the command to add a new protocol rule
     def addProtocolRule(self, chain, action, protocol):
-        self.message=os.system('sudo iptables -A ' + chain + ' -p ' + protocol + ' ' + action)
+        self.message=os.system('sudo iptables -A ' +\
+         chain + ' -p ' + protocol + ' ' + action)
 
 
 def main():
@@ -143,15 +145,15 @@ def main():
                     +'</form>' 
             
     
-    html_tables='<div id="ip_overlay" style="display: none;"><div><h2>Add Rules</h2>'\
+    html_tables='<div id="ip_overlay" style="display: none;">' +\
+                '<div><h2>Add Rules</h2>'\
                 + html_add_rule +'</div></div>'
 
     chain_els=[[]]
     iptables=IPTablesManager()
     header_list=['protocol', 'target', 'otherinfo','destination', 'source', 'option']       
     for chain in iptables.chains:
-        html_tables+='<h4><a href="javascript:open_iptables_panel(\'' +\
-         chain + '\')">' + chain + '</a>'+\
+        html_tables+='<h4>' + chain +\
          ' (Default Protocol: ' \
                       + iptables.chains[chain].policy + '</h4>'
         if iptables.chains[chain]._isRulesEmpty():
