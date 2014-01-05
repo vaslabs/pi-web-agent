@@ -24,7 +24,7 @@ SUDOERS_D=etc/sudoers.d/pi-web-agent
 wiringPI=usr/share/wiringPi
 GPIO_QUERY=usr/bin/gpio-query
 CRON_JOBS=etc/cron.daily
-EXECUTE_BIN=usr/bin/execute.sh
+EXECUTE_BIN=usr/bin/execute-pwa.sh
 PI_APT=usr/bin/pi-package-management
 htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
 this_install(){
@@ -121,8 +121,9 @@ this_uninstall() {
     this_safe_remove "/$SERVICE_PATH"
     this_safe_remove "/$SHARE"
     /bin/rm "/$EXECUTE_BIN"
+    /bin/rm "/usr/bin/execute.sh"
     /bin/rm "/$PI_APT"
-    chmod +x "/$EXECUTE_BIN"
+    
 
     print_ok
     echo "Deleting user account of appliance..."
