@@ -123,7 +123,8 @@ this_uninstall() {
     /bin/rm "/$EXECUTE_BIN"
     /bin/rm "/usr/bin/execute.sh"
     /bin/rm "/$PI_APT"
-    
+    /etc/init.d/vncboot stop
+    rm /etc/init.d/vncboot
 
     print_ok
     echo "Deleting user account of appliance..."
