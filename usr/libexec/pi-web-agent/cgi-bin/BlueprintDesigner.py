@@ -1,4 +1,6 @@
-import os
+import os, sys
+sys.path.append(os.environ['MY_HOME']+'/etc/config')
+from cern_vm import VERSION
 def initialiseCss():
     with open(os.environ['MY_HOME']+'/html/utilities/blueprint-css.html', 'r') as content_file:
         content = content_file.read()
@@ -73,8 +75,12 @@ def createHeader(title, span, nav_bar):
     
     div='<header class="jumbotron subhead" id="overview">\n'
     div+='<div class="container">\n<div class="span24">'  
-    div+='<h1><a href="/cgi-bin/index.py"><img src="/icons/logo.png" width="90" height="90" align="left">'+title +\
-     '</a><a href="http://www.icons-land.com"><img src="/icons/agent_logo.png" width="90" height="90" align="right"></a></h1>\n'
+    div+='<h1><a href="/cgi-bin/index.py">'+\
+    '<img src="/icons/logo.png" width="90" height="90" align="left">'+\
+    title + '</a>'+\
+     '<a href="http://www.icons-land.com">'+\
+     '<img src="/icons/agent_logo.png" width="90" height="90" align="right">' +\
+     '</a>' + '\n</h1>\n'
     div+='<p class="lead">Web-App Agent</p>\n'
     div+='</div>\n'
     
