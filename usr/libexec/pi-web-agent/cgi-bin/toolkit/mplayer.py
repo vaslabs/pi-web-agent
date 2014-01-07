@@ -18,18 +18,39 @@ from live_info import execute
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 def getView():
-    iwpasswd = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
+    uri = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
 											attribs='placeholder="http ... or rtsp ..."')
-    iwpasswd_new1=InputWidget('text', 'volume', '', 'Volume: ',
-    						wClass='form-control ', attribs='placeholder="1 to 100"')
-    iwpasswd_new2=InputWidget('text', 'cache', '', 'Cache: ',
-    wClass='form-control',attribs='placeholder="0 to 99"')
+    slider='''
+    		<link rel="stylesheet" href="/css/jquery-ui.css">
+		<script src="/css/jquery-ui.js"></script>
+    
+    <div id="slider"></div>
+    	Volume:
+		<input type="text" name="volume" id="volume" style="border:0; color:#f6931f; font-weight:bold;" readonly />
+		<script>
+	 	$sliderValue="";
+		$("#slider").slider({                   
+                value: 50,
+                min: 0,
+                max: 99,
+                step: 1,
+                slide: function(event, ui) {
+                                $("#volume").val(ui.value);
+                          },
+            stop: function(event, ui) {
+                $sliderValue=ui.value;
+            }
+        });
+        $("#volume").val($("#slider").slider("value"));
+        </script>'''
+	 
+
+
     iw_submit=InputWidget('submit', '', 'Start Stream', '',
     																  wClass='btn btn-primary')
-    iwg = InputWidgetGroup()
-    iwg.widgets=[iwpasswd, iwpasswd_new1, iwpasswd_new2, iw_submit] 
-    return fieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form', iwg,
+    return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',uri.toHtml()+slider+iw_submit.toHtml(),
     														 createLegend("Start Streaming"))
+    														 
 class MPlayer(object):
 
     
@@ -48,13 +69,32 @@ class MPlayer(object):
                  "|| mkfifo /tmp/mplayer-control;"
                  " sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
-                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 -cache-min ") 
-        command+=self.cache+" -volume "+self.volume+" "
+                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
+        command+=" -volume "+self.volume+" "
         command+=self.uri+" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
-
-
-def getRunningView():
+        execute("echo '"+self.volume+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
+class SettingsReader(object):
+    def __init__(self, fileURL):
+        self.fileURL = fileURL
+    def read(self):
+        fp = open(self.fileURL)
+        for i, line in enumerate(fp):
+    			if i == 0:
+    				self.volume=line
+    			elif i == 1:
+    				self.eq=line
+    			elif i > 1:
+    				break
+        fp.close()
+    def setURL(self, fileURL):
+        self.fileURL = fileURL
+    def getVolume(self):
+        return self.volume
+    def getEQ(self):
+        return self.eq	
+		
+def getRunningView(volume, eq):
     script='''
 		<link rel="stylesheet" href="/css/jquery-ui.css">
 		<script src="/css/jquery-ui.js"></script>
@@ -63,9 +103,14 @@ def getRunningView():
 				height:120px; float:left; margin:15px
 			}
 		</style>
-		<script src="/css/sliders.js"></script>
+		
     	<script>
-    
+         window.volume= '''
+    script+=volume         
+    script+=''';
+         window.eqvals=['''
+    script+=",".join(eq)
+    script+='''];    
 			function checkStatus(){
 				$.getJSON( "mplayer_status.py", function( data ) {
 				if (data.redirect) {
@@ -82,6 +127,7 @@ def getRunningView():
 			window.setInterval(function(){checkStatus()},3000);
        
 		</script>
+		<script src="/css/sliders.js"></script>
 		<p class="ui-state-default ui-corner-all ui-helper-clearfix" 
 															style="padding:4px;">
 			<span class="ui-icon ui-icon-volume-on" style="float:left;
@@ -119,21 +165,12 @@ def getRunningView():
 												style="float:left; margin:-2px 5px 0 0;"></span>
 			Graphic EQ
 		</p>
-		<div id="eq" style="margin-left:227.5px;">
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-			<span>0</span>
-		</div>
+		<div id="eq" style="margin-left:227.5px;"><span>'''
+    script+="</span><span>".join(eq)
  
-         '''
-
+    script+=   '''
+				</span>
+		</div>'''
     return script
 def main():
     """
@@ -157,14 +194,16 @@ def main():
     form = cgi.FieldStorage()
     config=Configuration()
     view = View(config.system.actions) 
-    if (execute('pidof mplayer')[1]==0):
-        view.setContent('Mplayer', getRunningView())
-    elif "uri" not in form and "volume" not in form and "cache" not in form:
+    if execute('pidof mplayer')[1]==0:
+        settingsReader=SettingsReader("/tmp/mplayer_status")
+        settingsReader.read()
+        view.setContent('Mplayer', getRunningView(settingsReader.getVolume(), settingsReader.getEQ().split(':')))
+    elif "uri" not in form and "volume" not in form:
         view.setContent('Mplayer', getView())
     else:
         player = MPlayer(form)
         player.startStream();
-        view.setContent('Mplayer', getRunningView())
+        view.setContent('Mplayer', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
     view.output()
 
 
