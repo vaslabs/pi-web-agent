@@ -46,14 +46,30 @@ def getView(err):
         $("#volume").val($("#slider").slider("value"));
         </script>'''
 	 
-
+    radioButtons='''
+  	 	<div id="radio">
+    	<input type="radio" id="hdmi" name="selection"><label for="hdmi">HDMI</label>
+    	<input type="radio" id="auto" name="selection" checked="checked"><label for="auto">AUTO</label>
+    	<input type="radio" id="headphones" name="selection"><label for="headphones">HEADPHONES</label>
+    	
+  	 	</div>
+  	 	<input type="hidden" name="output" value="AUTO">
+  	 	<script>
+  	 	$(function() {
+     		$( "#radio" ).buttonset();
+    		$("#radio label").click(function(){
+     			$("[name=output]").val($(this).text());
+     			
+     		});
+  	 	});
+    	</script>'''
     if err :
     	alert ='<div class="error">'+err+'</div>' ;  
     else:
     	alert="";
     iw_submit=InputWidget('submit', '', 'Start Stream', '',
     																  wClass='btn btn-primary')
-    return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',alert+uri.toHtml()+slider+iw_submit.toHtml(),
+    return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',alert+uri.toHtml()+slider+iw_submit.toHtml()+radioButtons,
     														 createLegend("Start Streaming"))
     														 
 class MPlayer(object):
@@ -70,9 +86,12 @@ class MPlayer(object):
         self.uri=self.form.getvalue("uri")
         self.volume=self.form.getvalue("volume")
         self.cache=self.form.getvalue("cache") 
+        #wow I ll be a bit pythonic here xD
+        self.outout="2" if self.form.getvalue("output")=="HDMI" else "1" if self.form.getvalue("output")=="HEADPHONES" else "0"
         command=("sh -c '[ -f /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
-                 " sudo mplayer -slave -input "
+                 "sudo amixer cset numid=3 "+self.outout+";"
+                 "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
                  "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
         command+=" -volume "+self.volume+" "
