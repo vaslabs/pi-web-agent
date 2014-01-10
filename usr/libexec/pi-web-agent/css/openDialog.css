@@ -1,0 +1,45 @@
+/* icons for open dialog
+this is part of the solution for multiple 
+application dialog that will be used to 
+open pi web agent files from file manager
+*/
+/*#openDialog {
+  display: block;
+*/
+
+#openDialog ul {
+  list-style: none;
+
+}
+
+#openDialog ul li {
+    background: #fff;
+	display: inline;
+	list-style: none;
+  	float: left;
+    margin: 0 10px 10px 0;
+  	padding: 0;
+  	text-align:center; 
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+#openDialog ul li a {
+  display: block;
+  margin-bottom: 2px; 
+  opacity: 0.75;
+  font-family: Verdana;
+  font-size: 11px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+#openDialog ul li a:hover {
+  opacity: 1.0;
+}
+
+#openDialog ul li a img {
+  border: 6px solid #e1d9ec;
+}

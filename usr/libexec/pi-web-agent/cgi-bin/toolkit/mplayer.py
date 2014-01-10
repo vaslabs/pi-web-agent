@@ -223,13 +223,13 @@ def main():
         settingsReader.read()
         view.setContent('Mplayer', getRunningView(settingsReader.getVolume(), settingsReader.getEQ().split(':')))
     elif "uri" not in form and "volume" not in form:
-        view.setContent('Radio', getView(None))
+        view.setContent('Mplayer', getView(None))
     elif "uri" not in form :
-        view.setContent('Radio', getView("Please provide a uri"))
+        view.setContent('Mplayer', getView("Please provide a uri"))
     else:
         player = MPlayer(form)
         player.startStream();
-        view.setContent('Radio', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
+        view.setContent('Mplayer', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
     
     output(view, form)
 

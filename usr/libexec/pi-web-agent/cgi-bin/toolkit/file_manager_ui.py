@@ -22,8 +22,16 @@ def main():
                 </tr>
             </thead>
         </table>
+        <div id="openDialog" title="Open with.">
+  				<p>Choose a web-agent application to open your file with</p>
+  				<ul>
+  				</ul>
+			</div>
+				<link rel="stylesheet" href="/css/jquery-ui.css">
+		<script src="/css/jquery-ui.js"></script>
+		 <script src="/css/appDefinitions.js" type="text/javascript"></script>
         <script src="/css/file_manager.js" type="text/javascript"></script>
-        
+        <link href="/css/openDialog.css" type="text/css" rel="stylesheet" />
     '''
     view.setContent('File manager', content)
     output(view, cgi.FieldStorage())
