@@ -21,6 +21,12 @@ Supported browsers:
 Chrome
 Firefox
 
+Verified to work browsers:
+Safari
+Safari-IPad
+
+If you tried this application on a different browser please inform us about the results at vaslabsco@gmail.com
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
