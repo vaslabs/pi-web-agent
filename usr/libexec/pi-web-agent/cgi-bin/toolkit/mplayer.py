@@ -4,6 +4,7 @@ import cgitb
 import os
 cgitb.enable()
 import sys
+import urllib
 sys.path.append(os.environ['MY_HOME']+'/objects')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
@@ -81,9 +82,9 @@ class MPlayer(object):
         
     def startStream(self):
         '''
-    try to use mplayer for the given parameters
-    '''
-        self.uri=self.form.getvalue("uri")
+        try to use mplayer for the given parameters
+        '''
+        self.uri=urllib.unquote(self.form.getvalue("uri")).decode('utf8')
         self.volume=self.form.getvalue("volume")
         self.cache=self.form.getvalue("cache") 
         #wow I ll be a bit pythonic here xD
@@ -94,8 +95,8 @@ class MPlayer(object):
                  "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
                  "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
-        command+=" -volume "+self.volume+" "
-        command+=self.uri+" </dev/null >/dev/null 2>&1 &'"
+        command+=" -volume "+self.volume
+        command+=" \""+self.uri + "\" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
         execute("echo '"+self.volume+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 class SettingsReader(object):
@@ -118,7 +119,7 @@ class SettingsReader(object):
     def getEQ(self):
         return self.eq	
 		
-def getRunningView(volume, eq):
+def getRunningView(uri,volume, eq):
     script='''
 		<link rel="stylesheet" href="/css/jquery-ui.css">
 		<script src="/css/jquery-ui.js"></script>
@@ -166,6 +167,7 @@ def getRunningView(volume, eq):
 												style="margin-left:227.5px;">
 		<!---needed in future release <button id="beginning">
 														go to beginning</button>
+														
 		<button id="rewind">rewind</button>
 		<button id="play">pause</button>--->
 		<button id="stop">stop</button>
@@ -221,7 +223,7 @@ def main():
     if execute('pidof mplayer')[1]==0:
         settingsReader=SettingsReader("/tmp/mplayer_status")
         settingsReader.read()
-        view.setContent('Mplayer', getRunningView(settingsReader.getVolume(), settingsReader.getEQ().split(':')))
+        view.setContent('Mplayer', getRunningView("",settingsReader.getVolume(), settingsReader.getEQ().split(':')))
     elif "uri" not in form and "volume" not in form:
         view.setContent('Mplayer', getView(None))
     elif "uri" not in form :
@@ -229,7 +231,7 @@ def main():
     else:
         player = MPlayer(form)
         player.startStream();
-        view.setContent('Mplayer', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
+        view.setContent('Mplayer', getRunningView(form.getvalue("uri"),form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
     
     output(view, form)
 

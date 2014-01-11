@@ -2,7 +2,7 @@ var ext="", apps=[],defaultApps=[], extApps={};
 //---default apps- the apps tha can be used on any file
 defaultApps.push({"name": "Download", "startFunction":download, "icon": "download.png"});
 //--application definition goes here
-apps.push({"name": "Mplayer", "startFunction":mplayer, "icon": "mplayer.png", "extensions":["mp3", "ogg"]});
+apps.push({"name": "Mplayer", "startFunction":mplayer, "icon": "mplayer.png", "extensions":[".mp3", ".ogg"]});
 
 
 //--------start functions go here-------------
@@ -16,7 +16,7 @@ function download(path) {
 //---we create an object that holds applications by extension
 for( var i=0; i<apps.length;i++) {
 	for (var j=0;j<apps[i].extensions.length;j++){
-		ext =extApps[apps[i].extensions[j]]
+		ext =apps[i].extensions[j]
 		if (typeof extApps[ext] ==="undefined"){
 				extApps[ext] =[]
 		}
