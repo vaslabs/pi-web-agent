@@ -40,6 +40,8 @@ def main():
 				if (0<=int(data['volume'])<=100):
 					execute ( 'echo "set_property volume ' + str(data['volume'])+\
 																	 '" > /tmp/mplayer-control')
+					streqhelper=':'.join(map(str,data['eqhelper']))
+					execute("echo '"+str(data["volume"])+"\n"+streqhelper+"' > /tmp/mplayer_status")
 					jsonReply("{ \"status\" : \"volume " + str(data['volume'])+\
 																								"\" }")
 				else:
@@ -54,6 +56,7 @@ def main():
 					streq=':'.join(map(str,data['eq']))
 					execute ( 'echo "af_cmdline equalizer '+streq +\
 																	'" > /tmp/mplayer-control')
+					execute("echo '"+str(data['volumehelper'])+"\n"+streq+"' > /tmp/mplayer_status")
 					jsonReply("{ \"status\" : \"eq " + streq+ "\" }")
 				else:
 					streq=':'.join(map(str,data['eq']))

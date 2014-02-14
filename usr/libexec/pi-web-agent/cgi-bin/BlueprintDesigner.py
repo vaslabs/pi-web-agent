@@ -115,7 +115,20 @@ def fieldset(action, method, name, widgets, legend=None):
         form+=legend
     form+= widgets.toHtml() + "\n</fieldset>\n</form>"
     return form
-
+def customFieldset(action, method, name, html, legend=None):
+    form = "<form"
+    if len(name) > 0:
+        form +=  " name=" + name    
+    if len(action) > 0:
+        form += " action=" + action
+    if len(method) > 0:
+        form +=  " method=" + method            
+    form += ">\n"
+    form+='<fieldset>\n'
+    if (legend != None):
+        form+=legend
+    form+= html + "\n</fieldset>\n</form>"
+    return form
 def fieldsetTextarea(action, method, name, textarea, widgets, legend=None):
     form = "<form"
     if len(name) > 0:
