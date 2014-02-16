@@ -1,7 +1,7 @@
 import sys
 import os
 if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/usr/libexec/cernvm-appliance-agent'
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
@@ -10,7 +10,7 @@ from BlueprintDesigner import *
 from menu import *
 from HTMLPageGenerator import *
 import cgi
-
+from cern_vm import VERSION
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -64,13 +64,21 @@ class View(object):
         return str(self.nav_bar)    
         
     def _rightListView(self):
-        return str(self.menu)
+        with open(os.environ['MY_HOME']+"/html/utilities/facebook_page.html", "r") as fbpageFile:
+            fbpage = fbpageFile.read()
+        fbpageFile.close()
+        rightSide = '<div class="span4 last">' +\
+         createMenuList(self.menu.items, span=None) + "\n" + fbpage + '</div>'    
+        return rightSide
         
     def _mainWindow(self):
         return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
-        return '<footer><center>\n<p>Copyright (c) kupepia 2013</p>\n'+\
+        return '<footer><center>\n'+\
+        '<p><font size="2"> Version: ' + VERSION + '</font></p>' +\
+        '<p><font size="2">Copyright &copy; Kupepia 2013</font><br>\n'+\
+        '<img src=\'/icons/cy.png\' width="40" height="30"/><font size="1"> 100% Cyprus Product</font></p>\n'+\
         '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
         '</center></footer>' 
     

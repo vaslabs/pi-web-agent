@@ -44,7 +44,7 @@ class UpdateManager(object):
         'href="/cgi-bin/toolkit/update.py?action=update">Update</a>'
         button_bar = iw_update
         div = createDiv(button_bar, divClass='form-actions')
-        update_info, returncode = update_check()
+        update_info, returncode = update_check_quick()
 
         if returncode == UPDATE_PENDING:
             return '<br>Update in progress. Please try again later...'
@@ -53,10 +53,8 @@ class UpdateManager(object):
         elif returncode == UPDATE_READY or returncode == NO_ACTION:
             return '<br><h4>System is up to date!</h4>'
         elif returncode != NEW_UPDATE:
-            execute("sudo dpkg --configure -a")
-            return '<br><h4>Update was corrupted, trying to reconfigure (sudo dpkg --configure -a)</h4>'+\
-            '<h3>If problem persists try to update system from command line (sudo apt-get upgrade)'
-        
+            return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
+                '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
         
         packages_table_string = "<table border=\"1\"/><tr>"
         for package_entry in update_info.split("\n"):
@@ -69,7 +67,7 @@ class UpdateManager(object):
             packages_table_string += "</tr><tr>"
                 
         packages_table_string = packages_table_string + "</tr></table>"
-        descr_text=str(len(update_info.split("\n")) - 1) + " updates are available!"
+        descr_text='<h4>'+str(len(update_info.split("\n")) - 1) + " updates are available!</h4>"
         return '<br><h5>' + descr_text + "</h5>" + packages_table_string + div + '<br>'
 
     def _update(self):
@@ -79,8 +77,12 @@ class UpdateManager(object):
         return err
         
     def performUpdate(self):
-        err=self._update()
-        return '<br><h4>Update procedure initiated!</h4> Please come back in a moment...'
+        err = self._update()
+        if err == DPKG_CONFIG_NEEDED:
+            return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
+                '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
+        else:
+            return '<br><h4>Update procedure initiated!</h4> Please come back in a moment...'
     
 def main():
     form = cgi.FieldStorage()

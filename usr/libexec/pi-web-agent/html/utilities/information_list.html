@@ -1,7 +1,52 @@
+<script type="text/javascript" language="javascript">
+function open_iptables_panel(chain_name) {
+    $("#ip_overlay").overlay({
+     
+        // custom top position
+        top: 260,
+
+        // some mask tweaks suitable for facebox-looking dialogs
+        mask: {
+
+        // you might also consider a "transparent" color for the mask
+        color: '#fff',
+
+        // load mask a little faster
+        loadSpeed: 200,
+
+        // very transparent
+        opacity: 0.5
+        },
+
+        // disable this for modal dialog-type of overlays
+        closeOnClick: false,
+
+        // load it immediately after the construction
+        load: true
+
+    });
+}
+$(document).ready(function(){
+    $("#selectRule").change(function(){
+        $("#selectActions").find(".field").remove();
+        if( $(this).val()=="Interface"){
+            $("#selectActions").append("<input class='field' type='text' style='width:50'/>");
+        }
+        else if($(this).val()=='Protocol'){
+            $("#selectActions").append("SourcePort<input class='field1' type='text' style='width:50'/>:");
+            $("#selectActions").append("DestPort<input class='field1' type='text' style='width:50'/>:");
+            $("#selectActions").append("Flags<select id=\"selectAction\" class=\"form-control\">" +'<option>Accept</option>' +'<option>Drop</option>' +'<option>Flush</option>' + '</select>');
+
+
+        }
+    });
+});
+</script>
+
 <script language="javascript" type="text/javascript">
  
 $(document).ready(function(){
-  initialise();
+    initialise();
 });
 
 function getMemoryInfo(usage) {
@@ -222,52 +267,7 @@ function gpio_clear() {
         <li id="li_temp">Temperature</li>
     </ul>
 </div>
+<p align='center'><img src='/icons/hackathon.jpeg' width="70" height="30"> HackManchester 2013<br>University Challenge Winner Team</p>
 </div>
 
-<script type="text/javascript">
-function open_iptables_panel(chain_name) {
-    $("#ip_overlay").overlay({
-     
-        // custom top position
-        top: 260,
 
-        // some mask tweaks suitable for facebox-looking dialogs
-        mask: {
-
-        // you might also consider a "transparent" color for the mask
-        color: '#fff',
-
-        // load mask a little faster
-        loadSpeed: 200,
-
-        // very transparent
-        opacity: 0.5
-        },
-
-        // disable this for modal dialog-type of overlays
-        closeOnClick: false,
-
-        // load it immediately after the construction
-        load: true
-
-    });
-}
-
-
-$(document).ready(function(){
-    $("#selectRule").change(function(){   
-        $("#selectActions").find(".field").remove();     
-        if( $(this).val()=="Interface"){
-            $("#selectActions").append("<input class='field' type='text' style='width:50'/>");
-        }
-        else if($(this).val()=='Protocol'){
-            $("#selectActions").append("SourcePort<input class='field1' type='text' style='width:50'/>:" <input class='field1' type='text' style='width:50'/>); 
-            $("#selectActions").append("DestPort<input class='field1' type='text' style='width:50'/>:" <input class='field1' type='text' style='width:50'/>); 
-            $("#selectActions").append("Flags<select id="selectAction" class="form-control">' +'<option>Accept</option>' +'<option>Drop</option>' +'<option>Flush</option>' +'</select>');
-
-
-        }
-    });
-});
-
-</script>

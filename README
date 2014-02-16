@@ -1,5 +1,9 @@
 This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
 
+For users:
+Install this application to your Raspberry Pi via the pistore:
+http://store.raspberrypi.com/projects/pi-web-agent
+
 The product can be installed on the Raspberry Pi. Then run:
 sudo /etc/init.d/pi-web-agent start
 to start the apache2 instance that serves the application.
@@ -17,10 +21,15 @@ Supported browsers:
 Chrome
 Firefox
 
+Verified to work browsers:
+Safari
+Safari-IPad
+
+If you tried this application on a different browser please inform us about the results at vaslabsco@gmail.com
+
 ====dependencies====
 apache2
 libapache2-mod-dnssd
-chkconfig
 tightvnc
 
 

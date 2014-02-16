@@ -1,0 +1,39 @@
+#!/bin/bash
+APT_BUSY=105
+APT_FAILED=201
+do_install() {
+    nohup apt-get --assume-yes install $1 0<&- &>/dev/null &
+    sleep 1
+    pgrep apt-get || {
+        dpkg --configure -a
+        exit $APT_FAILED
+    }
+    exit 0
+}
+
+do_remove() {
+    nohup apt-get --assume-yes remove $1 0<&- &>/dev/null &
+    sleep 1
+    pgrep apt-get || {
+        dpkg --configure -a
+        exit $APT_FAILED
+    }
+    exit 0
+}
+
+pgrep apt-get && exit $APT_BUSY
+
+if [ $# -gt 0 ]; then
+    case "$1" in
+    -i|--install)
+        do_install $2
+    ;;
+    
+    -r|--remove)
+        do_remove $2
+    ;;
+    esac
+    exit 250
+else
+    exit 250;
+fi

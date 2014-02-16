@@ -12,6 +12,8 @@ UPDATE_READY=101
 NEW_UPDATE=110
 REBOOT_REQUIRED=120
 UPDATE_PENDING=100
+DPKG_CONFIG_NEEDED=200
+PROCESS_RUNNING=201
 
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
@@ -57,6 +59,10 @@ def update_check():
     command = 'sudo pi-update -c'
     return execute(command)
     
+def update_check_quick():
+    command = 'sudo pi-update -q'
+    return execute(command)
+        
 def update_check_js():
     command = 'sudo pi-update -q'
     a=execute(command)
@@ -74,7 +80,11 @@ def update_check_with_version():
     return [response == NEW_UPDATE, a[0]]
 
 def turn_service(service_name, turn):
-    command='sudo chkconfig --level 3 ' + service_name + ' ' + turn    
+    if (turn == "on"):
+        newturn = "start"
+    else:
+        newturn = "stop"
+    command='sudo service ' + service_name + ' ' + newturn    
     a=execute(command)
     
     return a[1]

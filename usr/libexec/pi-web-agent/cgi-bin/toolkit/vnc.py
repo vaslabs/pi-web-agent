@@ -43,12 +43,12 @@ class VNCManager(object):
     def _generateActiveView(self):
         onoffswitch = 'Service status: <div class="onoffswitch">\n' +\
         '<input disabled="disabled" type="checkbox" name="vncboot" ' + \
-        'class="onoffswitch-checkbox" id="vncservice" checked>' +\
+        'class="onoffswitch-checkbox" id="vncservice" checked/>' +\
         '<label class="onoffswitch-label" for="vncservice">\n' +\
         '<div class="onoffswitch-inner"></div>\n' +\
-        '<div class="onoffswitch-switch"></div>\n</div>\n'
+        '<div class="onoffswitch-switch"></div>\n</label></div>\n'
         html = '<a id="startViewer" class="btn btn-primary" ' +\
-        'href="/viewer-applet-example.html" ' + \
+        'href="/utilities/viewer-applet-example.html" ' + \
         'onclick="window.open(this.href); return false;"> ' + \
         'Start VNC</a>'
         html = onoffswitch + '</ br>' + html
@@ -57,10 +57,10 @@ class VNCManager(object):
     def _generateDisabledView(self):
         onoffswitch = 'Start VNC viewer by executing: /etc/init.d/vncboot start <div class="onoffswitch">\n' +\
         '<input disabled="disabled" type="checkbox" name="vncboot" ' + \
-        'class="onoffswitch-checkbox" id="vncservice">' +\
+        'class="onoffswitch-checkbox" id="vncservice"/>' +\
         '<label class="onoffswitch-label" for="vncservice">\n' +\
         '<div class="onoffswitch-inner"></div>\n' +\
-        '<div class="onoffswitch-switch"></div>\n</div>\n'
+        '<div class="onoffswitch-switch"></div>\n</label></div>\n'
         html = '<a id="startViewer" class="btn btn-primary" disabled="true"' +\
         'href="#">Start VNC</a>'
         html = onoffswitch + '</ br>' + html

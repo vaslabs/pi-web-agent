@@ -15,15 +15,33 @@ from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
 
+def normalise_ipsource(source):
+    MAX_FIELDS=4
+    postfix='...'
+    ip_fields = source.split('.')
+    counter = 0
+    normalised_source = ""
+    for field in ip_fields:
+        if (counter >= 4):
+            break
+        if (counter > 0):
+            normalised_source+='.'
+        normalised_source+=field
+        counter+=1
+    if len(ip_fields) > counter:
+        normalised_source+=postfix
+    return normalised_source
+
+
 class IPTablesManager(object):
 
     def __init__(self):
         self.chains={}
-        list_chains, exit_code = execute("sudo iptables -L | grep 'Chain' | cut -d ' ' -f 2")
+        list_chains, exit_code = execute("sudo iptables -n -L | grep 'Chain' | cut -d ' ' -f 2")
         lines = list_chains.split('\n')
         for line in lines[0:len(lines)-1]:
             #print "WHAAAT: ", line
-            chain_body, exit_code = execute("sudo iptables -L " + line)
+            chain_body, exit_code = execute("sudo iptables -n -L " + line)
             #print chain_body
             self.chains[line]=Chain(chain_body)
         
@@ -33,6 +51,10 @@ class IPTablesManager(object):
             message+=chain + "\n"
             message+=str(self.chains[chain]) +"\n"
         return message
+
+    def addRule(self):
+        pass
+        
 
 class Chain(object):
     def __init__(self, body):
@@ -69,20 +91,26 @@ class Chain(object):
                 target=split_rule[0]
                 prot=split_rule[1]
                 opt=split_rule[2]
-                source=split_rule[3]
+                source=normalise_ipsource(split_rule[3])
                 dest=split_rule[4]
                 #print "No of rules: ", len(split_rule)
                 if len(split_rule)>5:
                     otherinfo=split_rule[5:]
                 else:
                     otherinfo="--"
-                rule={'target':target, 'protocol':prot, 'option':opt, 'source':source, 'destination':dest, 'otherinfo':otherinfo}
+                rule={'target':target, 'protocol':prot, 'option':opt,\
+                 'source':source, 'destination':dest, 'otherinfo':otherinfo}
                 self.rules.append(rule)
 
     def __str__(self):
         return "Policy: " + self.policy + "\n" +\
                "Type: " + self.type + "\n" +\
                str(self.rules)
+
+    #executes the command to add a new protocol rule
+    def addProtocolRule(self, chain, action, protocol):
+        self.message=os.system('sudo iptables -A ' +\
+         chain + ' -p ' + protocol + ' ' + action)
 
 
 def main():
@@ -96,29 +124,37 @@ def main():
     config=Configuration()
     view = View(config.system.actions)
 
-    #if 'action' in form:
+    #this is only for modifying iptables
     html_add_rule='<p></br>Choose action</br></p>'\
-                +'<div class="select-group" id="selectActions">'\
+                    +'<form name="inputRule">'\
                     +'<select id="selectAction" class="form-control">'\
                         +'<option>Accept</option>'\
                         +'<option>Drop</option>'\
                         +'<option>Flush</option>'\
                     +'</select>'\
-                    +'<select id="selectRule" class="form-control">'\
-                        +'<option>Destination</option>'\
-                        +'<option>Protocol</option>'\
-                        +'<option>Interface</option>'\
+                    +'<select id="selectProtocol" class="form-control">'\
+                        +'<option>ALL</option>'\
+                        +'<option>TCP</option>'\
+                        +'<option>UDPLITE</option>'\
+                        +'<option>ICMP</option>'\
+                        +'<option>ESP</option>'\
+                        +'<option>AH</option>'\
+                        +'<option>SCTP</option>'\
                     +'</select>'\
-                +'</div>'\
-            +'</div></div>'
+                    +'<input type="submit" value="Submit">'\
+                    +'</form>' 
+            
     
-    html_tables='<div id="ip_overlay" style="display: none;"><div><h2>Add Rules</h2>' + html_add_rule 
+    html_tables='<div id="ip_overlay" style="display: none;">' +\
+                '<div><h2>Add Rules</h2>'\
+                + html_add_rule +'</div></div>'
 
     chain_els=[[]]
     iptables=IPTablesManager()
     header_list=['protocol', 'target', 'otherinfo','destination', 'source', 'option']       
     for chain in iptables.chains:
-        html_tables+='<h4><a href="javascript:open_iptables_panel(\'' + chain + '\')">' + chain + '</a>'+' (Default Protocol: ' \
+        html_tables+='<h4>' + chain +\
+         ' (Default Protocol: ' \
                       + iptables.chains[chain].policy + '</h4>'
         if iptables.chains[chain]._isRulesEmpty():
             chain_els.append(['--','--','--','--','--','--'])
