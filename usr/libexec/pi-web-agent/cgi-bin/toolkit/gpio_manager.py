@@ -37,7 +37,7 @@ def getDirections():
     for pin in leftPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0:
-            msgInitialize, errorcode=execute("sudo gpio-query mode \"GPIO " + str(pinNo) + "\"")
+            msgInitialize, errorcode=execute("sudo gpio-query direction \"GPIO " + str(pinNo) + "\"")
             leftDirections.append(msgInitialize.strip())
         else:
             leftDirections.append(pin)
@@ -46,7 +46,7 @@ def getDirections():
     for pin in rightPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0 :
-            msgInitialize, errorcode=execute("sudo gpio-query mode \"GPIO " + str(pinNo) + "\"")
+            msgInitialize, errorcode=execute("sudo gpio-query direction \"GPIO " + str(pinNo) + "\"")
             rightDirections.append(msgInitialize.strip())
         else:
             rightDirections.append(pin)
@@ -59,9 +59,12 @@ def getValues():
     for pin in leftPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0 :
-            wiringPiIndex, err = execute("sudo gpio-query wiringpi \"GPIO " + str(pinNo) + "\"")
-            msgInitialize, errorcode=execute("sudo " + gpio + " read " + str(wiringPiIndex.strip()))
-            leftValues.append(msgInitialize.strip())
+            msgInitialize, errorcode=execute("sudo gpio-query value \"GPIO " + str(pinNo) + "\"")
+            if msgInitialize == "High":
+                value=GPIO.HIGH
+            else:
+                value=GPIO.LOW
+            leftValues.append(value)
         else:
             leftValues.append(pin)
             
@@ -69,9 +72,12 @@ def getValues():
     for pin in rightPins:
         pinNo = name2PinNo(pin)
         if pinNo >= 0:
-            wiringPiIndex, err = execute("sudo gpio-query wiringpi \"GPIO " + str(pinNo) + "\"")
-            msgInitialize, errorcode=execute("sudo " + gpio + " read " + str(wiringPiIndex.strip()))
-            rightValues.append(msgInitialize.strip())
+            msgInitialize, errorcode=execute("sudo gpio-query value \"GPIO " + str(pinNo) + "\"" )
+            if msgInitialize[0] == "H":
+                value=GPIO.HIGH
+            else:
+                value=GPIO.LOW
+            rightValues.append(value)
         else:
             rightValues.append(pin)                
     return leftValues, rightValues
@@ -85,19 +91,20 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         directionText ='<input type="checkbox" id="D'+left_Pins[index]
         valueText = '<input type="checkbox" id="V'+left_Pins[index]
             
-        directionAttributeText = '" onclick="submit_gpio_direction(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + value + '"'
-        valueAttributeText = '" onclick="submit_gpio_value(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + value + '"'
+        directionAttributeText = '" onclick="submit_gpio_direction(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + str(value) + '"'
+        valueAttributeText = '" onclick="submit_gpio_value(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + str(value) + '"'
 
 
         directionText = generalText + directionText + directionAttributeText
         
-        if direction == "IN":
+        if direction == "IN":   
             directionText += '>'
+            #valueAttributeText += ' disabled="disabled"' this should be done with javascript support (on direction click, enable this checkbox)
         else:
             directionText += ' checked>'
         
         
-        valueText = generalText + valueText + valueAttributeText
+        valueText = generalText + str(valueText) + valueAttributeText
         if value == GPIO.HIGH :
             valueText += ' checked>'
         else:

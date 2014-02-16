@@ -37,10 +37,7 @@ tightvnc
 If you are a developer and you want to test or work on this project you don't need to work on a raspberrypi. You just need
 a virtual machine that runs something similar to the raspberry pi Raspbian. Here is how we did it:
 
-1. Download and install Virtual box. Download this image http://dl.dropbox.com/u/60623239/RaspberryPi.VirtualBox.zip (it's a 
-zip, extract the torrent file that is inside and open it with your torrent client. Open the downloaded file with virtual box. Now you have ubuntu on your virtual
-machine that looks like the raspberry pi. It is good enough for testing. Default username=rpi password=password .
-
+1. Download and install Virtual box. Install a debian distribution, it does not matter if it is x86 architecture. It is good enough for testing.
 2. Install git (sudo apt-get install git-core)
 Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
 Go into the directory (pi-web-agent), there is a file setup.sh. Run sudo ./setup.sh install . 
