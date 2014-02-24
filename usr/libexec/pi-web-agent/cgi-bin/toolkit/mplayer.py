@@ -48,7 +48,7 @@ def getView(err):
 	 
 
     if err :
-    	alert ='<script>alert("'+err+'"); </script>' ;  
+    	alert ='<div class="error">'+err+'</div>' ;  
     else:
     	alert="";
     iw_submit=InputWidget('submit', '', 'Start Stream', '',
