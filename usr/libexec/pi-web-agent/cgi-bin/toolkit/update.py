@@ -14,7 +14,7 @@ from view import View
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
 from live_info import *
-from framework import view
+from framework import view, output
 
 def parse_package_name(package_entry):
     package_elements=package_entry.split()
@@ -100,7 +100,7 @@ def main():
             view.setContent('Update Manager', updMgr.performUpdate())
     else:
         view.setContent('Update Manager', updMgr.getDefaultView())
-    view.output()
+    output(view, form)
         
 if __name__ == '__main__':
     main()

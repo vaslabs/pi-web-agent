@@ -15,6 +15,8 @@ import subprocess
 from view import View
 from urlparse import urlparse
 from live_info import execute
+from framework import output
+
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
 def getView():
@@ -204,9 +206,8 @@ def main():
         player = MPlayer(form)
         player.startStream();
         view.setContent('Radio', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
-    view.output()
-
-
+    
+    output(view, form)
 
 
 

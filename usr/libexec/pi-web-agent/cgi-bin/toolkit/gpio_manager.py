@@ -10,7 +10,7 @@ sys.path.append(os.environ['MY_HOME']+'/scripts')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-from framework import view, config
+from framework import view, config, output
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
 from live_info import execute
@@ -152,7 +152,7 @@ def main():
     html_code += '</div>\n'
     html_code += '<center><div id="user_space"></div><button class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button></center>' 
     view.setContent('GPIO Manager', html_code)
-    view.output()
+    output(view, cgi.FieldStorage())
     
 if __name__ == '__main__':
     main()

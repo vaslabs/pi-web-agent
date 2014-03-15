@@ -5,60 +5,60 @@
         <action>
             <title>Updates</title>
             <id>System Update</id>
-            <url>/cgi-bin/toolkit/update.py</url>
+            <url>/cgi-bin/toolkit/update.py?type=js</url>
             <version>Beta</version>
         </action>
 
         <action>
             <title>Change Password</title>
             <id>Change Password</id>
-            <url>/cgi-bin/toolkit/change_password.py</url>
+            <url>/cgi-bin/toolkit/change_password.py?type=js</url>
             <version>Beta</version>
         </action>
         
            <action>
             <title>Power Management</title>
             <id>Power Management</id>
-            <url>/cgi-bin/toolkit/power_management.py</url>
+            <url>/cgi-bin/toolkit/power_management.py?type=js</url>
         </action>
 
         <action>
             <title>Services</title>
             <id>Services web app</id>
-            <url>/cgi-bin/toolkit/services_app.py</url>
+            <url>/cgi-bin/toolkit/services_app.py?type=js</url>
             <version>Beta</version>
         </action>
 
         <action>
             <title>VNC</title>
             <id>VNC</id>
-            <url>/cgi-bin/toolkit/vnc.py</url>
+            <url>/cgi-bin/toolkit/vnc.py?type=js</url>
         </action>
 
         <action>
             <title>Package Management</title>
             <id>Package Management</id>
-            <url>/cgi-bin/toolkit/package_recommendations.py</url>
+            <url>/cgi-bin/toolkit/package_recommendations.py?type=js</url>
             <version>Beta</version>
         </action>
 
         <action>
             <title>Firewall Management</title>
             <id>Firewall</id>
-            <url>/cgi-bin/toolkit/pi_iptables.py</url>
+            <url>/cgi-bin/toolkit/pi_iptables.py?type=js</url>
             <version>Alpha</version>
         </action>
         <action>
             <title>GPIO</title>
             <id>GPIO Management</id>
-            <url>/cgi-bin/toolkit/gpio_manager.py</url>
+            <url>/cgi-bin/toolkit/gpio_manager.py?type=js</url>
             <version>Alpha</version>
         </action>
         
         <action>
             <title>Radio</title>
             <id>Internet Radio</id>
-            <url>/cgi-bin/toolkit/mplayer.py</url>
+            <url>/cgi-bin/toolkit/mplayer.py?type=js</url>
             <version>Beta</version>
         </action>
         

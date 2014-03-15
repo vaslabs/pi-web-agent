@@ -10,7 +10,7 @@ from Adapter import GenericAdapter
 import cgi
 import cgitb
 cgitb.enable()
-from framework import config, view
+from framework import config, view, output
 from live_info import hostname
 from live_info import execute
 
@@ -75,7 +75,7 @@ def main():
     vncMgr = VNCManager()
     html = vncMgr.generateView()
     view.setContent('VNC Viewer', html)
-    view.output()
+    output(view, cgi.FieldStorage())
 
 if __name__ == '__main__':
     main()

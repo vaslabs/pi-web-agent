@@ -50,7 +50,7 @@ def createNavListWithDropdown(items):
     item_name='Home'
     item_actionlink='/'
     div+='<li><a href="' + item_actionlink + '">' + item_name + '</a></li>\n'
-    item_counter=1;
+    item_counter=1
     MENU_LIMIT = 5
     for item in items:
         if item_counter < 5:
@@ -91,8 +91,12 @@ def createHeader(title, span, nav_bar):
     
     return div
     
-def createText(title, body, span):
-    div='<div class="span'+str(span)+'">\n'
+def createText(title, body, span=None):
+    if (span == None):
+        div=""
+    else:
+        div='<div class="span'+str(span)+'">\n'
+    
     div+='<h2>'+title+'</h2>\n'
     div+=body
     div+='\n</div>\n'    
