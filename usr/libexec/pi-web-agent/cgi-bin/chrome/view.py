@@ -103,5 +103,7 @@ class View(object):
         '''
         composeDocument(initialiseCss(), self.mainhtml)
 
+    def js_output(self):
+        composeJS(self.content)
 	
 

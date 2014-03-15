@@ -96,6 +96,14 @@ def composeDocument(references, body):
     print "</body>"
     print "</html>"
 
+def composeJS(body):
+    print "Content-type: text/html"
+    print
+    print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
+    print body
+    print "</body>"
+    print "</html>"
+
 def clearDocument():
     print "Content-type: text/html"
     print
