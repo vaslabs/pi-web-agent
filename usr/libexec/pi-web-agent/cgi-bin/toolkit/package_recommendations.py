@@ -16,16 +16,9 @@ from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
 from live_info import execute
+from live_info import getAptBusy
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
-def checkBusy(view) :
-    a, errorcode_apt_get = execute('pgrep apt-get')
-    a, errorcode_aptitude = execute('pgrep aptitude')
-    if errorcode_apt_get == 0 or errorcode_aptitude == 0 :
-        view.setContent('Package Management',\
-         'The package manager is busy right now. . . Try again later!' )
-        view.output()
-        return True
         
 def checkFlags(text):
     lines = text.split('\n')
@@ -43,12 +36,14 @@ def main():
     config=Configuration()
     view = View(config.system.actions)
     form = cgi.FieldStorage()
-    if (checkBusy(view)):
-        return
-    sm=serviceManagerBuilder()
+    if (getAptBusy( )):
+      view.setContent('Package Management',\
+      '<script src="/css/reloadBasedOnStatus.js"></script>\
+      The package manager is busy right now. . . \
+      This page will automatically reload once the service is available')
+      view.output()
+      return 
     
-
-
     htmlcode = ''
 
     ins = open( PACKAGES_LIST_PATH, "r" )
