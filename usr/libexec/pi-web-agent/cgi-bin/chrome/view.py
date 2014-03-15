@@ -33,10 +33,17 @@ class View(object):
         self.nav_bar=Menu([], nav=True)
         self.actions=actions
         for action in actions:
-            if actions[action].secondary:
-                self.menu.addItem(MenuItem(actions[action].title, actions[action].url))
+            version=actions[action].version
+            if version == None:
+                version=""
             else:
-                self.nav_bar.addItem(MenuItem(actions[action].title, actions[action].url))
+                version = "<sup>" + version + "</sup>"
+            if actions[action].secondary:
+                self.menu.addItem(MenuItem(actions[action].title + version,\
+                 actions[action].url))
+            else:
+                self.nav_bar.addItem(MenuItem(actions[action].title + version,\
+                 actions[action].url))
         self.title='The RPi'
         self.titlespan=24
         self.listspan=4

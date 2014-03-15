@@ -6,12 +6,14 @@
             <title>Updates</title>
             <id>System Update</id>
             <url>/cgi-bin/toolkit/update.py</url>
+            <version>Beta</version>
         </action>
 
         <action>
             <title>Change Password</title>
             <id>Change Password</id>
             <url>/cgi-bin/toolkit/change_password.py</url>
+            <version>Beta</version>
         </action>
         
            <action>
@@ -24,6 +26,7 @@
             <title>Services</title>
             <id>Services web app</id>
             <url>/cgi-bin/toolkit/services_app.py</url>
+            <version>Beta</version>
         </action>
 
         <action>
@@ -36,23 +39,27 @@
             <title>Package Management</title>
             <id>Package Management</id>
             <url>/cgi-bin/toolkit/package_recommendations.py</url>
+            <version>Beta</version>
         </action>
 
         <action>
             <title>Firewall Management</title>
             <id>Firewall</id>
             <url>/cgi-bin/toolkit/pi_iptables.py</url>
+            <version>Alpha</version>
         </action>
         <action>
             <title>GPIO</title>
             <id>GPIO Management</id>
             <url>/cgi-bin/toolkit/gpio_manager.py</url>
+            <version>Alpha</version>
         </action>
         
         <action>
             <title>Radio</title>
             <id>Internet Radio</id>
             <url>/cgi-bin/toolkit/mplayer.py</url>
+            <version>Beta</version>
         </action>
         
         

@@ -9,7 +9,7 @@ def parseActions(actionTree, secondary=False):
         actions={}
         
         for xmlaction in actionTree:
-            attribs={'title':'','id':'','url':'', 'command-group':{}}
+            attribs={'title':'','id':'','url':'', 'command-group':{}, 'version':None}
             for attribute in xmlaction:
                 if attribute.tag != 'command-group':
                     attribs[attribute.tag]=attribute.text
@@ -23,6 +23,7 @@ def parseActions(actionTree, secondary=False):
                             commandFormat=command.attrib['format']
                         except:
                             commandFormat=None
+                        
                         value=command.text
                         cmd=Command(commandTitle, commandFormat, value)
                         attribs[cgTag][cgID].append(cmd)
@@ -31,7 +32,8 @@ def parseActions(actionTree, secondary=False):
             aTitle=attribs['title']
             aURL=attribs['url']
             aCmg=attribs['command-group']
-            actions[aID]=Action(aTitle, aID, aURL, aCmg, secondary)
+            aVersion = attribs['version']
+            actions[aID]=Action(aTitle, aID, aURL, aCmg, secondary, version=aVersion)
             
         return actions
         
@@ -76,17 +78,18 @@ class System(object):
 class Action(object):
             
     
-    def __init__(self, title, aID, url, command_groups, secondary=False):
+    def __init__(self, title, aID, url, command_groups, secondary=False, version=None):
         self.title=title
         self.id=aID
         self.url=url
         self.command_groups=command_groups
         self.secondary=secondary
         self.format = None
+        self.version = version
         
     
-    def setFormat(self, format):
-        self.format = format
+    def setFormat(self, my_format):
+        self.format = my_format
     
     
     def toXML(self):
@@ -113,9 +116,9 @@ class Action(object):
         
 class Command(object):
     
-    def __init__(self, title, format, value):
+    def __init__(self, title, my_format, value):
         self.title=title
-        self.format=format
+        self.format=my_format
         self.value=value
     
     def toXML(self):
