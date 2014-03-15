@@ -91,8 +91,12 @@ def createHeader(title, span, nav_bar):
     
     return div
     
-def createText(title, body, span):
-    div='<div class="span'+str(span)+'">\n'
+def createText(title, body, span=None):
+    if (span == None):
+        div=""
+    else:
+        div='<div class="span'+str(span)+'">\n'
+    
     div+='<h2>'+title+'</h2>\n'
     div+=body
     div+='\n</div>\n'    

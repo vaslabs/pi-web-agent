@@ -16,6 +16,8 @@ from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
 from live_info import execute
+from framework import output
+
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
 def checkBusy(view) :
@@ -24,7 +26,7 @@ def checkBusy(view) :
     if errorcode_apt_get == 0 or errorcode_aptitude == 0 :
         view.setContent('Package Management',\
          'The package manager is busy right now. . . Try again later!' )
-        view.output()
+        output(view, cgi.FieldStorage())
         return True
         
 def checkFlags(text):
@@ -70,7 +72,7 @@ def main():
     htmlcode += "\n</div>"
 
     view.setContent('Package Management', htmlcode )
-    view.js_output()
+    output(view, form)
 
 def getDpkgInfo(pName, fieldName) :
     bashCommand = "apt-query " + pName + " " + fieldName

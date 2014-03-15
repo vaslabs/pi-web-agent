@@ -10,6 +10,8 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from PasswordManager import *
 from cern_vm import Configuration
 from view import View
+from framework import output
+
 def main():
     form = cgi.FieldStorage()
     config=Configuration()
@@ -25,6 +27,7 @@ def main():
         except Exception as e:
             view.setContent("User management", getFailedView(e.strerror))
 
-    view.js_output()    
+    output(view, form)
+        
 if __name__ == '__main__':
     main()

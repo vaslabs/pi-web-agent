@@ -51,10 +51,10 @@ class View(object):
         self.setContent('Welcome', 'This is the web agent for the Raspberry PI')
         
     def setContent(self, title, content):
-        '''
+        """
         gets a title and a content in pure html and finilises the 
         shape and look of the user interface
-        '''
+        """
         self.contentTitle = title
         self.content = content
         self._view()    
@@ -104,6 +104,6 @@ class View(object):
         composeDocument(initialiseCss(), self.mainhtml)
 
     def js_output(self):
-        composeJS(self.content)
+        composeJS(createText(self.contentTitle, self.content))
 	
 

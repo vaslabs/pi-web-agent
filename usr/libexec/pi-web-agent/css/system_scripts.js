@@ -1,9 +1,8 @@
 function navigate(link) {
-     //$("#application").remove();
-     $(".span16").innerHTML="";
+    
      $(".span16").prepend(animationBar());
      $(".span16").load(link);
-      window.history.pushState({}, "", link);
+      window.history.pushState({}, "", link.split("?")[0]);
 }
 
 function animationBar() {
