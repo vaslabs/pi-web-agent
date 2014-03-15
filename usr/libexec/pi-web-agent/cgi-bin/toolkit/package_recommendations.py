@@ -15,8 +15,9 @@ import cgitb
 from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
-from live_info import execute
-from live_info import getAptBusy
+from live_info import execute, getAptBusy
+from framework import output
+
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
         
