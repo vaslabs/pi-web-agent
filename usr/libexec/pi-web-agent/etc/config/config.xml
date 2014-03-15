@@ -49,6 +49,13 @@
             <url>/cgi-bin/toolkit/gpio_manager.py</url>
         </action>
         
+        <action>
+            <title>Radio</title>
+            <id>Internet Radio</id>
+            <url>/cgi-bin/toolkit/mplayer.py</url>
+        </action>
+        
+        
     </system>    
         
 </cern-vm-wi>
