@@ -133,6 +133,35 @@ function getPackageResponse(url) {
     //return value;
 }
 
+function submitProtocolRule(){
+    $("#addRuleID").submit(function(){
+        alert("eimai dame");
+        var chain='Forward';
+        var actionElement = document.getElementById("selectAction");
+        var action = actionElement.options[actionElement.selectedIndex].value;
+        var protocolElement = document.getElementById("selectProtocol");
+        var protocol = protocolElement.options[protocolElement.selectedIndex].value;
+        getIPTableValues( chain, action, protocol);
+    });
+}
+
+function getIPTableValues(chain, action, protocol) {
+    var remote;
+    var url='/cgi-bin/toolkit/add_iptable_rules?chain='+chain+'&action='+action+'&protocol='+protocol;
+    $.ajax({
+        type: "GET",
+        url: url,
+        async: false,
+        success : function(data) {
+            remote = data;
+        }
+    });
+
+    return remote;
+    
+    //return value;
+}
+
 </script>
 <style type="text/css">
 div#overlay {

@@ -234,14 +234,14 @@ function open_iptables_panel(chain_name) {
         // some mask tweaks suitable for facebox-looking dialogs
         mask: {
 
-        // you might also consider a "transparent" color for the mask
-        color: '#fff',
+            // you might also consider a "transparent" color for the mask
+            color: '#fff',
 
-        // load mask a little faster
-        loadSpeed: 200,
+            // load mask a little faster
+            loadSpeed: 200,
 
-        // very transparent
-        opacity: 0.5
+            // very transparent
+            opacity: 0.5
         },
 
         // disable this for modal dialog-type of overlays
@@ -252,22 +252,4 @@ function open_iptables_panel(chain_name) {
 
     });
 }
-
-
-$(document).ready(function(){
-    $("#selectRule").change(function(){   
-        $("#selectActions").find(".field").remove();     
-        if( $(this).val()=="Interface"){
-            $("#selectActions").append("<input class='field' type='text' style='width:50'/>");
-        }
-        else if($(this).val()=='Protocol'){
-            $("#selectActions").append("SourcePort<input class='field1' type='text' style='width:50'/>:" <input class='field1' type='text' style='width:50'/>); 
-            $("#selectActions").append("DestPort<input class='field1' type='text' style='width:50'/>:" <input class='field1' type='text' style='width:50'/>); 
-            $("#selectActions").append("Flags<select id="selectAction" class="form-control">' +'<option>Accept</option>' +'<option>Drop</option>' +'<option>Flush</option>' +'</select>');
-
-
-        }
-    });
-});
-
 </script>
