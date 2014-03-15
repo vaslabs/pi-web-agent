@@ -86,6 +86,13 @@ class UpdateManager(object):
     
 def main():
     form = cgi.FieldStorage()
+    if (getAptBusy( )):
+      view.setContent('Update Manager',\
+      '<script src="/css/reloadBasedOnStatus.js"></script>\
+      The Update Manager is busy right now. . . \
+      This page will automatically reload once the service is available')
+      view.output()
+      return 
     updMgr = UpdateManager()
 
     if 'action' in form:       

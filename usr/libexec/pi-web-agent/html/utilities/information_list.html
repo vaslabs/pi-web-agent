@@ -120,6 +120,20 @@ function getUpdateCheck(info) {
                  getUpdateCheck)}, 360000);    
 }
 
+function getAptStatus(info) {
+    var html = ''
+    if (info == 'True')
+    {
+        html = generateCriticalMessage(100, "Apt busy");
+    }
+    else
+        html = generateCriticalMessage(0, "Apt available");
+
+    $('#li_apt').html(html);
+    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt',
+                 getAptStatus)}, 2000);    
+}
+
 function generateCriticalMessage(usage, msg) {
 
     var span = "label label-success";
@@ -185,6 +199,7 @@ function initialise()
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=update', getUpdateCheck);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap', getSwapInfo);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo);
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt', getAptStatus);
 }
 
 
@@ -265,6 +280,7 @@ function gpio_clear() {
         <li id="li_update">Update</li>
     <li class="nav-list-space"></li>
         <li id="li_temp">Temperature</li>
+        <li id="li_apt">Apt</li>
     </ul>
 </div>
 <p align='center'><img src='/icons/hackathon.jpeg' width="70" height="30"> HackManchester 2013<br>University Challenge Winner Team</p>
