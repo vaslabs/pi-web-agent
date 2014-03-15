@@ -131,7 +131,7 @@ function getAptStatus(info) {
 
     $('#li_apt').html(html);
     setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt',
-                 getAptStatus)}, 2000);    
+                 getAptStatus)}, 10000);    
 }
 
 function generateCriticalMessage(usage, msg) {
