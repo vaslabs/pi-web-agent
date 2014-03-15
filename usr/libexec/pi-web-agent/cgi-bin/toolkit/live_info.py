@@ -33,6 +33,13 @@ def getMemoryUsage():
     command=os.environ['MY_HOME'] + '/scripts/memory_information MemTotal'
     total=execute(command)[0]
     return 100 - int((float(free)/float(total))*100)
+    
+def getAptBusy():
+    a, errorcode_apt_get = execute('pgrep apt-get')
+    a, errorcode_aptitude = execute('pgrep aptitude')
+    if errorcode_apt_get == 0 or errorcode_aptitude == 0 :
+      return True
+    return False
 
 def getDiskUsage():
     command='df -hP / | grep -o -w -E \'[0-9]*\%\' | tr -d \'%\''
@@ -105,7 +112,7 @@ def manage_vnc(turn):
 def main():
     cmds = {'mem':getMemoryUsage, 'kernel':getKernelVersion,\
      'disk': getDiskUsage, 'swap':swapUsage, 'hostname':hostname,\
-     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature}
+     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
         response('Error')

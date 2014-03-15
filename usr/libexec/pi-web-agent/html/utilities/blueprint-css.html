@@ -26,8 +26,12 @@ function submit_package(element) {
         alert("Installation failed, please try again. Exit code was: " + info);
         return;
     }
-    $('#packages-table').text("Installation in progress. . .");
-    
+    $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
+    reloadInXSecs( 3000 );
+}
+
+function reloadInXSecs( secs ){
+  setTimeout(function () { location.reload(1); }, secs);
 }
 
 function toggleOverlay(){
@@ -36,6 +40,7 @@ function toggleOverlay(){
     overlay.style.opacity = .8;
     if(overlay.style.display == "block"){
         overlay.style.display = "none";
+        location.reload(false)
     } else {
         overlay.style.display = "block";
     }
@@ -59,8 +64,7 @@ function getPackageResponse(url) {
     });
 
     return value;
-    
-    //return value;
+
 }
 
 </script>
