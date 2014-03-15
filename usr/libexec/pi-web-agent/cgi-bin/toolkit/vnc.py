@@ -75,7 +75,7 @@ def main():
     vncMgr = VNCManager()
     html = vncMgr.generateView()
     view.setContent('VNC Viewer', html)
-    view.output()
+    view.js_output()
 
 if __name__ == '__main__':
     main()

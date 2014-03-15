@@ -204,7 +204,7 @@ def main():
         player = MPlayer(form)
         player.startStream();
         view.setContent('Radio', getRunningView(form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
-    view.output()
+    view.js_output()
 
 
 

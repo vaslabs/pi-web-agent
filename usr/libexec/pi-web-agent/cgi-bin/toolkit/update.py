@@ -93,7 +93,7 @@ def main():
             view.setContent('Update Manager', updMgr.performUpdate())
     else:
         view.setContent('Update Manager', updMgr.getDefaultView())
-    view.output()
+    view.js_output()
         
 if __name__ == '__main__':
     main()

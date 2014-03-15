@@ -30,7 +30,7 @@ def main():
     view = View(config.system.actions)
     
     view.setContent('Services Management App', content)
-    view.output()
+    view.js_output()
 
 if __name__ == '__main__':
     main()

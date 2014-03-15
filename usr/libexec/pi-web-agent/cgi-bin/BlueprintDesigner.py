@@ -50,7 +50,7 @@ def createNavListWithDropdown(items):
     item_name='Home'
     item_actionlink='/'
     div+='<li><a href="' + item_actionlink + '">' + item_name + '</a></li>\n'
-    item_counter=1;
+    item_counter=1
     MENU_LIMIT = 5
     for item in items:
         if item_counter < 5:

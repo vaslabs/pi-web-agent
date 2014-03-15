@@ -16,16 +16,15 @@ def main():
     view = View(config.system.actions)
     if "passwd" not in form and "passwd_new1" not in form and "passwd_new2" not in form:
         view.setContent('User management', getView())
-        view.output()
     else:
         pm = PasswordManager(form, 'admin')
         try:
             pm.doTransaction()
             view.setContent("User management", getSuccessView())
-            view.output()
+            
         except Exception as e:
             view.setContent("User management", getFailedView(e.strerror))
-            view.output()
-            
+
+    view.js_output()    
 if __name__ == '__main__':
     main()

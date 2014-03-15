@@ -101,7 +101,6 @@ def composeJS(body):
     print
     print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
     print body
-    print "</body>"
     print "</html>"
 
 def clearDocument():

@@ -62,7 +62,7 @@ def main():
     else:
         content=getView()
     view.setContent('Power management', content)
-    view.output()
+    view.js_output()
     
 if __name__ == '__main__':    
     main()

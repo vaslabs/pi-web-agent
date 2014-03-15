@@ -70,7 +70,7 @@ def main():
     htmlcode += "\n</div>"
 
     view.setContent('Package Management', htmlcode )
-    view.output()
+    view.js_output()
 
 def getDpkgInfo(pName, fieldName) :
     bashCommand = "apt-query " + pName + " " + fieldName

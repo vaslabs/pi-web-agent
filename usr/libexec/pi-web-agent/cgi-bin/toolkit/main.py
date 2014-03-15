@@ -25,7 +25,7 @@ def main():
         action=config.system.actions[ID]
     except KeyError as ke:
         view.setContent('Page not found', 'The requested page was not found. Did you type the url manually?')
-        view.output()
+        view.js_output()
         return
     adapter=GenericAdapter(ID, view, action.command_groups)
     adapter.page()

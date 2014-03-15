@@ -30,7 +30,7 @@
         <action>
             <title>Scheduled Tasks</title>
             <id>Scheduled Tasks</id>
-            <url>/cgi-bin/toolkit/main.py?page=Scheduled Tasks</url>
+            <url>/cgi-bin/toolkit/main.py?page=Scheduled+Tasks</url>
             <command-group id="1">
             <command title="User" format="table">echo "Command"; crontab -l</command>
             </command-group>

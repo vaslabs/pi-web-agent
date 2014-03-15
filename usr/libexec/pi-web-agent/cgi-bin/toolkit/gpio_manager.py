@@ -152,7 +152,7 @@ def main():
     html_code += '</div>\n'
     html_code += '<center><div id="user_space"></div><button class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button></center>' 
     view.setContent('GPIO Manager', html_code)
-    view.output()
+    view.js_output()
     
 if __name__ == '__main__':
     main()
