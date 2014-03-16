@@ -57,7 +57,7 @@ function getMemoryInfo(usage) {
      $('#li_memory').html(html);
     
     
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=mem', getMemoryInfo)}, 5000);        
+    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=mem', getMemoryInfo)}, 5000 + Math.round(Math.random()*5000));        
 }
 
 function getTempInfo(temp) {
@@ -73,7 +73,7 @@ function getTempInfo(temp) {
     else 
         html = generateCriticalMessage(10, msg + "'C");  
     $('#li_temp').html(html);
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo)}, 10000);        
+    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo)}, 10000 + Math.round(Math.random()*5000));        
 }
 
 function getSwapInfo(usage) {
@@ -93,7 +93,7 @@ function getSwapInfo(usage) {
     
     if (usage >= 0)
         setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap',
-                    getSwapInfo)}, 20000);        
+                    getSwapInfo)}, 20000 + Math.round(Math.random()*5000));        
 }
 function getHardDiskInfo(usage) {
     //stab TODO
@@ -103,7 +103,7 @@ function getHardDiskInfo(usage) {
     $('#li_hard_drive').html(html);
     setTimeout(function() {
                 getResponse('/cgi-bin/toolkit/live_info.py?cmd=disk'
-                ,getHardDiskInfo)}, 60000); 
+                ,getHardDiskInfo)}, 60000 + Math.round(Math.random()*5000)); 
 }
 
 function getUpdateCheck(info) {
