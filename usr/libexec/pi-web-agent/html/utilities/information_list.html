@@ -93,7 +93,7 @@ function getSwapInfo(usage) {
     
     if (usage >= 0)
         setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap',
-                    getSwapInfo)}, 15000);        
+                    getSwapInfo)}, 20000);        
 }
 function getHardDiskInfo(usage) {
     //stab TODO
@@ -103,7 +103,7 @@ function getHardDiskInfo(usage) {
     $('#li_hard_drive').html(html);
     setTimeout(function() {
                 getResponse('/cgi-bin/toolkit/live_info.py?cmd=disk'
-                ,getHardDiskInfo)}, 10000); 
+                ,getHardDiskInfo)}, 60000); 
 }
 
 function getUpdateCheck(info) {
@@ -120,19 +120,6 @@ function getUpdateCheck(info) {
                  getUpdateCheck)}, 360000);    
 }
 
-function getAptStatus(info) {
-    var html = ''
-    if (info == 'True')
-    {
-        html = generateCriticalMessage(100, "Apt busy");
-    }
-    else
-        html = generateCriticalMessage(0, "Apt available");
-
-    $('#li_apt').html(html);
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt',
-                 getAptStatus)}, 10000);    
-}
 
 function generateCriticalMessage(usage, msg) {
 
@@ -192,14 +179,15 @@ function getHostnameInfo(info) {
 function initialise()
 {
     getMemoryInfo('...');
-    getHardDiskInfo('...');
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=disk', getHardDiskInfo);
+    
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=kernel', getKernelInfo);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=hostname',
         getHostnameInfo);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=update', getUpdateCheck);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap', getSwapInfo);
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo);
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt', getAptStatus);
+   
 }
 
 
@@ -280,7 +268,6 @@ function gpio_clear() {
         <li id="li_update">Update</li>
     <li class="nav-list-space"></li>
         <li id="li_temp">Temperature</li>
-        <li id="li_apt">Apt</li>
     </ul>
 </div>
 <p align='center'><img src='/icons/hackathon.jpeg' width="70" height="30"> HackManchester 2013<br>University Challenge Winner Team</p>
