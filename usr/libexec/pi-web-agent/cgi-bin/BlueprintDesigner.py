@@ -78,7 +78,7 @@ def createHeader(title, span, nav_bar):
     div+='<h1><a href="/cgi-bin/index.py">'+\
     '<img src="/icons/logo.png" width="90" height="90" align="left">'+\
     title + '</a>'+\
-     '<a href="http://www.icons-land.com">'+\
+     '<a href="#">'+\
      '<img src="/icons/agent_logo.png" width="90" height="90" align="right">' +\
      '</a>' + '\n</h1>\n'
     div+='<p class="lead">Web-App Agent</p>\n'
