@@ -37,7 +37,7 @@ class View(object):
             if version == None:
                 version=""
             else:
-                version = "<sup>" + version + "</sup>"
+                version = "<sup><sup>" + version + "</sup></sup>"
             if actions[action].secondary:
                 self.menu.addItem(MenuItem(actions[action].title + version,\
                  actions[action].url))
