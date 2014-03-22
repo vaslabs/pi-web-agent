@@ -33,7 +33,7 @@ function update_response(response) {
 }
 function update_check_completed(info) {
     
-    if (info == "") {
+    if (info.length <= 5) {
         $("#updates").append('Application is in its latest version')
     }
     else {
