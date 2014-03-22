@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd"
+DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer alsa-utils"
 ANDROID_SERVICE="etc/init.d/pi-android-agent"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
@@ -27,6 +27,10 @@ CRON_JOBS=etc/cron.daily
 EXECUTE_BIN=usr/bin/execute-pwa.sh
 PI_APT=usr/bin/pi-package-management
 htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
+
+UPDATE_APP_BIN=usr/bin/pi-web-agent-update
+UPDATE_CHECK_PY=usr/bin/update_check.py
+
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -46,9 +50,15 @@ this_install(){
     /bin/cp -v "$ANDROID_SERVICE" "/$ANDROID_SERVICE"
     /bin/cp -v "$EXECUTE_BIN" "/$EXECUTE_BIN"
     /bin/cp -v "$PI_APT" "/$PI_APT"
+    /bin/cp -v "$UPDATE_APP_BIN" "/$UPDATE_APP_BIN"
+    /bin/cp -v "$UPDATE_CHECK_PY" "/$UPDATE_CHECK_PY"
+    
     chmod +x "/$EXECUTE_BIN"
     chmod +x "/$ANDROID_SERVICE"
     chmod +x "/$SERVICE_PATH"
+    chmod +x "/$UPDATE_APP_BIN"
+    chmod +x "/$UPDATE_CHECK_PY"
+    
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
     ln -s "/usr/lib/apache2/modules" "/$ETC_PATH/modules"
@@ -78,20 +88,24 @@ this_install(){
 
     print_ok
     echo "Installing dependencies"
-    apt-get install $DEPENDENCIES
+    if [ -z $1 ]; then
+	apt-get install $DEPENDENCIES
+    fi
     print_ok
     echo "Post installation actions"
     chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
     print_ok
-    echo "Installing wiringPi - examples excluded"
-    /bin/cp -av $wiringPI /$wiringPI
-    cd /$wiringPI
-    chmod +x ./build
-    ./build
-    echo "DONE"
-    cd -
+    if [ -z $1 ]; then
+        echo "Installing wiringPi - examples excluded"
+        /bin/cp -av $wiringPI /$wiringPI
+        cd /$wiringPI
+        chmod +x ./build
+        ./build
+        echo "DONE"
+        cd -
+    fi
     cp $CRON_JOBS/* /$CRON_JOBS
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
@@ -123,6 +137,10 @@ this_uninstall() {
     /bin/rm "/$EXECUTE_BIN"
     /bin/rm "/usr/bin/execute.sh"
     /bin/rm "/$PI_APT"
+    
+    /bin/rm "/$UPDATE_CHECK_PY"
+    /bin/rm "/$UPDATE_APP_BIN"
+    
     /etc/init.d/vncboot stop
     rm /etc/init.d/vncboot
 
@@ -153,7 +171,7 @@ this_reinstall() {
     echo "Keeping the same password"
     cp /$htpasswd_PATH $htpasswd_PATH 
     this_uninstall
-    this_install
+    this_install $1
 }
 
 print_ok() {
@@ -201,6 +219,13 @@ case $1 in
         this_reinstall
         
         exit $?
+    ;;
+    update)
+        [ $(id -u) -eq 0 ] || {
+            echo "You need to be root to run the setup"
+            exit 1
+        }
+        this_reinstall update
     ;;
     version)
         echo "Version: $VERSION:"

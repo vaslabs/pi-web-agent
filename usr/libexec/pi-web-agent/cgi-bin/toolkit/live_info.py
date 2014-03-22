@@ -70,6 +70,10 @@ def update_check():
 def update_check_for_app():
     command = 'update_check.py'
     return execute(command)[0]   
+
+def application_update():
+    command = "sudo pi-web-agent-update -a"
+    return execute(command)[1]
     
 def update_check_quick():
     command = 'sudo pi-update -q'
@@ -118,7 +122,7 @@ def main():
     cmds = {'mem':getMemoryUsage, 'kernel':getKernelVersion,\
      'disk': getDiskUsage, 'swap':swapUsage, 'hostname':hostname,\
      'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy, 'check' : update_check,\
-      'check_app': update_check_for_app}
+      'check_app': update_check_for_app, 'update_app' : application_update}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
         response('Error')
@@ -127,7 +131,7 @@ def main():
             response(str(cmds[fs['cmd'].value](fs['param1'].value, fs['param2'].value)))        
         else:
             response(str(cmds[fs['cmd'].value]()))  
-
+    
 
 if __name__ == '__main__':
     main()    

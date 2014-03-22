@@ -15,6 +15,19 @@ function check_for_updates() {
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=check_app', update_check_completed) 
 }
 
+function update_app() {
+    $(".span16").prepend(animationBar());
+    
+    update_response = getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', null)
+    
+    if (update_response == "0")
+        check_for_updates();
+    else
+        $("#updates").append('Update failed. Please try again later');
+    $("#b-pb").remove()
+
+}
+
 function update_check_completed(info) {
     
     if (info == "") {
@@ -26,3 +39,4 @@ function update_check_completed(info) {
     $("#b-pb").remove()
 
 }
+
