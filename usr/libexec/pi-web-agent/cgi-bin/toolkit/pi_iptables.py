@@ -14,6 +14,7 @@ import cgitb
 from subprocess import Popen, PIPE
 import HTML
 cgitb.enable()
+from framework import output
 
 def normalise_ipsource(source):
     MAX_FIELDS=4
@@ -166,7 +167,6 @@ def main():
         html_tables+='</br>'
     
     view.setContent('IPTables', html_tables)
-    view.output()
-
+    output(view, form)
 if __name__ == '__main__':
     main()
