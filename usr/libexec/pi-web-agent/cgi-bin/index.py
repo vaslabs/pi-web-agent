@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import sys
 import os
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/pi-web-agent/config')
 sys.path.append(os.environ['MY_HOME']+'/usr/libexec/pi-web-agent/scripts')
@@ -10,11 +12,18 @@ from cern_vm import Configuration
 
 import cgi
 import crypt
+
+MAIN_VIEW = os.environ['MY_HOME'] + '/etc/config/main_view.html'
+
 def main():
     if password_changed():
         config = Configuration()
-        indexView=View(config.system.actions)
-        indexView.output()
+        view=View(config.system.actions)
+        main_view_file = open(MAIN_VIEW)
+        content = main_view_file.read()
+        main_view_file.close()
+        view.setContent('Welcome', content)
+        view.output()
     else:
         redirect()
 

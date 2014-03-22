@@ -69,7 +69,7 @@ def update_check():
     
 def update_check_for_app():
     command = 'update_check.py'
-    return execute(command)   
+    return execute(command)[0]   
     
 def update_check_quick():
     command = 'sudo pi-update -q'

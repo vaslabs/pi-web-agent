@@ -16,7 +16,7 @@ def getJSON():
 	json_text = json_document.read()
 	json_struct = json.loads(json_text)	
 	
-	return json_struct[-1]
+	return json_struct[0] #get latest release
 
 
 def readTagFromRemote(json_struct):
@@ -57,14 +57,22 @@ def compareVersions(versionA, versionB):
     return False 
     
         
-def check():
-    return compareVersions(readCurrentTag(), readTagFromRemote(getJSON()))
-    
-def main():
-    if check():
-        print 0
+def check(update_json=None):
+    if update_json == None:
+        return compareVersions(readCurrentTag(), readTagFromRemote(getJSON()))
     else:
-        print 1
+        return compareVersions(readCurrentTag(), readTagFromRemote(update_json))
+        
+def getReleaseLink():
 
+    repo_json = getJSON()
+    if check(repo_json):
+        return repo_json["zipball_url"]
+    else:
+        return ""
+        
+def main():
+    print getReleaseLink()
+    
 if __name__ == "__main__":
     main()
