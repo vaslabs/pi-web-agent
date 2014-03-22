@@ -1,0 +1,25 @@
+<div id="ip_overlay" style="display: none;">
+    <div>
+        <h2>Add Rules</h2>
+        <p>
+            </br>Choose action</br>
+        </p>
+        <form name="inputRule" id="addRuleID">
+            <select id="selectAction" class="form-control">
+                <option>ACCEPT</option>
+                <option>DROP</option>
+                <option>FLUSH</option>
+            </select>
+            <select id="selectProtocol" class="form-control">
+                <option>ALL</option>
+                <option>TCP</option>
+                <option>UDPLITE</option>
+                <option>ICMP</option>
+                <option>ESP</option>
+                <option>AH</option>
+                <option>SCTP</option>
+            </select>
+            <input type="submit" value="Submit" onclick="submitProtocolRule();">
+        </form>
+    </div>
+</div>
