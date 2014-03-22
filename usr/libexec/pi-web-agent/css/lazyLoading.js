@@ -33,13 +33,14 @@ function buildHtmlTable( myList, firstTime ) {
     var columns = addAllColumnHeaders(myList, firstTime);
     for (var i = 0 ; i < myList.length ; i++) {
         var row$ = $('<tr/>');
-        for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
-          var cellValue = myList[i][columns[colIndex]];
-
-          if (cellValue == null) { cellValue = ""; }
-
-          row$.append($('<td/>').html(cellValue));
-        }
+        var entry = myList[i];
+        row$.append($('<td/>').html(entry['Package Name']));
+        
+        row$.append($('<td/>').html(entry['Status']));
+        
+        row$.append($('<td/>').html(entry['Description']));
+        
+        row$.append($('<td/>').html(entry['Version']));
         $("#packages-table-id").append(row$);
     }
 }
@@ -54,12 +55,16 @@ function addAllColumnHeaders(myList, firstTime){
 
     for (var i = 0 ; i < myList.length ; i++) {
         var rowHash = myList[i];
-        for (var key in rowHash) {
-            if ($.inArray(key, columnSet) == -1){
-                columnSet.push(key);
-                headerTr$.append($('<th/>').html(key));
-            }
-        }
+        columnSet.push('Package Name');
+        headerTr$.append($('<th/>').html('Package Name'));
+        columnSet.push('Status');
+        headerTr$.append($('<th/>').html('Status'));
+        columnSet.push('Description');
+        headerTr$.append($('<th/>').html('Description'));
+        columnSet.push('Version');
+        headerTr$.append($('<th/>').html('Version'));
+        
+        
     }
     if(firstTime)
       $("#packages-table-id").append(headerTr$);
