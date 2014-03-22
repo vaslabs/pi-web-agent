@@ -88,24 +88,20 @@ this_install(){
 
     print_ok
     echo "Installing dependencies"
-    if [ -z $1 ]; then
-	apt-get install $DEPENDENCIES
-    fi
+    apt-get install $DEPENDENCIES
     print_ok
     echo "Post installation actions"
     chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
     print_ok
-    if [ -z $1 ]; then
-        echo "Installing wiringPi - examples excluded"
-        /bin/cp -av $wiringPI /$wiringPI
-        cd /$wiringPI
-        chmod +x ./build
-        ./build
-        echo "DONE"
-        cd -
-    fi
+    echo "Installing wiringPi - examples excluded"
+    /bin/cp -av $wiringPI /$wiringPI
+    cd /$wiringPI
+    chmod +x ./build
+    ./build
+    echo "DONE"
+    cd -
     cp $CRON_JOBS/* /$CRON_JOBS
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
@@ -219,13 +215,6 @@ case $1 in
         this_reinstall
         
         exit $?
-    ;;
-    update)
-        [ $(id -u) -eq 0 ] || {
-            echo "You need to be root to run the setup"
-            exit 1
-        }
-        this_reinstall update
     ;;
     version)
         echo "Version: $VERSION:"
