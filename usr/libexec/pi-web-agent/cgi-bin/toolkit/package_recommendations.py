@@ -17,9 +17,12 @@ import HTML
 cgitb.enable()
 from live_info import execute, getAptBusy
 from framework import output
+from HTMLPageGenerator import *
+import json
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
+STOP = {'STOP': 'There are no more packages to load'}
         
 def checkFlags(text):
     lines = text.split('\n')
@@ -29,44 +32,12 @@ def checkFlags(text):
     if flags.find('r') >= 0:
         return False
     return True
-def main():
-    '''
-    Application to manage all the most used packages using apt-get.
-    Unfinished.
-    '''
-    config=Configuration()
-    view = View(config.system.actions)
-    form = cgi.FieldStorage()
-    if (getAptBusy( )):
-      view.setContent('Package Management',\
-      '<script src="/css/reloadBasedOnStatus.js"></script>\
-      The package manager is busy right now. . . \
-      This page will automatically reload once the service is available')
-      output(view, form)
-      return 
     
-    htmlcode = ''
-
-    ins = open( PACKAGES_LIST_PATH, "r" )
-    packages = []
-    for line in ins:
-      line = line.rstrip() # strip the new line
-      packages.append( line )
-
-    allPackages = [[]]
-    
-    for pName in packages :
-        checkedText = createOnOffSwitch( pName )
-        descriptionText = getDpkgInfo( pName, "Description" )
-        versionText = getDpkgInfo( pName, "Version" )
-        allPackages.append( [ pName, checkedText, descriptionText, versionText ] )
-    
-    htmlcode += "\n<div id='packages-table'>"
-    htmlcode += HTML.table( allPackages, header_row=['Package Name', 'Status', 'Description', 'Version'] )
-    htmlcode += "\n</div>"
-
-    view.setContent('Package Management', htmlcode )
-    output(view, form)
+def isInt(s):
+  try:
+    int(s)
+  except exceptions.ValueError:
+    return -1
 
 def getDpkgInfo(pName, fieldName) :
     bashCommand = "apt-query " + pName + " " + fieldName
@@ -95,6 +66,67 @@ def createOnOffSwitch( pName ) :
     checkedText += '</div>\n'
     return checkedText
 
+
+def getTableRecord( index ) :
+    
+    if( isInt( index ) == -1 ) :
+      return ''
+    index = int( index )
+
+    ins = open( PACKAGES_LIST_PATH, "r" )
+    packages = []
+    counter = 0
+    for line in ins :
+      counter += 1
+      if( counter == index ) :
+        line = line.rstrip( ) # strip the new line
+        packages.append( line )
+      
+    if( len(packages) == 0 ) :
+      return None
+    
+    htmlcode = ''  
+    allPackages = []
+
+    for pName in packages :
+        checkedText = createOnOffSwitch( pName )
+        descriptionText = getDpkgInfo( pName, "Description" )
+        versionText = getDpkgInfo( pName, "Version" )
+        package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText}    
+
+        allPackages.append(package)
+
+    return allPackages
+
+def main():
+    '''
+    Application to manage the most used packages using apt-get.
+    Unfinished.
+    '''
+    config=Configuration()
+    view = View(config.system.actions)
+    form = cgi.FieldStorage()
+
+    if('index' in form and form['index'].value != -1 ) :
+      packages = getTableRecord( form['index'].value )
+      if packages != None :
+        composeJS( json.dumps(packages) )
+      else :
+        composeJS( json.dumps( STOP ) )
+    else :
+      if ( getAptBusy( ) ):
+        view.setContent('Package Management',\
+        '<script src="/css/reloadBasedOnStatus.js"></script>\
+        The package manager is busy right now. . . \
+        This page will automatically reload once the service is available')
+        view.output()
+      else :
+        htmlcode = "\n<div id='packages-table'><table id='packages-table-id'>"
+        htmlcode += "\n</table></div>"
+        view.setContent('Package Management',\
+        '<script src="/css/lazyLoading.js"></script>' + htmlcode )
+        view.output()  
+   
 if __name__ == '__main__':
     main()
     
