@@ -56,7 +56,7 @@ class UpdateManager(object):
             return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
                 '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
         
-        packages_table_string = "<table border=\"1\"/><tr>"
+        packages_table_string = "<table border=\"1\"><tr>"
         for package_entry in update_info.split("\n"):
             package_name=parse_package_name(package_entry)
             if package_name == None:
@@ -67,7 +67,7 @@ class UpdateManager(object):
             packages_table_string += "</tr><tr>"
                 
         packages_table_string = packages_table_string + "</tr></table>"
-        descr_text='<h4>'+str(len(update_info.split("\n")) - 1) + " updates are available!</h4>"
+        descr_text=str(len(update_info.split("\n")) - 1) + " updates are available!"
         return '<br><h5>' + descr_text + "</h5>" + packages_table_string + div + '<br>'
 
     def _update(self):
