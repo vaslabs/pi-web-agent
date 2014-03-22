@@ -13,6 +13,7 @@ import cgi
 import cgitb
 from subprocess import Popen, PIPE
 import HTML
+import add_iptable_rules
 cgitb.enable()
 
 def normalise_ipsource(source):
@@ -40,9 +41,8 @@ class IPTablesManager(object):
         list_chains, exit_code = execute("sudo iptables -n -L | grep 'Chain' | cut -d ' ' -f 2")
         lines = list_chains.split('\n')
         for line in lines[0:len(lines)-1]:
-            #print "WHAAAT: ", line
-            chain_body, exit_code = execute("sudo iptables -n -L " + line)
-            #print chain_body
+            #chain_body, exit_code = execute("sudo iptables -n -L " + line)
+            chain_body, exit_code = execute("sudo iptables -S " + line)
             self.chains[line]=Chain(chain_body)
         
     def __str__(self):
@@ -69,37 +69,34 @@ class Chain(object):
             return 1
         else:
             return 0
-
+    
     def _parseChain(self):
         line_no = 0
-        #print "BODY: ", self.body
         body_lines = self.body.split("\n")
         for line in body_lines[0:len(body_lines)-1]:
             if line_no==0:
-                #print "LINE: ", line
-                find_policy = re.split(" \(|\)\n| ", line)
-                #print "CHAIREPOLICY: ", find_policy
-                self.type=find_policy[1]
-                self.policy=find_policy[3]
-                line_no+=1
-            elif line_no==1:
+                new_action = line.split()
+                self.type = new_action[1]
+                self.policy = new_action[2]
                 line_no+=1
             else:
-                line_no+=1
-                split_rule=line.split()
-                #print "Print rules: ", split_rule
-                target=split_rule[0]
-                prot=split_rule[1]
-                opt=split_rule[2]
-                source=normalise_ipsource(split_rule[3])
-                dest=split_rule[4]
-                #print "No of rules: ", len(split_rule)
-                if len(split_rule)>5:
-                    otherinfo=split_rule[5:]
-                else:
-                    otherinfo="--"
+                split_rule = re.split(" -", line)
+                source="ALL"
+                dest="ALL"
+                for rule_params in split_rule:
+                    split_parameters = rule_params.split()
+                    if split_parameters[0] == 'p':
+                        prot=split_parameters[1]
+                    elif split_parameters[0] == 'j':
+                        target=split_parameters[1]
+                    elif split_parameters[0] == 's':
+                        source=normalise_ipsource(split_parameters[1])
+                    elif split_parameters[0] == 'd':                
+                        dest=split_parameters[1]
+                otherinfo="--"
+                opt="--"
                 rule={'target':target, 'protocol':prot, 'option':opt,\
-                        'source':source, 'destination':dest, 'otherinfo':otherinfo}
+                      'source':source, 'destination':dest, 'otherinfo':otherinfo}
                 self.rules.append(rule)
 
     def __str__(self):
@@ -115,7 +112,7 @@ class Chain(object):
 
 def main():
     '''
-Application to dipplay the iptables of raspberry to the user
+Application to display the iptables of raspberry to the user
 '''
 
     form = cgi.FieldStorage()
@@ -123,38 +120,17 @@ Application to dipplay the iptables of raspberry to the user
     sm=serviceManagerBuilder()
     config=Configuration()
     view = View(config.system.actions)
-
-    #this is only for modifying iptables
-    html_add_rule='<p></br>Choose action</br></p>'\
-                    +'<form name="inputRule" id="addRuleID">'\
-                    +'<select id="selectAction" class="form-control">'\
-                        +'<option>Accept</option>'\
-                        +'<option>Drop</option>'\
-                        +'<option>Flush</option>'\
-                    +'</select>'\
-                    +'<select id="selectProtocol" class="form-control">'\
-                        +'<option>ALL</option>'\
-                        +'<option>TCP</option>'\
-                        +'<option>UDPLITE</option>'\
-                        +'<option>ICMP</option>'\
-                        +'<option>ESP</option>'\
-                        +'<option>AH</option>'\
-                        +'<option>SCTP</option>'\
-                    +'</select>'\
-                    +'<input type="submit" value="Submit" onclick="submitProtocolRule">'\
-                    +'</form>'
             
-    
-    html_tables='<div id="ip_overlay" style="display: none;">' +\
-                '<div><h2>Add Rules</h2>'\
-                + html_add_rule +'</div></div>'
+    f = open('iptables_overlay_html', 'r')
+    html_tables= f.read()
+    f.close()
 
     chain_els=[[]]
     iptables=IPTablesManager()
     header_list=['protocol', 'target', 'otherinfo','destination', 'source', 'option']
     for chain in iptables.chains:
         html_tables+='<h4><a href="javascript:open_iptables_panel(\'' + chain + '\')">' + chain + '</a>'+' (Default Protocol: ' \
-                        + iptables.chains[chain].policy + '</h4>'
+                        + iptables.chains[chain].policy + ')</h4>'
         if iptables.chains[chain]._isRulesEmpty():
             chain_els.append(['--','--','--','--','--','--'])
         else:

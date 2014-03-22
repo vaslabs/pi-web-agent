@@ -251,5 +251,35 @@ function open_iptables_panel(chain_name) {
         load: true
 
     });
+    var rules_overlay = document.getElementById("ip_overlay");
+    rules_overlay.setAttribute("name", chain_name);
+}
+
+function submitProtocolRule(){
+    $("#addRuleID").submit(function(){
+        var chainElement = document.getElementById("ip_overlay");
+        var chain = chainElement.getAttribute("name");
+        var actionElement = document.getElementById("selectAction");
+        var action = actionElement.options[actionElement.selectedIndex].text;
+        var protocolElement = document.getElementById("selectProtocol");
+        var protocol = protocolElement.options[protocolElement.selectedIndex].text;
+        getIPTableValues( chain, action, protocol);
+    });
+}
+
+function getIPTableValues(chain, action, protocol) {
+    var remote;
+    var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol;
+    $.ajax({
+        type: "GET",
+        url: url,
+        async: false,
+        success : function(data) {
+            remote = data;
+        }
+    });
+    return remote;
+    
+    //return value;
 }
 </script>
