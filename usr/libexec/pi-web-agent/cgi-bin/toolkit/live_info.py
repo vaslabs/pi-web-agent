@@ -63,8 +63,9 @@ def hostname():
     return execute(command)[0]
     
 def update_check():
-    command = 'sudo pi-update -c'
-    return execute(command)
+    command = 'nohup pi-update -c 0<&- &>/dev/null &'
+    execute(command)
+    return 0
     
 def update_check_quick():
     command = 'sudo pi-update -q'
@@ -112,7 +113,7 @@ def manage_vnc(turn):
 def main():
     cmds = {'mem':getMemoryUsage, 'kernel':getKernelVersion,\
      'disk': getDiskUsage, 'swap':swapUsage, 'hostname':hostname,\
-     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy}
+     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy, 'check' : update_check}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
         response('Error')
