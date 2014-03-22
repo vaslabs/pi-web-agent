@@ -119,13 +119,13 @@ def main():
         '<script src="/css/reloadBasedOnStatus.js"></script>\
         The package manager is busy right now. . . \
         This page will automatically reload once the service is available')
-        view.output()
+        output(view, form)
       else :
         htmlcode = "\n<div id='packages-table'><table id='packages-table-id'>"
         htmlcode += "\n</table></div>"
         view.setContent('Package Management',\
         '<script src="/css/lazyLoading.js"></script>' + htmlcode )
-        view.output()  
+        output(view, form)  
    
 if __name__ == '__main__':
     main()
