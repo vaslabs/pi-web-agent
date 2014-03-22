@@ -79,7 +79,7 @@ class GenericAdapter(Adapter):
         for subpage in self.subpages:
             html+=subpage+'<hr>'
         self.view.setContent(self.title, html)
-        self.view.output()
+        self.view.js_output()
         
     def _subpage(self, elements, title=None):
         html=''

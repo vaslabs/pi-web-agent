@@ -9,3 +9,10 @@ from view import View
 
 config=Configuration()
 view = View(config.system.actions)
+
+def output(view, form):
+    if "type" in form and form["type"].value == "js":
+        view.js_output()
+    else:
+        view.output()
+

@@ -1,8 +1,24 @@
 #!/bin/bash
+
+var_dir="/var/log/pi-update"
+[ -d "$var_dir" ] || {
+    sudo mkdir "$var_dir";
+}
+
+upgr_status_file="${var_dir}/upgrade_exit_code"
+packages_file="${var_dir}/pi_packages_update"
+tmp_file=$(mktemp ${var_dir}/upd_code.XXXX)
+
 if [ $(id -u) -eq 0 ]; then
-    aptitude update
-    aptitude -y full-upgrade 
-    exit 0
+    #aptitude update      -> performed in pi-update
+    aptitude -y full-upgrade
+    pipe_status=$?
+    if [ "$pipe_status" = "0" ]; then
+        rm "$packages_file"
+    fi
+    echo $pipe_status > $tmp_file
+    mv $tmp_file $upgr_status_file
+    exit $pipe_status
 else
     exit 1
 fi

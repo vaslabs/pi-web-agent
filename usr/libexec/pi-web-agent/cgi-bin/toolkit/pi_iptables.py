@@ -15,6 +15,25 @@ from subprocess import Popen, PIPE
 import HTML
 import add_iptable_rules
 cgitb.enable()
+from framework import output
+
+def normalise_ipsource(source):
+    MAX_FIELDS=4
+    postfix='...'
+    ip_fields = source.split('.')
+    counter = 0
+    normalised_source = ""
+    for field in ip_fields:
+        if (counter >= 4):
+            break
+        if (counter > 0):
+            normalised_source+='.'
+        normalised_source+=field
+        counter+=1
+    if len(ip_fields) > counter:
+        normalised_source+=postfix
+    return normalised_source
+
 
 def normalise_ipsource(source):
     MAX_FIELDS=4
@@ -41,7 +60,6 @@ class IPTablesManager(object):
         list_chains, exit_code = execute("sudo iptables -n -L | grep 'Chain' | cut -d ' ' -f 2")
         lines = list_chains.split('\n')
         for line in lines[0:len(lines)-1]:
-            #chain_body, exit_code = execute("sudo iptables -n -L " + line)
             chain_body, exit_code = execute("sudo iptables -S " + line)
             self.chains[line]=Chain(chain_body)
         
@@ -141,7 +159,6 @@ Application to display the iptables of raspberry to the user
         html_tables+='</br>'
     
     view.setContent('IPTables', html_tables)
-    view.output()
-
+    output(view, form)
 if __name__ == '__main__':
     main()

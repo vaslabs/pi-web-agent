@@ -1,4 +1,6 @@
-import os
+import os, sys
+sys.path.append(os.environ['MY_HOME']+'/etc/config')
+from cern_vm import VERSION
 def initialiseCss():
     with open(os.environ['MY_HOME']+'/html/utilities/blueprint-css.html', 'r') as content_file:
         content = content_file.read()
@@ -13,8 +15,10 @@ def createList(items, span):
     return div
     
 def createMenuList(items, span):
-
-    div='<div class="span'+str(span)+'">\n'
+    if span == None:
+        div="<div>"
+    else:
+        div='<div class="span'+str(span)+'">\n'
     div+='<div class="well">'
     
     div+='<ul class="nav nav-list">'
@@ -46,7 +50,7 @@ def createNavListWithDropdown(items):
     item_name='Home'
     item_actionlink='/'
     div+='<li><a href="' + item_actionlink + '">' + item_name + '</a></li>\n'
-    item_counter=1;
+    item_counter=1
     MENU_LIMIT = 5
     for item in items:
         if item_counter < 5:
@@ -57,7 +61,7 @@ def createNavListWithDropdown(items):
     div+='<li class="dropdown">\n<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other<b class="caret"></b>\n</a>'
     div+='<ul class="dropdown-menu">\n'
     item_counter=1
-    for item in items[len(items)-MENU_LIMIT:len(items)]:
+    for item in items[len(items)-MENU_LIMIT :len(items)]:
         div+=str(item) + '\n'
         item_counter+=1
         
@@ -71,8 +75,12 @@ def createHeader(title, span, nav_bar):
     
     div='<header class="jumbotron subhead" id="overview">\n'
     div+='<div class="container">\n<div class="span24">'  
-    div+='<h1><a href="/cgi-bin/index.py"><img src="/icons/logo.png" width="90" height="90" align="left">'+title +\
-     '</a><a href="http://www.icons-land.com"><img src="/icons/agent_logo.png" width="90" height="90" align="right"></a></h1>\n'
+    div+='<h1><a href="/cgi-bin/index.py">'+\
+    '<img src="/icons/logo.png" width="90" height="90" align="left">'+\
+    title + '</a>'+\
+     '<a href="#">'+\
+     '<img src="/icons/agent_logo.png" width="90" height="90" align="right">' +\
+     '</a>' + '\n</h1>\n'
     div+='<p class="lead">Web-App Agent</p>\n'
     div+='</div>\n'
     
@@ -83,8 +91,12 @@ def createHeader(title, span, nav_bar):
     
     return div
     
-def createText(title, body, span):
-    div='<div class="span'+str(span)+'">\n'
+def createText(title, body, span=None):
+    if (span == None):
+        div=""
+    else:
+        div='<div class="span'+str(span)+'">\n'
+    
     div+='<h2>'+title+'</h2>\n'
     div+=body
     div+='\n</div>\n'    
@@ -115,7 +127,20 @@ def fieldset(action, method, name, widgets, legend=None):
         form+=legend
     form+= widgets.toHtml() + "\n</fieldset>\n</form>"
     return form
-
+def customFieldset(action, method, name, html, legend=None):
+    form = "<form"
+    if len(name) > 0:
+        form +=  " name=" + name    
+    if len(action) > 0:
+        form += " action=" + action
+    if len(method) > 0:
+        form +=  " method=" + method            
+    form += ">\n"
+    form+='<fieldset>\n'
+    if (legend != None):
+        form+=legend
+    form+= html + "\n</fieldset>\n</form>"
+    return form
 def fieldsetTextarea(action, method, name, textarea, widgets, legend=None):
     form = "<form"
     if len(name) > 0:

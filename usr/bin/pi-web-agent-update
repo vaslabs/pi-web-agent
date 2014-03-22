@@ -1,0 +1,64 @@
+#!/bin/bash
+VERSION=0.1-BETA
+
+do_update() {
+    if [ $(id -u) -ne 0 ]; then
+        echo 'Error: Root is required for this script'
+        exit 1
+    fi
+
+    zip_url=$(update_check.py || exit 0)
+    
+    working_dir=$(mktemp -d)
+    cd $working_dir
+    
+    wget $zip_url -O pi-web-agent.zip
+    
+    unzip pi-web-agent
+    rm *.zip
+    cd *pi-web-agent-*
+    sudo ./install.sh
+    
+    rm -rf $working_dir
+    
+    exit 0
+}
+
+print_help() {
+    echo -e "Usage:";
+    echo -e "\t -a|--apply-updates\tPerform pi-web-agent update\t\t100"
+    echo -e "\t -c|--check-updates\tCheck for available pi-web-agent updates\t110"
+    echo -e "\t -v|--version\t\tDisplay version of this script"
+    echo -e "\t -h|--help\t\tPrint this message"
+    exit 1;
+}
+
+update_check() {
+    update_check.py || exit 1
+    exit 0
+}
+
+if [ $# -gt 0 ]; then
+    case "$1" in
+    -h|--help)
+        print_help
+    ;;
+    
+    -a|--apply-updates)
+        do_update
+    ;;
+    -c|--check-updates)
+        update_check    
+    ;;
+    -v|--version)
+        echo $VERSION
+    ;;
+    *)
+        echo "ERROR (pi-update): Invalid parameter provided. Use -h to check usage."
+        exit 1
+        ;;
+    esac
+else
+    echo "ERROR (pi-update): Parameter NOT provided. Use -h to check usage."
+    exit 250;
+fi    

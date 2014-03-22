@@ -12,6 +12,8 @@ from HTMLPageGenerator import *
 from BlueprintDesigner import *
 from view import *
 from cern_vm import Configuration
+from framework import output
+
 POWEROFF="poweroff"
 RESTART="restart"
 class PowerManager(object):
@@ -56,13 +58,14 @@ def main():
     if "action_list" in fs:
         
         if pm.execute_command(fs["action_list"].value):
-            content="System will " + fs["action_list"].value + '\n' + str(pm.message)
+            content="System will " + fs["action_list"].value
         else:
             content=getView()
     else:
         content=getView()
     view.setContent('Power management', content)
-    view.output()
+    
+    output(view, fs)
     
 if __name__ == '__main__':    
     main()

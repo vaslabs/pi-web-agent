@@ -10,7 +10,7 @@ from Adapter import GenericAdapter
 import cgi
 import cgitb
 cgitb.enable()
-from framework import config, view
+from framework import config, view, output
 def main():
     '''
     gets the ID from the url as key/value=page/action_id
@@ -25,7 +25,7 @@ def main():
         action=config.system.actions[ID]
     except KeyError as ke:
         view.setContent('Page not found', 'The requested page was not found. Did you type the url manually?')
-        view.output()
+        output(view, fs)
         return
     adapter=GenericAdapter(ID, view, action.command_groups)
     adapter.page()

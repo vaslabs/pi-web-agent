@@ -16,10 +16,10 @@ from live_info import execute
 
 
 def installPackage(pName):
-    return execute( "sudo apt-get install --assume-yes " + pName )
+    return execute( "sudo pi-package-management --install " + pName )
 
 def uninstallPackage(pName):
-    return execute( "sudo apt-get remove --assume-yes " + pName )
+    return execute( "sudo pi-package-management --remove " + pName )
 
 def main():
     form = cgi.FieldStorage()

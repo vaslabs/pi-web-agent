@@ -10,7 +10,7 @@ class MenuItem(object):
     '''
     def __init__(self, name, link):
         self.name=name
-        self.actionlink=link
+        self.actionlink='javascript:navigate(\'' + link + '\')'
     
     def __str__(self):
         '''

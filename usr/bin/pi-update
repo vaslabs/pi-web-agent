@@ -1,24 +1,27 @@
 #!/bin/bash
 VERSION="0.1"
-var_dir="/var/log/pi_update"
+var_dir="/var/log/pi-update"
 [ -d "$var_dir" ] || {
     sudo mkdir "$var_dir";
 }
 
-verbose_log="${var_dir}/update_verbose.log"
-output_log="${var_dir}/update.log"
+#verbose_log="${var_dir}/update_verbose.log"
+#output_log="${var_dir}/update.log"
 packages_file="${var_dir}/pi_packages_update"
+upgr_status_file="${var_dir}/upgrade_exit_code"
 
 NO_ACTION=0
 UPDATE_READY=101
 NEW_UPDATE=110
 REBOOT_REQUIRED=120
 UPDATE_PENDING=100
+DPKG_CONFIG_NEEDED=200
+PROCESS_RUNNING=201
 check_restart() {
     if [ -e /var/run/reboot-required ]; then
         return $REBOOT_REQUIRED;
     else
-        return $NO_ACTION;   
+        return $NO_ACTION;
     fi
 }
 
@@ -31,6 +34,8 @@ quick_check() {
 }
 
 update_check() {
+    test_dpkg
+    aptitude update >/dev/null
     aptitude search '~U' > $packages_file
     if [ $(cat $packages_file | wc -l) -eq 0 ]; then
         rm $packages_file
@@ -43,7 +48,22 @@ update_check() {
 }
 
 do_update() {
+    test_dpkg
     nohup pi-upgrade 0<&- &>/dev/null &
+}
+
+test_dpkg() {
+    other_process=$(pgrep 'dpkg\|aptitude')
+    if [ "${other_process}X" != "X" ]; then
+        exit $PROCESS_RUNNING
+    elif [ -e $upgr_status_file ]; then
+        last_upgrade_exit_code=$(cat $upgr_status_file)
+        if [ $last_upgrade_exit_code -ne 0 ]; then
+	        nohup pi-fix 0<&- &>/dev/null &
+	        rm $upgr_status_file
+	        exit $DPKG_CONFIG_NEEDED
+        fi
+    fi
 }
 
 print_help() {

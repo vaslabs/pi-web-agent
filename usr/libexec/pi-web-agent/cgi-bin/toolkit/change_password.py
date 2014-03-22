@@ -10,22 +10,24 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from PasswordManager import *
 from cern_vm import Configuration
 from view import View
+from framework import output
+
 def main():
     form = cgi.FieldStorage()
     config=Configuration()
     view = View(config.system.actions)
     if "passwd" not in form and "passwd_new1" not in form and "passwd_new2" not in form:
         view.setContent('User management', getView())
-        view.output()
     else:
         pm = PasswordManager(form, 'admin')
         try:
             pm.doTransaction()
             view.setContent("User management", getSuccessView())
-            view.output()
+            
         except Exception as e:
             view.setContent("User management", getFailedView(e.strerror))
-            view.output()
-            
+
+    output(view, form)
+        
 if __name__ == '__main__':
     main()

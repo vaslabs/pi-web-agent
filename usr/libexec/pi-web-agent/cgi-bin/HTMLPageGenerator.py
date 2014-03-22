@@ -89,6 +89,8 @@ def composeDocument(references, body):
     print "Content-type: text/html"
     print "Cache-Control: no-store"
     print
+    print '<!DOCTYPE html>'
+
     print "<html>"
     print references
     print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
@@ -96,9 +98,16 @@ def composeDocument(references, body):
     print "</body>"
     print "</html>"
 
+def composeJS(body):
+    print "Content-type: application/json"
+    print
+    print body
+
 def clearDocument():
     print "Content-type: text/html"
     print
+    print '<!DOCTYPE html>'
+
     print "<html>"
     print "</html>"
     
