@@ -16,7 +16,7 @@ def getJSON():
 	json_text = json_document.read()
 	json_struct = json.loads(json_text)	
 	
-	return json_struct[0]
+	return json_struct[-1]
 
 
 def readTagFromRemote(json_struct):
@@ -28,6 +28,43 @@ def readCurrentTag():
 	return VERSION
 
 
+def getParts(version):
+    versionParts = version.split('.')
+    major = versionParts[0]
+    minor = versionParts[1]
+    releaseCandidate = 0
+    if '-' in minor:
+        minor = minor.split('-')[0]
+        releaseCandidate = version.split('-rc-')[1]
+    
+    return [major, minor, releaseCandidate]
+    
+    
 
+def compareVersions(versionA, versionB):
+    '''
+    returns true if versionB is newer than A
+    '''
+    version_A_parts = getParts(versionA)
+    version_B_parts = getParts(versionB)
+    
+    for i in range(0, 3):
+        if version_B_parts[i] > version_A_parts[i]:
+            return True
+        elif version_B_parts[i] < version_A_parts[i]:
+            return False
+            
+    return False 
+    
+        
+def check():
+    return compareVersions(readCurrentTag(), readTagFromRemote(getJSON()))
+    
+def main():
+    if check():
+        print 0
+    else:
+        print 1
 
-
+if __name__ == "__main__":
+    main()
