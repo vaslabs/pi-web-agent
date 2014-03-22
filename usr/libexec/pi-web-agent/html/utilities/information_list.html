@@ -50,7 +50,7 @@ $(document).ready(function(){
 });
 
 function getMemoryInfo(usage) {
-    //stab TODO
+     //stab TODO
      //var usage =   Math.floor((Math.random()*100));
      var msg = "Mem usage: " + usage + "%";
      html = generateCriticalMessage(usage, msg);  
@@ -58,6 +58,14 @@ function getMemoryInfo(usage) {
     
     
     setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=mem', getMemoryInfo)}, 5000 + Math.round(Math.random()*5000));        
+}
+
+function check_started(response) {
+    location.reload(false);
+}
+    
+function check_update() {
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=check', check_started)
 }
 
 function getTempInfo(temp) {

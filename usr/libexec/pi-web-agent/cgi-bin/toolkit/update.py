@@ -51,7 +51,8 @@ class UpdateManager(object):
         elif returncode == REBOOT_REQUIRED:
             return '<br>Reboot is required to apply previous updates.'
         elif returncode == UPDATE_READY or returncode == NO_ACTION:
-            return '<br><h4>System is up to date!</h4>'
+            return '<br><h4>System is up to date!</h4>\
+                <button type="button" onClick="check_update()" class="btn btn-success">Check</button>'
         elif returncode != NEW_UPDATE:
             return '<br><h4>Warning: Last update was interrupted!</h4>\n'+\
                 '<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>'
