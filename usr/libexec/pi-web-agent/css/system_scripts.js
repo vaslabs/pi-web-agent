@@ -17,17 +17,20 @@ function check_for_updates() {
 
 function update_app() {
     $(".span16").prepend(animationBar());
+    $("#update_button").remove()    
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response)
     
-    update_response = getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', null)
     
-    if (update_response == "0")
+
+}
+
+function update_response(response) {
+    if (response == "0")
         check_for_updates();
     else
         $("#updates").append('Update failed. Please try again later');
     $("#b-pb").remove()
-
 }
-
 function update_check_completed(info) {
     
     if (info == "") {
