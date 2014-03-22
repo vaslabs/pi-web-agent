@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import cgitb
+import cgi, cgitb
 import os
 cgitb.enable()
 import sys
