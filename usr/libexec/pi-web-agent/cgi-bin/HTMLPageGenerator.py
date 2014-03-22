@@ -99,11 +99,11 @@ def composeDocument(references, body):
     print "</html>"
 
 def composeJS(body):
-    print "Content-type: text/html"
+    print "Content-type: application/json"
     print
-    print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
+    #print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
     print body
-    print "</body>"
+    #print "</body>"
 
 def clearDocument():
     print "Content-type: text/html"
