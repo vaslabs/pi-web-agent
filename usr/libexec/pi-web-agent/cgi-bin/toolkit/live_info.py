@@ -63,7 +63,7 @@ def hostname():
     return execute(command)[0]
     
 def update_check():
-    command = 'nohup pi-update -c 0<&- &>/dev/null &'
+    command = 'sudo system_update_check.sh 0<&- &>/dev/null &'
     execute(command)
     return 0
     

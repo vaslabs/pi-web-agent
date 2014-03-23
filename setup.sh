@@ -31,6 +31,8 @@ htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
 UPDATE_APP_BIN=usr/bin/pi-web-agent-update
 UPDATE_CHECK_PY=usr/bin/update_check.py
 
+SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
+
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -52,13 +54,14 @@ this_install(){
     /bin/cp -v "$PI_APT" "/$PI_APT"
     /bin/cp -v "$UPDATE_APP_BIN" "/$UPDATE_APP_BIN"
     /bin/cp -v "$UPDATE_CHECK_PY" "/$UPDATE_CHECK_PY"
-    
+    /bin/cp -v "$SYSTEM_UPDATE_CHECK" "/$SYSTEM_UPDATE_CHECK"
     chmod +x "/$EXECUTE_BIN"
     chmod +x "/$ANDROID_SERVICE"
     chmod +x "/$SERVICE_PATH"
     chmod +x "/$UPDATE_APP_BIN"
     chmod +x "/$UPDATE_CHECK_PY"
-    
+    chmod +x "/$SYSTEM_UPDATE_CHECK"
+
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
     ln -s "/usr/lib/apache2/modules" "/$ETC_PATH/modules"
@@ -136,7 +139,7 @@ this_uninstall() {
     
     /bin/rm "/$UPDATE_CHECK_PY"
     /bin/rm "/$UPDATE_APP_BIN"
-    
+    /bin/rm "/$SYSTEM_UPDATE_CHECK"
     /etc/init.d/vncboot stop
     rm /etc/init.d/vncboot
 
