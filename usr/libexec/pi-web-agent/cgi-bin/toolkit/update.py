@@ -92,7 +92,7 @@ def main():
       '<script src="/css/reloadBasedOnStatus.js"></script>\
       The Update Manager is busy right now. . . \
       This page will automatically reload once the service is available')
-      view.output()
+      output(view, form)
       return 
     updMgr = UpdateManager()
 
