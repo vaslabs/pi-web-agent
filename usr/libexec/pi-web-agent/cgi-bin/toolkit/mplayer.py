@@ -19,9 +19,9 @@ from framework import output
 
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-def getView():
+def getView(err):
     uri = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
-											attribs='placeholder="http ... or rtsp ..."')
+											attribs='placeholder="http ... or rtsp ..."')									
     slider='''
     		<link rel="stylesheet" href="/css/jquery-ui.css">
 		<script src="/css/jquery-ui.js"></script>
@@ -47,10 +47,13 @@ def getView():
         </script>'''
 	 
 
-
+    if err :
+    	alert ='<div class="error">'+err+'</div>' ;  
+    else:
+    	alert="";
     iw_submit=InputWidget('submit', '', 'Start Stream', '',
     																  wClass='btn btn-primary')
-    return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',uri.toHtml()+slider+iw_submit.toHtml(),
+    return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',alert+uri.toHtml()+slider+iw_submit.toHtml(),
     														 createLegend("Start Streaming"))
     														 
 class MPlayer(object):
@@ -201,7 +204,9 @@ def main():
         settingsReader.read()
         view.setContent('Mplayer', getRunningView(settingsReader.getVolume(), settingsReader.getEQ().split(':')))
     elif "uri" not in form and "volume" not in form:
-        view.setContent('Radio', getView())
+        view.setContent('Radio', getView(None))
+    elif "uri" not in form :
+        view.setContent('Radio', getView("Please provide a uri"))
     else:
         player = MPlayer(form)
         player.startStream();
