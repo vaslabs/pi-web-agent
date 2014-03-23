@@ -95,12 +95,19 @@ class Chain(object):
             if line_no==0:
                 new_action = line.split()
                 self.type = new_action[1]
-                self.policy = new_action[2]
+                try:
+                    self.policy = new_action[2]
+                except:
+                    self.policy = "--"
                 line_no+=1
             else:
                 split_rule = re.split(" -", line)
                 source="ALL"
                 dest="ALL"
+                otherinfo="--"
+                opt="--"
+                prot="--"
+                target="--"
                 for rule_params in split_rule:
                     split_parameters = rule_params.split()
                     if split_parameters[0] == 'p':
@@ -111,8 +118,7 @@ class Chain(object):
                         source=normalise_ipsource(split_parameters[1])
                     elif split_parameters[0] == 'd':                
                         dest=split_parameters[1]
-                otherinfo="--"
-                opt="--"
+                
                 rule={'target':target, 'protocol':prot, 'option':opt,\
                       'source':source, 'destination':dest, 'otherinfo':otherinfo}
                 self.rules.append(rule)
