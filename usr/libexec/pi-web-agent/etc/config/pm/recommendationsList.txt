@@ -3,9 +3,9 @@ fail2ban
 fortune-mod
 gcc
 gedit
-git-core
+git
 mplayer
-mysql-client-core-5.1
+mysql-client
 openjdk-7-jdk
 openjdk-7-jre
 openvpn
