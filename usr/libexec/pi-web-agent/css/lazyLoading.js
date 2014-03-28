@@ -1,11 +1,19 @@
 var index = 1;
-getPackageResponse( '/cgi-bin/toolkit/package_recommendations.py?index=' + index, loadPackage, index, true );
-              
+loadedPacks = [];
+
+var Table = document.getElementById("packages-table-id");
+if (Table != null)
+	Table.innerHTML=""
+
+getPackageResponse( '/cgi-bin/toolkit/package_recommendations.py?index=' + index, loadPackage, index, true );              
+
 function loadPackage( response, index, firstTime ){
   if(!response.hasOwnProperty('STOP')){
     buildHtmlTable( response, firstTime );
+    loadedPacks[index] = 1;
     index++;
-    getPackageResponse( '/cgi-bin/toolkit/package_recommendations.py?index=' + index, loadPackage, index, false );
+    if (typeof loadedPacks[index] == 'undefined')
+    	getPackageResponse( '/cgi-bin/toolkit/package_recommendations.py?index=' + index, loadPackage, index, false );
   }
 }
 
@@ -42,6 +50,7 @@ function buildHtmlTable( myList, firstTime ) {
         
         row$.append($('<td/>').html(entry['Version']));
         $("#packages-table-id").append(row$);
+        
     }
 }
 
@@ -67,7 +76,7 @@ function addAllColumnHeaders(myList, firstTime){
         
     }
     if(firstTime)
-      $("#packages-table-id").append(headerTr$);
+      $("#packages-table-id").prepend(headerTr$);
 
     return columnSet;
 }   
