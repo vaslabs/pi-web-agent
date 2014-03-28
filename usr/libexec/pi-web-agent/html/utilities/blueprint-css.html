@@ -24,7 +24,6 @@ function submit_package(element) {
     var info=getPackageResponse(url);
     if (info != 0) {
         element.checked = !element.checked;
-        alert("Installation failed, please try again. Exit code was: " + info);
         return;
     }
     $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
