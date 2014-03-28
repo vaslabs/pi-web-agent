@@ -21,11 +21,8 @@ function submit_package(element) {
        param2='uninstall';
     }
     url+= param2;   
-    var info=getPackageResponse(url);
-    if (info != 0) {
-        element.checked = !element.checked;
-        return;
-    }
+    var info=getResponse(url);
+
     $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
     reloadInXSecs( 3000 );
 }
