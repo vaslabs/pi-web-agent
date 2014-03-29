@@ -1,10 +1,16 @@
 #!/usr/bin/python
+
 import os
 import sys
 import subprocess
 import cgi
 import cgitb
 import xml.etree.ElementTree as ET
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
+sys.path.append(os.environ['MY_HOME']+'/objects')
+
 from services import *
 cgitb.enable()
 NO_ACTION=0
@@ -15,10 +21,6 @@ UPDATE_PENDING=100
 DPKG_CONFIG_NEEDED=200
 PROCESS_RUNNING=201
 
-if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
-sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-sys.path.append(os.environ['MY_HOME']+'/objects')
 from HTMLPageGenerator import *
 
 def execute(command):

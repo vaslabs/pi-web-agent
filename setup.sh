@@ -99,8 +99,7 @@ this_install(){
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
     print_ok
     echo "Installing wiringPi - examples excluded"
-    /bin/cp -av $wiringPI /$wiringPI
-    cd /$wiringPI
+    cd $wiringPI
     chmod +x ./build
     ./build
     echo "DONE"
@@ -146,7 +145,7 @@ this_uninstall() {
     print_ok
     echo "Deleting user account of appliance..."
     rm /$SUDOERS_D
-    rm -r /$wiringPI
+    rm -r /$wiringPI || echo "wiringPi OK"
     rm -r /etc/pi-web-agent
     userdel -f pi-web-agent
     print_ok "DONE"

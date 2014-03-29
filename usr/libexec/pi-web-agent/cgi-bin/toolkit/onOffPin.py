@@ -11,7 +11,7 @@ import cgitb
 cgitb.enable()
 from live_info import execute
 
-gpio="/usr/share/wiringPi/gpio/gpio"
+gpio="/usr/local/bin/gpio"
 
 def set_pin_value(pin_no, value):
     command="sudo " + gpio + " write " + str(pin_no) + " " + value
