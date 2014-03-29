@@ -6,7 +6,7 @@ cgitb.enable()
 import sys
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
-sys.path.append(os.environ['MY_HOME']+'/scripts')
+sys.path.append(os.environ['MY_HOME']+'/objects')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
