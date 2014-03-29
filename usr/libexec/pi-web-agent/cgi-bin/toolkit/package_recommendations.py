@@ -14,7 +14,6 @@ from cern_vm import Configuration
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
-import HTML
 cgitb.enable()
 from live_info import execute, getAptBusy
 from framework import output
