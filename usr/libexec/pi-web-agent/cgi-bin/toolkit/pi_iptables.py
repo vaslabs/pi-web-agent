@@ -5,6 +5,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
+sys.path.append(os.environ['MY_HOME']+'/objects')
 from live_info import execute
 from services import *
 from view import *
