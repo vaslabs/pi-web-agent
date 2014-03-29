@@ -18,6 +18,7 @@ PROCESS_RUNNING=201
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
+sys.path.append(os.environ['MY_HOME']+'/objects')
 from HTMLPageGenerator import *
 
 def execute(command):

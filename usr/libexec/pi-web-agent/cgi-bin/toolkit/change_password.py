@@ -4,7 +4,7 @@ import cgitb
 import os
 cgitb.enable()
 import sys
-sys.path.append(os.environ['MY_HOME']+'/scripts')
+sys.path.append(os.environ['MY_HOME']+'/objects')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from PasswordManager import *

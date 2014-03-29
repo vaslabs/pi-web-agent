@@ -2,11 +2,13 @@
 import sys
 import os
 if 'MY_HOME' not in os.environ:
-    os.environ['MY_HOME']='/usr/libexec/cernvm-appliance-agent'
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+
+sys.path.append(os.environ['MY_HOME'] + '/objects')
 from services import *
 from view import *
 from cern_vm import Configuration
