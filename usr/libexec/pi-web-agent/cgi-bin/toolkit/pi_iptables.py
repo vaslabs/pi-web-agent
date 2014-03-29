@@ -146,7 +146,7 @@ Application to display the iptables of raspberry to the user
     config=Configuration()
     view = View(config.system.actions)
             
-    f = open(os.path.join('/home/rpi/gitrepo/pi-web-agent/usr/libexec/pi-web-agent/html/', 'iptables_overlay_html'), 'r')
+    f = open(os.environ['MY_HOME'] + '/html/iptables_overlay_html', 'r')
     html_tables= f.read()
     f.close()
 
