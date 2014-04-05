@@ -43,3 +43,14 @@ function update_check_completed(info) {
 
 }
 
+function start_live_streaming() {
+    getResponse('/cgi-bin/toolkit/camera.py?cmd=start', sls)
+}
+
+function sls(info) {
+    return;
+}
+
+function stop_live_streaming() {
+    getResponse('/cgi-bin/toolkit/camera.py?cmd=stop', sls)
+}
