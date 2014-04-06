@@ -3,7 +3,7 @@ import sys
 import os
 import cgi
 import cgitb
-
+import subprocess
 cgitb.enable()
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
@@ -45,8 +45,9 @@ def main():
         command = form['cmd'].value
         if command == 'start':
             response("0")
-            execute('start-stream-cam.sh &')
-            sys.exit(0)
+            p = subprocess.Popen(['/bin/bash', '/usr/bin/start-stream-cam.sh'], 
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT)
         elif command == 'stop':
             try:
                 execute('sudo kill $(pidof raspivid)')
