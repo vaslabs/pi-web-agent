@@ -164,7 +164,7 @@ function updateStatuses(statuses) {
     getMemoryInfo(statuses['mem']);
     getHardDiskInfo(statuses['disk']);
     getSwapInfo(statuses['swap']);
-    setTimeout(getStatuses, 5000);
+    setTimeout(getStatuses, 8000);
 }
 
 function submit_function(element) {
