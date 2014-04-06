@@ -139,9 +139,7 @@ def all_status():
     sys.exit(0)
 
 def main():
-    cmds = {'mem':getMemoryUsage, 'kernel':getKernelVersion,\
-     'disk': getDiskUsage, 'swap':swapUsage, 'hostname':hostname,\
-     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy, 'check' : update_check,\
+    cmds = {'update':update_check_js, 'edit_service':turn_service, 'apt': getAptBusy, 'check' : update_check,\
       'check_app': update_check_for_app, 'update_app' : application_update, 'all_status':all_status}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
