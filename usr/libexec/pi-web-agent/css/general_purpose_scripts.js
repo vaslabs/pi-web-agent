@@ -61,7 +61,7 @@ function getHardDiskInfo(usage) {
 
 function getUpdateCheck(info) {
     var html = ''
-    if (info == 'True')
+    if (info == true)
     {
         html = generateCriticalMessage(86, "Updates available");
     }
