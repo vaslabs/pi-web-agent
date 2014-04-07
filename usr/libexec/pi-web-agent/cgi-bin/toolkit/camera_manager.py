@@ -31,13 +31,13 @@ def main():
     html += '<a id="startRecord" class="btn btn-primary" onclick=\'camera_utils("startrecord")\'>Record</a>'
     html += '<a id="stopRecord" class="btn btn-primary" onclick=\'camera_utils("stoprecord")\'>Stop</a>'
     html += '</div><br>'
-    html += '<div id="gallery_thumbnails"><p>'
+    html += '''<div id="gallery_thumbnails"<p>'''
     
     for thisline in linearray:
         justname = thisline.split('/')[-1]
         if len(justname) <= 0:
             continue
-        html += '<a href="/cgi-bin/toolkit/image_manager.py?image='+justname +'" rel="thumbnail"><img src="/cgi-bin/toolkit/image_manager.py?image='+justname.split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>'
+        html += '<a href="/cgi-bin/toolkit/image_manager.py?image='+justname +'" rel="thumbnail"><img style="padding:4px; border:2px solid #021a40;" src="/cgi-bin/toolkit/image_manager.py?image='+justname.split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>'
     html += '</p></div><br>'
 
     view.setContent('Live camera', html)
