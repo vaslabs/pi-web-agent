@@ -119,6 +119,9 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
+    
+    mkdir /usr/share/pi-web-agent/camera-media
+    chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
 }
 
 
