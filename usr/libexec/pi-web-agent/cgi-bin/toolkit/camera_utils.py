@@ -15,11 +15,23 @@ import cgitb
 from cernvm import Response
 from live_info import execute
 from HTMLPageGenerator import *
+import time
+import pygame
 
-MY_PICS="/usr/share/pi-web-agent/my_pics"
+MY_PICS="/usr/share/pi-web-agent/camera-media/"
 
 def takeSnapshot( ):
-    return execute( "sudo raspistill -t 2000 -o " + MY_PICS + "/image1.jpg" )
+    image_path = MY_PICS + str(int(time.time()*1000)) + '.jpg'
+    a,b = execute( "sudo raspistill -w 640 -h 480 -t 2000 -o " + image_path  )
+    execute("sudo chown -R pi-web-agent:pi-web-agent " + MY_PICS)
+    thumbnail(image_path)
+    return a, b
+    
+def thumbnail(image):
+    size = (64, 64)
+    img = pygame.image.load(image)
+    thumbnail = pygame.transform.scale(img, size)
+    pygame.image.save(thumbnail, image.split('.')[0] + ".png")
 
 def getCameraStatus( ):
     return execute( "sudo vcgencmd get_camera" )

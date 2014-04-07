@@ -8,38 +8,36 @@ sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/objects')
 sys.path.append(os.environ['MY_HOME'] + '/scripts')
+sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+
 
 from live_info import execute
-from services import *
-from view import *
-from cern_vm import Configuration
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
 cgitb.enable()
-from framework import output
+from framework import output, view, config
 
 def main():
 
     form = cgi.FieldStorage()
-    sm=serviceManagerBuilder()
-    config=Configuration()
-    view = View(config.system.actions)
     
-    pictures, returncode = execute(os.environ['MY_HOME'] + "/scripts/get_pictures.sh /usr/libexec/pi-web-agent/cgi-bin/toolkit")
+    pictures, returncode = execute("ls /usr/share/pi-web-agent/camera-media/*.jpg")
     linearray = pictures.split('\n')
     
-    html = '<div id="camera_toolbar">'
-    html += '<a id="makePreview" class="btn btn-primary" onclick="camera_utils("play")">Play</a>'
-    html += '<a id="takeSnapshot" class="btn btn-primary" onclick="camera_utils("snapshot")">Snapshot</a>'
-    html += '<a id="startRecord" class="btn btn-primary" onclick="camera_utils("startrecord")">Record</a>'
-    html += '<a id="stopRecord" class="btn btn-primary" onclick="camera_utils("stoprecord")">Stop</a>'
+    html = '<div id="camera_toolbar">\n'
+    html += '<a id="makePreview" class="btn btn-primary" onclick=\'camera_utils("play")\'>Play</a>'
+    html += '<a id="takeSnapshot" class="btn btn-primary" onclick=\'camera_utils("snapshot")\'>Snapshot</a>'
+    html += '<a id="startRecord" class="btn btn-primary" onclick=\'camera_utils("startrecord")\'>Record</a>'
+    html += '<a id="stopRecord" class="btn btn-primary" onclick=\'camera_utils("stoprecord")\'>Stop</a>'
     html += '</div><br>'
     html += '<div id="gallery_thumbnails"><p>'
     
     for thisline in linearray:
-        justname = thisline.split('/')
-        html += '<a href="'+thisline +'" rel="thumbnail"><img src="'+thisline+'" style="width: 50px; height: 50px" /></a>'
+        justname = thisline.split('/')[-1]
+        if len(justname) <= 0:
+            continue
+        html += '<a href="/cgi-bin/toolkit/image_manager.py?image='+justname +'" rel="thumbnail"><img src="/cgi-bin/toolkit/image_manager.py?image='+justname.split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>'
     html += '</p></div><br>'
 
     view.setContent('Live camera', html)
