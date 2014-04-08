@@ -25,12 +25,15 @@ def main():
     pictures, returncode = execute("ls /usr/share/pi-web-agent/camera-media/*.jpg")
     linearray = pictures.split('\n')
     
-    html = '<div id="camera_toolbar">\n'
-    html += '<a id="makePreview" class="btn btn-primary" onclick=\'camera_utils("play")\'>Play</a>'
-    html += '<a id="takeSnapshot" class="btn btn-primary" onclick=\'camera_utils("snapshot")\'>Snapshot</a>'
-    html += '<a id="startRecord" class="btn btn-primary" onclick=\'camera_utils("startrecord")\'>Record</a>'
-    html += '<a id="stopRecord" class="btn btn-primary" onclick=\'camera_utils("stoprecord")\'>Stop</a>'
-    html += '</div><br>'
+    html = '''<div id="camera_toolbar">\n'
+                  <div class="btn-group btn-group-justified">
+                      <a href='javascript:navigate("/cgi-bin/toolkit/camera.py?type=js")' class="btn btn-default">Live stream</a>
+                      <a href='javascript:camera_utils("snapshot")' class="btn btn-default">Snapshot</a>
+                      <a href='javascript:camera_utils("startrecord")' class="btn btn-default">Record</a>
+                      <a href='javascript:camera_utils("stoprecord")' class="btn btn-default">Stop</a>
+      
+                 </div></div><br>
+          '''
     html += '''<div id="gallery_thumbnails"<p>'''
     
     for thisline in linearray:
@@ -40,7 +43,7 @@ def main():
         html += '<a href="/cgi-bin/toolkit/image_manager.py?image='+justname +'" rel="thumbnail"><img style="padding:4px; border:2px solid #021a40;" src="/cgi-bin/toolkit/image_manager.py?image='+justname.split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>'
     html += '</p></div><br>'
 
-    view.setContent('Live camera', html)
+    view.setContent('Pi Camera Controller', html)
     output(view, cgi.FieldStorage())
     
 if __name__ == '__main__':
