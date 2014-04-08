@@ -62,6 +62,12 @@
             <version>Beta</version>
         </action>
         
+        <action>
+            <title>File Manager</title>
+            <id>File Manager</id>
+            <url>/cgi-bin/toolkit/file_manager_ui.py?type=js</url>
+            <version>Alpha</version>
+        </action>
         
     </system>    
         
