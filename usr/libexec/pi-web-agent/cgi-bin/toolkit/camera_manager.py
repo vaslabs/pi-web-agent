@@ -25,7 +25,7 @@ def main():
     pictures, returncode = execute("ls /usr/share/pi-web-agent/camera-media/*.jpg")
     linearray = pictures.split('\n')
     
-    html = '''<div id="camera_toolbar">\n'
+    html = '''<div id="camera_toolbar">
                   <div class="btn-group btn-group-justified">
                       <a href='javascript:navigate("/cgi-bin/toolkit/camera.py?type=js")' class="btn btn-default">Live stream</a>
                       <a href='javascript:camera_utils("snapshot")' class="btn btn-default">Snapshot</a>
