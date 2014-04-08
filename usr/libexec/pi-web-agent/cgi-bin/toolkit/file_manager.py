@@ -29,9 +29,20 @@ def parseFile(entry):
      'owner':user, 'group':group, 'size':size_in_bytes, 'date':date,\
       'name':file_name}
             
+def checkPathValidity(path):
+
+    if (len(path) < len('/home')):
+        return '/home'
+    if path[0:5] != '/home':
+        return '/home'
+    if len(path) > len('/home'):
+        if path[0:6] != '/home/':
+            return '/home'
+    return path
 
 def getContents(path):
-    contents, _ = execute("sudo ls -l " + path)
+    path = checkPathValidity(path)
+    contents, exitcode = execute("sudo ls -l " + path)
     contents = contents.split("\n")[1:len(contents)]
     files = []
     for content in contents:
