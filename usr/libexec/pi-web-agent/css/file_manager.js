@@ -46,10 +46,20 @@ function displayEntries(contents) {
         row$.append($('<td/>').html(date));
         row$.append($('<td/>').html(entry['owner']));
         row$.append($('<td/>').html(entry['group']));
+        row$.append($('<td/>').html(entry['size'] + "B"));
         if (type == 'Directory') {
             row$.attr('onclick', "getContents(\"" + spath + "/" + entry['name'] + "\")");
+        }
+        else if (type == 'File') {
+            row$.attr('onclick', "download(\"" + spath + "/" + entry['name'] + "\")");
         }
         $("#file-manager-table").append(row$);
     }//for
     $("#b-pb").remove()
+}
+
+function download(path) {
+
+    window.location='/cgi-bin/toolkit/file_manager.py?download='+path;
+
 }

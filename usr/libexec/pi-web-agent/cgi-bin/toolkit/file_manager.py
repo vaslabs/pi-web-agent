@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import json
+import os
 from live_info import execute
 import cgi, cgitb
 cgitb.enable()
@@ -39,8 +40,19 @@ def getContents(path):
             files.append(entry)
     return files
     
+def download(file_path):
+    file_for_download = open(file_path)
+    print "Content-type: application/octet-stream"
+    print 'Content-Disposition: inline; filename="' + os.path.basename(file_path) + '"'
+    print
+    print file_for_download.read()
+    file_for_download.close()
+    
 def main():
     form = cgi.FieldStorage()
+    if 'download' in form:
+        download(form['download'].value)    
+        return
     if not 'path' in form:
         composeJS('[error]')
     path = form['path'].value

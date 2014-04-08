@@ -18,6 +18,7 @@ def main():
                     <th>Modified</th>
                     <th>Owner</th>
                     <th>Group</th>
+                    <th>Size</th>
                 </tr>
             </thead>
         </table>
