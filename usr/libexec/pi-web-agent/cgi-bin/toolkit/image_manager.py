@@ -10,6 +10,7 @@ def compose_image_document(image):
     print "Content-type: image/png"
     print
     print img.read()
+    img.close()
     
 def main():
     form = cgi.FieldStorage()
