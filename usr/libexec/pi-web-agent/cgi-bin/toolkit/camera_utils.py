@@ -40,7 +40,10 @@ def enableCamera( ):
     return execute( os.environ['MY_HOME'] + "/scripts/camera_enable.sh" )
 
 def stopRecord( ):
-    return 
+    try:
+        execute('sudo kill $(pidof raspivid) $(pifof raspistill)')
+    except:
+        pass 
 
 def startRecord( ):
     return 
