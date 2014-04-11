@@ -10,7 +10,6 @@ function getMemoryInfo(usage) {
      $('#li_memory').html(html);
     
     
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=mem', getMemoryInfo)}, 5000 + Math.round(Math.random()*5000));        
 }
 
 function check_started(response) {
@@ -34,7 +33,6 @@ function getTempInfo(temp) {
     else 
         html = generateCriticalMessage(10, msg + "'C");  
     $('#li_temp').html(html);
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo)}, 10000 + Math.round(Math.random()*5000));        
 }
 
 function getSwapInfo(usage) {
@@ -52,9 +50,6 @@ function getSwapInfo(usage) {
      html = generateCriticalMessage(usg, msg);  
      $('#li_swap').html(html);
     
-    if (usage >= 0)
-        setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap',
-                    getSwapInfo)}, 20000 + Math.round(Math.random()*5000));        
 }
 function getHardDiskInfo(usage) {
     //stab TODO
@@ -62,14 +57,11 @@ function getHardDiskInfo(usage) {
     var msg = "Disk usage: " + usage + "%";
     html = generateCriticalMessage(usage, msg); 
     $('#li_hard_drive').html(html);
-    setTimeout(function() {
-                getResponse('/cgi-bin/toolkit/live_info.py?cmd=disk'
-                ,getHardDiskInfo)}, 60000 + Math.round(Math.random()*5000)); 
 }
 
 function getUpdateCheck(info) {
     var html = ''
-    if (info == 'True')
+    if (info == true)
     {
         html = generateCriticalMessage(86, "Updates available");
     }
@@ -77,8 +69,6 @@ function getUpdateCheck(info) {
         html = generateCriticalMessage(0, "System is up to date");
 
     $('#li_update').html(html);
-    setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=update',
-                 getUpdateCheck)}, 360000);    
 }
 
 
@@ -119,7 +109,25 @@ function getResponse(url, method_call) {
     
     //return value;
 }
-  
+ 
+ 
+function getJSONResponse(url, method_call) {
+
+    var result = null;
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        async: method_call != null,
+        success: function(data) {
+            if (method_call != null)
+                method_call(data);    
+        } 
+    });
+    
+    //return value;
+} 
 
 function getKernelInfo(info) {
     //stab TODO
@@ -140,15 +148,23 @@ function getHostnameInfo(info) {
 function initialise()
 {
     getMemoryInfo('...');
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=disk', getHardDiskInfo);
-    
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=kernel', getKernelInfo);
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=hostname',
-        getHostnameInfo);
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update', getUpdateCheck);
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=swap', getSwapInfo);
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=temp', getTempInfo);
-   
+    getStatuses();
+}
+
+function getStatuses() {
+    url = '/cgi-bin/toolkit/live_info.py?cmd=all_status'
+    getJSONResponse(url, updateStatuses);
+}
+
+function updateStatuses(statuses) {
+    getHostnameInfo(statuses['hostname']);
+    getKernelInfo(statuses['kernel']);
+    getUpdateCheck(statuses['ucheck']);
+    getTempInfo(statuses['temp']);
+    getMemoryInfo(statuses['mem']);
+    getHardDiskInfo(statuses['disk']);
+    getSwapInfo(statuses['swap']);
+    setTimeout(getStatuses, 8000);
 }
 
 function submit_function(element) {
@@ -318,4 +334,11 @@ function getPackageResponse(url) {
     
     //return value;
 }
+
+function camera_utils(action) {
+    var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
+    
+    var info=getResponse(url, null);
+}
+
 

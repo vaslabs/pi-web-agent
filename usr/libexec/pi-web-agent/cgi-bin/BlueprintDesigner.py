@@ -61,7 +61,7 @@ def createNavListWithDropdown(items):
     div+='<li class="dropdown">\n<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other<b class="caret"></b>\n</a>'
     div+='<ul class="dropdown-menu">\n'
     item_counter=1
-    for item in items[len(items)-MENU_LIMIT :len(items)]:
+    for item in items[len(items)-MENU_LIMIT - 1 :len(items)]:
         div+=str(item) + '\n'
         item_counter+=1
         

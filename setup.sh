@@ -30,7 +30,7 @@ htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
 
 UPDATE_APP_BIN=usr/bin/pi-web-agent-update
 UPDATE_CHECK_PY=usr/bin/update_check.py
-
+OTHER_BINS="usr/bin/start-stream-cam.sh usr/bin/pi-camera-stream.sh"
 SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
 
 this_install(){
@@ -61,6 +61,10 @@ this_install(){
     chmod +x "/$UPDATE_APP_BIN"
     chmod +x "/$UPDATE_CHECK_PY"
     chmod +x "/$SYSTEM_UPDATE_CHECK"
+
+    chmod +x $OTHER_BINS
+    /bin/cp -v $OTHER_BINS /usr/bin/
+    
 
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
@@ -119,6 +123,9 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
+    
+    mkdir /usr/share/pi-web-agent/camera-media
+    chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
 }
 
 
