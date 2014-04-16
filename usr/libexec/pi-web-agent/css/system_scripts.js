@@ -20,8 +20,6 @@ function update_app() {
     $("#update_button").remove()    
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response)
     
-    
-
 }
 
 function update_response(response) {

@@ -17,6 +17,7 @@ from live_info import execute
 from HTMLPageGenerator import *
 import time
 import pygame
+import json
 
 MY_PICS="/usr/share/pi-web-agent/camera-media/"
 
@@ -25,7 +26,10 @@ def takeSnapshot( ):
     a,b = execute( "sudo raspistill -w 640 -h 480 -t 2000 -o " + image_path  )
     execute("sudo chown -R pi-web-agent:pi-web-agent " + MY_PICS)
     thumbnail(image_path)
-    return a, b
+    file_name = os.path.basename(image_path)
+    response_js = {"name":file_name}
+    composeJS(json.dumps(response_js))
+    sys.exit(0)
     
 def thumbnail(image):
     size = (64, 64)
