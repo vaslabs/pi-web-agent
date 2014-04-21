@@ -40,12 +40,18 @@ this_install(){
         echo "The application is already installed. Run \`setup reinstall' if the installation is broken "
         exit 1
     }
-    [ -d /usr/libexec ] || mkdir /usr/libexec	
+    [ -d /usr/libexec ] || mkdir /usr/libexec
     print_ok
     echo -n "Adding user account for appliance... "
     useradd -r pi-web-agent
     print_ok "DONE"
     sleep 0.5
+
+    [ -f "$htpasswd_PATH" ] || {
+         echo -n "Creating password file with default credentials admin:admin "
+         htpasswd -bd $htpasswd_PATH 'admin' 'admin' && print_ok "DONE"
+    }
+
     /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
@@ -126,7 +132,7 @@ this_install(){
     
     mkdir /usr/share/pi-web-agent/camera-media
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
-    htpasswd -bd $htpasswd_PATH 'admin' 'admin'
+    
 }
 
 
