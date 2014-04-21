@@ -336,6 +336,8 @@ function getPackageResponse(url) {
 }
 
 function camera_utils(action) {
+
+    $(".span16").prepend(animationBar());    
     var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
     if (action == "snapshot") {
         getJSONResponse(url, displaySnapshot);
@@ -346,4 +348,5 @@ function camera_utils(action) {
 
 function displaySnapshot(data) {
     $('#gallery_thumbnails').append('<a href="/cgi-bin/toolkit/image_manager.py?image='+data['name'] +'" rel="thumbnail"><img style="padding:4px; border:2px solid #021a40;" src="/cgi-bin/toolkit/image_manager.py?image='+data['name'].split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>');
+    $("#b-pb").remove();
 }
