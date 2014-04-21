@@ -337,9 +337,10 @@ function getPackageResponse(url) {
 
 function camera_utils(action) {
 
-    $(".span16").prepend(animationBar());    
+        
     var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
     if (action == "snapshot") {
+        $(".span16").prepend(animationBar());
         getJSONResponse(url, displaySnapshot);
         return;
     }
