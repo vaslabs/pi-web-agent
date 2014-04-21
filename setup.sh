@@ -126,6 +126,7 @@ this_install(){
     
     mkdir /usr/share/pi-web-agent/camera-media
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
+    htpasswd -bd $htpasswd_PATH 'admin' 'admin'
 }
 
 
