@@ -1,6 +1,21 @@
 $(document).ready(function(){
     initialise();
+    
 });
+
+function enableProtocolRule() {
+    if($("#enableProtocolCheckBox").is(':checked'))
+        $("#selectProtocol").show();  // checked
+    else
+        $("#selectProtocol").hide();  // unchecked
+}
+
+function enableIPRule() {
+    if($("#enableIPCheckBox").is(':checked'))
+        $("#ipAddress").show();  // checked
+    else
+        $("#ipAddress").hide();  // unchecked
+}
 
 function getMemoryInfo(usage) {
      //stab TODO
@@ -209,6 +224,7 @@ function gpio_clear() {
 }
 
 function open_iptables_panel(chain_name) {
+
     $("#ip_overlay").overlay({
      
         // custom top position
@@ -236,23 +252,47 @@ function open_iptables_panel(chain_name) {
     });
     var rules_overlay = document.getElementById("ip_overlay");
     rules_overlay.setAttribute("name", chain_name);
+    $("#selectProtocol").hide();
+    $("#ipAddress").hide();
 }
 
 function submitProtocolRule(){
     $("#addRuleID").submit(function(){
+        var protocolChecked = document.getElementById("enableProtocolCheckBox").checked;
+        var ipaddressChecked = document.getElementById("enableIPCheckBox").checked;
         var chainElement = document.getElementById("ip_overlay");
         var chain = chainElement.getAttribute("name");
         var actionElement = document.getElementById("selectAction");
-        var action = actionElement.options[actionElement.selectedIndex].text;
-        var protocolElement = document.getElementById("selectProtocol");
-        var protocol = protocolElement.options[protocolElement.selectedIndex].text;
-        getIPTableValues( chain, action, protocol);
+        var action = actionElement.options[actionElement.selectedIndex].text;        
+        if (protocolChecked && !ipaddressChecked) {        
+            var protocolElement = document.getElementById("selectProtocol");
+            var protocol = protocolElement.options[protocolElement.selectedIndex].text;
+            alert(protocol);
+            getIPTableValues(chain, action, protocol, "None");
+        }
+        else if (ipaddressChecked && !protocolChecked) {
+            var ipAddressElement = document.getElementById("ipAddress").value;
+            alert(ipAddressElement);
+            getIPTableValues( chain, action, "None", ipAddressElement);
+        }
+        else if (ipaddressChecked && protocolChecked){
+            var protocolElement = document.getElementById("selectProtocol");
+            var protocol = protocolElement.options[protocolElement.selectedIndex].text;
+            var ipAddressElement = document.getElementById("ipAddress").value;
+            alert(protocol);
+            alert(ipAddressElement);
+            getIPTableValues(chain, action, protocol, ipAddressElement);
+        }
     });
 }
 
-function getIPTableValues(chain, action, protocol) {
+function getIPTableValues(chain, action, protocol, ip_address) {
     var remote;
-    var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol;
+    alert(chain);
+    alert(action);
+    alert(protocol);
+    alert(ip_address);
+    var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol+'&ipaddress='+ip_address;
     $.ajax({
         type: "GET",
         url: url,
