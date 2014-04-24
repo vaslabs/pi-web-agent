@@ -312,3 +312,54 @@ right: 0px;
     /*
     http://proto.io/freebies/onoff/
     */
+ 
+ .inoutswitch {
+position: relative; width: 41px;
+-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.inoutswitch-checkbox {
+display: none;
+}
+.inoutswitch-label {
+display: block; overflow: hidden; cursor: pointer;
+border: 2px solid #999999; border-radius: 7px;
+}   
+    
+.inoutswitch-checkbox:checked + .inoutswitch-label .inoutswitch-inner {
+margin-left: 0;
+}
+.inoutswitch-checkbox:checked + .inoutswitch-label .inoutswitch-switch {
+right: 0px;
+}
+
+.inoutswitch-inner {
+width: 200%; margin-left: -100%;
+-moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+-o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.inoutswitch-inner:before, .inoutswitch-inner:after {
+float: left; width: 50%; height: 10px; padding: 0; line-height: 10px;
+font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+
+.inoutswitch-inner:before {
+content: "IN";
+padding-left: 8px;
+background-color: #2FCCFF; color: #FFFFFF;
+}
+.inoutswitch-inner:after {
+content: "OUT";
+padding-right: 8px;
+background-color: #EEEEEE; color: #999999;
+text-align: right;
+}
+.inoutswitch-switch {
+width: 6px; margin: 2px;
+background: #FFFFFF;
+border: 2px solid #999999; border-radius: 7px;
+position: absolute; top: 0; bottom: 0; right: 27px;
+-moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+-o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
+}

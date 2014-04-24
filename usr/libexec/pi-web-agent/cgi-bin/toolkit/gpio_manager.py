@@ -88,14 +88,16 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         direction = left_Direction_Pins[index]
         value = left_Values_Pins[index]
         generalText = '<div class="onoffswitch">\n'
+        IgeneralText = '<div class="inoutswitch">\n'
+        
         directionText ='<input type="checkbox" id="D'+left_Pins[index]
         valueText = '<input type="checkbox" id="V'+left_Pins[index]
             
-        directionAttributeText = '" onclick="submit_gpio_direction(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + str(value) + '"'
+        directionAttributeText = '" onclick="submit_gpio_direction(this)" class="inoutswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + str(value) + '"'
         valueAttributeText = '" onclick="submit_gpio_value(this)" class="onoffswitch-checkbox" name="'+left_Pins[index]+'" direction="' + direction + '" value="' + str(value) + '"'
 
 
-        directionText = generalText + directionText + directionAttributeText
+        directionText = IgeneralText + directionText + directionAttributeText
         
         if direction == "IN":   
             directionText += '>'
@@ -110,13 +112,20 @@ def getFieldTexts(index, left_Pins, left_Direction_Pins, left_Values_Pins):
         else:
             valueText += ' >'
 
-        directionLabelText = '<label class="onoffswitch-label" for="D'+left_Pins[index]+'">\n'
+        directionLabelText = '<label class="inoutswitch-label" for="D'+left_Pins[index]+'">\n'
         valueLabelText = '<label class="onoffswitch-label" for="V'+left_Pins[index]+'">\n'
         labelText = '<div class="onoffswitch-inner"></div>\n'
         labelText += '<div class="onoffswitch-switch"></div>\n'
         labelText += '</label>\n'
         labelText += '</div>\n'
-        directionSummary = directionText + directionLabelText + labelText
+        
+        IlabelText = '<div class="inoutswitch-inner"></div>\n'
+        IlabelText += '<div class="inoutswitch-switch"></div>\n'
+        IlabelText += '</label>\n'
+        IlabelText += '</div>\n'
+        
+        
+        directionSummary = directionText + directionLabelText + IlabelText
         valueSummary = valueText + valueLabelText + labelText
         return directionSummary, valueSummary
     else:
