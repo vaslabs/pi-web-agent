@@ -100,6 +100,8 @@ this_install(){
     cp $APT_QUERY /$APT_QUERY
 
     print_ok
+    echo "Updating packages"
+    apt-get update
     echo "Installing dependencies"
     apt-get install $DEPENDENCIES
     print_ok
