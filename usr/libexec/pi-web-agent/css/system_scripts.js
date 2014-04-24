@@ -20,8 +20,6 @@ function update_app() {
     $("#update_button").remove()    
     getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response)
     
-    
-
 }
 
 function update_response(response) {
@@ -43,3 +41,14 @@ function update_check_completed(info) {
 
 }
 
+function start_live_streaming() {
+    getResponse('/cgi-bin/toolkit/camera.py?cmd=start', sls)
+}
+
+function sls(info) {
+    return;
+}
+
+function stop_live_streaming() {
+    getResponse('/cgi-bin/toolkit/camera.py?cmd=stop', sls)
+}

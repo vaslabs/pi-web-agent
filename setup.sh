@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer alsa-utils"
+DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer alsa-utils vlc"
 ANDROID_SERVICE="etc/init.d/pi-android-agent"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
@@ -30,7 +30,7 @@ htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
 
 UPDATE_APP_BIN=usr/bin/pi-web-agent-update
 UPDATE_CHECK_PY=usr/bin/update_check.py
-
+OTHER_BINS="usr/bin/start-stream-cam.sh usr/bin/pi-camera-stream.sh"
 SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
 
 this_install(){
@@ -40,12 +40,18 @@ this_install(){
         echo "The application is already installed. Run \`setup reinstall' if the installation is broken "
         exit 1
     }
-    [ -d /usr/libexec ] || mkdir /usr/libexec	
+    [ -d /usr/libexec ] || mkdir /usr/libexec
     print_ok
     echo -n "Adding user account for appliance... "
     useradd -r pi-web-agent
     print_ok "DONE"
     sleep 0.5
+
+    [ -f "$htpasswd_PATH" ] || {
+         echo -n "Creating password file with default credentials admin:admin "
+         htpasswd -bd $htpasswd_PATH 'admin' 'admin' && print_ok "DONE"
+    }
+
     /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
@@ -61,6 +67,10 @@ this_install(){
     chmod +x "/$UPDATE_APP_BIN"
     chmod +x "/$UPDATE_CHECK_PY"
     chmod +x "/$SYSTEM_UPDATE_CHECK"
+
+    chmod +x $OTHER_BINS
+    /bin/cp -v $OTHER_BINS /usr/bin/
+    
 
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
@@ -90,6 +100,8 @@ this_install(){
     cp $APT_QUERY /$APT_QUERY
 
     print_ok
+    echo "Updating packages"
+    apt-get update
     echo "Installing dependencies"
     apt-get install $DEPENDENCIES
     print_ok
@@ -119,6 +131,10 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
+    
+    mkdir /usr/share/pi-web-agent/camera-media
+    chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
+    
 }
 
 

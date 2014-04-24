@@ -6,6 +6,8 @@ import subprocess
 import cgi
 import cgitb
 import xml.etree.ElementTree as ET
+import json
+
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
@@ -121,11 +123,24 @@ def manage_vnc(turn):
     command = 'sudo /etc/init.d/vncboot ' + turn
     output, errcode = execute(command)
 
+def all_status():
+    memory_usage = getMemoryUsage()
+    kernel = getKernelVersion()
+    disk_usage = getDiskUsage()
+    hostip = hostname()
+    update = update_check_js()
+    temperature = get_temperature()
+    swap = swapUsage()
+    
+    statuses = {'mem':memory_usage, 'kernel':kernel.strip(), 'disk':disk_usage.strip(),\
+     'hostname':hostip.strip(), 'ucheck':update, 'temp':temperature, 'swap':swap}
+    json_string = json.dumps(statuses)
+    composeJS(json_string)
+    sys.exit(0)
+
 def main():
-    cmds = {'mem':getMemoryUsage, 'kernel':getKernelVersion,\
-     'disk': getDiskUsage, 'swap':swapUsage, 'hostname':hostname,\
-     'update':update_check_js, 'edit_service':turn_service, 'temp':get_temperature, 'apt': getAptBusy, 'check' : update_check,\
-      'check_app': update_check_for_app, 'update_app' : application_update}
+    cmds = {'update':update_check_js, 'edit_service':turn_service, 'apt': getAptBusy, 'check' : update_check,\
+      'check_app': update_check_for_app, 'update_app' : application_update, 'all_status':all_status}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
         response('Error')

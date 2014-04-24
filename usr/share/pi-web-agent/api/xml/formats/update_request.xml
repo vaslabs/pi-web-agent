@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<request version="0.1">
-    <pair>
-		<key>uma://apply_update</key>
-		<value>update</value>
-	</pair>
-</request>
-
