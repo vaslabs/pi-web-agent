@@ -250,10 +250,21 @@ function open_iptables_panel(chain_name) {
         load: true
 
     });
+
     var rules_overlay = document.getElementById("ip_overlay");
     rules_overlay.setAttribute("name", chain_name);
     $("#selectProtocol").hide();
     $("#ipAddress").hide();
+}
+
+function validateIPField() {
+    var ipAddressElement = document.getElementById("ipAddress").value;
+    var letters = /^[0-9a-zA-Z.]+$/;
+    if (ipAddressElement.match(letters))
+        submitProtocolRule();
+    else {
+        alert("This is not a valid source address!");
+    }
 }
 
 function submitProtocolRule(){
@@ -267,20 +278,16 @@ function submitProtocolRule(){
         if (protocolChecked && !ipaddressChecked) {        
             var protocolElement = document.getElementById("selectProtocol");
             var protocol = protocolElement.options[protocolElement.selectedIndex].text;
-            alert(protocol);
             getIPTableValues(chain, action, protocol, "None");
         }
         else if (ipaddressChecked && !protocolChecked) {
             var ipAddressElement = document.getElementById("ipAddress").value;
-            alert(ipAddressElement);
             getIPTableValues( chain, action, "None", ipAddressElement);
         }
         else if (ipaddressChecked && protocolChecked){
             var protocolElement = document.getElementById("selectProtocol");
             var protocol = protocolElement.options[protocolElement.selectedIndex].text;
             var ipAddressElement = document.getElementById("ipAddress").value;
-            alert(protocol);
-            alert(ipAddressElement);
             getIPTableValues(chain, action, protocol, ipAddressElement);
         }
     });
@@ -288,10 +295,6 @@ function submitProtocolRule(){
 
 function getIPTableValues(chain, action, protocol, ip_address) {
     var remote;
-    alert(chain);
-    alert(action);
-    alert(protocol);
-    alert(ip_address);
     var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol+'&ipaddress='+ip_address;
     $.ajax({
         type: "GET",

@@ -23,10 +23,10 @@
                 </select>
             </div>       
             <div id="IPRuleOption" style="margin-bottom: 15px;">
-                <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/> IP Address<br>
+                <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/> Source Address<br>
                 <input id="ipAddress" type="text" name="ipaddress">
             </div>
-            <input type="submit" value="Submit" onclick="submitProtocolRule();"/>
+            <input type="submit" value="Submit" onclick="validateIPField();"/>
         </form>
     </div>
 </div>
