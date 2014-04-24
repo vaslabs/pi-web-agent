@@ -10,11 +10,9 @@ VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
 DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer alsa-utils vlc"
-ANDROID_SERVICE="etc/init.d/pi-android-agent"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
-AND_LOGS=/var/log/pi-android-agent
 SHARE="usr/share/pi-web-agent"
 PI_UPDATE=usr/bin/pi-update
 PI_UPGRADE=usr/bin/pi-upgrade
@@ -47,22 +45,22 @@ this_install(){
     print_ok "DONE"
     sleep 0.5
 
+    
     [ -f "$htpasswd_PATH" ] || {
          echo -n "Creating password file with default credentials admin:admin "
-         htpasswd -bd $htpasswd_PATH 'admin' 'admin' && print_ok "DONE"
+         htpasswd -cbd "$htpasswd_PATH" 'admin' 'admin' && print_ok "DONE"
     }
-
+    
     /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
+
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
-    /bin/cp -v "$ANDROID_SERVICE" "/$ANDROID_SERVICE"
     /bin/cp -v "$EXECUTE_BIN" "/$EXECUTE_BIN"
     /bin/cp -v "$PI_APT" "/$PI_APT"
     /bin/cp -v "$UPDATE_APP_BIN" "/$UPDATE_APP_BIN"
     /bin/cp -v "$UPDATE_CHECK_PY" "/$UPDATE_CHECK_PY"
     /bin/cp -v "$SYSTEM_UPDATE_CHECK" "/$SYSTEM_UPDATE_CHECK"
     chmod +x "/$EXECUTE_BIN"
-    chmod +x "/$ANDROID_SERVICE"
     chmod +x "/$SERVICE_PATH"
     chmod +x "/$UPDATE_APP_BIN"
     chmod +x "/$UPDATE_CHECK_PY"
