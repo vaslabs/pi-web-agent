@@ -23,7 +23,7 @@
             <id>Running Processes</id>
             <url>/cgi-bin/toolkit/main.py?page=Running+Processes</url>
             <command-group id="1">
-            <command title="Running Processes" format="table">ps -ef</command>
+            <command title="Running Processes" format="table">ps -e</command>
             </command-group>
         </action> 
         
