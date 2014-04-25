@@ -50,20 +50,18 @@ def createNavListWithDropdown(items):
     item_name='Home'
     item_actionlink='/'
     div+='<li><a href="' + item_actionlink + '">' + item_name + '</a></li>\n'
-    item_counter=1
-    MENU_LIMIT = 5
+    item_counter=0
+    MENU_LIMIT = 4
     for item in items:
-        if item_counter < 5:
+        if item_counter < MENU_LIMIT:
             div+=str(item) + '\n'
             item_counter+=1
         else:
             break
     div+='<li class="dropdown">\n<a href="#" class="dropdown-toggle" data-toggle="dropdown">Other<b class="caret"></b>\n</a>'
     div+='<ul class="dropdown-menu">\n'
-    item_counter=1
-    for item in items[len(items)-MENU_LIMIT - 1 :len(items)]:
+    for item in items[item_counter:]:
         div+=str(item) + '\n'
-        item_counter+=1
         
     div+='</ul>\n'
     div+='</li>\n'
