@@ -44,14 +44,13 @@ this_install(){
     useradd -r pi-web-agent
     print_ok "DONE"
     sleep 0.5
-    
-    /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
 
     [ -f "$htpasswd_PATH" ] || {
          echo -n "Creating password file with default credentials admin:admin "
          htpasswd -cbd "$htpasswd_PATH" 'admin' 'admin' && print_ok "DONE"
     }
-
+    
+    /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
 
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
