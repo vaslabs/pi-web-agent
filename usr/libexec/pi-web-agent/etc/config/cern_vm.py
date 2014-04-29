@@ -4,7 +4,7 @@ import os
 
 CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.xml"
 CONFIG_PATH=os.environ['MY_HOME']+"/etc/config"
-VERSION="0.2-rc-1"
+VERSION="0.2-rc-2"
 def parseActions(actionTree, secondary=False):
         actions={}
         
