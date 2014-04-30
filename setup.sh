@@ -40,6 +40,13 @@ this_install(){
     }
     [ -d /usr/libexec ] || mkdir /usr/libexec
     print_ok
+    
+    echo "Updating packages"
+    apt-get update
+    echo "Installing dependencies"
+    apt-get install $DEPENDENCIES
+    print_ok
+    
     echo -n "Adding user account for appliance... "
     useradd -r pi-web-agent
     print_ok "DONE"
@@ -97,11 +104,7 @@ this_install(){
     cp $APT_QUERY /$APT_QUERY
 
     print_ok
-    echo "Updating packages"
-    apt-get update
-    echo "Installing dependencies"
-    apt-get install $DEPENDENCIES
-    print_ok
+    
     echo "Post installation actions"
     chown pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent/.htpasswd
     chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent
