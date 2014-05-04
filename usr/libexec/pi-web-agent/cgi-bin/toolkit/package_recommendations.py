@@ -9,14 +9,12 @@ sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/objects')
 from services import *
-from view import *
-from cern_vm import Configuration
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
 cgitb.enable()
 from live_info import execute, getAptBusy
-from framework import output
+from framework import output, view
 from HTMLPageGenerator import *
 import json
 
@@ -103,8 +101,7 @@ def main():
     Application to manage the most used packages using apt-get.
     Unfinished.
     '''
-    config=Configuration()
-    view = View(config.system.actions)
+
     form = cgi.FieldStorage()
 
     if('index' in form and form['index'].value != -1 ) :

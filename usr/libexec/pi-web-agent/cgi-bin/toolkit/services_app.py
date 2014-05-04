@@ -10,12 +10,10 @@ sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 
 sys.path.append(os.environ['MY_HOME'] + '/objects')
 from services import *
-from view import *
-from cern_vm import Configuration
 import cgi
 import cgitb
 cgitb.enable()
-from framework import output
+from framework import output, view
 def main():
     '''
     Services application to manage levels of each service.
@@ -29,8 +27,6 @@ def main():
             
     sm=serviceManagerBuilder()
     content=sm.getView()
-    config=Configuration()
-    view = View(config.system.actions)
     
     view.setContent('Services Management App', content)
     output(view, form)

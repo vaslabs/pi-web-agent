@@ -6,7 +6,6 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
-from Adapter import GenericAdapter
 import cgi
 import cgitb
 cgitb.enable()

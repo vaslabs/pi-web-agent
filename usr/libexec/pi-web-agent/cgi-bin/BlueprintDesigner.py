@@ -1,6 +1,6 @@
 import os, sys
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from cern_vm import VERSION
+
 def initialiseCss():
     with open(os.environ['MY_HOME']+'/html/utilities/blueprint-css.html', 'r') as content_file:
         content = content_file.read()

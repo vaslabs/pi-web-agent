@@ -23,10 +23,9 @@ class Adapter(object):
     for converting POSIX output from bash commands into
     html.
     '''
-    def __init__(self, title, view):
+    def __init__(self, title):
         self.title=title
         self.subpages=[]
-        self.view=view
 
     def message(self):
         self.addSubpage({"None":"Empty"})
@@ -46,22 +45,22 @@ class GenericAdapter(Adapter):
     simple output in table or raw style to html.
     '''
     #commands={title:command}    
-    def __init__(self, title, view, commandgroup):
-        Adapter.__init__(self, title, view)
+    def __init__(self, title, commandgroup):
+        Adapter.__init__(self, title)
         self.commandgroup = commandgroup
         
     def _message(self, commands):
         messageElements={}
         for command in commands:
-            sp=subprocess.Popen(command.value, stdout=subprocess.PIPE, shell=True)
+            sp=subprocess.Popen(command['cmd'], stdout=subprocess.PIPE, shell=True)
             output, _ = sp.communicate()
             sp.wait()
             normalised_output=output.split('\n')
-            if command.format=='table':
+            if 'format' in command and command['format']=='table':
                 final_output=self._toTable(normalised_output)
             else:
                 final_output=normalised_output[0]+'<br>'+normalised_output[1]
-            messageElements[command.title]=final_output
+            messageElements[command['title']]=final_output
         return messageElements
 
     def page(self):
@@ -73,13 +72,12 @@ class GenericAdapter(Adapter):
         subpages shape the html of the main page.
         '''
         html=''
-        for commandIDs in self.commandgroup:
-            elements=self._message(self.commandgroup[commandIDs])
+        for command in self.commandgroup:
+            elements=self._message(command)
             self._subpage(elements)
         for subpage in self.subpages:
             html+=subpage+'<hr>'
-        self.view.setContent(self.title, html)
-        self.view.js_output()
+        return self.title, html
         
     def _subpage(self, elements, title=None):
         html=''
@@ -140,34 +138,4 @@ class GenericAdapter(Adapter):
         if div:
             html+='\n</div>'    
         return html
-        
-                
-    
-    def _command(self):
-        '''
-        Creates a form widget with a button. Unused and not yet deployed,
-        it should also get a list of input widgets to support more complicated
-        functonality
-        '''
-        name=self.scriptpath.split('/')[-1]
-        iw=InputWidget('submit', self.title, name.split('.')[0],'')
-        iwg=InputWidgetGroup()
-        iwg.add(iw)
-        return createForm('/cgi-bin/toolkit/controller.py', 'POST', 'standard', iw)
-         
 
-
-class UserGenericAdapter(GenericAdapter):
-    #unused and untested
-    '''
-    Does nothing yet
-    '''
-    def command(self):
-        name=self.scriptpath.split('/')[-1]
-        iw=InputWidget('submit',self.title, name.split('.')[0],'')
-        iwg=InputWidgetGroup()
-        iwg.add(iw)
-        return createForm('userdefined/controller.py', 'POST', 'userdefined', iw)
-        
-
-        

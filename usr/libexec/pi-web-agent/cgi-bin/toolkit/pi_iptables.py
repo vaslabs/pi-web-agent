@@ -8,15 +8,13 @@ sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/objects')
 from live_info import execute
 from services import *
-from view import *
-from cern_vm import Configuration
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
 import HTML
 import add_iptable_rules
 cgitb.enable()
-from framework import output
+from framework import output, view
 
 def normalise_ipsource(source):
     MAX_FIELDS=4
@@ -143,9 +141,7 @@ Application to display the iptables of raspberry to the user
     form = cgi.FieldStorage()
     
     sm=serviceManagerBuilder()
-    config=Configuration()
-    view = View(config.system.actions)
-            
+           
     f = open(os.environ['MY_HOME'] + '/html/iptables_overlay_html', 'r')
     html_tables= f.read()
     f.close()

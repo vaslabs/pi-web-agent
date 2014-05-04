@@ -7,23 +7,24 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/pi-web-agent/config')
 sys.path.append(os.environ['MY_HOME']+'/usr/libexec/pi-web-agent/scripts')
 from menu import *
-from view import View
-from cern_vm import Configuration
 
+from framework import view
 import cgi
 import crypt
-
+from framework import output
+import cgitb
+cgitb.enable()
 MAIN_VIEW = os.environ['MY_HOME'] + '/etc/config/main_view.html'
 
 def main():
     if password_changed():
-        config = Configuration()
-        view=View(config.system.actions)
         main_view_file = open(MAIN_VIEW)
         content = main_view_file.read()
         main_view_file.close()
         view.setContent('Welcome', content)
-        view.output()
+        fs=cgi.FieldStorage()
+    
+        output(view, fs)
     else:
         redirect()
 

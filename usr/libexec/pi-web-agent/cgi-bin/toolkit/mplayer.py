@@ -10,12 +10,11 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
 from HTMLPageGenerator import *
 from BlueprintDesigner import *
-from cern_vm import Configuration
+
 import subprocess
-from view import View
 from urlparse import urlparse
 from live_info import execute
-from framework import output
+from framework import output, view
 
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
@@ -216,8 +215,6 @@ def main():
     ask any member of the kupepia team.
     """
     form = cgi.FieldStorage()
-    config=Configuration()
-    view = View(config.system.actions) 
     if execute('pidof mplayer')[1]==0:
         settingsReader=SettingsReader("/tmp/mplayer_status")
         settingsReader.read()

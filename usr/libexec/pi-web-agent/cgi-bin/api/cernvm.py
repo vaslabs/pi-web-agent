@@ -11,12 +11,12 @@ sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 
-from cern_vm import Configuration
-from view import View
+
 import cgi
 import cgitb
 from HTMLPageGenerator import *
-import cern_vm
+from framework import view
+
 cgitb.enable()
 
 class InvalidXMLException(Exception):
@@ -145,131 +145,6 @@ class Request(object):
         self.code = responseCode
         response.buildResponse(responseCode)
         composeXMLDocument(response.xml)
-
-                
-class AddRequest(Request):
-
-    def _parse(self):
-        self.title=findSingleElement('title', self.xml).text
-        if self.title == None:
-            raise InvalidXMLException(message='Tag <title> not found')    
-        self.id=findSingleElement('id', self.xml)
-        if (self.id == None):
-            self.id = self.title
-        self.commandgroups=self.xml.findall('command-group')
-        if len(self.commandgroups) == 0:
-            raise InvalidXMLException(message='Tag <add> without tag <command-group>')
-        self.cg_map={}
-        cgID=1
-        for command_group in self.commandgroups:
-            commands=command_group.findall('command')
-            if len(commands) == 0:
-                raise InvalidXMLException(message='Tag <command-group> has no <command> tags')
-            self.cg_map['1']=commands
-    
-            
-    def _validate(self):
-        configuration = Configuration()
-        if self.id in configuration.system.actions:
-            raise InvalidXMLException(message='Action with id ' + self.id + ' already exists!')
-    
-        
-    def _construct(self):
-        action_el = ET.Element('action')
-        
-        title_el = ET.Element('title')
-        title_el.text = self.title
-        
-        id_el = ET.Element('id')
-        id_el.text=self.id
-        
-        url_el = ET.Element('url')
-        url_el.text = '/cgi-bin/toolkit/main.py?page=' + self.id
-        
-        action_el.append(title_el)
-        action_el.append(id_el)
-        action_el.append(url_el)
-        
-        for cg in self.cg_map:
-            cg_el=ET.Element('command-group', {'id':cg})
-            for command in self.cg_map[cg]:
-                cg_el.append(command)
-            action_el.append(cg_el)
-        self.action = action_el     
-                
-    def _execute(self):
-        xml=ET.parse(cern_vm.CONFIG_PATH + '/.actions')
-        xml_file=xml.getroot()
-        xml_file.append(self.action)
-        xml._setroot(xml_file)
-        xml.write(cern_vm.CONFIG_PATH + '/.actions')
-        #uncomment the above when testing is done
-        #and comment the below
-        self.xml_file = xml_file        
-    
-    
-            
-class RemoveRequest(Request):
-    
-    def _parse(self):
-        self.id = findSingleElement('id', self.xml).text
-        if self.id == None:
-            raise InvalidXMLException('id tag missing')
-            
-    def _construct(self):
-        xml=ET.parse(cern_vm.CONFIG_PATH + '/.actions')
-        el_actions = xml.getroot().findall('action')
-        for action in el_actions:
-            el_id = action.find('id')
-            if self.id in el_id.text:
-                xml.getroot().remove(action)
-                self.xml_file = xml
-                return
-        raise InvalidXMLException(message='Action with id ')      
-    
-    def _execute(self):
-        self.xml_file.write(cern_vm.CONFIG_PATH + '/.actions')
-        
-    def _validate(self):
-        self.configuration = Configuration()
-        if self.id not in self.configuration.system.actions.keys():
-            raise InvalidXMLException(message='Action with id ' + self.id + ' does not exist!')
-
-class ListRequest(Request):
-    
-    def _parse(self):
-        pass
-    
-    def _construct(self):
-        xml=ET.parse(cern_vm.CONFIG_PATH + '/.actions')
-        el_actions = xml.getroot().findall('action')
-        self.response_xml = ET.Element('list')
-        for action in el_actions:
-            el_id = action.find('id')
-            el_action = ET.Element('action', {'id':el_id.text})
-            self.response_xml.append(el_action)
-        
-    def _response(self, ex=None):
-        response = Response(self.req_id)
-        if ex==None:
-            responseCode = 0
-            self.code = responseCode
-            response.buildResponse(responseCode)
-            response.xml.append(self.response_xml)
-            composeXMLDocument(response.xml)
-            return
-        
-        responseCode = ex.ex_code
-        self.code = responseCode
-        response.buildResponse(responseCode)
-        composeXMLDocument(response.xml)     
-        
-        
-    def _execute(self):
-        pass
-        
-    def _validate(self):
-        pass
                 
 class Response(object):    
 

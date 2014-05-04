@@ -8,12 +8,9 @@ cgitb.enable()
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from HTMLPageGenerator import *
+from framework import output, view
 from BlueprintDesigner import *
-from view import *
-from cern_vm import Configuration
-from framework import output
-
+from HTMLPageGenerator import *
 POWEROFF="poweroff"
 RESTART="restart"
 class PowerManager(object):
@@ -52,8 +49,6 @@ def getView():
 def main():
     pm=PowerManager()
     fs=cgi.FieldStorage()
-    config=Configuration()
-    view=View(config.system.actions)
     
     if "action_list" in fs:
         

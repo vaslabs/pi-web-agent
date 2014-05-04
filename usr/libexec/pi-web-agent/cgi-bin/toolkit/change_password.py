@@ -8,14 +8,10 @@ sys.path.append(os.environ['MY_HOME']+'/objects')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from PasswordManager import *
-from cern_vm import Configuration
-from view import View
-from framework import output
+from framework import output, view
 
 def main():
     form = cgi.FieldStorage()
-    config=Configuration()
-    view = View(config.system.actions)
     if "passwd" not in form and "passwd_new1" not in form and "passwd_new2" not in form:
         view.setContent('User management', getView())
     else:

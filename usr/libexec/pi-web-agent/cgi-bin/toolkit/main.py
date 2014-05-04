@@ -20,15 +20,16 @@ def main():
     as importing new functions depends now solely on the xml 
     '''
     fs=cgi.FieldStorage()
-    ID=fs["page"].value
     try:
-        action=config.system.actions[ID]
+        ID=fs["page"].value
+        action=config.system.cmdactions[ID]
     except KeyError as ke:
         view.setContent('Page not found', 'The requested page was not found. Did you type the url manually?')
         output(view, fs)
         return
-    adapter=GenericAdapter(ID, view, action.command_groups)
-    adapter.page()
-    
+    adapter=GenericAdapter(ID, action['command-group'])
+    title, html = adapter.page()
+    view.setContent(title, html)
+    output(view, fs)
 if __name__ == '__main__':
     main()

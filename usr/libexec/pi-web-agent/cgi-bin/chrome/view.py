@@ -10,7 +10,7 @@ from BlueprintDesigner import *
 from menu import *
 from HTMLPageGenerator import *
 import cgi
-from cern_vm import VERSION
+from pi_web_agent import VERSION
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -28,22 +28,22 @@ class View(object):
     lifecycle
     '''
 
-    def __init__(self, actions):
+    def __init__(self, actions, cmdactions):
         self.menu=Menu([])
         self.nav_bar=Menu([], nav=True)
         self.actions=actions
         for action in actions:
-            version=actions[action].version
-            if version == None:
+            if not 'version' in actions[action]:
                 version=""
             else:
-                version = "<sup><sup>" + version + "</sup></sup>"
-            if actions[action].secondary:
-                self.menu.addItem(MenuItem(actions[action].title + version,\
-                 actions[action].url))
-            else:
-                self.nav_bar.addItem(MenuItem(actions[action].title + version,\
-                 actions[action].url))
+                version = "<sup><sup>" + actions[action]['version'] + "</sup></sup>"
+            self.nav_bar.addItem(MenuItem(actions[action]['title'] + version,\
+                 actions[action]['url']))
+        if cmdactions != None:    
+            for cmdaction in cmdactions:
+                 self.menu.addItem(MenuItem(cmdactions[cmdaction]['title'],\
+                    cmdactions[cmdaction]['url']))
+            
         self.title='The RPi'
         self.titlespan=24
         self.listspan=4
