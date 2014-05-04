@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 import os
 
-CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.xml"
+CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.json"
 CONFIG_PATH=os.environ['MY_HOME']+"/etc/config"
 VERSION="0.2-rc-1"
 def parseActions(actionTree, secondary=False):
