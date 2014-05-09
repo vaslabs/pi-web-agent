@@ -29,7 +29,7 @@ function getPackageResponse(url, method_call, index, firstTime) {
         success: function(data) {
             result = data;
             if (method_call != null)
-                method_call(result,index, firstTime);    
+                method_call(result, index, firstTime);    
         } 
     });
     

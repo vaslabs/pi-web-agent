@@ -64,6 +64,13 @@ def createOnOffSwitch( pName ) :
     checkedText += '</div>\n'
     return checkedText
 
+def getPackageList( ) :
+  ins = open( PACKAGES_LIST_PATH, "r" )
+  packages = []
+  for line in ins :
+    line = line.rstrip( ) # strip the new line
+    packages.append( {'label':line } )
+  return packages
 
 def getTableRecord( index ) :
     
@@ -111,17 +118,29 @@ def main():
       else :
         composeJS( json.dumps( STOP ) )
     else :
-      if ( getAptBusy( ) ):
+      if ( 'action' in form and form['action'].value == 'getPackageList' ) :
+        composeJS ( json.dumps( getPackageList( ) ) )
+      elif ( getAptBusy( ) ):
         view.setContent('Package Management',\
         '<script src="/css/reloadBasedOnStatus.js"></script>\
         The package manager is busy right now. . . \
         This page will automatically reload once the service is available')
         output(view, form)
       else :
-        htmlcode = "\n<div id='packages-table'><table id='packages-table-id'>"
+        
+        htmlcode = '<script src="/css/lazyLoading.js"></script>\
+        \n<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">\
+        \n<script src="//code.jquery.com/jquery-1.10.2.js"></script>\
+        \n<script src="/css/jquery-ui.js"></script>\
+        \n<script src="/css/autocomplete.js"></script>'
+        
+        htmlcode += '\n<div class="ui-widget">\
+        <label for="autocomplete">Search: </label>\
+        <input id="autocomplete">\
+        </div>'
+        htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
         htmlcode += "\n</table></div>"
-        view.setContent('Package Management',\
-        '<script src="/css/lazyLoading.js"></script>' + htmlcode )
+        view.setContent('Package Management', htmlcode )
         output(view, form)  
    
 if __name__ == '__main__':
