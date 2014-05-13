@@ -52,6 +52,7 @@ function buildHtmlTable( myList, firstTime ) {
         $("#packages-table-id").append(row$);
         
     }
+    filter( 'autocomplete', 'packages-table-id',1 );
 }
 
 // Adds a header row to the table and returns the set of columns.

@@ -17,6 +17,7 @@ from live_info import execute, getAptBusy
 from framework import output, view
 from HTMLPageGenerator import *
 import json
+#from PackageObject import PackageList
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
@@ -99,7 +100,8 @@ def getTableRecord( index ) :
         versionText = getDpkgInfo( pName, "Version" )
         package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText}    
 
-        allPackages.append(package)
+        allPackages.append( package )
+#        PackageList.package.append( package )
 
     return allPackages
 
@@ -114,12 +116,15 @@ def main():
     if('index' in form and form['index'].value != -1 ) :
       packages = getTableRecord( form['index'].value )
       if packages != None :
-        composeJS( json.dumps(packages) )
+        composeJS( json.dumps( packages ) )
       else :
         composeJS( json.dumps( STOP ) )
     else :
       if ( 'action' in form and form['action'].value == 'getPackageList' ) :
-        composeJS ( json.dumps( getPackageList( ) ) )
+        composeJS( json.dumps( getPackageList( ) ) )
+#      elif ( 'action' in form and form['action'].value == 'updatePackageListView' ) :
+#        PackageList.package.append( { 'Package':"ela" } )
+#        composeJS( json.dumps( PackageList.package ) )
       elif ( getAptBusy( ) ):
         view.setContent('Package Management',\
         '<script src="/css/reloadBasedOnStatus.js"></script>\
@@ -134,10 +139,10 @@ def main():
         \n<script src="/css/jquery-ui.js"></script>\
         \n<script src="/css/autocomplete.js"></script>'
         
-        htmlcode += '\n<div class="ui-widget">\
-        <label for="autocomplete">Search: </label>\
-        <input id="autocomplete">\
-        </div>'
+        htmlcode += '\n<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">\
+        \n<input id="autocomplete" name="filter" onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" class="form-control" style="float:right;width:20%" placeholder="Search. . .">\
+        \n</div>'
+        
         htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
         htmlcode += "\n</table></div>"
         view.setContent('Package Management', htmlcode )
@@ -145,4 +150,4 @@ def main():
    
 if __name__ == '__main__':
     main()
-    
+
