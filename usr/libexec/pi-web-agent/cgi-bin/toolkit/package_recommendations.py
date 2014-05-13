@@ -17,6 +17,7 @@ from live_info import execute, getAptBusy
 from framework import output, view
 from HTMLPageGenerator import *
 import json
+#from PackageObject import PackageList
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
@@ -64,6 +65,13 @@ def createOnOffSwitch( pName ) :
     checkedText += '</div>\n'
     return checkedText
 
+def getPackageList( ) :
+  ins = open( PACKAGES_LIST_PATH, "r" )
+  packages = []
+  for line in ins :
+    line = line.rstrip( ) # strip the new line
+    packages.append( {'label':line } )
+  return packages
 
 def getTableRecord( index ) :
     
@@ -92,7 +100,8 @@ def getTableRecord( index ) :
         versionText = getDpkgInfo( pName, "Version" )
         package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText}    
 
-        allPackages.append(package)
+        allPackages.append( package )
+#        PackageList.package.append( package )
 
     return allPackages
 
@@ -107,23 +116,38 @@ def main():
     if('index' in form and form['index'].value != -1 ) :
       packages = getTableRecord( form['index'].value )
       if packages != None :
-        composeJS( json.dumps(packages) )
+        composeJS( json.dumps( packages ) )
       else :
         composeJS( json.dumps( STOP ) )
     else :
-      if ( getAptBusy( ) ):
+      if ( 'action' in form and form['action'].value == 'getPackageList' ) :
+        composeJS( json.dumps( getPackageList( ) ) )
+#      elif ( 'action' in form and form['action'].value == 'updatePackageListView' ) :
+#        PackageList.package.append( { 'Package':"ela" } )
+#        composeJS( json.dumps( PackageList.package ) )
+      elif ( getAptBusy( ) ):
         view.setContent('Package Management',\
         '<script src="/css/reloadBasedOnStatus.js"></script>\
         The package manager is busy right now. . . \
         This page will automatically reload once the service is available')
         output(view, form)
       else :
-        htmlcode = "\n<div id='packages-table'><table id='packages-table-id'>"
+        
+        htmlcode = '<script src="/css/lazyLoading.js"></script>\
+        \n<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">\
+        \n<script src="//code.jquery.com/jquery-1.10.2.js"></script>\
+        \n<script src="/css/jquery-ui.js"></script>\
+        \n<script src="/css/autocomplete.js"></script>'
+        
+        htmlcode += '\n<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">\
+        \n<input id="autocomplete" name="filter" onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" class="form-control" style="float:right;width:20%" placeholder="Search. . .">\
+        \n</div>'
+        
+        htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
         htmlcode += "\n</table></div>"
-        view.setContent('Package Management',\
-        '<script src="/css/lazyLoading.js"></script>' + htmlcode )
+        view.setContent('Package Management', htmlcode )
         output(view, form)  
    
 if __name__ == '__main__':
     main()
-    
+

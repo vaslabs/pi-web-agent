@@ -29,7 +29,7 @@ function getPackageResponse(url, method_call, index, firstTime) {
         success: function(data) {
             result = data;
             if (method_call != null)
-                method_call(result,index, firstTime);    
+                method_call(result, index, firstTime);    
         } 
     });
     
@@ -52,6 +52,7 @@ function buildHtmlTable( myList, firstTime ) {
         $("#packages-table-id").append(row$);
         
     }
+    filter( 'autocomplete', 'packages-table-id',1 );
 }
 
 // Adds a header row to the table and returns the set of columns.
