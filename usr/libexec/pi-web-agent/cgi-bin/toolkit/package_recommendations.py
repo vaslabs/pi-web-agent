@@ -134,7 +134,7 @@ def main():
       else :
         
         htmlcode = '<script src="/css/lazyLoading.js"></script>\
-        \n<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">\
+        \n<link rel="stylesheet" href="/css/jquery-ui.css">\
         \n<script src="/css/jquery-ui.js"></script>\
         \n<script src="/css/autocomplete.js"></script>'
         
