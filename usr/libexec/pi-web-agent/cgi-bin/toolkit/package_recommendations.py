@@ -17,7 +17,6 @@ from live_info import execute, getAptBusy
 from framework import output, view
 from HTMLPageGenerator import *
 import json
-#from PackageObject import PackageList
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
@@ -101,14 +100,13 @@ def getTableRecord( index ) :
         package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText}    
 
         allPackages.append( package )
-#        PackageList.package.append( package )
 
     return allPackages
 
 def main():
     '''
     Application to manage the most used packages using apt-get.
-    Unfinished.
+    Still in progress.
     '''
 
     form = cgi.FieldStorage()
@@ -121,10 +119,8 @@ def main():
         composeJS( json.dumps( STOP ) )
     else :
       if ( 'action' in form and form['action'].value == 'getPackageList' ) :
+        #ajax call response
         composeJS( json.dumps( getPackageList( ) ) )
-#      elif ( 'action' in form and form['action'].value == 'updatePackageListView' ) :
-#        PackageList.package.append( { 'Package':"ela" } )
-#        composeJS( json.dumps( PackageList.package ) )
       elif ( getAptBusy( ) ):
         view.setContent('Package Management',\
         '<script src="/css/reloadBasedOnStatus.js"></script>\
@@ -132,14 +128,17 @@ def main():
         This page will automatically reload once the service is available')
         output(view, form)
       else :
-        
+        #lazyloading will populate the table
         htmlcode = '<script src="/css/lazyLoading.js"></script>\
-        \n<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">\
+        \n<link rel="stylesheet" href="/css/jquery-ui.css">\
         \n<script src="/css/jquery-ui.js"></script>\
         \n<script src="/css/autocomplete.js"></script>'
         
+        #enable search feature
         htmlcode += '\n<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">\
-        \n<input id="autocomplete" name="filter" onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" class="form-control" style="float:right;width:20%" placeholder="Search. . .">\
+        \n<input id="autocomplete" name="filter" \
+        onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" \
+        class="form-control" style="float:right;width:20%" placeholder="Search. . .">\
         \n</div>'
         
         htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"

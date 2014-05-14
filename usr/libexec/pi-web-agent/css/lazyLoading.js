@@ -7,6 +7,7 @@ if (Table != null)
 
 getPackageResponse( '/cgi-bin/toolkit/package_recommendations.py?index=' + index, loadPackage, index, true );              
 
+//recursive calls to populate the table
 function loadPackage( response, index, firstTime ){
   if(!response.hasOwnProperty('STOP')){
     buildHtmlTable( response, firstTime );
@@ -73,7 +74,6 @@ function addAllColumnHeaders(myList, firstTime){
         headerTr$.append($('<th/>').html('Description'));
         columnSet.push('Version');
         headerTr$.append($('<th/>').html('Version'));
-        
         
     }
     if(firstTime)
