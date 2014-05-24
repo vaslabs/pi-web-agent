@@ -138,7 +138,7 @@ def main():
         htmlcode += '\n<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">\
         \n<input id="autocomplete" name="filter" \
         onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" \
-        class="form-control" style="float:right;width:20%" placeholder="Search. . .">\
+        class="form-control" style="float:left;width:20%;" placeholder="Search. . .">\
         \n</div>'
         
         htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
