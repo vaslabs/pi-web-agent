@@ -274,6 +274,10 @@ function open_iptables_panel(chain_name) {
 }
 
 function validateIPField() {
+    if (!document.getElementById("enableIPCheckBox").checked) {
+        submitProtocolRule();
+        return;
+    }
     var ipAddressElement = document.getElementById("ipAddress").value;
     var letters = /^[0-9a-zA-Z.]+$/;
     if (ipAddressElement.match(letters))
