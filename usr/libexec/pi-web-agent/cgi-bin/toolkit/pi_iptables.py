@@ -4,15 +4,12 @@ import os, sys, re
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
-sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
-sys.path.append(os.environ['MY_HOME']+'/objects')
+sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+
 from live_info import execute
-from services import *
 import cgi
 import cgitb
-from subprocess import Popen, PIPE
 import HTML
-import add_iptable_rules
 cgitb.enable()
 from framework import output, view
 
@@ -140,8 +137,6 @@ Application to display the iptables of raspberry to the user
 
     form = cgi.FieldStorage()
     
-    sm=serviceManagerBuilder()
-           
     f = open(os.environ['MY_HOME'] + '/html/iptables_overlay_html', 'r')
     html_tables= f.read()
     f.close()
