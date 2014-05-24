@@ -60,6 +60,6 @@ function displayEntries(contents) {
 
 function download(path) {
 
-    window.location='/cgi-bin/toolkit/file_manager.py?download='+path;
+    window.open('/cgi-bin/toolkit/file_manager.py?download='+path);
 
 }
