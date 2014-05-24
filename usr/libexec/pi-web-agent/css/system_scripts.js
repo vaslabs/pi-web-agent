@@ -1,5 +1,5 @@
 function navigate(link) {
-    
+     thumbnailviewer.closeit();
      $(".span16").prepend(animationBar());
      $(".span16").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
