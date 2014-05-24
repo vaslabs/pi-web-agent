@@ -1,10 +1,16 @@
 #!/usr/bin/python
 import json
-import os
+import os, sys
 from live_info import execute
 import cgi, cgitb
 cgitb.enable()
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+
 from HTMLPageGenerator import composeJS
+from framework import view, output
+
 def parseFile(entry):
     #-rw-r--r-- 1 pi pi   129 Mar 23 22:56 AUTHORS
     if (len(entry) == 0):
@@ -52,7 +58,12 @@ def getContents(path):
     return files
     
 def download(file_path):
-    file_for_download = open(file_path)
+    try:
+        file_for_download = open(file_path)
+    except IOError:
+        view.setContent("Error 404", "Permission denied!")
+        output(view, cgi.FieldStorage())
+        return
     print "Content-type: application/octet-stream"
     print 'Content-Disposition: inline; filename="' + os.path.basename(file_path) + '"'
     print
