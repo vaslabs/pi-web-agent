@@ -7,7 +7,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 
-from cern_vm import VERSION
+from pi_web_agent import VERSION
 
 LINK="https://api.github.com/repos/vaslabs/pi-web-agent/releases"
 def getJSON():
