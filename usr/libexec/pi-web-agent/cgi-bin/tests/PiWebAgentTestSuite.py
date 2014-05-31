@@ -6,4 +6,4 @@ sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
 sys.path.append(os.environ['MY_HOME'] + '/usr/share/api')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/objects')
-
+sys.path.append(os.environ['HOME'] + '/pi-web-agent/usr/bin')
