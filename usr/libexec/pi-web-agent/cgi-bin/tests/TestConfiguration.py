@@ -1,12 +1,7 @@
 #!/usr/bin/python
 import sys, os
 import unittest
-
-if not 'MY_HOME' in os.environ:
-    os.environ['MY_HOME'] = os.environ['HOME'] + '/pi-web-agent/usr/libexec/pi-web-agent'
-sys.path.append(os.environ['MY_HOME'] + '/etc/config')
-
-
+import PiWebAgentTestSuite
 from pi_web_agent import Configuration
 
 class TestConfiguration(unittest.TestCase):
