@@ -2,8 +2,7 @@
 import sys
 import unittest
 import os
-sys.path.append(os.environ['CVM_AA_CONFIG_PATH'])
-sys.path.append(os.environ['CVM_AA_APP_PATH'] + '/scripts')
+import PiWebAgentTestSuite
 from PasswordManager import *
 
 class TestHTMLPageGenerator(unittest.TestCase):
