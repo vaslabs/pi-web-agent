@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
+import PiWebAgentTestSuite
 import HTMLPageGenerator
 from HTMLPageGenerator import *
 import unittest
