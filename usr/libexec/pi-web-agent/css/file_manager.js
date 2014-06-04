@@ -14,7 +14,11 @@ function getContents(path) {
     
     }
     
-    $("#bpath").append("<li class=\"active\">" +  breadcrump[breadcrump.length - 1] + "</li>");    
+    var currentDir = breadcrump[breadcrump.length - 1];
+    var currentPath = allContents + "/" + currentDir;
+    $("#bpath").append('<li title="refresh" class="active"><a href="javascript:getContents(\'' + spath + '\')\">' +  currentDir + '</a></li>');    
+    
+    
     
     $(".span16").prepend(animationBar());
         

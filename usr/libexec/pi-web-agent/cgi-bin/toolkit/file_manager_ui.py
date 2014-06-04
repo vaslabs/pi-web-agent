@@ -26,7 +26,7 @@ def main():
   				<p>Choose a web-agent application to open your file with</p>
   				<ul>
   				</ul>
-			</div>
+		</div>
 				<link rel="stylesheet" href="/css/jquery-ui.css">
 		<script src="/css/jquery-ui.js"></script>
 		<script src="/css/file_manager.js" type="text/javascript"></script>
