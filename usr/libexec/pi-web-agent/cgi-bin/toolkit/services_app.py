@@ -25,7 +25,6 @@ def main():
         
     sm=serviceManagerBuilder()
             
-    sm=serviceManagerBuilder()
     content=sm.getView()
     
     view.setContent('Services Management App', content)
