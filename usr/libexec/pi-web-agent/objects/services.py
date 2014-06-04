@@ -15,7 +15,7 @@ class Service(object):
         parts=line.split();
         self.status=parseStatus(parts[1])
         self.name=parts[3]
-        
+
         
     def getView(self):
         '''
@@ -66,9 +66,12 @@ class ServiceManager(object):
     '''
     def __init__(self, lines):
         self.services={}
+        self.services_js = {}
         for line in lines:
             service=Service(line)
             self.services[service.name]=service
+            self.services_js[service.name] = service.status
+    
             
     def getView(self):
         '''

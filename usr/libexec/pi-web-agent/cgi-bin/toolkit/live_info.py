@@ -7,7 +7,6 @@ import cgi
 import cgitb
 import xml.etree.ElementTree as ET
 import json
-
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
@@ -123,6 +122,11 @@ def manage_vnc(turn):
     command = 'sudo /etc/init.d/vncboot ' + turn
     output, errcode = execute(command)
 
+def get_services_status():
+    sm = serviceManagerBuilder()
+    composeJS(json.dumps(sm.services_js))
+    sys.exit(0)
+
 def all_status():
     memory_usage = getMemoryUsage()
     kernel = getKernelVersion()
@@ -140,7 +144,7 @@ def all_status():
 
 def main():
     cmds = {'update':update_check_js, 'edit_service':turn_service, 'apt': getAptBusy, 'check' : update_check,\
-      'check_app': update_check_for_app, 'update_app' : application_update, 'all_status':all_status}
+      'check_app': update_check_for_app, 'update_app' : application_update, 'all_status':all_status, 'services':get_services_status}
     fs = cgi.FieldStorage()
     if 'cmd' not in fs or fs['cmd'].value not in cmds.keys():
         response('Error')
