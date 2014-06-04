@@ -52,17 +52,20 @@ def createOnOffSwitch( pName ) :
     text = '<div class="on_off_switch">\n'
     text +='<input type="checkbox" name="'+pName+'" onclick="submit_package(this)" class="on_off_switch-checkbox" id="'+pName 
     if errorcode != 0:
+        installed=False
         checkedText = text + '" checked>'
     elif errorcode == 0 and checkFlags(output):
+        installed=True
         checkedText = text + '">'
     else:
+        installed=False
         checkedText = text + '" checked>'
     checkedText += '<label class="on_off_switch-label" for="'+pName+'">\n'
     checkedText += '<div class="on_off_switch-inner"></div>\n'
     checkedText += '<div class="on_off_switch-switch"></div>\n'
     checkedText += '</label>\n'
     checkedText += '</div>\n'
-    return checkedText
+    return checkedText, installed
 
 def getPackageList( ) :
   ins = open( PACKAGES_LIST_PATH, "r" )
@@ -94,10 +97,10 @@ def getTableRecord( index ) :
     allPackages = []
 
     for pName in packages :
-        checkedText = createOnOffSwitch( pName )
+        checkedText, installed = createOnOffSwitch( pName )
         descriptionText = getDpkgInfo( pName, "Description" )
         versionText = getDpkgInfo( pName, "Version" )
-        package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText}    
+        package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText, 'installed':installed}    
 
         allPackages.append( package )
 
