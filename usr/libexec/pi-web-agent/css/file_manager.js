@@ -1,5 +1,5 @@
-spath='/home';
-getContents('/home')
+var spath="/home";
+getContents(spath);
 
 function getContents(path) {
     url = '/cgi-bin/toolkit/file_manager.py?path=' + path;
@@ -61,7 +61,7 @@ function displayEntries(contents) {
 function download(path) {
 
     window.open('/cgi-bin/toolkit/file_manager.py?download='+path);
-
+}
 //------- functions for oppening the dialog
 function camelCase(myAwesomeSring) { 
     return myAwesomeSring.toLowerCase().replace(/-(.)/g, function(match, group1) {
