@@ -105,10 +105,12 @@ def turn_service(service_name, turn):
     else:
         newturn = "stop"
     command='sudo service ' + service_name + ' ' + newturn    
-    a=execute(command)
+    a, exit_code=execute(command)
+    msg = {'response':exit_code}
+    composeJS(json.dumps(msg))
+      
+    sys.exit(0)
     
-    return a[1]
-
 def get_temperature():
     command='sudo /opt/vc/bin/vcgencmd measure_temp'
     output, exit_code = execute(command)
