@@ -6,8 +6,8 @@ from pi_iptables_api import *
 class TestIPTablesAPI(unittest.TestCase):
     
     def test_iptables_data(self):
-        updMgr = UpdateManagerAPI()
-        chain = updMgr.getJS() 
+        iptMgr = IPTablesManagerAPI()
+        chain = iptMgr.getJS() 
         print chain
         self.assertTrue('FORWARD' in chain)
         self.assertTrue('INPUT' in chain)

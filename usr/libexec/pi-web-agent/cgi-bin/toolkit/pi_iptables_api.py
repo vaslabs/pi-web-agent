@@ -1,7 +1,9 @@
 #!/usr/bin/python
 from pi_iptables import *
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
+from HTMLPageGenerator import composeJS
 
-class UpdateManagerAPI(IPTablesManager):
+class IPTablesManagerAPI(IPTablesManager):
     def getJS(self):
         iptables_json={}
         self.chains={}
@@ -17,27 +19,11 @@ def main():
 
     form = cgi.FieldStorage()
     
-    f = open(os.environ['MY_HOME'] + '/html/iptables_overlay_html', 'r')
-    html_tables= f.read()
-    f.close()
-
-    chain_els=[[]]
-    iptables=IPTablesManager()
-    header_list=['protocol', 'target', 'otherinfo','destination', 'source', 'option']
-    for chain in iptables.chains:
-        html_tables+='<h4><a href="javascript:open_iptables_panel(\'' + chain + '\')">' + chain + '</a>'+' (Default Protocol: ' \
-                        + iptables.chains[chain].policy + ')</h4>'
-        if iptables.chains[chain]._isRulesEmpty():
-            chain_els.append(['--','--','--','--','--','--'])
-        else:
-            for rule in iptables.chains[chain].rules:
-                chain_els.append(list(rule.values()))
-        html_tables+=HTML.table(chain_els, header_row=header_list)
-        chain_els=[[]]
-        html_tables+='</br>'
     
-    js_status = {"IPTables":html_tables}
-    composeJS(updMgr.getJS)
+    
+    iptables=IPTablesManagerAPI()
+   
+    composeJS(iptables.getJS())
 
 if __name__ == '__main__':
     main()
