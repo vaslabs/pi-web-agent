@@ -37,6 +37,8 @@ def parse_package_description(package_entry):
                 
 class UpdateManager(object):
     
+    
+    
     def getDefaultView(self):
     
         iw_update = '<a class="btn btn-primary" ' +\
