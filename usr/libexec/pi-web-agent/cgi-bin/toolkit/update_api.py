@@ -29,7 +29,7 @@ class UpdateManagerAPI(UpdateManager):
 def main():
     form = cgi.FieldStorage()
     if (getAptBusy()):
-      js_status = {"status":PROCESS_PENDING}
+      js_status = {"status":PROCESS_RUNNING}
       composeJS(json.dumps(js_status))
       return
     updMgr = UpdateManagerAPI()
