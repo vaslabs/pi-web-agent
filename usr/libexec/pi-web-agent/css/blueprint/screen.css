@@ -345,12 +345,12 @@ font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-w
 
 
 .inoutswitch-inner:before {
-content: "IN";
+content: "OUT";
 padding-left: 8px;
 background-color: #2FCCFF; color: #FFFFFF;
 }
 .inoutswitch-inner:after {
-content: "OUT";
+content: "IN";
 padding-right: 8px;
 background-color: #EEEEEE; color: #999999;
 text-align: right;
