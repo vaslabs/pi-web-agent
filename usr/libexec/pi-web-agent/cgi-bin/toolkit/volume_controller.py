@@ -13,14 +13,16 @@ from framework import view, output
 import re
 
 def get_volume():
-    # Returns current volume of Master
-    out, exit_code = execute("amixer sget Master")
+    # Returns current volume of Master    
+    out, exit_code = execute("sudo amixer sget Master")
     m = re.search("[0-9]+%", out)
 
     if not m:
         return "Couldn't get volume!"
 
     return m.group(0)
+
+
 
 
 
