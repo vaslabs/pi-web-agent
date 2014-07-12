@@ -24,3 +24,12 @@ class DependableExtension(Extension):
     '''       
     def output_status(self):
         self.composeJS(getStatusJS())
+        
+    def _generateMissingDependenciesView(self):
+        if ( getAptBusy( ) ):
+            html = "<div>It seems that the dependencies of this package are not installed but the OS package manager is busy now. Try again in a moment...</div>"
+        else:
+            html = '''<div>The dependencies of this module are missing. Do you want to install them?</div><br/><button onclick="getDependenciesFor('
+            ''' + self.extensionID + '''
+            ');">Resolve dependencies</button>'''
+        return html

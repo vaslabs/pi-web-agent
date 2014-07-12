@@ -12,7 +12,7 @@ import cgitb
 cgitb.enable()
 from framework import view, output
 from live_info import hostname
-from live_info import execute
+from live_info import execute, getAptBusy
 from DependableExtension import DependableExtension
 EXTENSION_ID='VNC'
 
@@ -71,13 +71,12 @@ class VNCManager(DependableExtension):
 
     def generateView(self):
         if (not self.check_status()):
-            return self._generateMissingDependencies()
+            return self._generateMissingDependenciesView()
         if self.isServiceActive():
             return self._generateActiveView()
         return self._generateDisabledView()
         
-    def _generateMissingDependencies(self):
-        return "The dependencies of this module are missing. Do you want to install them?"
+    
 
 def main():
     vncMgr = VNCManager()

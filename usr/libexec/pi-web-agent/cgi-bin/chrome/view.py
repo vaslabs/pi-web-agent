@@ -104,7 +104,7 @@ class View(object):
         read from the browser, with the composeDocument
         function which is responsible to add the css declarations
         '''
-        composeDocument(initialiseCss(), self.mainhtml)
+        composeDocument(initialiseCss(), self.mainhtml + self._dialog())
 
     def js_output(self):
         composeJS(createText(self.contentTitle, self.content))
