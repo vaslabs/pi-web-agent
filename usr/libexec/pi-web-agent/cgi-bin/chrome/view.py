@@ -56,7 +56,8 @@ class View(object):
         shape and look of the user interface
         """
         self.contentTitle = title
-        self.content = content
+        self.content = content + self._dialog()
+        
         self._view()    
     
     #def _titleView(self):
@@ -82,7 +83,7 @@ class View(object):
         return "<div id='dialog' title='pi-web-agent'><span id='dialog_content'></span></div>"
     
     def _mainWindow(self):
-        return createText(self.contentTitle, self.content + self._dialog(), self.contentspan)
+        return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
         return '<footer><center>\n'+\
@@ -104,7 +105,7 @@ class View(object):
         read from the browser, with the composeDocument
         function which is responsible to add the css declarations
         '''
-        composeDocument(initialiseCss(), self.mainhtml + self._dialog())
+        composeDocument(initialiseCss(), self.mainhtml)
 
     def js_output(self):
         composeJS(createText(self.contentTitle, self.content))
