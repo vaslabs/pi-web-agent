@@ -6,6 +6,7 @@ class TestLiveInfo(unittest.TestCase):
     
     def test_package_is_installed(self):
         self.assertTrue(package_is_installed('apache2'))
+        self.assertTrue(not package_is_installed('alsa-mixer'))
         self.assertTrue(not package_is_installed('scala'))
         
 if __name__ == '__main__':

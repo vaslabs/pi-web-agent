@@ -7,6 +7,7 @@ class DependableExtension(Extension):
     '''
     def check_status(self):
         for dependency in self.definition['dependencies']:
+            print dependency
             if (not package_is_installed(dependency)):
                 return False
         return True
