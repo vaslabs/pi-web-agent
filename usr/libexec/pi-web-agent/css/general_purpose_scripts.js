@@ -126,12 +126,12 @@ function getResponse(url, method_call) {
 }
  
  
-function getJSONResponse(url, method_call) {
+function getJSONResponse(jsurl, method_call) {
 
     var result = null;
 
     $.ajax({
-        url: url,
+        url: jsurl,
         type: 'get',
         dataType: 'json',
         async: method_call != null,
