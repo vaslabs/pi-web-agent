@@ -8,7 +8,6 @@ sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/objects')
-from services import *
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
