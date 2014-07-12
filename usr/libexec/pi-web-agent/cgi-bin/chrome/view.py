@@ -77,9 +77,12 @@ class View(object):
         rightSide = '<div class="span4 last">' +\
          createMenuList(self.menu.items, span=None) + "\n" + fbpage + '</div>'    
         return rightSide
-        
+    
+    def _dialog(self):
+        return "<div id='dialog' title='pi-web-agent'><span id='dialog_content'></span></div>"
+    
     def _mainWindow(self):
-        return createText(self.contentTitle, self.content, self.contentspan)
+        return createText(self.contentTitle, self.content + self._dialog(), self.contentspan)
     
     def _footer(self):
         return '<footer><center>\n'+\

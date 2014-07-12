@@ -144,6 +144,26 @@ def all_status():
     composeJS(json_string)
     sys.exit(0)
 
+def checkFlags(text):
+    lines = text.split('\n')
+    del lines[-1]
+    package_line = lines[-1]
+    flags = package_line.split()[0]
+    if flags.find('r') >= 0:
+        return False
+    return True
+
+def package_is_installed(package_name):
+    bashCommand = "dpkg-query -l " + package_name
+    output, errorcode = execute( bashCommand )
+    if errorcode != 0:
+        installed=False
+    elif errorcode == 0 and checkFlags(output):
+        installed=True
+    else:
+        installed=False
+    return installed
+    
 def main():
     cmds = {'update':update_check_js, 'edit_service':turn_service, 'apt': getAptBusy, 'check' : update_check,\
       'check_app': update_check_for_app, 'update_app' : application_update, 'all_status':all_status, 'services':get_services_status}

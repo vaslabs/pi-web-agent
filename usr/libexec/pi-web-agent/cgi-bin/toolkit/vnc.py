@@ -6,16 +6,20 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
+sys.path.append(os.environ['MY_HOME']+'/objects')
 import cgi
 import cgitb
 cgitb.enable()
-from framework import config, view, output
+from framework import view, output
 from live_info import hostname
 from live_info import execute
+from DependableExtension import DependableExtension
+EXTENSION_ID='VNC'
 
-class VNCManager(object):
+class VNCManager(DependableExtension):
     
     def __init__(self):
+        DependableExtension.__init__(self, EXTENSION_ID)
         self.service = 'sudo /etc/init.d/vncboot '    
 
     def isServiceActive(self):
@@ -66,9 +70,14 @@ class VNCManager(object):
         return html
 
     def generateView(self):
+        if (not self.check_status()):
+            return self._generateMissingDependencies()
         if self.isServiceActive():
             return self._generateActiveView()
         return self._generateDisabledView()
+        
+    def _generateMissingDependencies(self):
+        return "The dependencies of this module are missing. Do you want to install them?"
 
 def main():
     vncMgr = VNCManager()
