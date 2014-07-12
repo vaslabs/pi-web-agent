@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
+import json
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/cgi-bin')
@@ -62,7 +63,7 @@ def main():
         pm = PackageManager()
         dependencies = getDependencies(form['p'].value)
         pm.loadPackages(dependencies)
-        composeJS(pm.packages)
+        composeJS(json.dumps(pm.packages))
                
 if __name__ == '__main__':
     main()
