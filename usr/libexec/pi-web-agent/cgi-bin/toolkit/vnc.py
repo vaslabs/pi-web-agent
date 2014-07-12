@@ -12,7 +12,7 @@ import cgitb
 cgitb.enable()
 from framework import view, output
 from live_info import hostname
-from live_info import execute, getAptBusy
+from live_info import execute
 from DependableExtension import DependableExtension
 EXTENSION_ID='VNC'
 
