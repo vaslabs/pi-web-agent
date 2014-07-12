@@ -40,7 +40,7 @@ If you are a developer and you want to test or work on this project you don't ne
 a virtual machine that runs something similar to the raspberry pi Raspbian. Here is how we did it:
 
 1. Download and install Virtual box. Install a debian distribution, it does not matter if it is x86 architecture. 
-Download this image https://www.dropbox.com/s/mqywesixkq9guyf/RaspberryPi.ova and open it with VirtualBox. 
+Download this image https://www.dropbox.com/s/0lkkau03ar3pqip/RaspberryPi.ova and open it with VirtualBox. 
 It is good enough for basic development and testing.
 
 2. Install git (sudo apt-get install git-core)
