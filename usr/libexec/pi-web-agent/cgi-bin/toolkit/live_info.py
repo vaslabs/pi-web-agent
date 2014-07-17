@@ -73,8 +73,11 @@ def update_check():
     
 def update_check_for_app():
     command = 'update_check.py'
-    return execute(command)[0]   
-
+    json_body = execute(command)[0]  
+    json_struct = json.loads(json_body)
+    composeJS(json.dumps(json_struct))
+    sys.exit(0)
+    
 def application_update():
     command = "sudo pi-web-agent-update -a"
     return execute(command)[1]

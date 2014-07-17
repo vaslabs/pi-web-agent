@@ -10,16 +10,15 @@ function animationBar() {
 }
 
 function check_for_updates() {
-    $(".span16").prepend(animationBar());
+    processing();
     $("#check_button").remove()
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=check_app', update_check_completed) 
+    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=check_app', update_check_completed) 
 }
 
 function update_app() {
-    $(".span16").prepend(animationBar());
-    $("#update_button").remove()    
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response)
-    
+    processing();
+    $("#update_button").remove();    
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response);
 }
 
 function processing() {
@@ -27,7 +26,7 @@ function processing() {
 }
 
 function endProcessing() {
-    $("#b-pb").remove()
+    $("#b-pb").remove();
 }
 
 function update_response(response) {
@@ -35,17 +34,19 @@ function update_response(response) {
         check_for_updates();
     else
         $("#updates").append('Update failed. Please try again later');
-    $("#b-pb").remove()
+    endProcessing();
 }
 function update_check_completed(info) {
     
-    if (info.length <= 5) {
-        $("#updates").append('Application is in its latest version')
+    if ('code' in info && info['code'] == 0) {
+        $("#updates").append('Application is in its latest version');
     }
     else {
-        $("#updates").append('<button class="btn btn-info" type="button" onclick="update_app()" id="update_button">Update</button>')
+        $("#updates").append('Version: ' + info['tag_name'] + '<br>');
+        $("#updates").append(info['body'].replace(/\n/g,"<br>") + '<br><br>');
+        $("#updates").append('<button class="btn btn-info" type="button" onclick="update_app()" id="update_button">Update</button>');
     }
-    $("#b-pb").remove()
+    endProcessing();
 
 }
 
