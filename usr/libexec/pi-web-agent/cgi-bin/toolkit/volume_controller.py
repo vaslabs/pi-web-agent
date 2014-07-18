@@ -14,7 +14,7 @@ import re
 
 def get_volume():
     # Returns current volume of Master    
-    out, exit_code = execute("sudo amixer sget Master")
+    out, exit_code = execute("sudo amixer")
     m = re.search("[0-9]+%", out)
 
     if not m:
