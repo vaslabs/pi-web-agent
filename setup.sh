@@ -81,7 +81,7 @@ this_install(){
     /bin/cp -v $OTHER_BINS /usr/bin/
     
     touch $CRONJOB_REBOOT
-    echo "@reboot /$STARTUP_PWA" >$CRONJOB_REBOOT
+    echo "@reboot root /$STARTUP_PWA" >$CRONJOB_REBOOT
 
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
