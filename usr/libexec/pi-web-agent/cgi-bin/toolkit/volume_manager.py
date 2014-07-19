@@ -23,7 +23,7 @@ def get_view():
     
     <p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
     <span class="ui-icon ui-icon-volume-on" style="float:left; margin:-2px 5px 0 0;"></span>
-    Master
+    PCM
     </p>
 
     <p>
