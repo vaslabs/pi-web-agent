@@ -7,7 +7,7 @@ import subprocess
 import json
 
 def execute_next(command):
-    os.spawnl(os.P_NOWAIT, command)
+    subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     
 def load_and_fire_startup_apps():
     jFile = open(CONFIG_FILE)
