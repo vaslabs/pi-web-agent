@@ -56,7 +56,8 @@ class View(object):
         shape and look of the user interface
         """
         self.contentTitle = title
-        self.content = content
+        self.content = content + self._dialog()
+        
         self._view()    
     
     #def _titleView(self):
@@ -77,7 +78,10 @@ class View(object):
         rightSide = '<div class="span4 last">' +\
          createMenuList(self.menu.items, span=None) + "\n" + fbpage + '</div>'    
         return rightSide
-        
+    
+    def _dialog(self):
+        return "<div id='dialog' title='pi-web-agent'><span id='dialog_content'></span></div>"
+    
     def _mainWindow(self):
         return createText(self.contentTitle, self.content, self.contentspan)
     

@@ -1,0 +1,39 @@
+<script src="/css/thumbnailviewer.js" type="text/javascript"></script>
+<div id="camera_toolbar">
+    <div class="btn-group btn-group-justified">
+        <a href='javascript:navigate("/cgi-bin/toolkit/camera.py?type=js")' class="btn btn-default">Live stream</a>
+        <a href='javascript:camera_utils("snapshot")' class="btn btn-default">Snapshot</a>
+        <a href='javascript:alert("Coming soon")' class="btn btn-default">Record</a>
+        <a href='javascript:camera_utils("stoprecord")' class="btn btn-default">Stop</a>
+</div>
+
+<div id="gallery_thumbnails">
+</div>
+
+
+<style>
+.thumbnail_view {
+    background-color: #CCC;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 1px solid #000;
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+}
+</style>
+
+<script>
+    function initialiseGallery() {
+        getJSONResponse('/cgi-bin/toolkit/camera_manager_api.py?cmd=gallery', galleryUI);
+    }
+    
+    function galleryUI(data) {
+        $.each(data, function () {
+            var thumb_div = '<div id="' + this + '" class="thumbnail_view"></div>';
+            $(thumb_div).css('background-image', '/cgi-bin/toolkit/image_manager.py?image='+ this);
+            //$(thumb_div).bind('click', openImageDialog(this));
+            $('#gallery_thumbnails').append(thumb_div);
+        });
+    }
+</script>

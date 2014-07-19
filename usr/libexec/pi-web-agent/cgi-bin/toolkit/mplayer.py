@@ -16,6 +16,9 @@ import subprocess
 from urlparse import urlparse
 from live_info import execute
 from framework import output, view
+from DependableExtension import DependableExtension
+
+EXTENSION_ID='Media Player'
 
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
@@ -23,9 +26,6 @@ def getView(err):
     uri = InputWidget('text', 'uri', '', 'URI: ',wClass='form-control ',
 											attribs='placeholder="http ... or rtsp ..."')									
     slider='''
-    		<link rel="stylesheet" href="/css/jquery-ui.css">
-		<script src="/css/jquery-ui.js"></script>
-    
     <div id="slider"></div>
     	Volume:
 		<input type="text" name="volume" id="volume" style="border:0; color:#f6931f; font-weight:bold;" readonly />
@@ -72,7 +72,7 @@ def getView(err):
     return customFieldset('/cgi-bin/toolkit/mplayer.py', 'POST', 'stream_form',alert+uri.toHtml()+slider+iw_submit.toHtml()+radioButtons,
     														 createLegend("Start Streaming"))
     														 
-class MPlayer(object):
+class MPlayer():
 
     
     def __init__(self, form):
@@ -198,6 +198,13 @@ def getRunningView(uri,volume, eq):
 				</span>
 		</div>'''
     return script
+    
+class MediaPlayerManager(DependableExtension):
+    
+    def __init__(self):
+        DependableExtension.__init__(self, EXTENSION_ID)
+        
+    
 def main():
     """
     The mplayer port for py web agent
@@ -217,19 +224,28 @@ def main():
     or for more generic pi-web agent questions
     ask any member of the kupepia team.
     """
+    
+                
     form = cgi.FieldStorage()
+    
+    mpm = MediaPlayerManager()
+    if (not mpm.check_status()):
+        view.setContent('Media Player', mpm._generateMissingDependenciesView())
+        output(view, form)
+        return
+ 
     if execute('pidof mplayer')[1]==0:
         settingsReader=SettingsReader("/tmp/mplayer_status")
         settingsReader.read()
-        view.setContent('Mplayer', getRunningView("",settingsReader.getVolume(), settingsReader.getEQ().split(':')))
+        view.setContent('Media Player', getRunningView("",settingsReader.getVolume(), settingsReader.getEQ().split(':')))
     elif "uri" not in form and "volume" not in form:
-        view.setContent('Mplayer', getView(None))
+        view.setContent('Media Player', getView(None))
     elif "uri" not in form :
-        view.setContent('Mplayer', getView("Please provide a uri"))
+        view.setContent('Media Player', getView("Please provide a uri"))
     else:
         player = MPlayer(form)
         player.startStream();
-        view.setContent('Mplayer', getRunningView(form.getvalue("uri"),form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
+        view.setContent('Media Player', getRunningView(form.getvalue("uri"),form.getvalue("volume"),"0:0:0:0:0:0:0:0:0:0".split(':')))
     
     output(view, form)
 

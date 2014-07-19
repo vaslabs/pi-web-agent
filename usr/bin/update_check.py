@@ -70,9 +70,16 @@ def getReleaseLink():
         return repo_json["zipball_url"]
     else:
         return ""
+
+def getNewUpdate():
+    repo_json = getJSON()
+    if check(repo_json):
+        return json.dumps(repo_json)
+    else:
+        return json.dumps({"code": 0})
         
 def main():
-    print getReleaseLink()
+    print getNewUpdate()
     
 if __name__ == "__main__":
     main()

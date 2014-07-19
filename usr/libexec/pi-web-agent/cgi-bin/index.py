@@ -58,5 +58,6 @@ def redirect():
   print '  </body>'
   print '</html>'
 
-main()
+if __name__ == "__main__":
+    main()
     

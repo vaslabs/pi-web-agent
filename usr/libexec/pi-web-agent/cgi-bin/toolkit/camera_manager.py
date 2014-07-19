@@ -16,34 +16,47 @@ import cgi
 import cgitb
 from subprocess import Popen, PIPE
 cgitb.enable()
-from framework import output, view, config
+from framework import output, view, config, get_template
+from DependableExtension import DependableExtension
+import json
+
+EXTENSION_ID='Pi Camera Controller'
+
+class CameraManager(DependableExtension):
+
+    def __init__(self):
+        DependableExtension.__init__(self, EXTENSION_ID)
+        
+    def getImages(self):
+        
+        pictures, returncode = execute("ls /usr/share/pi-web-agent/camera-media/*.png")
+        if (returncode != 0):
+            linearray = [returncode]
+        else:
+            linearray = pictures.split('\n')
+            for i, value in enumerate(linearray):
+                linearray[i] = os.path.basename(value)
+            del linearray[-1]
+        return linearray
+        
+    def getNormalView(self):
+        tFile = open(get_template('camera_controller'))
+        html = tFile.read()
+        tFile.close()
+
+        return html
+    
+    def generateView(self):
+        if (not self.check_status()):
+            return self._generateMissingDependenciesView()
+        return self.getNormalView()
 
 def main():
 
     form = cgi.FieldStorage()
     
-    pictures, returncode = execute("ls /usr/share/pi-web-agent/camera-media/*.jpg")
-    linearray = pictures.split('\n')
-    
-    html = '''<div id="camera_toolbar">
-                  <div class="btn-group btn-group-justified">
-                      <a href='javascript:navigate("/cgi-bin/toolkit/camera.py?type=js")' class="btn btn-default">Live stream</a>
-                      <a href='javascript:camera_utils("snapshot")' class="btn btn-default">Snapshot</a>
-                      <a href='javascript:alert("Coming soon")' class="btn btn-default">Record</a>
-                      <a href='javascript:camera_utils("stoprecord")' class="btn btn-default">Stop</a>
-      
-                 </div></div><br>
-          '''
-    html += '''<div id="gallery_thumbnails">'''
-    
-    for thisline in linearray:
-        justname = thisline.split('/')[-1]
-        if len(justname) <= 0:
-            continue
-        html += '<a href="/cgi-bin/toolkit/image_manager.py?image='+justname +'" rel="thumbnail"><img style="padding:4px; border:2px solid #021a40;" src="/cgi-bin/toolkit/image_manager.py?image='+justname.split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>'
-    html += '</div><br>'
-
-    view.setContent('Pi Camera Controller', html)
+    cameraMgr = CameraManager()
+    view.setContent('Pi Camera Controller', cameraMgr.generateView())
     output(view, cgi.FieldStorage())
     
 if __name__ == '__main__':

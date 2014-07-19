@@ -10,16 +10,23 @@ function animationBar() {
 }
 
 function check_for_updates() {
-    $(".span16").prepend(animationBar());
+    processing();
     $("#check_button").remove()
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=check_app', update_check_completed) 
+    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=check_app', update_check_completed) 
 }
 
 function update_app() {
+    processing();
+    $("#update_button").remove();    
+    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response);
+}
+
+function processing() {
     $(".span16").prepend(animationBar());
-    $("#update_button").remove()    
-    getResponse('/cgi-bin/toolkit/live_info.py?cmd=update_app', update_response)
-    
+}
+
+function endProcessing() {
+    $("#b-pb").remove();
 }
 
 function update_response(response) {
@@ -27,17 +34,19 @@ function update_response(response) {
         check_for_updates();
     else
         $("#updates").append('Update failed. Please try again later');
-    $("#b-pb").remove()
+    endProcessing();
 }
 function update_check_completed(info) {
     
-    if (info.length <= 5) {
-        $("#updates").append('Application is in its latest version')
+    if ('code' in info && info['code'] == 0) {
+        $("#updates").append('Application is in its latest version');
     }
     else {
-        $("#updates").append('<button class="btn btn-info" type="button" onclick="update_app()" id="update_button">Update</button>')
+        $("#updates").append('Version: ' + info['tag_name'] + '<br>');
+        $("#updates").append(info['body'].replace(/\n/g,"<br>") + '<br><br>');
+        $("#updates").append('<button class="btn btn-info" type="button" onclick="update_app()" id="update_button">Update</button>');
     }
-    $("#b-pb").remove()
+    endProcessing();
 
 }
 
@@ -52,3 +61,47 @@ function sls(info) {
 function stop_live_streaming() {
     getResponse('/cgi-bin/toolkit/camera.py?cmd=stop', sls)
 }
+
+// Builds the HTML Table out of myList.
+function buildHtmlTableFromObject( obj, tableID, keys) {
+
+    $.each(Object.keys(obj), function () {
+        var row$ = $('<tr/>');
+        row$.append($('<td/>').html(this));
+        var entry = obj[this];
+        $.each(keys, function() {
+            row$.append($('<td/>').html(entry[this]));
+        });
+        
+        $("#" + tableID).append(row$);
+        
+    });
+}
+
+
+// Adds a header row to the table and returns the set of columns.
+// Need to do union of keys from all records as some records may not contain
+// all records
+function addAllColumnHeaders(myList, firstTime){
+
+    var columnSet = [];
+    var headerTr$ = $('<tr/>');
+
+    for (var i = 0 ; i < myList.length ; i++) {
+        var rowHash = myList[i];
+        columnSet.push('Package Name');
+        headerTr$.append($('<th/>').html('Package Name'));
+        columnSet.push('Status');
+        headerTr$.append($('<th/>').html('Status'));
+        columnSet.push('Description');
+        headerTr$.append($('<th/>').html('Description'));
+        columnSet.push('Version');
+        headerTr$.append($('<th/>').html('Version'));
+        
+    }
+    if(firstTime)
+      $("#packages-table-id").prepend(headerTr$);
+
+    return columnSet;
+}   
+
