@@ -159,7 +159,14 @@ def main():
     html_code += '<div id="gpio_table">\n'
     html_code += HTML.table( pins, header_row=[ 'DIRECTION', 'VALUE', 'LEFT', 'RIGHT', 'VALUE', 'DIRECTION' ] )
     html_code += '</div>\n'
-    html_code += '<center><div id="user_space"></div><button class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button></center>' 
+    html_code += '''
+        <div align="center">
+            <div id="user_space"></div>
+                <button style="float: left;" class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button>
+                <button style="float: right;" type="button" class="btn btn-info" onclick="navigate(\'/cgi-bin/toolkit/gpio_manager.py?type=js\');">Refresh</button>
+        </div>
+    
+    ''' 
     view.setContent('GPIO Manager', html_code)
     output(view, cgi.FieldStorage())
     
