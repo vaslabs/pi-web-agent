@@ -11,6 +11,9 @@ from view import View
 config=Configuration()
 view = View(config.system.actions, config.system.cmdactions)
 
+def get_template(template):
+    return os.environ['MY_HOME']+'/templates/' + template + '.htm'
+
 def output(view, form):
     if "type" in form and form["type"].value == "js":
         view.js_output()
