@@ -394,8 +394,4 @@ function camera_utils(action) {
     var info=getResponse(url, null);
 }
 
-function displaySnapshot(data) {
-    $('#gallery_thumbnails').append('<a href="/cgi-bin/toolkit/image_manager.py?image='+data['name'] +'" rel="thumbnail"><img style="padding:4px; border:2px solid #021a40;" src="/cgi-bin/toolkit/image_manager.py?image='+data['name'].split('.')[0]+'.png" style="width: 64px; height: 64px" /></a>');
-    $("#b-pb").remove();
-}
 

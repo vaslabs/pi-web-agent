@@ -9,3 +9,31 @@
 
 <div id="gallery_thumbnails">
 </div>
+
+
+<style>
+.thumbnail_view {
+    background-color: #CCC;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 1px solid #000;
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+}
+</style>
+
+<script>
+    function initialiseGallery() {
+        getJSONResponse('/cgi-bin/toolkit/camera_manager_api.py?cmd=gallery', galleryUI);
+    }
+    
+    function galleryUI(data) {
+        $.each(data, function () {
+            var thumb_div = '<div id="' + this + '" class="thumbnail_view"></div>';
+            $(thumb_div).css('background-image', '/cgi-bin/toolkit/image_manager.py?image='+ this);
+            //$(thumb_div).bind('click', openImageDialog(this));
+            $('#gallery_thumbnails').append(thumb_div);
+        });
+    }
+</script>
