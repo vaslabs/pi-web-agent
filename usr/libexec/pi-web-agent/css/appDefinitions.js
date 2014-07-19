@@ -4,15 +4,26 @@ defaultApps.push({"name": "Download", "startFunction":download, "icon": "downloa
 //--application definition goes here
 apps.push({"name": "Mplayer", "startFunction":mplayer, "icon": "mplayer.png", "extensions":[".mp3", ".ogg"]});
 
+apps.push({"name": "StartupManager", "startFunction":startupManager, "icon": "startup.png", "extensions":[".sh", ".py"]});
+
 
 //--------start functions go here-------------
 //the reason why we need start functions is that later on we can play with iframes
 function mplayer(path) {
-		window.location='/cgi-bin/toolkit/mplayer.py?uri='+path+'&volume=50';
+	window.location='/cgi-bin/toolkit/mplayer.py?uri='+path+'&volume=50';
 }
 function download(path) {
     window.location='/cgi-bin/toolkit/file_manager.py?download='+path;
 }
+
+var sharedPath = "";
+
+function startupManager(path) {
+    sharedPath = path;
+    $( "#openDialog" ).dialog( "close" );
+    navigate('/cgi-bin/toolkit/startup_manager.py?type=js');
+}
+
 //---we create an object that holds applications by extension
 for( var i=0; i<apps.length;i++) {
 	for (var j=0;j<apps[i].extensions.length;j++){
@@ -24,4 +35,4 @@ for( var i=0; i<apps.length;i++) {
 	}
 }
 
-//use the extApps to access the appropriate apps for your file(by roviding its extention)
+//use the extApps to access the appropriate apps for your file(by providing its extention)

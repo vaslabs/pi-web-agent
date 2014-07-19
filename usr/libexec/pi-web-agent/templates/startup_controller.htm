@@ -53,6 +53,13 @@
     
     $(document).ready(function () {
         getStartupScripts();
+        var path="";
+        if (typeof(sharedPath) != 'undefined') {
+            path = sharedPath;
+        }
+        
+        $("#txtLocation").val(path);
+        
     });
     
     function initiliseStartupScriptsAfterRem(data) {
