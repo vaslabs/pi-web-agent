@@ -1,0 +1,78 @@
+<div>
+    <div class="form-group">
+        <label class="control-label" for="inputDefault">Location of executable file</label>
+        <input type="text" class="form-control" id="txtLocation">
+    </div>
+    <div class="form-group">
+        <label class="control-label">Arguments</label>
+        <input id="txtArgs" type="text" class="form-control">
+    </div>
+    <div align="center">
+        <button onclick="setStartupScript()" class="btn btn-primary">Set as startup application</button>
+    </div>
+</div>
+<br>
+<select class="form-control" id="startupList">
+    
+</select>
+<br>
+<button onclick="removeScript()" class="btn btn-danger">Remove script from startup</button>
+
+<script type="text/javascript">
+    function setStartupScript() {
+        var location = $("#txtLocation").val();
+        var arguments = $("#txtArgs").val();
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=set&script=' + location + '&args=' + arguments;
+        processing();
+        getJSONResponse(smURL, handleSMResponse);
+    }
+    
+    function handleSMResponse(data) {
+        endProcessing();
+        if (data['code'] == 0) {
+            popSuccessMessage('');
+        } else {
+            popFailMessage('');
+        }
+        initiliseStartupScripts(data['result']);
+    }
+    
+    function getStartupScripts() {
+        processing();
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=get';
+        getJSONResponse(smURL, initiliseStartupScripts);
+    }
+    
+    function initiliseStartupScripts(data) {
+        $('#startupList').html('');
+        $.each(data, function (index, value) {
+            var option = '<option value="' + index + '">' + value['script'] + ' ' + value['args'] + '</option>';
+            $('#startupList').append(option);
+        });
+        endProcessing();
+    }
+    
+    $(document).ready(function () {
+        getStartupScripts();
+        var path="";
+        if (typeof(sharedPath) != 'undefined') {
+            path = sharedPath;
+        }
+        
+        $("#txtLocation").val(path);
+        
+    });
+    
+    function initiliseStartupScriptsAfterRem(data) {
+        initiliseStartupScripts(data['result']);
+    }
+    
+    function removeScript() {
+        processing();
+        var index = $("#startupList").val();
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=remove&index=' + index;
+        getJSONResponse(smURL, initiliseStartupScriptsAfterRem);
+    }
+    
+    
+</script>

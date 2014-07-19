@@ -1,5 +1,4 @@
 function navigate(link) {
-     thumbnailviewer.closeit();
      $(".span16").prepend(animationBar());
      $(".span16").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
@@ -105,3 +104,23 @@ function addAllColumnHeaders(myList, firstTime){
     return columnSet;
 }   
 
+
+function showDialog(dtitle, content) {
+
+    $("#dialog").dialog({title: dtitle, width: "75%"});
+    $("#dialog_content").html('');
+    $("#dialog_content").html(content);
+}
+
+function popSuccessMessage(msg) {
+    var dialog = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' +
+              '<strong>Success</strong>' + msg + '.</div>'
+    $(".span16").prepend(dialog);
+}
+
+
+function popFailMessage(msg) {
+    var dialog = '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
+              '<strong>Success</strong>' + msg + '.</div>'
+    $(".span16").prepend(dialog);
+}

@@ -88,6 +88,7 @@ function openBtnsInit(givenApps, path){
 	}
 	
 }
+var sharedDialog = null;
 function openDialog(givenApps, path){
 	//assuming unique names for apps
 	var  openDialogHtmlFragments=[]
@@ -98,7 +99,7 @@ function openDialog(givenApps, path){
 		openDialogHtmlFragments.push(getAppIconHtml(givenApps[a]));
 	}
 	$('#openDialog ul').html('<li>'+openDialogHtmlFragments.join("</li><li>")+'</li>');
-	$( "#openDialog" ).dialog( "open" );
+	sharedDialog = $( "#openDialog" ).dialog( "open" );
 	openBtnsInit(givenApps, path);
 	//console.log(JSON.stringify($('#openDialog').html()));
 }	
