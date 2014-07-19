@@ -1,0 +1,27 @@
+<div>
+    <div class="form-group">
+        <label class="control-label" for="inputDefault">Location of executable file</label>
+        <input type="text" class="form-control" id="txtLocation">
+    </div>
+    <div class="form-group">
+        <label class="control-label">Arguments</label>
+        <input id="txtArgs" type="text" class="form-control">
+    </div>
+    <div class="checkbox">
+        <label>
+          <input type="checkbox" id="chkRunNow"> Run now
+        </label>
+    </div>
+    <div align="center">
+        <button onclick="setStartupScript()" class="btn btn-primary">Set as startup application</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function setStartupScript() {
+        var location = $("#txtLocation").val();
+        var arguments = $("#txtArgs").val();
+        var runNow = $("#chkRunNow").prop('checked');
+        
+    }
+</script>
