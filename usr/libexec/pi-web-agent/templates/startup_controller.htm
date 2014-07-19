@@ -7,11 +7,6 @@
         <label class="control-label">Arguments</label>
         <input id="txtArgs" type="text" class="form-control">
     </div>
-    <div class="checkbox">
-        <label>
-          <input type="checkbox" id="chkRunNow"> Run now
-        </label>
-    </div>
     <div align="center">
         <button onclick="setStartupScript()" class="btn btn-primary">Set as startup application</button>
     </div>
@@ -21,7 +16,17 @@
     function setStartupScript() {
         var location = $("#txtLocation").val();
         var arguments = $("#txtArgs").val();
-        var runNow = $("#chkRunNow").prop('checked');
-        
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=set&script=' + location + '&args=' + arguments;
+        processing();
+        getJSONResponse(smURL, handleSMResponse);
+    }
+    
+    function handleSMResponse(data) {
+        endProcessing();
+        if (data['code'] == 0) {
+            popSuccessMessage('');
+        } else {
+            popFailMessage('');
+        }
     }
 </script>
