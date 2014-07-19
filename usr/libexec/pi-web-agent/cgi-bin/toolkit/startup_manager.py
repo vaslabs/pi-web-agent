@@ -14,7 +14,7 @@ sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 from framework import output, view, config, get_template
 import json
 
-CONFIG_FILE = '/usr/share/pi-web-agent/startup/startup.cfg'
+CONFIG_FILE = 'usr/share/pi-web-agent/startup/startup.cfg'
 
 class StartupManager(object):
     
@@ -40,6 +40,16 @@ class StartupManager(object):
         exitcode = 0
         if (executeNow):
             result, exitcode = execute(script_location + ' ' + args)
+        return {'code':exitcode}
+        
+    def remove_definition(self, index):
+        jFile = open(CONFIG_FILE)
+        definition = json.load(jFile)
+        jFile.close()
+        del definition[index]
+        jFile = open(CONFIG_FILE, 'w')
+        json.dump(definition, jFile)
+        exitcode = 0
         return {'code':exitcode}
         
 def main():
