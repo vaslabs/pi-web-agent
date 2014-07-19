@@ -12,10 +12,10 @@
     </div>
 </div>
 <br>
-<select multiple="" class="form-control" id="startupList">
+<select class="form-control" id="startupList">
     
 </select>
-
+<br>
 <button onclick="removeScript()" class="btn btn-danger">Remove script from startup</button>
 
 <script type="text/javascript">
@@ -38,13 +38,14 @@
     
     function getStartupScripts() {
         processing();
-        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=get'
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=get';
         getJSONResponse(smURL, initiliseStartupScripts);
     }
     
     function initiliseStartupScripts(data) {
+        $('#startupList').html('');
         $.each(data, function (index, value) {
-            var option = '<option value="' + index + '">' + value['script'] + ' ' + value['args'] + '</option>'
+            var option = '<option value="' + index + '">' + value['script'] + ' ' + value['args'] + '</option>';
             $('#startupList').append(option);
         });
         endProcessing();
@@ -54,7 +55,16 @@
         getStartupScripts();
     });
     
-    function removeScript() {
-    
+    function initiliseStartupScriptsAfterRem(data) {
+        initiliseStartupScripts(data['result']);
     }
+    
+    function removeScript() {
+        processing();
+        var index = $("#startupList").val();
+        var smURL = '/cgi-bin/toolkit/startup_manager_api.py?cmd=remove&index=' + index;
+        getJSONResponse(smURL, initiliseStartupScriptsAfterRem);
+    }
+    
+    
 </script>
