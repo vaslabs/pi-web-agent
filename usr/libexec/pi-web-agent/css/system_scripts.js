@@ -105,3 +105,11 @@ function addAllColumnHeaders(myList, firstTime){
     return columnSet;
 }   
 
+
+function showDialog(dtitle, content) {
+
+    $("#dialog").dialog({title: dtitle, width: "75%"});
+    $("#dialog_content").html('');
+    $("#dialog_content").html(content);
+}
+
