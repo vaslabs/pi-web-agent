@@ -1,4 +1,5 @@
 function initialiseGallery() {
+        processing();
         getJSONResponse('/cgi-bin/toolkit/camera_manager_api.py?cmd=gallery', galleryUI);
     }
     var images = {};
@@ -17,9 +18,8 @@ function initialiseGallery() {
             
             $('#row_' + row_index).append(thumb_div);
             $('#image_'+index).css('background-image', 'url(/cgi-bin/toolkit/image_manager.py?image='+ value + ')');
-            
-            
         });
+        endProcessing();
     }
     
     function displaySnapshot(data) {
