@@ -11,8 +11,6 @@ sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import output, view
 from BlueprintDesigner import *
 from HTMLPageGenerator import *
-from volume_controller import get_volume
-
 
 def get_view():
     content =  '''
@@ -35,11 +33,9 @@ def get_view():
  
     <div id="slider-vertical" style="height:200px;"></div>
 
-    Curent volume is: {vol}
-    
     '''
 
-    return content.format(vol=get_volume())
+    return content
     
 def main():
     fs = cgi.FieldStorage()
