@@ -43,9 +43,12 @@ class StartupManager(object):
         return {'code':exitcode}
         
     def remove_definition(self, index):
+        
         jFile = open(CONFIG_FILE)
         definition = json.load(jFile)
         jFile.close()
+        if index >= len(definition):
+            return {'code':1, 'err':'Invalid index'}
         del definition[index]
         jFile = open(CONFIG_FILE, 'w')
         json.dump(definition, jFile)
