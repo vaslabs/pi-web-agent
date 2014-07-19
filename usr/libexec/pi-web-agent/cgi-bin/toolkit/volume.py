@@ -16,14 +16,15 @@ def get_volume():
     # Returns current volume of Master    
     out, exit_code = execute("sudo amixer sget Master")
     m = re.search("[0-9]+%", out)
+    vol = m.group(0)[:-1]
+    
+    return int(vol)
 
-    if not m:
-        return "Couldn't get volume!"
+def set_volume(n_vol):
+    command = "sudo amixer sset Master {vol}\%"
+    out, exit_code = execute(command.format(vol=n_vol))
 
-    return m.group(0)
-
-def set_volume(vol):
-    pass
+    return n_vol
 
 def main():
     # main entry point for the volume controller api
@@ -39,12 +40,11 @@ def main():
 
     try:
         new_vol = form['update'].value
-        set_volume(new_vol)
+        n_vol = set_volume(int(new_vol))
+        composeJS(json.dumps(n_vol))
     except KeyError:
         current_vol = get_volume()
         composeJS(json.dumps(current_vol))
-
-        
 
 if __name__ == "__main__":
     main()
