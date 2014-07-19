@@ -394,4 +394,3 @@ function camera_utils(action) {
     var info=getResponse(url, null);
 }
 
-
