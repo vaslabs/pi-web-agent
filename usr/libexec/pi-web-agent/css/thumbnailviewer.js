@@ -23,13 +23,14 @@ function initialiseGallery() {
     }
     
     function displaySnapshot(data) {
-        var image_url = '/cgi-bin/toolkit/image_manager.py?image='+data['name'];
-        append_image(image_url);
+        var value = data['name'].split('.')[0] + '.png'
+        var image_url = '/cgi-bin/toolkit/image_manager.py?image='+value;
+        append_image(image_url, value);
         endProcessing();
     
     }
     
-    function append_image(image_url) {
+    function append_image(image_url, value) {
         var total_images = Object.keys(images).length;
         var index = total_images;
         var row_index = Math.floor(index/6);
@@ -39,7 +40,6 @@ function initialiseGallery() {
             $('#gallery_thumbnails').append(row);    
         }
         var thumb_div = '<div class="span3"><a href="#" onclick="openImageDialog(\''+value + '\');"><div id="image_' + index + '" class="thumbnail_view"></div></a></div>';
-        //$(thumb_div).bind('click', openImageDialog(this));
         
         $('#row_' + row_index).append(thumb_div);
         $('#image_'+index).css('background-image', 'url(' + image_url + ')');
