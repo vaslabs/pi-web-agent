@@ -28,10 +28,6 @@ function handle_vol_update(data) {
     return 0;
 }
 
-    
-
-
-
 $(function() {
     init()
     
