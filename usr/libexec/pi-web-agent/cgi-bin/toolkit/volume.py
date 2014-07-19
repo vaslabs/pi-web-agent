@@ -30,7 +30,11 @@ def main():
     # do a dispatch on the url command and call
     # the corresponding function
     #
-    # available commands: get_volume, set_volume    
+    # If no value is given returns current volume
+    # otherwise sets volume to the update value in
+    # the form from GET
+    #
+    # Need to also check for not well formed URLs
     form = cgi.FieldStorage()
 
     try:
