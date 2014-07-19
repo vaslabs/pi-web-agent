@@ -40,7 +40,7 @@ class StartupManager(object):
         exitcode = 0
         if (executeNow):
             result, exitcode = execute(script_location + ' ' + args)
-        return {'code':exitcode}
+        return {'code':exitcode, 'result':definition}
         
     def remove_definition(self, index):
         
