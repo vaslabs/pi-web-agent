@@ -38,7 +38,7 @@ def get_view():
     Curent volume is: {vol}
     
     '''
-    
+
     return content.format(vol=get_volume())
     
 def main():
