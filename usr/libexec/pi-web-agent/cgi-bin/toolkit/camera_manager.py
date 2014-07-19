@@ -57,7 +57,7 @@ def main():
     
     cameraMgr = CameraManager()
     view.setContent('Pi Camera Controller', cameraMgr.generateView())
-    output(view, cgi.FieldStorage())
+    output(view, form)
     
 if __name__ == '__main__':
     main()
