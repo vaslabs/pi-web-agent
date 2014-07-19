@@ -15,6 +15,9 @@ def set_definition(script, arguments, executeNow=False):
 
 def valid(form):
     return 'script' in form
+    
+def remove_definition(index):
+    return startupMgr.remove_definition(index)
 
 def main(form):
     
@@ -31,6 +34,10 @@ def main(form):
                 composeJS(json.dumps({'status':'INVALID_DATA'}))
         elif form['cmd'].value == 'get':
             result = get_current_definitions()
+            composeJS(json.dumps(result))
+        elif form['cmd'].value == 'remove' and 'index' in form:
+            index = int(form['index'].value)
+            result = remove_definition(index)
             composeJS(json.dumps(result))
     else:
         composeJS(json.dumps({'status':'INVALID_DATA'}))

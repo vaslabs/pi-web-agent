@@ -14,7 +14,7 @@ sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 from framework import output, view, config, get_template
 import json
 
-CONFIG_FILE = 'usr/share/pi-web-agent/startup/startup.cfg'
+CONFIG_FILE = '/usr/share/pi-web-agent/startup/startup.cfg'
 
 class StartupManager(object):
     
@@ -50,7 +50,7 @@ class StartupManager(object):
         jFile = open(CONFIG_FILE, 'w')
         json.dump(definition, jFile)
         exitcode = 0
-        return {'code':exitcode}
+        return {'code':exitcode, 'result':definition}
         
 def main():
     form = cgi.FieldStorage()

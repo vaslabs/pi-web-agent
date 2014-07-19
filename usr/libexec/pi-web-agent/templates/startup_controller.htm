@@ -16,6 +16,8 @@
     
 </select>
 
+<button onclick="removeScript()" class="btn btn-danger">Remove script from startup</button>
+
 <script type="text/javascript">
     function setStartupScript() {
         var location = $("#txtLocation").val();
@@ -51,4 +53,8 @@
     $(document).ready(function () {
         getStartupScripts();
     });
+    
+    function removeScript() {
+    
+    }
 </script>
