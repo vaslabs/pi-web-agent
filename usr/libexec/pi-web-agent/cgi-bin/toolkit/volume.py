@@ -14,14 +14,14 @@ import re
 
 def get_volume():
     # Returns current volume of Master    
-    out, exit_code = execute("sudo amixer sget Master")
+    out, exit_code = execute("sudo amixer sget PCM")
     m = re.search("[0-9]+%", out)
     vol = m.group(0)[:-1]
     
     return int(vol)
 
 def set_volume(n_vol):
-    command = "sudo amixer sset Master {vol}\%"
+    command = "sudo amixer sset PCM {vol}\%"
     out, exit_code = execute(command.format(vol=n_vol))
 
     return n_vol
