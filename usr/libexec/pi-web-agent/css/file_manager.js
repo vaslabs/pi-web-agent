@@ -67,11 +67,17 @@ function download(path) {
     window.open('/cgi-bin/toolkit/file_manager.py?download='+path);
 }
 //------- functions for oppening the dialog
-function camelCase(myAwesomeSring) { 
-    return myAwesomeSring.toLowerCase().replace(/-(.)/g, function(match, group1) {
-        return group1.toUpperCase();
+function camelCase(myAwesomeString) {
+    myAwesomeString = myAwesomeString.replace(/([^a-zA-Z0-9_\- ])|^[_0-9]+/g, "").trim().toLowerCase();
+    myAwesomeString = myAwesomeString.replace(/([ -]+)([a-zA-Z0-9])/g, function(a,b,c) {
+        return c.toUpperCase();
     });
+    myAwesomeString = myAwesomeString.replace(/([0-9]+)([a-zA-Z])/g, function(a,b,c) {
+        return b + c.toUpperCase();
+    });
+    return myAwesomeString;
 }
+
 function getAppIconHtml(appDescrObj){
 	return '<a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link"><img src="../../icons/'+appDescrObj['icon']+'" width="60" height="60"  /></a><a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link">'+appDescrObj['name']+'</a>'	
 }
@@ -101,7 +107,6 @@ function openDialog(givenApps, path){
 	$('#openDialog ul').html('<li>'+openDialogHtmlFragments.join("</li><li>")+'</li>');
 	sharedDialog = $( "#openDialog" ).dialog( "open" );
 	openBtnsInit(givenApps, path);
-	//console.log(JSON.stringify($('#openDialog').html()));
 }	
 function getExtension(path) {
     var i = path.lastIndexOf('.');

@@ -30,6 +30,9 @@ UPDATE_APP_BIN=usr/bin/pi-web-agent-update
 UPDATE_CHECK_PY=usr/bin/update_check.py
 OTHER_BINS="usr/bin/start-stream-cam.sh usr/bin/pi-camera-stream.sh"
 SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
+STARTUP_PWA=usr/bin/startup-manager-pwa.py
+
+CRONJOB_REBOOT=/etc/cron.d/cronpwa
 
 this_install(){
     echo -n "Installing pi web agent "
@@ -66,15 +69,19 @@ this_install(){
     /bin/cp -v "$UPDATE_APP_BIN" "/$UPDATE_APP_BIN"
     /bin/cp -v "$UPDATE_CHECK_PY" "/$UPDATE_CHECK_PY"
     /bin/cp -v "$SYSTEM_UPDATE_CHECK" "/$SYSTEM_UPDATE_CHECK"
+    /bin/cp -v "$STARTUP_PWA" "/$STARTUP_PWA"
     chmod +x "/$EXECUTE_BIN"
     chmod +x "/$SERVICE_PATH"
     chmod +x "/$UPDATE_APP_BIN"
     chmod +x "/$UPDATE_CHECK_PY"
     chmod +x "/$SYSTEM_UPDATE_CHECK"
-
+    chmod +x "/$STARTUP_PWA"
+        
     chmod +x $OTHER_BINS
     /bin/cp -v $OTHER_BINS /usr/bin/
     
+    touch $CRONJOB_REBOOT
+    echo "@reboot root /$STARTUP_PWA" >$CRONJOB_REBOOT
 
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
@@ -155,6 +162,8 @@ this_uninstall() {
     /bin/rm "/$UPDATE_CHECK_PY"
     /bin/rm "/$UPDATE_APP_BIN"
     /bin/rm "/$SYSTEM_UPDATE_CHECK"
+    /bin/rm $CRONJOB_REBOOT
+    /bin/rm "/$STARTUP_PWA"
     /etc/init.d/vncboot stop
     rm /etc/init.d/vncboot
 

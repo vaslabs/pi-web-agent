@@ -4,7 +4,7 @@ defaultApps.push({"name": "Download", "startFunction":download, "icon": "downloa
 //--application definition goes here
 apps.push({"name": "Mplayer", "startFunction":mplayer, "icon": "mplayer.png", "extensions":[".mp3", ".ogg"]});
 
-apps.push({"name": "StartupManager", "startFunction":startupManager, "icon": "startup.png", "extensions":[".sh", ".py"]});
+apps.push({"name": "Startup Manager", "startFunction":startupManager, "icon": "startup.png", "extensions":[".sh", ".py"]});
 
 
 //--------start functions go here-------------
