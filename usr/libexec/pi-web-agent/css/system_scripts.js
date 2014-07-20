@@ -123,6 +123,10 @@ function showDialog(dtitle, content) {
     $("#dialog_content").html(content);
 }
 
+function closeDialog() {
+    $("#dialog").dialog('close');
+}
+
 function popSuccessMessage(msg) {
     var dialog = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' +
               '<strong>Success</strong>' + msg + '.</div>'

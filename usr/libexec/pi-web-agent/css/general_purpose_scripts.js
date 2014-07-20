@@ -260,18 +260,6 @@ function reloadInXSecs( secs ){
   setTimeout(function () { location.reload(1); }, secs);
 }
 
-function toggleOverlay(){
-//    open_iptables_panel('12')
-    var overlay = $('#ip_overlay');
-    overlay.style.opacity = .8;
-    if(overlay.style.display == "block"){
-        overlay.style.display = "none";
-        location.reload(false)
-    } else {
-        overlay.style.display = "block";
-    }
-}
-
 function getPackageResponse(url) {
     var value = -1;
 

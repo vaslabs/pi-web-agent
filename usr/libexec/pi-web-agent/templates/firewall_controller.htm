@@ -129,7 +129,7 @@
 
     function getIPTableValues(chain, action, protocol, ip_address) {
         processing();
-        
+        closeDialog();
         var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol+'&ipaddress='+ip_address;
         $.ajax({
             type: "GET",
@@ -152,14 +152,19 @@
     
     var overlay = null;
     
-    $(document).ready( function () {
+    $( function () {
         initialise_iptables();
         enableProtocolRule();
         enableIPRule();
         overlay = $('#ip_overlay_holder').html();
-        $('#ip_overlay_holder').remove();
-        
+        $('#ip_overlay_holder').remove();   
     });
+    
+    
+    
+    function init_everything() {
+        
+    }
 </script>
 
 <style>
