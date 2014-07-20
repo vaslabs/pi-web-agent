@@ -1,0 +1,92 @@
+<div id="firewall_area">
+
+</div>
+<div id="ip_overlay" style="display: none;">
+    <div>
+        <h2>Add Rules</h2>
+        <form name="inputRule" id="addRuleID">
+            Choose action<br>
+            <div  style="margin-bottom: 15px;">            
+                <select id="selectAction" class="form-control">
+                    <option>ACCEPT</option>
+                    <option>DROP</option>
+                    <option>FLUSH</option>
+                </select>
+            </div>
+            <div id="protocolRuleOption" style="margin-bottom: 15px;">
+                <input type="checkbox" id="enableProtocolCheckBox" onclick="enableProtocolRule()"/> Protocol
+                <select id="selectProtocol" class="form-control">
+                    <option>ALL</option>
+                    <option>TCP</option>
+                    <option>UDPLITE</option>
+                    <option>ICMP</option>
+                    <option>ESP</option>
+                    <option>AH</option>
+                    <option>SCTP</option>
+                </select>
+            </div>       
+            <div id="IPRuleOption" style="margin-bottom: 15px;">
+                <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/> Source Address<br>
+                <input id="ipAddress" type="text" name="ipaddress">
+            </div>
+            <input type="submit" value="Submit" onclick="validateIPField();"/>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function initialise_iptables() {
+        processing();
+        iptablesURL = '/cgi-bin/toolkit/pi_iptables_api.py';
+        getJSONResponse(iptablesURL, renderUI);
+    }
+    
+    function renderUI(data) {
+        $.each(data, function (chain_name, chain_rules) {
+            var header = '<h4><a href="#">' + chain_name + '</a>'+' (Default Protocol: ' + chain_rules['default'] + ')</h4>'
+            var table = '<table border="1" cellpadding="4" class="rule_table" id="' + chain_name + '"></table>'
+            $("#firewall_area").append(header);
+            $("#firewall_area").append(table);
+            addColumnHeadersToTable(chain_name, 
+                        ['protocol', 'target', 'otherinfo', 'destination', 'source', 'option']);
+            var rules = chain_rules['rules'];
+            
+            if (rules.length == 0) {
+                insertRow(chain_name, '--', '--', '--', '--', '--', '--');
+            }
+            else {
+                $.each(rules, function (index, rule) {
+                    insertRow(chain_name, rule['protocol'], rule['target'], 
+                                          rule['otherinfo'], rule['destination'],
+                                          rule['source'], rule['option']);
+                });
+            }
+            
+        });
+        endProcessing();
+    
+    }
+    
+    function insertRow(tableID, protocol, target, otherinfo, destination, source, option) {
+        var rowContent = '<td>' + protocol + '</td>' +
+                        '<td>' + target + '</td>' +
+                        '<td>' + otherinfo + '</td>' +
+                        '<td>' + destination + '</td>' +
+                        '<td>' + source + '</td>' +
+                        '<td>' + option + '</td>';
+        var row = '<tr>' + rowContent + '</tr>';
+        
+        $('#' + tableID + ' > tbody').append(row);
+    }
+    
+    $(document).ready( function () {
+        initialise_iptables();
+    });
+</script>
+
+<style>
+.rule_table {
+border: 1px solid #000000;
+border-collapse: collapse;
+}
+</style>
