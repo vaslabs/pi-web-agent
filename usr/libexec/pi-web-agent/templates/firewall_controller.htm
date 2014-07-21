@@ -1,0 +1,170 @@
+<div id="firewall_area">
+
+</div>
+<div id="ip_overlay_holder" style="display: none;">
+    <div id="ip_overlay">
+        <div>
+            <h2>Add Rules</h2>
+            <form onsubmit="return false;" name="inputRule" id="addRuleID">
+                Choose action<br>
+                <div  style="margin-bottom: 15px;">            
+                    <select id="selectAction" class="form-control">
+                        <option>ACCEPT</option>
+                        <option>DROP</option>
+                        <option>FLUSH</option>
+                    </select>
+                </div>
+                <div id="protocolRuleOption" style="margin-bottom: 15px;">
+                    <input type="checkbox" id="enableProtocolCheckBox" onclick="enableProtocolRule()"/> Protocol
+                    <select id="selectProtocol" class="form-control">
+                        <option>ALL</option>
+                        <option>TCP</option>
+                        <option>UDPLITE</option>
+                        <option>ICMP</option>
+                        <option>ESP</option>
+                        <option>AH</option>
+                        <option>SCTP</option>
+                    </select>
+                </div>       
+                <div id="IPRuleOption" style="margin-bottom: 15px;">
+                    <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/> Source Address<br>
+                    <input id="ipAddress" type="text" name="ipaddress">
+                </div>
+                <button onclick="validateIPField();" class="btn btn-primary">Submit rule</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function initialise_iptables() {
+        processing();
+        iptablesURL = '/cgi-bin/toolkit/pi_iptables_api.py';
+        getJSONResponse(iptablesURL, renderUI);
+    }
+    
+    function renderUI(data) {
+        $.each(data, function (chain_name, chain_rules) {
+            var header = '<h4><a href="#" onclick="firewall_dialog(\'' + chain_name + '\')">'
+                         + chain_name + '</a>'+' (Default Protocol: ' + chain_rules['default'] + ')</h4>'
+            var table = '<table border="1" cellpadding="4" class="rule_table" id="' + chain_name + '"></table>'
+            $("#firewall_area").append(header);
+            $("#firewall_area").append(table);
+            addColumnHeadersToTable(chain_name, 
+                        ['protocol', 'target', 'otherinfo', 'destination', 'source', 'option']);
+            var rules = chain_rules['rules'];
+            
+            if (rules.length == 0) {
+                insertRow(chain_name, '--', '--', '--', '--', '--', '--');
+            }
+            else {
+                $.each(rules, function (index, rule) {
+                    insertRow(chain_name, rule['protocol'], rule['target'], 
+                                          rule['otherinfo'], rule['destination'],
+                                          rule['source'], rule['option']);
+                });
+            }
+            
+        });
+        endProcessing();
+    
+    }
+    
+    function insertRow(tableID, protocol, target, otherinfo, destination, source, option) {
+        var rowContent = '<td>' + protocol + '</td>' +
+                        '<td>' + target + '</td>' +
+                        '<td>' + otherinfo + '</td>' +
+                        '<td>' + destination + '</td>' +
+                        '<td>' + source + '</td>' +
+                        '<td>' + option + '</td>';
+        var row = '<tr>' + rowContent + '</tr>';
+        
+        $('#' + tableID + ' > tbody').append(row);
+    }
+    
+    function firewall_dialog(chain) {
+        showDialog('Chain: ' + chain, overlay);
+        $('#ip_overlay').data("chain", chain);
+    }
+    
+    
+    function validateIPField() {
+        if (!document.getElementById("enableIPCheckBox").checked) {
+            submitProtocolRule();
+            return;
+        }
+        var ipAddressElement = document.getElementById("ipAddress").value;
+        var letters = /^[0-9a-zA-Z.]+$/;
+        if (ipAddressElement.match(letters))
+            submitProtocolRule();
+        else {
+            alert("This is not a valid source address!");
+        }
+    }
+
+    function submitProtocolRule(){
+        $("#addRuleID").submit(function(){
+            var protocolChecked = document.getElementById("enableProtocolCheckBox").checked;
+            var ipaddressChecked = document.getElementById("enableIPCheckBox").checked;
+            var chain = $('#ip_overlay').data('chain');
+            var actionElement = document.getElementById("selectAction");
+            var action = actionElement.options[actionElement.selectedIndex].text;        
+            if (protocolChecked && !ipaddressChecked) {        
+                var protocolElement = document.getElementById("selectProtocol");
+                var protocol = protocolElement.options[protocolElement.selectedIndex].text;
+                getIPTableValues(chain, action, protocol, "None");
+            }
+            else if (ipaddressChecked && !protocolChecked) {
+                var ipAddressElement = document.getElementById("ipAddress").value;
+                getIPTableValues( chain, action, "None", ipAddressElement);
+            }
+            else if (ipaddressChecked && protocolChecked){
+                var protocolElement = document.getElementById("selectProtocol");
+                var protocol = protocolElement.options[protocolElement.selectedIndex].text;
+                var ipAddressElement = document.getElementById("ipAddress").value;
+                getIPTableValues(chain, action, protocol, ipAddressElement);
+            }
+        });
+    }
+
+    function getIPTableValues(chain, action, protocol, ip_address) {
+        processing();
+        closeDialog();
+        var url='/cgi-bin/toolkit/add_iptable_rules.py?chain='+chain+'&action='+action+'&protocol='+protocol+'&ipaddress='+ip_address;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: true,
+            success : function(data) {
+                endProcessing();
+                reload_firewall();
+            }
+        });
+        
+        //return value;
+    }
+
+    function reload_firewall() {
+        $('#firewall_area').html();
+        navigate('/cgi-bin/toolkit/pi_iptables.py?type=js');
+    }
+
+    
+    var overlay = null;
+    
+    $( function () {
+        initialise_iptables();
+        enableProtocolRule();
+        enableIPRule();
+        overlay = $('#ip_overlay_holder').html();
+        $('#ip_overlay_holder').remove();   
+    });
+    
+</script>
+
+<style>
+.rule_table {
+border: 1px solid #000000;
+border-collapse: collapse;
+}
+</style>
