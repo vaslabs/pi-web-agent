@@ -8,34 +8,13 @@ cgitb.enable()
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from framework import output, view
+from framework import output, view, get_template
 from BlueprintDesigner import *
 from HTMLPageGenerator import *
 
 def get_view():
-    content =  '''
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script src="/css/jquery-ui.js"></script>
-    <script src="/css/volume_manager.js" type="text/javascript"></script>
-    
-    <script src="/css/appDefinitions.js" type="text/javascript"></script>
-    <link href="/css/openDialog.css" type="text/css" rel="stylesheet" />
-    
-    <p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
-    <span class="ui-icon ui-icon-volume-on" style="float:left; margin:-2px 5px 0 0;"></span>
-    PCM
-    </p>
-
-    <p>
-    <label for="amount">Volume:</label>
-    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-    </p>
- 
-    <div id="slider-vertical" style="height:200px;"></div>
-
-    '''
-
-    return content
+    with open(get_template("volume_controller")) as template:
+        return template.read()
     
 def main():
     fs = cgi.FieldStorage()
