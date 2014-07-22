@@ -104,12 +104,27 @@ function addAllColumnHeaders(myList, firstTime){
     return columnSet;
 }   
 
+function addColumnHeadersToTable(tableID, headers){
+
+    var columnSet = [];
+    var headerTr$ = $('<tr/>');
+
+    for (var i = 0 ; i < headers.length ; i++) {
+        columnSet.push(headers[i]);
+        headerTr$.append($('<th/>').html(headers[i]));
+    }
+    $("#" + tableID).prepend(headerTr$);
+}
 
 function showDialog(dtitle, content) {
 
     $("#dialog").dialog({title: dtitle, width: "75%"});
     $("#dialog_content").html('');
     $("#dialog_content").html(content);
+}
+
+function closeDialog() {
+    $("#dialog").dialog('close');
 }
 
 function popSuccessMessage(msg) {

@@ -25,7 +25,6 @@ CRON_JOBS=etc/cron.daily
 EXECUTE_BIN=usr/bin/execute-pwa.sh
 PI_APT=usr/bin/pi-package-management
 htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
-
 UPDATE_APP_BIN=usr/bin/pi-web-agent-update
 UPDATE_CHECK_PY=usr/bin/update_check.py
 OTHER_BINS="usr/bin/start-stream-cam.sh usr/bin/pi-camera-stream.sh"
@@ -139,8 +138,8 @@ this_install(){
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
     
-    mkdir /usr/share/pi-web-agent/camera-media
-    chown -R pi-web-agent:pi-web-agent /usr/share/pi-web-agent/camera-media
+    mkdir "/$SHARE/camera-media"
+    chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     
 }
 
@@ -192,9 +191,22 @@ this_safe_remove() {
 this_reinstall() {
     echo "Reinstalling pi web agent"
     echo "Keeping the same password"
+    echo -e "\e[0;34m Backing up Camera Snapshots\e[0m"
     cp /$htpasswd_PATH $htpasswd_PATH 
+    if [ -d "/$SHARE/camera-media" ]; then
+    	mv "/$SHARE/camera-media"  /tmp/.
+    else
+    	print_error "404 Camera snapshots not found"
+    fi
     this_uninstall
     this_install $1
+    echo -e "\e[0;34m Restoring Camera Snapshots\e[0m"
+    if [ -d "/tmp/camera-media" ]; then
+    	cp -af /tmp/camera-media "/$SHARE/"
+    	else
+    	print_error "Camera snapshots backup not found"
+    fi
+    echo "Recovering your snapshots"
 }
 
 print_ok() {

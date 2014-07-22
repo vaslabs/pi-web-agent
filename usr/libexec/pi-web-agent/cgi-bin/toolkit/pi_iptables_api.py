@@ -2,6 +2,7 @@
 from pi_iptables import *
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 from HTMLPageGenerator import composeJS
+import json
 
 class IPTablesManagerAPI(IPTablesManager):
     def getJS(self):
@@ -19,11 +20,9 @@ def main():
 
     form = cgi.FieldStorage()
     
-    
-    
     iptables=IPTablesManagerAPI()
    
-    composeJS(iptables.getJS())
+    composeJS(json.dumps(iptables.getJS()))
 
 if __name__ == '__main__':
     main()
