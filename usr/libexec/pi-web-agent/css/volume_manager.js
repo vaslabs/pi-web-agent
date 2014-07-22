@@ -11,11 +11,10 @@ function create_controls(data) {
       min: 0,
       max: 100,
       value: data,
-      slide: function( event, ui ) {
+      stop: function( event, ui ) {
         $( "#amount" ).val( ui.value );
 	url = '/cgi-bin/toolkit/volume_api.py?update=' + ui.value;
 	getJSONResponse(url, handle_vol_update)
-	
       }
     });
     $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );

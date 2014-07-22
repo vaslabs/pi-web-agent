@@ -17,6 +17,7 @@ def get_view():
         return template.read()
     
 def main():
+    # Serves the Volume manager page
     fs = cgi.FieldStorage()
     content = get_view()
     view.setContent('Volume manager', content)
