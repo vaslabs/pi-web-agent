@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import json
 import os, sys
+from live_info import execute
 import cgi, cgitb
 cgitb.enable()
 if 'MY_HOME' not in os.environ:
@@ -10,8 +11,8 @@ sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 from HTMLPageGenerator import composeJS
 from framework import view, output
 from functools import partial
-from live_info import execute
 import re
+
 
 def get_volume(args):
     # Returns current volume of args['mixer']
@@ -29,7 +30,7 @@ def set_volume(args):
                                             vol=args['val']))
 
     return json.dumps(args)
-
+    
 def get_mixers(args):
     out, exit_code = execute("sudo amixer scontrols")
     mixers = re.findall(r"'.+'", out)
@@ -38,33 +39,31 @@ def get_mixers(args):
     return json.dumps(mixers)
 
 def error():
-    # Do something if operation code not found!
-    pass
-    
+    return json.dumps("Error")
+
 def op_dispatch(form):
     op = form.getfirst("op")
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")
-
+    
     op_dict = {
-        'get_vol'    : partial(get_volume, args=args),
-        'update_vol' : partial(set_volume, args=args),
-        'mixers'     : partial(get_mixers, args=args)
+        "get_vol"    : partial(get_volume, args=args),
+        "update_vol" : partial(set_volume, args=args),
+        "mixers"     : partial(get_mixers, args=args),
     }
 
-    
     op_func = op_dict.get(op, error)
-    return op_func()
+    composeJS(op_func())
     
 def main():
     # main entry point for the volume controller api
     # do a dispatch on the url command and call
     # the corresponding function
     #
-    # TODO: fail gracefully
+    #
+    # TODO: Fail gracefully
     form = cgi.FieldStorage()
     op_dispatch(form)
-
-
-
-
-
+    
+        
+if __name__ == "__main__":
+    main()
