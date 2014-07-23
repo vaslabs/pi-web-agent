@@ -55,7 +55,7 @@ def op_dispatch(form):
         "get_vol"    : partial(get_volume, args=args),
         "update_vol" : partial(set_volume, args=args),
         "mixers"     : partial(get_mixers, args=args),
-        "toggle"     : partial(toggle_mut, args = args),
+        "toggle"     : partial(toggle_mute, args=args),
     }
 
     op_func = op_dict.get(op, error)
