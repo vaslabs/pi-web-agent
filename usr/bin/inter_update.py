@@ -9,7 +9,7 @@ class EventHandler(pyinotify.ProcessEvent):
         self.work_dir = work_dir
         
     def _is_source_file(self, f):
-        src_ext = set(['.py', '.html', '.js'])
+        src_ext = set(['.py', '.html', '.js', '.htm'])
         f_name, f_ext = os.path.splitext(f)
         
         return f_ext in src_ext
