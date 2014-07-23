@@ -41,6 +41,12 @@ def get_mixers(args):
 def error():
     return json.dumps("Error")
 
+def toggle_mute(args):
+    mixer = args['mixer']
+    out, exit_code = execute(command.format(mixer=args['mixer']))
+
+    return json.dumps(args)
+
 def op_dispatch(form):
     op = form.getfirst("op")
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")
@@ -49,6 +55,7 @@ def op_dispatch(form):
         "get_vol"    : partial(get_volume, args=args),
         "update_vol" : partial(set_volume, args=args),
         "mixers"     : partial(get_mixers, args=args),
+        "toggle"     : partial(toggle_mut, args = args),
     }
 
     op_func = op_dict.get(op, error)
