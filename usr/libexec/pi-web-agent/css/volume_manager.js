@@ -6,7 +6,7 @@ function init() {
 
 function create_controls(data) {
     $( "#slider-vertical" ).slider({
-      orientation: "vertical",
+      orientation: "horizontal",
       range: "min",
       min: 0,
       max: 100,
