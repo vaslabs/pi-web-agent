@@ -37,8 +37,11 @@ def check_installed(args):
 
 def check_group_installed(args):
     package_group = {}
-    packages = args['packages']
-
+    try:
+        packages = json.loads(args['packages'])
+    except:
+        return {'status':'REQUEST_ERROR', 'code':-1}
+        
     for pkg in packages:
         if not pkg in package_group:
             package_group[pkg] = {}
@@ -56,7 +59,8 @@ def op_dispatch(form):
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")
     
     op_dict = {
-        'search': partial(search_package, args=args)
+        'search': partial(search_package, args=args),
+        'check_group': partial(search_package, args=args)
     }
 
     op_func = op_dict.get(op, error)
