@@ -12,6 +12,7 @@ from HTMLPageGenerator import composeJS
 from framework import view, output
 from functools import partial
 import re
+import subprocess
 
 status={'on':True, 'off':False}
 
@@ -52,7 +53,8 @@ def toggle_mute(args):
     return get_volume(args)
 
 def test_speakers():
-    execute('mplayer \'http://translate.google.com/translate_tts?tl=en&q="This is a sound test"\'')
+    command="sudo mplayer -ao alsa \"http://translate.google.com/translate_tts?tl=en&q='This is a sound test'\""
+    execute(command)
     return json.dumps({'code':0})
 
 def op_dispatch(form):

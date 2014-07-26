@@ -78,6 +78,11 @@ function applyMute(data) {
     endProcessing();
 }
 
+function testSpeakers() {
+    url = '/cgi-bin/toolkit/volume_api.py?op=test';
+    getJSONResponse(url, null);
+}
+
 var selectMenu = null;
 $(function() {
     init();

@@ -11,5 +11,8 @@ class TestVolumeAPI(unittest.TestCase):
             self.assertTrue(not data['status'])
         else:
             self.assertTrue(data['status'])
+            
+    def test_speakers(self):
+        test_speakers()
 if __name__ == '__main__':
     unittest.main()
