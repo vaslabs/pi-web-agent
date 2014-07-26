@@ -1,7 +1,6 @@
 
 function init() {
-    url = '/cgi-bin/toolkit/volume_api.py?op=get_vol&mixer=PCM';
-    getJSONResponse(url, create_controls);
+    get_controls();
 }
 
 function create_controls(data) {
@@ -10,23 +9,76 @@ function create_controls(data) {
       range: "min",
       min: 0,
       max: 100,
-      value: data,
+      value: data['volume'],
       stop: function( event, ui ) {
-        $( "#amount" ).val( ui.value );
+                update_volume(event, ui);
+            }
+    });
+    endProcessing();
+    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+    $('#mute-button').text(data['status'] ? 'Mute' : 'Unmute');
+    $('#mute-button').addClass(muteButtonClasses[$('#mute-button').text()]);
+}
+
+function update_volume(event, ui) {
+    $( "#amount" ).val( ui.value );
 	url = '/cgi-bin/toolkit/volume_api.py?op=update_vol&mixer=PCM&val=' + ui.value;
 	getJSONResponse(url, handle_vol_update)
-      }
-    });
-    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
 }
 
 function handle_vol_update(data) {
-    // data: response from volume update call
-    // if error report it
 
     return 0;
 }
 
+function get_controls() {
+    processing();
+    url = '/cgi-bin/toolkit/volume_api.py?op=mixers';
+    getJSONResponse(url, renderControlsUI);
+}
+
+function renderControlsUI(data) {
+    $.each(data, function (index, value) {
+        var option$ = '<option/>';
+        option$ = $(option$).attr('id', value);
+        option$ = $(option$).text(value);
+        option$ = $(option$).val(value);
+        if (index == 0) {
+            option$ = $(option$).attr('selected', 'selected');
+        }
+        $('#control_list').append(option$);
+    });
+    selectMenu = $("#control_list").selectmenu();
+    if (data.length > 0) {
+        url = '/cgi-bin/toolkit/volume_api.py?op=get_vol&mixer=' + data[0];
+        getJSONResponse(url, create_controls);
+    }
+    
+} 
+
+var muteTextDict = {'Mute':'Unmute', 'Unmute':'Mute'};
+var muteButtonClasses = {'Mute':'btn-danger', 'Unmute':'btn-success'}; 
+
+function toggleMute() {
+    processing();
+    url = '/cgi-bin/toolkit/volume_api.py?op=toggle&mixer=' + selectMenu.val();
+    getJSONResponse(url, applyMute);
+}
+
+function applyMute(data) {
+    
+    var currentText = $('#mute-button').text();
+    var newText = muteTextDict[currentText];
+    var currentClass = muteButtonClasses[currentText];
+    var newClass = muteButtonClasses[newText];
+    $('#mute-button').removeClass(currentClass);
+    $('#mute-button').addClass(newClass);
+    $('#mute-button').text(newText);
+    $( "#slider-vertical" ).slider( {value:data['volume']} )
+    endProcessing();
+}
+
+var selectMenu = null;
 $(function() {
-    init()
+    init();
 });

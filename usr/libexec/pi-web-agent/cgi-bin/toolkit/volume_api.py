@@ -13,6 +13,7 @@ from framework import view, output
 from functools import partial
 import re
 
+status={'on':True, 'off':False}
 
 def get_volume(args):
     # Returns current volume of args['mixer']
@@ -20,8 +21,10 @@ def get_volume(args):
     out, exit_code = execute(command.format(mixer=args['mixer']))
     m = re.search("[0-9]+%", out)
     vol = m.group(0)[:-1]
-    
-    return json.dumps(int(vol))
+    data_line = out.split('\n')[-2]
+    m = re.search("(\[on\]|\[off\])+", data_line)
+    st = m.group(0)
+    return json.dumps({'volume':int(vol), 'status':status[st[1:-1]]})
 
 def set_volume(args):
     # Sets volume of mixer specified in args
@@ -42,10 +45,15 @@ def error():
     return json.dumps("Error")
 
 def toggle_mute(args):
+    command = "sudo amixer sset {mixer} toggle"
     mixer = args['mixer']
-    out, exit_code = execute(command.format(mixer=args['mixer']))
+    cmd = command.format(mixer=args['mixer'])
+    out, exit_code = execute(cmd)
+    return get_volume(args)
 
-    return json.dumps(args)
+def test_speakers():
+    execute('mplayer \'http://translate.google.com/translate_tts?tl=en&q="This is a sound test"\'')
+    return json.dumps({'code':0})
 
 def op_dispatch(form):
     op = form.getfirst("op")
@@ -56,6 +64,7 @@ def op_dispatch(form):
         "update_vol" : partial(set_volume, args=args),
         "mixers"     : partial(get_mixers, args=args),
         "toggle"     : partial(toggle_mute, args=args),
+        "test"       : test_speakers
     }
 
     op_func = op_dict.get(op, error)

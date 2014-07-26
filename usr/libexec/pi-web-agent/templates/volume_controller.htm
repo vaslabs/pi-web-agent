@@ -1,21 +1,31 @@
-<link rel="stylesheet" href="/css/jquery-ui.css">
-<script src="/css/jquery-ui.js"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <script src="/css/volume_manager.js" type="text/javascript"></script>
-
-    
-<script src="/css/appDefinitions.js" type="text/javascript"></script>
-<link href="/css/openDialog.css" type="text/css" rel="stylesheet" />
-    
-<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
-  <span class="ui-icon ui-icon-volume-on" style="float:left; margin:-2px 5px 0 0;"></span>
-  PCM
-</p>
-
-<p>
-  <label for="amount">Volume:</label>
-  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
- 
+<label for="control_list">Select a volume control</label>
+<select name="control_list" id="control_list" style="display:none" class="span16">
+</select>    
+<br>
 <div id="slider-vertical" style="height:15px;width:90%;"></div>
+<br>
+<br>
+<button id='mute-button' onclick='toggleMute()' style="float: left" class="btn"></button>
+<button style="float: right" class="btn btn-primary">Test speakers</button>
 
 
+<style>
+    fieldset {
+      border: 0;
+    }
+    label {
+      display: block;
+      margin: 30px 0 0 0;
+    }
+    .overflow {
+      height: 200px;
+    }
+    .btn {
+        display: none;
+    }
+    button.btn[class*="btn-"] {
+        display: block;
+    } 
+  </style>
