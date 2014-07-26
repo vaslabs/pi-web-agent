@@ -86,8 +86,12 @@ function addAllColumnHeaders(firstTime, table_id){
 }
 
 function extensive_search() {
-    processing();
     var package_name = $('#autocomplete').val();
+    if (package_name.length <= 2) {
+        popFailMessage("Type more letters or you are really going to slow down your Pi");
+        return;
+    }
+    processing();
     var url="/cgi-bin/toolkit/pm_api.py?op=search&key="+package_name;
     getJSONResponse(url, renderSearchResults);
 }
@@ -139,6 +143,6 @@ function go_back() {
     $(".form-group #extensive_search").css('display', 'block');
     
     $(".form-group #autocomplete").val("");
-    $(".form-group #autocomplete").trigger('change');
+    $(".form-group #autocomplete").trigger('keyup');
     $('#go_back_button').remove();
 }
