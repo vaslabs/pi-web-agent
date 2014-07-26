@@ -28,7 +28,7 @@ def main():
     
     if "flush" in form:
         chain = form.getfirst("flush")
-        composeJS(iptables.flushRules(chain))
+        composeJS(json.dumps(iptables.flushRules(chain)))
     else:
         composeJS(json.dumps(iptables.getJS()))
 
