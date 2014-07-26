@@ -102,7 +102,10 @@ function renderSearchResults(data) {
         var pkg = [];
         pkg['Package Name'] = key;
         pkg['Description'] = value;
-        pkg['Version'] = 'N/A';
+        pkg['Version'] = 'N/A'
+        status$='<div/>';
+        status$.attr('id', 'key');
+        status$.attr('class', 'install-status');
         pkg['Status'] = 'Uknown';
         pkg_list.push(pkg);
         
@@ -113,6 +116,19 @@ function renderSearchResults(data) {
     $(".form-group #extensive_search").css('display', 'none');
     $(".form-group").append('<button id="go_back_button" class="btn btn-primary" onclick="go_back()">Back to recommended packages</button>');
     endProcessing();
+    findPackageInstallationStatus(Object.keys(data));
+}
+
+function findPackageInstallationStatus(keys) {
+    var url="/cgi-bin/toolkit/pm_api.py?op=check_group&packages="+keys;
+    getJSONRequest(url, renderInstallationTextBoxes);
+}
+
+function renderInstallationTextBoxes(data) {
+    $.each(data, function (key, value) {
+        var checkbox = value['content'];
+        $('#' + key + '.install-status').html(checkbox);
+    });
 }
 
 function go_back() {

@@ -60,7 +60,7 @@ def op_dispatch(form):
     
     op_dict = {
         'search': partial(search_package, args=args),
-        'check_group': partial(search_package, args=args)
+        'check_group': partial(check_group_installed, args=args)
     }
 
     op_func = op_dict.get(op, error)
