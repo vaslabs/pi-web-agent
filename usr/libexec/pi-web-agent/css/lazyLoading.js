@@ -103,10 +103,11 @@ function renderSearchResults(data) {
         pkg['Package Name'] = key;
         pkg['Description'] = value;
         pkg['Version'] = 'N/A'
-        status$='<div/>';
-        status$.attr('id', 'key');
-        status$.attr('class', 'install-status');
-        pkg['Status'] = 'Uknown';
+        var status$='<div/>';
+        status$ = $(status$).attr('id', key);
+        status$ = $(status$).attr('class', 'install-status');
+        status$ = $(status$).html('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info " style="width: 100%"></div></div>');
+        pkg['Status'] = status$;
         pkg_list.push(pkg);
         
     });
@@ -120,13 +121,13 @@ function renderSearchResults(data) {
 }
 
 function findPackageInstallationStatus(keys) {
-    var url="/cgi-bin/toolkit/pm_api.py?op=check_group&packages="+keys;
-    getJSONRequest(url, renderInstallationTextBoxes);
+    var url="/cgi-bin/toolkit/pm_api.py?op=check_group&packages="+JSON.stringify(keys);
+    getJSONResponse(url, renderInstallationTextBoxes);
 }
 
 function renderInstallationTextBoxes(data) {
     $.each(data, function (key, value) {
-        var checkbox = value['content'];
+        var checkbox = value['content'][0];
         $('#' + key + '.install-status').html(checkbox);
     });
 }
