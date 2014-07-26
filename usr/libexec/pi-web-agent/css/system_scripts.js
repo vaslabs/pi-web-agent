@@ -1,5 +1,5 @@
 function navigate(link) {
-     $(".span16").prepend(animationBar());
+     processing();
      $(".span16").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
 }
@@ -21,6 +21,7 @@ function update_app() {
 }
 
 function processing() {
+    $('.progress.progress-striped.active').remove();
     $(".span16").prepend(animationBar());
 }
 
