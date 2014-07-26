@@ -38,8 +38,14 @@ function getPackageResponse(url, method_call, index, firstTime) {
 }
 
 // Builds the HTML Table out of myList.
-function buildHtmlTable( myList, firstTime ) {
-    var columns = addAllColumnHeaders(myList, firstTime);
+function buildHtmlTable( myList, firstTime, table_id ) {
+    
+    if (typeof(table_id) == "undefined") {
+        table_id = "packages-table-id"
+    }
+    var columns = addAllColumnHeaders(firstTime, table_id);
+    
+    
     for (var i = 0 ; i < myList.length ; i++) {
         var row$ = $('<tr/>');
         var entry = myList[i];
@@ -50,34 +56,72 @@ function buildHtmlTable( myList, firstTime ) {
         row$.append($('<td/>').html(entry['Description']));
         
         row$.append($('<td/>').html(entry['Version']));
-        $("#packages-table-id").append(row$);
+        
+        $("#" + table_id).append(row$);
         
     }
-    filter( 'autocomplete', 'packages-table-id',1 );
+    
+    if (table_id == 'packages-table-id')
+        filter( 'autocomplete', 'packages-table-id' ,1 );
 }
 
 // Adds a header row to the table and returns the set of columns.
 // Need to do union of keys from all records as some records may not contain
 // all records
-function addAllColumnHeaders(myList, firstTime){
+function addAllColumnHeaders(firstTime, table_id){
 
-    var columnSet = [];
-    var headerTr$ = $('<tr/>');
-
-    for (var i = 0 ; i < myList.length ; i++) {
-        var rowHash = myList[i];
-        columnSet.push('Package Name');
-        headerTr$.append($('<th/>').html('Package Name'));
-        columnSet.push('Status');
-        headerTr$.append($('<th/>').html('Status'));
-        columnSet.push('Description');
-        headerTr$.append($('<th/>').html('Description'));
-        columnSet.push('Version');
-        headerTr$.append($('<th/>').html('Version'));
-        
+    if (typeof(table_id) == "undefined") {
+        table_id = "packages-table-id"
     }
-    if(firstTime)
-      $("#packages-table-id").prepend(headerTr$);
+    var headerTr$ = $('<tr/>');
+    headerTr$.append($('<th/>').html('Package Name'));
+    headerTr$.append($('<th/>').html('Status'));
+    headerTr$.append($('<th/>').html('Description'));
+    headerTr$.append($('<th/>').html('Version'));
+    
+    
+    if(firstTime) {
+        $("#" + table_id).prepend(headerTr$);
+    }
+}
 
-    return columnSet;
-}   
+function extensive_search() {
+    processing();
+    var package_name = $('#autocomplete').val();
+    var url="/cgi-bin/toolkit/pm_api.py?op=search&key="+package_name;
+    getJSONResponse(url, renderSearchResults);
+}
+
+function renderSearchResults(data) {
+    pkg_list = [];
+    $('#packages-table-id').css('display', 'none');
+    $('#packages-table-id').parent().append('<div id="searched_packages_table"></div>');
+    $('#searched_packages_table').html('<table id="searched_packages_table_id"></table>');
+       
+    $.each(data, function (key, value) {
+        var pkg = [];
+        pkg['Package Name'] = key;
+        pkg['Description'] = value;
+        pkg['Version'] = 'N/A';
+        pkg['Status'] = 'Uknown';
+        pkg_list.push(pkg);
+        
+    });
+    
+    buildHtmlTable( pkg_list, true, 'searched_packages_table_id')
+    $(".form-group #autocomplete").css('display', 'none');
+    $(".form-group #extensive_search").css('display', 'none');
+    $(".form-group").append('<button id="go_back_button" class="btn btn-primary" onclick="go_back()">Back to recommended packages</button>');
+    endProcessing();
+}
+
+function go_back() {
+    $('#searched_packages_table').remove();
+    $('#packages-table-id').css('display', 'block');
+    $(".form-group #autocomplete").css('display', 'block');
+    $(".form-group #extensive_search").css('display', 'block');
+    
+    $(".form-group #autocomplete").val("");
+    $(".form-group #autocomplete").trigger('change');
+    $('#go_back_button').remove();
+}

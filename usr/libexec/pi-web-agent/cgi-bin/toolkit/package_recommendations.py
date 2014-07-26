@@ -134,8 +134,6 @@ def main():
       else :
         #lazyloading will populate the table
         htmlcode = '<script src="/css/lazyLoading.js"></script>\
-        \n<link rel="stylesheet" href="/css/jquery-ui.css">\
-        \n<script src="/css/jquery-ui.js"></script>\
         \n<script src="/css/autocomplete.js"></script>'
         
         #enable search feature
@@ -143,7 +141,12 @@ def main():
         \n<input id="autocomplete" name="filter" \
         onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" \
         class="form-control" style="float:left;width:20%;" placeholder="Search. . .">\
-        \n</div>'
+        \n\
+        <div style="padding-top: 10px;">\
+            <button id="extensive_search" style="float: right;" class="btn btn-primary" onclick="extensive_search();">\
+            Search package</button>\
+        </div>\
+        </div>'
         
         htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
         htmlcode += "\n</table></div>"

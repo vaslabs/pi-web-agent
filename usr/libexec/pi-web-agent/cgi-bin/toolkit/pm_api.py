@@ -44,16 +44,20 @@ def check_group_installed(args):
 
     return package_group
 
+def error():
+    return json.dumps("Error")
+
+
 def op_dispatch(form):
     op = form.getfirst("op")
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")
     
     op_dict = {
-        'search': partial(search, args=args)
+        'search': partial(search_package, args=args)
     }
 
     op_func = op_dict.get(op, error)
-    composeJS(op_func())
+    composeJS(json.dumps(op_func()))
     
 def main():
     # main entry point for the volume controller api
