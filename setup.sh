@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd mplayer alsa-utils vlc"
+DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd alsa-utils"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
