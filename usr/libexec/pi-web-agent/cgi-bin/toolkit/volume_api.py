@@ -33,7 +33,7 @@ def set_volume(args):
     out, exit_code = execute(command.format(mixer=args['mixer'],
                                             vol=args['val']))
 
-    return json.dumps(args)
+    return get_volume(args)
     
 def get_mixers(args):
     out, exit_code = execute("sudo amixer scontrols")
