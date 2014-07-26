@@ -16,13 +16,21 @@ class IPTablesManagerAPI(IPTablesManager):
             iptables_json[line]={'rules': self.chains[line].rules, 'default': self.chains[line].policy}
         return iptables_json
 
-def main():
+    def flushRules(self, chain):
+        command = "sudo iptables -F {chain_name}"
+        out, exit_code = execute(command.format(chain_name = chain))
 
+        return {"code":0}
+
+def main():
     form = cgi.FieldStorage()
-    
     iptables=IPTablesManagerAPI()
-   
-    composeJS(json.dumps(iptables.getJS()))
+    
+    if "flush" in form:
+        chain = form.getfirst("flush")
+        composeJS(iptables.flushRules(chain))
+    else:
+        composeJS(json.dumps(iptables.getJS()))
 
 if __name__ == '__main__':
     main()
