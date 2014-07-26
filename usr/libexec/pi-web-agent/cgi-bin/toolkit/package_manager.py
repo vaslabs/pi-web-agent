@@ -17,7 +17,7 @@ from live_info import execute, getAptBusy
 from framework import output, view, getDependencies
 from HTMLPageGenerator import composeJS
 import json
-from package_recommendations import createOnOffSwitch
+from package_recommendations import createOnOffSwitch, checkFlags
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
@@ -25,14 +25,6 @@ STOP = {'STOP': 'There are no more packages to load'}
         
 class PackageManager(object):
 
-    def checkFlags(self, text):
-        lines = text.split('\n')
-        del lines[-1]
-        package_line = lines[-1]
-        flags = package_line.split()[0]
-        if flags.find('r') >= 0:
-            return False
-        return True
 
     def getDpkgInfo(self, pName, fieldName) :
         bashCommand = "apt-query " + pName + " " + fieldName
