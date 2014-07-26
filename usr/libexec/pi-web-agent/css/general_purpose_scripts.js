@@ -132,6 +132,7 @@ function getJSONResponse(jsurl, method_call) {
 
     $.ajax({
         url: jsurl,
+        cache: false,
         type: 'get',
         dataType: 'json',
         async: method_call != null,
