@@ -34,6 +34,16 @@ def check_installed(args):
     package_name = args['key']
     return {'installed':package_is_installed(package_name)}
 
+def check_group_installed(args):
+    package_group = {}
+    packages = args['packages']
+
+    for pkg in packages:
+        if not pkg in package_group:
+            package_group[pkg] = package_is_installed(pkg)
+
+    return package_group
+
 def op_dispatch(form):
     op = form.getfirst("op")
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")

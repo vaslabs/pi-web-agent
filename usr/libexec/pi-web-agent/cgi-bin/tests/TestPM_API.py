@@ -20,5 +20,10 @@ class TestPMAPI(unittest.TestCase):
         result = check_installed({'key':'ruby'})
         self.assertFalse(result['installed'])
         
+    def test_check_if_group_of_packages_is_installed(self):
+        result = check_group_installed({'packages':['apt', 'ruby', 'vlc']})
+        self.assertTrue(result['apt'] and result['vlc'])
+        self.assertFalse(result['ruby'])
+        
 if __name__ == '__main__':
     unittest.main()
