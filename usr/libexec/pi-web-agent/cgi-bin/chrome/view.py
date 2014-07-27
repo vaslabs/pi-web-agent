@@ -86,12 +86,12 @@ class View(object):
         return createText(self.contentTitle, self.content, self.contentspan)
     
     def _footer(self):
-        return '<footer><center>\n'+\
-        '<p><font size="2"> Version: ' + VERSION + '</font></p>' +\
-        '<p><font size="2">Copyright &copy; pi-web-agent community 2014</font><br>\n'+\
+        return '<div align="center" id="footer">\n'+\
+        '<p>Version: ' + VERSION +\
+        ', Copyright &copy; pi-web-agent community 2014</p>\n'+\
         '<img src=\'/icons/cy.png\' width="40" height="30"/><font size="1"> 100% Cyprus Product</font></p>\n'+\
         '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
-        '</center></footer>' 
+        '</div>' 
     
     def _view(self):
         self.mainhtml=createHeader(self.title, 16, self._createNavBar())+\
