@@ -32,7 +32,7 @@ class Menu(object):
         '''
         Add a menu item to the list
         '''
-        self.items.append(item)
+        self.items.insert(0, item)
         
     def setSpan(self, span):
         '''
