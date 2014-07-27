@@ -43,10 +43,22 @@
         getJSONResponse(iptablesURL, renderUI);
     }
     
+    function flush(chain) {
+        var url = '/cgi-bin/toolkit/pi_iptables_api.py?flush=' + chain;
+        processing();
+        getJSONResponse(url, reloadFirewall);
+    }
+    
+    function reloadFirewall() {
+        navigate('/cgi-bin/toolkit/pi_iptables.py?type=js');
+        endProcessing();
+    }
+    
     function renderUI(data) {
         $.each(data, function (chain_name, chain_rules) {
-            var header = '<h4><a href="#" onclick="firewall_dialog(\'' + chain_name + '\')">'
-                         + chain_name + '</a>'+' (Default Protocol: ' + chain_rules['default'] + ')</h4>'
+            var header = '<h4 style="float: left;"><a href="#" onclick="firewall_dialog(\'' + chain_name + '\')">'
+                         + chain_name + '</a>'+' (Default Protocol: ' + chain_rules['default'] + ')</h4>' + 
+                         '<button class="btn btn-danger" style="float:right;" onclick="flush(\'' + chain_name + '\');">Clear rules</button>';
             var table = '<table border="1" cellpadding="4" class="rule_table" id="' + chain_name + '"></table>'
             $("#firewall_area").append(header);
             $("#firewall_area").append(table);
