@@ -18,7 +18,7 @@ from package_recommendations import createOnOffSwitch
 
 def search_package(args):
     package_name = args['key']
-    out, code = execute('apt-cache search ' + package_name)
+    out, code = execute('apt-cache search --names-only ' + package_name)
     package_list = out.split('\n')
     packages={}
     if (len(package_list) > 0):
