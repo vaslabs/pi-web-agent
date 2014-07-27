@@ -45,13 +45,9 @@
     function flush(chain) {
         var url = '/cgi-bin/toolkit/pi_iptables_api.py?flush=' + chain;
         processing();
-        getJSONResponse(url, reloadFirewall);
+        getJSONResponse(url, reload_firewall);
     }
     
-    function reloadFirewall() {
-        navigate('/cgi-bin/toolkit/pi_iptables.py?type=js');
-        endProcessing();
-    }
     
     function renderUI(data) {
         $.each(data, function (chain_name, chain_rules) {
@@ -94,8 +90,10 @@
     }
     
     function firewall_dialog(chain) {
+        $('#ip_overlay').remove();
         showDialog('Chain: ' + chain, overlay);
         $('#ip_overlay').data("chain", chain);
+        
     }
     
     
@@ -156,8 +154,9 @@
     }
 
     function reload_firewall() {
-        $('#firewall_area').html();
+        $('.ui-dialog').remove();
         navigate('/cgi-bin/toolkit/pi_iptables.py?type=js');
+        endProcessing();
     }
 
     
