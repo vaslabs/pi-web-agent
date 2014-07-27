@@ -12,7 +12,7 @@ import cgitb
 from subprocess import Popen, PIPE
 import json
 cgitb.enable()
-
+from HTMLPageGenerator import composeJS
 from live_info import execute
 import re
 
