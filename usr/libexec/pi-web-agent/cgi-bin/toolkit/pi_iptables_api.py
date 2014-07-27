@@ -17,6 +17,9 @@ class IPTablesManagerAPI(IPTablesManager):
         return iptables_json
 
     def flushRules(self, chain):
+        if chain=="all":
+            chain = ""
+            
         command = "sudo iptables -F {chain_name}"
         out, exit_code = execute(command.format(chain_name = chain))
 
