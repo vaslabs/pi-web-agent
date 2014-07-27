@@ -101,8 +101,9 @@ function renderSearchResults(data) {
     $('#packages-table-id').css('display', 'none');
     $('#packages-table-id').parent().append('<div id="searched_packages_table"></div>');
     $('#searched_packages_table').html('<table id="searched_packages_table_id"></table>');
-       
-    $.each(data, function (key, value) {
+    sortedKeys = Object.keys(data).sort();   
+    $.each(sortedKeys, function (index, key) {
+        var value = data[key];
         var pkg = [];
         pkg['Package Name'] = key;
         pkg['Description'] = value;
