@@ -83,13 +83,13 @@ function renderGPIO(data) {
 function getOnOffWidget(pin) {
     
     var onoff$ = $("#data-onoff").html();
-    onoff$ = $(onoff$).attr('id', 'OF-'+pin['Physical']);
-    onoff$ = $(onoff$).attr('name', pin['Name'].trim());
-    onoff$ = $(onoff$).data('value', pin['Val']);
-    onoff$ = $(onoff$).data('wPi', pin['wPi']);
-    var label = $(onoff$).find('label').attr('for', 'OF-'+pin['Physical']);
+
+    var label = $(onoff$).find('label').attr('for', 'V'+pin['Physical']);
     var input = $(onoff$).find('input');
     input = $(input).prop('checked', pin['Val'] == 1);
+    input = $(input).attr('id', 'V'+pin['Name']);
+    input = $(input).attr('name', pin['Name']);
+    
     if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
         input = $(input).prop('disabled', true);
     }
@@ -104,24 +104,26 @@ function getOnOffWidget(pin) {
 }
 
 function getInOutWidget(pin) {
-    var inout$ = $("#data-inout").html();
-    inout$ = $(inout$).attr('id', 'IO-'+pin['Physical']);
-    inout$ = $(inout$).attr('name', pin['Name'].trim());
-    inout$ = $(inout$).data('direction', pin['Mode']);
-    inout$ = $(inout$).data('wPi', pin['wPi']);
-    var label = $(inout$).find('label').attr('for', 'OF-'+pin['Physical']);
-    var input = $(inout$).find('input');
-    input = $(input).prop('checked', pin['Mode'] == "OUT");
-    inout$ = $(inout$).html(input);
-    inout$ = $(inout$).append(label);
-    var tdInOut$ = "<td></td>";
-    tdInout$ = $(tdInOut$).append(inout$);
     if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
         if (pin['Mode'] != null)
             return '<td><span class="label label-warning">' + pin['Mode'] + '</span></td>';
         else
             return '<td><span class="label label-warning">' + pin['Name'] + '</span></td>';
     }
+    
+    var inout$ = $("#data-inout").html();
+    
+    var label = $(inout$).find('label').attr('for', 'D'+pin['Physical']);
+    var input = $(inout$).find('input');
+    input = $(input).prop('checked', pin['Mode'] == "OUT");
+    input = $(input).data('name', pin['Name'].trim());
+    input = $(input).data('direction', pin['Name'].trim());
+    input = $(input).attr('id', 'D'+pin['Physical']);
+    inout$ = $(inout$).html(input);
+    inout$ = $(inout$).append(label);
+    var tdInOut$ = "<td></td>";
+    tdInout$ = $(tdInOut$).append(inout$);
+    
     return tdInout$;
 }
 
