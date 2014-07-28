@@ -1,0 +1,179 @@
+<div id="data-inout" style="display:none;">
+    <div class="inoutswitch">
+        <input type="checkbox" id="" onclick="submit_gpio_direction(this)" class="inoutswitch-checkbox" name="" data-direction="" value="0">
+        <label class="inoutswitch-label" for="">
+            <div class="inoutswitch-inner"></div>
+            <div class="inoutswitch-switch"></div>
+        </label>
+    </div>
+</div>
+<div id="data-onoff" style="display:none;">
+    <div class="onoffswitch">
+        <input type="checkbox" id="" onclick="submit_gpio_value(this)" class="onoffswitch-checkbox" name="" direction="" value="0">
+        <label class="onoffswitch-label" for="">
+            <div class="onoffswitch-inner"></div>
+            <div class="onoffswitch-switch"></div>
+        </label>
+    </div>
+</div>
+
+<div id="gpio_area">
+    <table id="gpio_table" cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
+        <tr>
+            <th>DIRECTION</th>
+            <th>VALUE</th>
+            <th>LEFT</th>
+            <th>RIGHT</th>
+            <th>VALUE</th>
+            <th>DIRECTION</th>
+        </tr>
+    </table>
+    <div align="center">
+        <div id="user_space"></div>
+        <button style="float: left;" class="btn btn-primary" onclick="gpio_clear()">Cleanup GPIO</button>
+        <button style="float: right;" type="button" class="btn btn-info" onclick="navigate('/cgi-bin/toolkit/gpio_manager.py?type=js');">Refresh</button>
+    </div>  
+</div>
+
+
+<script type="text/javascript">
+
+function initialiseGPIO() {
+    var url = '/cgi-bin/toolkit/gpio_manager_api.py';
+    processing();
+    getJSONResponse(url, renderGPIO);
+}
+
+function renderGPIO(data) {
+
+    $.each(data, function (index, value) {
+        var leftPin = value[0];
+        
+        
+        //create inout widget
+        var tdInOutL$ = getInOutWidget(leftPin);
+        
+        //create on off widget
+        var tdOnOffL$ = getOnOffWidget(leftPin);
+        
+        //create name
+        var tdNameL$="<td>" + leftPin['Name'].trim() + "</td>";
+        
+        var rightPin = value[1];
+        
+        //create inout widget
+        var tdInOutR$ = getInOutWidget(rightPin);
+        
+        //create on off widget
+        var tdOnOffR$ = getOnOffWidget(rightPin);
+        
+        //create name
+        var tdNameR$="<td>" + rightPin['Name'].trim() + "</td>";
+        
+        var row$ = "<tr></tr>";
+        row$ = $(row$).append(tdInOutL$, tdOnOffL$, tdNameL$,
+                              tdNameR$, tdOnOffR$, tdInOutR$);      
+        $('table#gpio_table').append(row$);
+    });
+    
+    endProcessing();
+
+}
+
+function getOnOffWidget(pin) {
+    
+    var onoff$ = $("#data-onoff").html();
+    onoff$ = $(onoff$).attr('id', 'OF-'+pin['Physical']);
+    onoff$ = $(onoff$).attr('name', pin['Name'].trim());
+    onoff$ = $(onoff$).data('value', pin['Val']);
+    onoff$ = $(onoff$).data('wPi', pin['wPi']);
+    var label = $(onoff$).find('label').attr('for', 'OF-'+pin['Physical']);
+    var input = $(onoff$).find('input');
+    input = $(input).prop('checked', pin['Val'] == 1);
+    if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
+        input = $(input).prop('disabled', true);
+    }
+    onoff$ = $(onoff$).html(input);
+    onoff$ = $(onoff$).append(label);
+    var tdOnOff$ = "<td></td>";
+    tdOnOff$ = $(tdOnOff$).append(onoff$);
+    
+    
+    
+    return tdOnOff$;
+}
+
+function getInOutWidget(pin) {
+    var inout$ = $("#data-inout").html();
+    inout$ = $(inout$).attr('id', 'IO-'+pin['Physical']);
+    inout$ = $(inout$).attr('name', pin['Name'].trim());
+    inout$ = $(inout$).data('direction', pin['Mode']);
+    inout$ = $(inout$).data('wPi', pin['wPi']);
+    var label = $(inout$).find('label').attr('for', 'OF-'+pin['Physical']);
+    var input = $(inout$).find('input');
+    input = $(input).prop('checked', pin['Mode'] == "OUT");
+    inout$ = $(inout$).html(input);
+    inout$ = $(inout$).append(label);
+    var tdInOut$ = "<td></td>";
+    tdInout$ = $(tdInOut$).append(inout$);
+    if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
+        if (pin['Mode'] != null)
+            return '<td><span class="label label-warning">' + pin['Mode'] + '</span></td>';
+        else
+            return '<td><span class="label label-warning">' + pin['Name'] + '</span></td>';
+    }
+    return tdInout$;
+}
+
+function gpio_clear() {
+    var url='/cgi-bin/toolkit/onOffPin.py?cmd=cleanup'
+    var value='0';
+    $('#gpio_table').remove();
+    var info=getResponse(url, null);
+    result = info;
+    var xmlDoc = result,
+    $xml = $( xmlDoc ),
+    $title = $xml.find("response");
+    value = $title.text();
+    if (value == 0) {
+        html_message = '<div class="success" id="user_message">Successful clean up</div>';
+    } 
+    else {
+        html_message = '<div class="error" id="user_message">Cleanup failed</div>';
+    }
+    
+    $('#user_space').prepend(html_message);
+    setTimeout(function() { location.reload(); }, 1000);
+    
+}
+
+function submit_gpio_direction(element) {
+     
+     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id+'&pinNumber='+element.name+'&direction='
+     var direction='in';
+     if (element.attributes["direction"].value=="IN")
+     {
+        direction='out';
+     }
+     url+=direction+"&from="+element.attributes["direction"].value
+     var info=getResponse(url, null);
+
+}
+
+function submit_gpio_value(element) {
+     
+     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id+'&pinNumber='+element.name+'&value='
+     var value='0';
+     if (element.checked)
+     {
+        value='1';
+     }
+     url+=value
+     var info=getResponse(url, null);
+}
+
+$(document).ready(function() {
+    initialiseGPIO();
+});
+
+</script>

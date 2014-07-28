@@ -195,50 +195,8 @@ function submit_function(element) {
      var info=getResponse(url, null);
 }
 
-function submit_gpio_direction(element) {
-     
-     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id+'&pinNumber='+element.name+'&direction='
-     var direction='in';
-     if (element.attributes["direction"].value=="IN")
-     {
-        direction='out';
-     }
-     url+=direction+"&from="+element.attributes["direction"].value
-     var info=getResponse(url, null);
 
-}
 
-function submit_gpio_value(element) {
-     
-     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id+'&pinNumber='+element.name+'&value='
-     var value='0';
-     if (element.checked)
-     {
-        value='1';
-     }
-     url+=value
-     var info=getResponse(url, null);
-}
-function gpio_clear() {
-    var url='/cgi-bin/toolkit/onOffPin.py?cmd=cleanup'
-    var value='0';
-    var info=getResponse(url, null);
-    result = info;
-    var xmlDoc = result,
-    $xml = $( xmlDoc ),
-    $title = $xml.find("response");
-    value = $title.text();
-    if (value == 0) {
-        html_message = '<div class="success" id="user_message">Successful clean up</div>';
-    } 
-    else {
-        html_message = '<div class="error" id="user_message">Cleanup failed</div>';
-    }
-    $('#gpio_table').remove();
-    $('#user_space').prepend(html_message);
-    setTimeout(function() { location.reload(); }, 1000);
-    
-}
 
 
 

@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="tightvncserver apache2 libapache2-mod-dnssd alsa-utils"
+DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
@@ -19,7 +19,6 @@ PI_UPGRADE=usr/bin/pi-upgrade
 PI_FIX=usr/bin/pi-fix
 APT_QUERY=usr/bin/apt-query
 SUDOERS_D=etc/sudoers.d/pi-web-agent
-wiringPI=usr/share/wiringPi
 GPIO_QUERY=usr/bin/gpio-query
 CRON_JOBS=etc/cron.daily
 EXECUTE_BIN=usr/bin/execute-pwa.sh
@@ -117,11 +116,16 @@ this_install(){
     chmod 644 /usr/libexec/pi-web-agent/.htpasswd
     print_ok
     echo "Installing wiringPi - examples excluded"
-    cd $wiringPI
+    currDir=$(pwd)
+    temp=$(mktemp -d /tmp/wiringPi.XXX)
+    cd $temp
+    git clone --depth 1 "https://github.com/vaslabs/gordonsWiringPi"
+    cd gordonsWiringPi
     chmod +x ./build
     ./build
     echo "DONE"
-    cd -
+    cd $currDir
+    rm -rf $temp
     cp $CRON_JOBS/* /$CRON_JOBS
     echo "Registering pi-web-agent in sudoers"
     cp $SUDOERS_D /$SUDOERS_D
