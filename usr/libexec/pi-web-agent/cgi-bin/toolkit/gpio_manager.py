@@ -19,7 +19,7 @@ def main():
     html_tables= f.read()
     f.close()
 
-    view.setContent('IPTables', html_tables)
+    view.setContent('GPIO Controller', html_tables)
     output(view, form)
     
     
