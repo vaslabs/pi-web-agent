@@ -13,47 +13,37 @@ from live_info import execute
 
 gpio="/usr/local/bin/gpio"
 
-def set_pin_value(pin_no, value):
+def set_pin_value(args):
+    value = args['value']
+    pin_no = args['id']
     command="sudo " + gpio + " write " + str(pin_no) + " " + value
-    return execute(command.replace("\n", "")) #protect command from newlines
+    r, c = execute(command.replace("\n", "")) #protect command from newlines
+    status, code = execute(gpio + ' readalljson');
     
-def set_pin_direction(pin_no, direction):
+def set_pin_direction(args):
+    direction = args['direction']
+    pin_no = args['id']
     command = "sudo " + gpio + " mode " + str(pin_no) + " " + direction
-    return execute(command.replace("\n", ""))
-
+    r, c = execute(command.replace("\n", ""))
+    status, code = execute(gpio + ' readalljson');
 
 def main():
     form = cgi.FieldStorage()
-    msg=""
-    if 'cmd' in form:
-        command=form['cmd'].value
-        if (command=='cleanup'):
-            msg, errorcode=execute("sudo " + gpio + " reset")
-        else:
-            errorcode="140"
-    else:
-        pinID = form['id'].value
-        pinTypeOfChange = pinID.split('GPIO')[0]
-        pinName = form['pinNumber'].value
-        pinNo = pinName.split('GPIO')[1]
-        wiringPiIndex, err = execute("sudo gpio-query wiringpi \"GPIO " + str(pinNo) + "\"")
     
-        pinNo = wiringPiIndex
-        errorcode = None
-
-        if pinTypeOfChange == 'V' :
-            pinValue = form['value'].value
-            msg, errorcode = set_pin_value(pinNo, pinValue)
-        elif pinTypeOfChange == 'D' :
-            pinDirection = form['direction'].value
-            msg, errorcode = set_pin_direction(pinNo, pinDirection)
-        else:
-            msg="Uknown command"
-            errorcode="130"
-    response = Response(errorcode)
+    def op_dispatch(form):
+    op = form.getfirst("op")
+    args = dict((k, form[k].value) for k in form.keys() if not k=="op")
     
-    response.buildResponse(errorcode, message=msg)
-    composeXMLDocument(response.xml)
+    op_dict = {
+        "direction" : partial(get_volume, args=args),
+        "value" : partial(set_volume, args=args),
+    }
 
+    op_func = op_dict.get(op, error)
+    composeJS(op_func())
+            
+
+    
+        
 if __name__ == '__main__':
     main()
