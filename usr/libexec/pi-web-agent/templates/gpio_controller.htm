@@ -92,10 +92,10 @@ function getOnOffWidget(pin) {
     
     var onoff$ = $("#data-onoff").html();
 
-    var label = $(onoff$).find('label').attr('for', 'V'+pin['Name'].trim());
+    var label = $(onoff$).find('label').attr('for', 'wPiV-'+pin['wPi']);
     var input = $(onoff$).find('input');
     input = $(input).prop('checked', pin['Val'] == 1);
-    input = $(input).attr('id', 'wPi'+pin['wPi']);
+    input = $(input).attr('id', 'wPiV-'+pin['wPi']);
     input = $(input).attr('name', pin['Name'].trim());
     input = $(input).data('wPi', pin['wPi']);
     
@@ -122,12 +122,12 @@ function getInOutWidget(pin) {
     
     var inout$ = $("#data-inout").html();
     
-    var label = $(inout$).find('label').attr('for', 'wPi-'+pin['wPi']);
+    var label = $(inout$).find('label').attr('for', 'wPiD-'+pin['wPi']);
     var input = $(inout$).find('input');
     input = $(input).prop('checked', pin['Mode'] == "OUT");
     input = $(input).attr('name', pin['Name'].trim());
     input = $(input).attr('direction', pin['Mode'].trim());
-    input = $(input).attr('id', 'wPi-'+pin['wPi']);
+    input = $(input).attr('id', 'wPiD-'+pin['wPi']);
     inout$ = $(inout$).html(input);
     inout$ = $(inout$).append(label);
     var tdInOut$ = "<td></td>";
