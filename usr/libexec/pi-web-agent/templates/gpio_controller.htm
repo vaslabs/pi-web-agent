@@ -84,11 +84,11 @@ function getOnOffWidget(pin) {
     
     var onoff$ = $("#data-onoff").html();
 
-    var label = $(onoff$).find('label').attr('for', 'V'+pin['Physical']);
+    var label = $(onoff$).find('label').attr('for', 'V'+pin['Name'].trim());
     var input = $(onoff$).find('input');
     input = $(input).prop('checked', pin['Val'] == 1);
-    input = $(input).attr('id', 'V'+pin['Name']);
-    input = $(input).attr('name', pin['Name']);
+    input = $(input).attr('id', 'V'+pin['Name'].trim());
+    input = $(input).attr('name', pin['Name'].trim());
     
     if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
         input = $(input).prop('disabled', true);
@@ -108,17 +108,17 @@ function getInOutWidget(pin) {
         if (pin['Mode'] != null)
             return '<td><span class="label label-warning">' + pin['Mode'] + '</span></td>';
         else
-            return '<td><span class="label label-warning">' + pin['Name'] + '</span></td>';
+            return '<td><span class="label label-warning">' + pin['Name'].trim() + '</span></td>';
     }
     
     var inout$ = $("#data-inout").html();
     
-    var label = $(inout$).find('label').attr('for', 'D'+pin['Physical']);
+    var label = $(inout$).find('label').attr('for', 'D'+pin['Name'].trim());
     var input = $(inout$).find('input');
     input = $(input).prop('checked', pin['Mode'] == "OUT");
-    input = $(input).data('name', pin['Name'].trim());
-    input = $(input).data('direction', pin['Name'].trim());
-    input = $(input).attr('id', 'D'+pin['Physical']);
+    input = $(input).attr('name', pin['Name'].trim());
+    input = $(input).attr('direction', pin['Mode'].trim());
+    input = $(input).attr('id', 'D'+pin['Name']);
     inout$ = $(inout$).html(input);
     inout$ = $(inout$).append(label);
     var tdInOut$ = "<td></td>";
