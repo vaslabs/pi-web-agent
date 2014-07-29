@@ -10,7 +10,8 @@ import cgi
 import cgitb
 cgitb.enable()
 from live_info import execute
-
+from functools import partial
+import json
 gpio="/usr/local/bin/gpio"
 
 def set_pin_value(args):
@@ -19,6 +20,7 @@ def set_pin_value(args):
     command="sudo " + gpio + " write " + str(pin_no) + " " + value
     r, c = execute(command.replace("\n", "")) #protect command from newlines
     status, code = execute(gpio + ' readalljson');
+    return json.loads(status)
     
 def set_pin_direction(args):
     direction = args['direction']
@@ -26,21 +28,26 @@ def set_pin_direction(args):
     command = "sudo " + gpio + " mode " + str(pin_no) + " " + direction
     r, c = execute(command.replace("\n", ""))
     status, code = execute(gpio + ' readalljson');
+    return json.loads(status)
+
+def error():
+    return ["Error"]
 
 def main():
     form = cgi.FieldStorage()
+    op_dispatch(form)
     
-    def op_dispatch(form):
+def op_dispatch(form):
     op = form.getfirst("op")
     args = dict((k, form[k].value) for k in form.keys() if not k=="op")
     
     op_dict = {
-        "direction" : partial(get_volume, args=args),
-        "value" : partial(set_volume, args=args),
+        "direction" : partial(set_pin_direction, args=args),
+        "value" : partial(set_pin_value, args=args),
     }
 
     op_func = op_dict.get(op, error)
-    composeJS(op_func())
+    composeJS(json.dumps(op_func()))
             
 
     

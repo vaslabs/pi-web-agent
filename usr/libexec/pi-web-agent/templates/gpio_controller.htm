@@ -161,20 +161,20 @@ function gpio_clear() {
 
 function submit_gpio_direction(element) {
      
-     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id.split('-')[1]+'&direction='
-     var direction='in';
+     var url='/cgi-bin/toolkit/onOffPin.py?op=direction&id='+element.id.split('-')[1]+'&direction='
+     var direction='IN';
      if (element.attributes["direction"].value=="IN")
      {
-        direction='out';
+        direction='OUT';
      }
      url+=direction+"&from="+element.attributes["direction"].value
-     var info=getResponse(url, null);
+     var info=getJSONResponse(url, null);
 
 }
 
 function submit_gpio_value(element) {
      
-     var url='/cgi-bin/toolkit/onOffPin.py?id='+element.id.split('-')[1]+'&value='
+     var url='/cgi-bin/toolkit/onOffPin.py?op=value&id='+element.id.split('-')[1]+'&value='
      var value='0';
      if (element.checked)
      {
