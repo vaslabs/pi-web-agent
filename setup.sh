@@ -173,7 +173,6 @@ this_uninstall() {
     print_ok
     echo "Deleting user account of appliance..."
     rm /$SUDOERS_D
-    rm -r /$wiringPI || echo "wiringPi OK"
     rm -r /etc/pi-web-agent
     userdel -f pi-web-agent
     print_ok "DONE"
