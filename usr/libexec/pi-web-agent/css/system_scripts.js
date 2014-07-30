@@ -1,5 +1,6 @@
 function navigate(link) {
      processing();
+     $(".span16").html('');
      $(".span16").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
 }

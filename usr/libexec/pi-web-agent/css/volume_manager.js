@@ -1,5 +1,5 @@
 
-function init() {
+function initVolume() {
     get_controls();
 }
 
@@ -87,5 +87,5 @@ function testSpeakers() {
 
 var selectMenu = null;
 $(function() {
-    init();
+    initVolume();
 });
