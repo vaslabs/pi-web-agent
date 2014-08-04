@@ -168,7 +168,7 @@ function initialise()
 }
 
 function getStatuses() {
-    url = '/cgi-bin/toolkit/live_info.py?cmd=all_status'
+    url = '/cgi-bin/toolkit/live_info.pwa'
     getJSONResponse(url, updateStatuses);
 }
 
