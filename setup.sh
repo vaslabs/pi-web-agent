@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc"
+DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc libprocps0-dev"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
@@ -31,6 +31,16 @@ SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
 STARTUP_PWA=usr/bin/startup-manager-pwa.py
 
 CRONJOB_REBOOT=/etc/cron.d/cronpwa
+
+compilePWA() {
+    cd /usr/libexec/pi-web-agent/cgi-bin/toolkit
+    for file in $(ls *.c); do
+        filename=$(basename $file '.c')
+        gcc $file -o "$filename.pwa"
+    done
+    rm *.c
+    cd -
+}
 
 this_install(){
     echo -n "Installing pi web agent "
@@ -141,7 +151,8 @@ this_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/*
-    
+    echo "Compiling C specific modules"
+    compilePWA    
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     
