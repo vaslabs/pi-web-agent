@@ -183,23 +183,6 @@ function updateStatuses(statuses) {
     setTimeout(getStatuses, 8000);
 }
 
-function submit_function(element) {
-    
-     var url='/cgi-bin/toolkit/live_info.py?cmd=edit_service&param1='+element.id;
-     var param2='off';
-     if (element.checked)
-     {
-        param2='on';
-     }
-     url+='&param2=' + param2;   
-     var info=getResponse(url, null);
-}
-
-
-
-
-
-
 function submit_package(element) {
     var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
     
