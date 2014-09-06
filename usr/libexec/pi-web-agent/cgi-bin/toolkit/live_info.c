@@ -18,39 +18,49 @@
 #define TRUE "true"
 #define FALSE "false"
 #define fname_update "/var/log/pi-update/pi_packages_update"
-
+struct sysinfo {
+               long uptime;             /* Seconds since boot */
+               unsigned long loads[3];  /* 1, 5, and 15 minute load averages */
+               unsigned long totalram;  /* Total usable main memory size */
+               unsigned long freeram;   /* Available memory size */
+               unsigned long sharedram; /* Amount of shared memory */
+               unsigned long bufferram; /* Memory used by buffers */
+               unsigned long totalswap; /* Total swap space size */
+               unsigned long freeswap;  /* swap space still available */
+               unsigned short procs;    /* Number of current processes */
+               unsigned long totalhigh; /* Total high memory size */
+               unsigned long freehigh;  /* Available high memory size */
+               unsigned int mem_unit;   /* Memory unit size in bytes */
+               char _f[20-2*sizeof(long)-sizeof(int)]; /* Padding to 64 bytes */
+           };
 int main(int argc, char *argv[]) {
 
     printf("Content-type: text/json\n\n");
-    meminfo(); 
-    struct sysinfo memory_obj;
-    struct statvfs disk_obj;
-    struct utsname unameinfo_obj;
-    struct sysinfo *memory = &memory_obj;
-    struct statvfs *disk = &disk_obj;
-    struct utsname *unameinfo = &unameinfo_obj;
-    memory->mem_unit=2;
+    struct sysinfo memory;
+    struct statvfs disk;
+    struct utsname unameinfo;
+    (&memory)->mem_unit=2;
     
-   if (sysinfo(memory) != 0)
+   if (sysinfo((&memory)) != 0)
         return 1;
     
-    if (statvfs("/", disk) != 0) {
+    if (statvfs("/", &disk) != 0) {
         return 1;
     }
     
-    if (uname(unameinfo) != 0) {
+    if (uname(&unameinfo) != 0) {
         return 1;
     }
 
     printf("{\n\"mem\":%.2f, \"swap\":%.2f,\n",
-        1-((memory->freeram+memory->bufferram+memory->sharedram)/(double)memory->totalram),
-        1-memory->freeswap/(double)memory->totalswap
+        1-(((&memory)->freeram+(&memory)->bufferram+(&memory)->sharedram)/(double)((&memory)->totalram)),
+        1-(&memory)->freeswap/(double)((&memory)->totalswap)
     );
 
-    printf("\"disk\":%.2f,\n", 1-disk->f_bfree/(double)disk->f_blocks);
-    char *hostname = calloc(sizeof(char), 64);
+    printf("\"disk\":%.2f,\n", 1-disk.f_bfree/(double)(disk.f_blocks));
+    char hostname[64];
     gethostname(hostname, 64);
-    printf("\"kernel\":\"%s\", \"hostname\":\"%s\",\n", unameinfo->release, hostname);
+    printf("\"kernel\":\"%s\", \"hostname\":\"%s\",\n", unameinfo.release, hostname);
     printf("\"ucheck\":%s,\n", access(fname_update, F_OK) == 0 ? TRUE : FALSE);
     printf("\"ip\":");
     get_ip();
