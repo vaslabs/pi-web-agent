@@ -16,32 +16,6 @@ class Service(object):
         self.status=parseStatus(parts[1])
         self.name=parts[3]
 
-        
-    def getView(self):
-        '''
-        returns the html representation of a service
-        '''
-        row='<tr>\n<td>'
-        row+=self.name
-        row+='</td>'
-        row+='<td>\n'
-        row+='<div class="onoffswitch">\n'
-        row+='<input type="checkbox" name="'+self.name+'" onclick="submit_function(this)" class="onoffswitch-checkbox" id="'
-        row+=self.name + '"'
-        if self.status == None:
-            row+='disabled="disabled">'
-        elif self.status:
-            row+=' checked>'
-        else:
-            row+='>'
-        row+='<label class="onoffswitch-label" for="'+self.name+'">\n'
-        row+='<div class="onoffswitch-inner"></div>\n'
-        row+='<div class="onoffswitch-switch"></div>\n'
-        row+='</label>\n'
-        row+='</div>\n'
-        row+='</td>\n'
-        row+='</tr>\n'
-        return row
 
 def serviceManagerBuilder():
     '''
@@ -70,26 +44,6 @@ class ServiceManager(object):
         for line in lines:
             service=Service(line)
             self.services[service.name]=service
-            self.services_js[service.name] = service.status
-    
-            
-    def getView(self):
-        '''
-        Returns the html representation of the
-        service manager. It's the main body of this
-        sub-application
-        '''
-        div='\n<table>\n'
-        div+='<tr><th>Service</th>\n'
-        div+='<th>Status</th>\n'
-        div+='</tr>\n'
-        
-        for service in self.services:
-            div+=self.services[service].getView()
-
-        div+='</table>\n'
-
-        return div
-        
+            self.services_js[service.name] = service.status    
 
     
