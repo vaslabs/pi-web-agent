@@ -1,5 +1,6 @@
-
 #include "proc/sysinfo.h"
+#include "proc/procps.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/statvfs.h>
@@ -21,47 +22,41 @@
 int main(int argc, char *argv[]) {
 
     printf("Content-type: text/json\n\n");
-
-    struct sysinfo* memory = malloc(sizeof(struct sysinfo));
-    struct statvfs* disk = malloc(sizeof(struct statvfs));
-    struct utsname* unameinfo = malloc(sizeof(struct utsname));
-    
+    meminfo(); 
+    struct sysinfo memory_obj;
+    struct statvfs disk_obj;
+    struct utsname unameinfo_obj;
+    struct sysinfo *memory = &memory_obj;
+    struct statvfs *disk = &disk_obj;
+    struct utsname *unameinfo = &unameinfo_obj;
     memory->mem_unit=2;
     
-    if (sysinfo(memory) != 0)
+   if (sysinfo(memory) != 0)
         return 1;
     
     if (statvfs("/", disk) != 0) {
-        free(memory);
         return 1;
     }
     
     if (uname(unameinfo) != 0) {
-        free(memory);
-        free(disk);
         return 1;
     }
-        
-    printf("{\n");
-    
-    printf("\"mem\":%.2f, \"swap\":%.2f,\n",
-        memory->freeram/(double)memory->totalram,
+
+    printf("{\n\"mem\":%.2f, \"swap\":%.2f,\n",
+        1-((memory->freeram+memory->bufferram+memory->sharedram)/(double)memory->totalram),
         1-memory->freeswap/(double)memory->totalswap
     );
-    
+
     printf("\"disk\":%.2f,\n", 1-disk->f_bfree/(double)disk->f_blocks);
     char *hostname = calloc(sizeof(char), 64);
     gethostname(hostname, 64);
     printf("\"kernel\":\"%s\", \"hostname\":\"%s\",\n", unameinfo->release, hostname);
     printf("\"ucheck\":%s,\n", access(fname_update, F_OK) == 0 ? TRUE : FALSE);
-    printf("\"ip\":");   
+    printf("\"ip\":");
     get_ip();
     printf(",\n");
     get_temperature();
     printf("}\n");
-    free(disk);
-    free(memory);
-    free(unameinfo);   
     return 0;
 }
 
