@@ -1,25 +1,23 @@
-$(function () {
-    initialise_services();
+$(document).ready(
+    function () {
+        initialise_services();
 });
-var onoffSwitchHtml = null;
+
+var onoffSwitchHtml = '<div class="onoffswitch">' +
+                        '<input type="checkbox" name="service-name" onclick="submit_service(this)" class="onoffswitch-checkbox" id="service-name">'+
+                        '<label class="onoffswitch-label" for="service-name">'+
+                         '   <div class="onoffswitch-inner"></div>'+
+                          '  <div class="onoffswitch-switch"></div>'+
+                        '</label>'+
+                      '  </div>';
+
 function initialise_services() {
-    onoffSwitchHtml = $('#data-onoff').html();
-    $('#data-onoff').remove();
     processing();
     getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=services', createServicesTable);
 
 }
-/*
-    <div id="data-onoff" style="display:none;">
-    <div class="onoffswitch">
-        <input type="checkbox" name="service-name" onclick="submit_service(this)" class="onoffswitch-checkbox" id="service-name">
-        <label class="onoffswitch-label" for="service-name">
-            <div class="onoffswitch-inner"></div>
-            <div class="onoffswitch-switch"></div>
-        </label>
-    </div>
-</div>
-*/
+
+
 
 function createServicesTable(services) {
     $.each(services, function (service, status) {
