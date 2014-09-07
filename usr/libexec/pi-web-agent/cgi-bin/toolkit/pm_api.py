@@ -3,6 +3,7 @@ import json
 import os, sys
 from live_info import execute
 import cgi, cgitb
+import ast
 cgitb.enable()
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
@@ -38,9 +39,12 @@ def check_installed(args):
 def check_group_installed(args):
     package_group = {}
     try:
-        packages = json.loads(args['packages'])
+        packages = json.loads(str(args['packages']))
     except:
-        return {'status':'REQUEST_ERROR', 'code':-1}
+        try:
+            packages = ast.literal_eval(str(args['packages']))
+        except Exception as e:
+            return {'status':'REQUEST_ERROR', 'code':-1, 'structure':str(args['packages']), 'msg':str(e), 'allargs':str(args)}
         
     for pkg in packages:
         if not pkg in package_group:
