@@ -1,0 +1,110 @@
+<script type="text/javascript" src="/css/jQuery-Knob/js/jquery.knob.js"></script>
+<div id="mplayerLauncherView">
+    <form name=stream_form action=/cgi-bin/toolkit/mplayer.py method=POST>
+        <fieldset>
+            <legend>Start Streaming</legend>
+            <label for="volume">Volume:</label>
+            <input type="text" class="knob" id="volume" name="volume" value="50" data-fgColor="#999999" data-width="250" data-height="250" data-thickness=".5" />
+            <label for="uri">URI:</label>
+            <input type="text" name="uri" class="form-control " placeholder="http ... or rtsp ...">
+
+            <input type="submit" value="Start Stream" class="btn btn-primary">
+                    <div id="radio">
+            <input type="radio" id="hdmi" name="selection"><label for="hdmi">HDMI</label>
+            <input type="radio" id="auto" name="selection" checked="checked"><label for="auto">AUTO</label>
+            <input type="radio" id="headphones" name="selection"><label for="headphones">HEADPHONES</label>
+
+                    </div>
+                    <input type="hidden" name="output" value="AUTO">
+                    <script>
+                    $(function() {
+                    $( "#radio" ).buttonset();
+                    $("#radio label").click(function(){
+                            $("[name=output]").val($(this).text());
+
+                    });
+                    });
+            </script>
+        </fieldset>
+    </form>
+</div>
+<div id="mplayerPlayView">
+        <link rel="stylesheet" href="/css/jquery-ui.css">
+        <script src="/css/jquery-ui.js"></script>
+        <style>
+                #eq span {
+                        height:120px; float:left; margin:15px
+                }
+        </style>
+		
+    	<script>
+            window.volume= 20;
+            window.eqvals=[0,0,0,0,0,0,0,0,0,0];    
+            function checkStatus(){
+				$.getJSON( "mplayer_status.py", function( data ) {
+				if (data.redirect) {
+					// data.redirect is the redirection link
+            	location.href=data.redirect;
+				}
+				else {
+					updateStatus(data)
+             
+				}});
+            
+				
+			}
+			window.setInterval(function(){checkStatus()},3000);
+       
+		</script>
+		<script src="/css/sliders.js"></script>
+		<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
+			<span class="ui-icon ui-icon-volume-on" style="float:left;
+			                             margin:-2px 5px 0 0;"></span>
+			<span class="ui-icon ui-icon-signal" 
+						style="float:left; margin:-2px 5px 0 0;"></span>
+			Main controls and volume
+		</p>
+		<link rel="stylesheet" href="/css/toolbar.css">
+		<script src="/css/player_controls.js"></script>
+		<div id="toolbar" class="ui-widget-header ui-corner-all" style="margin-left:227.5px;">
+                    <!---needed in future release <button id="beginning"> go to beginning</button>
+
+                    <button id="rewind">rewind</button>
+                    <button id="play">pause</button>--->
+                    <button id="stop">stop</button>
+                    <!---needed in future release 
+                    <button id="forward">fast forward</button>
+                    <button id="end">go to end</button>
+                    <input type="checkbox" id="shuffle"><label for="shuffle">Shuffle</label>
+                    <span id="repeat">
+                            <input type="radio" id="repeat0" name="repeat" checked="checked">
+                            <label for="repeat0">No Repeat</label>
+                            <input type="radio" id="repeat1" name="repeat">
+                            <label for="repeat1">Once</label>
+                            <input type="radio" id="repeatall" name="repeat">
+                            <label for="repeatall">All</label>
+                    
+                    </span>        --->
+                    <div id="master" style="width:260px; margin:15px;"></div>
+                    <div id="status">wait...</div>
+                    
+                </div>
+
+		<p class="ui-state-default ui-corner-all" style="padding:4px;margin-top:4em;">
+                    <span class="ui-icon ui-icon-signal" style="float:left; margin:-2px 5px 0 0;"></span>
+                    Graphic EQ
+		</p>
+		<div id="eq" style="margin-left:227.5px;">
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+                    <span>0</span>
+		</div>
+          
+</div>
