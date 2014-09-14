@@ -3,6 +3,7 @@
     <div class="loaderCircle"></div>
     <div class="loaderCircle2"></div>
 </div>
+
 <style>
 .loaderCircle {
     background-color: rgba(0,0,0,0);
@@ -35,7 +36,7 @@
     -moz-animation: spinoffPulse 1s infinite linear;
     -webkit-animation: spinoffPulse 1s infinite linear;
 }
-</style>
+
 @-moz-keyframes spinPulse {
     0% {
         -moz-transform: rotate(160deg);
@@ -91,6 +92,7 @@
         -webkit-transform: rotate(360deg);
     };
 }
+</style>
 
 <div id="mplayerLauncherView">
     <form name=stream_form action=/cgi-bin/toolkit/mplayer.py method=POST>
@@ -201,3 +203,4 @@
 		</div>
           
 </div>
+<script>$('.knob').knob()</script>
