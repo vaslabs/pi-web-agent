@@ -11,8 +11,7 @@ import cgi
 import cgitb
 
 cgitb.enable()
-#debug line
-os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+#debug line os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
@@ -21,9 +20,13 @@ from BlueprintDesigner import *
 from HTMLPageGenerator import *
 
 def get_view():
-    with open(get_template("mplayer")) as template:
-        return template.read()
-    
+    try:
+        with open(get_template("mplayer")) as template:
+            return template.read()
+    except:
+        return "<p>Unexpected error:"+ sys.exc_info()[0]+"</p>"
+        
+
 def main():
     # Serves the mplayer page
     fs = cgi.FieldStorage()
