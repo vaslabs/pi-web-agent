@@ -1,7 +1,8 @@
+#!/usr/bin/python
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
-#!/usr/bin/python
+
 __author__="andreas"
 __date__ ="$Sep 14, 2014 10:56:15 AM$"
 import sys
@@ -10,6 +11,8 @@ import cgi
 import cgitb
 
 cgitb.enable()
+#debug line
+os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
