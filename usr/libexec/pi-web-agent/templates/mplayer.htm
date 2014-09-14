@@ -1,8 +1,5 @@
 <script type="text/javascript" src="/css/jQuery-Knob/js/jquery.knob.js"></script>
-<div class="mplayerLoader">
-    <div class="loaderCircle"></div>
-    <div class="loaderCircle2"></div>
-</div>
+
 
 <style>
 label {
@@ -107,8 +104,11 @@ background-position: center;
     };
 }
 </style>
-
-<div id="mplayerLauncherView">
+<div id="mplayerLoader" class="mplayerView">
+    <div class="loaderCircle"></div>
+    <div class="loaderCircle2"></div>
+</div>
+<div id="mplayerLauncherView" class="mplayerView">
     <form name=stream_form action=/cgi-bin/toolkit/mplayer.py method=POST>
         <fieldset>
             <legend>Start Streaming</legend>
@@ -137,7 +137,7 @@ background-position: center;
         </fieldset>
     </form>
 </div>
-<div id="mplayerPlayView">
+<div id="mplayerPlayView" class="mplayerView">
         <link rel="stylesheet" href="/css/jquery-ui.css">
         <script src="/css/jquery-ui.js"></script>
         <style>
