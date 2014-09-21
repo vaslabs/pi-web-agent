@@ -154,6 +154,9 @@ def checkFlags(text):
     flags = package_line.split()[0]
     if flags.find('r') >= 0:
         return False
+    if flags.find('un') >= 0:
+        return False
+        
     return True
 
 def package_is_installed(package_name):

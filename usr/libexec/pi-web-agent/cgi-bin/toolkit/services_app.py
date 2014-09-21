@@ -13,7 +13,7 @@ from services import *
 import cgi
 import cgitb
 cgitb.enable()
-from framework import output, view
+from framework import output, view, get_template
 def main():
     '''
     Services application to manage levels of each service.
@@ -21,13 +21,13 @@ def main():
     Unfinished.
     '''
     form = cgi.FieldStorage()
+    form = cgi.FieldStorage()
     
-        
-    sm=serviceManagerBuilder()
-            
-    content=sm.getView()
+    f = open(get_template('services_controller'))
+    html_tables= f.read()
+    f.close()
     
-    view.setContent('Services Management App', content)
+    view.setContent('Services Management App', html_tables)
     output(view, form)
 
 if __name__ == '__main__':
