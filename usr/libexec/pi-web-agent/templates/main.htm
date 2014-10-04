@@ -54,6 +54,7 @@
                 <div id="awesome-navbar" class="navbar navbar-default">
                     <ul class="nav nav-pills" data-bind="foreach: extensions">
                         <li><a data-bind="click: function () { navigate(url); }">
+                                <img data-bind="attr : { src: '/icons/' + icon}" width="16px" height="16px">
                                 <span data-bind="text: title"></span>
                                 <!-- ko if: $data.version -->
                                     <sup><sup data-bind="text: version"></sup></sup>
@@ -66,6 +67,7 @@
                                 <ul class="dropdown-menu" data-bind="foreach: $root.extensionsOverflow">
                                     <li>
                                     <a data-bind="click: function () { navigate(url); }">
+                                        <img data-bind="attr : { src: '/icons/' + icon}" width="16px" height="16px">
                                         <span data-bind="text: title"></span>
                                         <!-- ko if: $data.version -->
                                             <sup><sup data-bind="text: version"></sup></sup>
