@@ -7,8 +7,10 @@ int main() {
 
     fileExtensions = fopen("/usr/libexec/pi-web-agent/etc/config/config.cfg", mode);
     fileActions = fopen("/usr/libexec/pi-web-agent/etc/config/.actions", mode);
+    
+    printf("Content-type: application/json\n\n");
     printf("[\n");
-    outputContent(fileExtensions);
+    printContent(fileExtensions);
     printf(",\n");
     printContent(fileActions);
     printf("]\n");
