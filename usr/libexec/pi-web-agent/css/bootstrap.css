@@ -7076,6 +7076,6 @@ input[type="color"]:focus,
   position: fixed;
 }
 
-#awesome-navbar.li {
+#awesome-navbar li {
     cursor: pointer;
 };
