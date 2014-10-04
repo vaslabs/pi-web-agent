@@ -32,13 +32,23 @@ STARTUP_PWA=usr/bin/startup-manager-pwa.py
 
 CRONJOB_REBOOT=/etc/cron.d/cronpwa
 
-compilePWA() {
-    cd /usr/libexec/pi-web-agent/cgi-bin/toolkit
+start_compiling() {
     for file in $(ls *.c); do
         filename=$(basename $file '.c')
         gcc $file -o "$filename.pwa"
     done
     rm *.c
+}
+
+compilePWA() {
+    cd /usr/libexec/pi-web-agent/cgi-bin/toolkit
+    start_compiling
+    cd -
+    cd /usr/libexec/pi-web-agent/cgi-bin/chrome
+    start_compiling
+    cd -
+    cd /usr/libexec/pi-web-agent/etc/config
+    start_compiling
     cd -
 }
 
@@ -103,10 +113,6 @@ this_install(){
         echo 
         exit 1
     }
-    curr_dir=$(pwd)
-    cd /usr/share/pi-web-agent/extras/HTML.py-0.04
-    sudo python setup.py install
-    cd $curr_dir
 
     [ -d $LOGS ] || mkdir -p $LOGS
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
