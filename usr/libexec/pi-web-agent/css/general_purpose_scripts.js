@@ -138,11 +138,13 @@ function getJSONResponse(jsurl, method_call) {
         async: method_call != null,
         success: function(data) {
             if (method_call != null)
-                method_call(data);    
+                method_call(data);
+            else 
+                result = data;    
         } 
     });
     
-    //return value;
+    return result;
 } 
 
 function getKernelInfo(info) {
