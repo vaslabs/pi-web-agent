@@ -28,7 +28,8 @@ void outputHTMLContent(FILE *ifp) {
     printContent(ifp);
 }
 
-void outputTemplate(char *template_name) {
+
+void outputTemplateH(char *template_name, int printHeaders) {
     FILE *ifp;
     char *mode = "r";
     char path[255];
@@ -38,5 +39,13 @@ void outputTemplate(char *template_name) {
     strcat(path, ".htm");
      
     ifp = fopen(path, mode);
-    outputHTMLContent(ifp);
+    if (printHeaders == 1)
+        outputHTMLContent(ifp);
+    else 
+        printContent(ifp);
 }
+
+void outputTemplate(char *template_name) {
+    outputTemplateH(template_name, 1);
+}
+
