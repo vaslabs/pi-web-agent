@@ -66,7 +66,7 @@ background-position: center;
     100% {
         -moz-transform: rotate(-320deg);
         opacity: 0;
-    };
+    }
 }
 
 @-moz-keyframes spinoffPulse {
@@ -76,7 +76,7 @@ background-position: center;
 
     100% {
         -moz-transform: rotate(360deg);
-    };
+    }
 }
 
 @-webkit-keyframes spinPulse {
@@ -94,7 +94,7 @@ background-position: center;
     100% {
         -webkit-transform: rotate(-320deg);
         opacity: 0;
-    };
+    }
 }
 
 @-webkit-keyframes spinoffPulse {
@@ -104,9 +104,17 @@ background-position: center;
 
     100% {
         -webkit-transform: rotate(360deg);
-    };
+    }
 }
 </style>
+      <style>
+                #eq span {
+                    height:120px; float:left; margin:15px
+                }
+                #toolbar.ui-widget-header{
+                    background: #fff; 
+                }
+        </style>
 <div id="mplayerLoader" >
     <div class="loaderCircle"></div>
     <div class="loaderCircle2"></div>
@@ -143,14 +151,7 @@ background-position: center;
 <div id="mplayerPlayView" class="mplayerView">
         <link rel="stylesheet" href="/css/jquery-ui.css">
         <script src="/css/jquery-ui.js"></script>
-        <style>
-                #eq span {
-                    height:120px; float:left; margin:15px
-                }
-                #toolbar.ui-widget-header{
-                    background: #fff; 
-                }
-        </style>
+  
 		
     	<script>
             window.volume= 20;

@@ -18,7 +18,10 @@ sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import output, view, get_template
 from BlueprintDesigner import *
 from HTMLPageGenerator import *
-
+class MediaPlayerManager(DependableExtension):
+    def __init__(self):
+        DependableExtension.__init__(self, EXTENSION_ID)
+    
 def get_view():
     try:
         with open(get_template("mplayer")) as template:
