@@ -50,7 +50,7 @@ class View(object):
         with open(template_start) as sfile:
             self.start_part = sfile.read()
         with open(template_end) as efile:
-            self.end_part = sfile.read
+            self.end_part = efile.read()
         outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
         
     def js_output(self):
