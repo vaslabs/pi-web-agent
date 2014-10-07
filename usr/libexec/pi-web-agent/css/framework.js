@@ -46,5 +46,5 @@ function View() {
 }
 $(function() {
     var view = new View();
-    ko.applyBindings(view);
+    ko.applyBindings(view, document.getElementById("awesome-navbar"));
 });
