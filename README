@@ -41,7 +41,9 @@ a virtual machine that runs something similar to the raspberry pi Raspbian. Here
 
 1. Download and install Virtual box. Install a debian distribution, it does not matter if it is x86 architecture. 
 Download this image https://www.dropbox.com/s/0lkkau03ar3pqip/RaspberryPi.ova and open it with VirtualBox. 
-It is good enough for basic development and testing.
+It is good enough for basic development and testing. Default credentials are:
+Username: rpi
+Password: password
 
 2. Install git (sudo apt-get install git-core)
 Clone the project (git clone https://github.com/vaslabs/pi-web-agent)

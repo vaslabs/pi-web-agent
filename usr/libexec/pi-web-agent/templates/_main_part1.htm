@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <script src="/css/jquery-1.10.2.min.js"></script>
+        <script src="/css/bootstrap.min.js"></script>
+        <script src="/css/bootswatch.js"></script>
+        <script src="/css/knockout.js"></script>
+        <script src="/css/system_scripts.js"></script>
+        <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="/css/installUninstallSwitch.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.min.css">
+        <script src="//code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+        <script src="/css/dependency_manager.js"></script>
+        <script src="/css/general_purpose_scripts.js" type="text/javascript"></script>
+        <script src="/css/framework.js"></script>
+        
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+        <![endif]-->
+        <style>
+            .ui-dialog {
+
+                z-index: 8000;
+            }
+            #footer {
+                clear: both;
+                position: relative;
+                z-index: 10;
+                height: 3em;
+                margin-top: -3em;
+            }
+            #footer p {
+                font-size:0.7em;
+            }
+        </style>
+
+        <link rel="icon" type="image/png" href="/icons/logo.png">
+    </head>
+    <script type="text/html" id="dropdown-menu-template">
+        
+    </script>
+    <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <div class="span24">
+                    <h1>
+                        <a href="/cgi-bin/index.py"><img src="/icons/logo.png" width="90" height="90" align="left">The RPi</a>
+                        <a href="http://en.wikipedia.org/wiki/Kakapo"><img src="/icons/agent_logo.png" width="90" height="90" align="right" title="Save the kakapo"></a>
+                    </h1>
+                    <p class="lead">Web-App Agent</p>
+                </div>
+            </div>
+            <div class="container">
+                <div id="awesome-navbar" class="navbar navbar-default">
+                    <ul class="nav nav-pills" data-bind="foreach: extensions">
+                        <li><a data-bind="click: function () { navigate(url); }">
+                                <img data-bind="attr : { src: '/icons/' + icon}" width="16px" height="16px">
+                                <span data-bind="text: title"></span>
+                                <!-- ko if: $data.version -->
+                                    <sup><sup data-bind="text: version"></sup></sup>
+                                <!-- /ko -->
+                            </a>
+                        </li>
+                        <!-- ko if: $index() >= $root.extensionLimit - 1 -->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other<b class="caret"></b>
+                                <ul class="dropdown-menu" data-bind="foreach: $root.extensionsOverflow">
+                                    <li>
+                                    <a data-bind="click: function () { navigate(url); }">
+                                        <img data-bind="attr : { src: '/icons/' + icon}" width="16px" height="16px">
+                                        <span data-bind="text: title"></span>
+                                        <!-- ko if: $data.version -->
+                                            <sup><sup data-bind="text: version"></sup></sup>
+                                        <!-- /ko -->
+                                    </a>
+                                        
+                                    </li>
+                                </ul>
+                            </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+
+        </header>
+    
+        <div class="container">
+
+            <div class="span35">
+                <div class="well" style="padding: 8px 0;">   
+                    <ul id="pwa-live-info" class="nav nav-list">
+                        <li class="nav-header">Information</li></hl>       
+                        <li class="divider"></li>
+                        <li id="li_kernel">Kernel: </li>
+                        <li class="nav-list-space"></li>
+                        <li id="li_hostname">Hostname: </li></hl>
+                        <li class="divider"></li>
+                        <li id="li_memory">Memory: </li>
+                        <li class="nav-list-space"></li>
+                        <li id="li_swap">Swap: </li></hl>
+                        <li class="divider"></li>
+                        <li id="li_hard_drive">Hard Drive: </li></hl>
+                        <li class="divider"></li>
+                        <li id="li_update">Update</li>
+                        <li class="nav-list-space"></li>
+                        <li id="li_temp">Temperature</li>
+                    </ul>
+                </div>
+                <p align="center"><img src="/icons/hackathon.jpeg" width="70" height="30"> HackManchester 2013<br>University Challenge Winner Team</p>
+            </div>
+
+
+            <div id="extension-main-view" class="span16">
+

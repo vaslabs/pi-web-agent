@@ -7075,3 +7075,7 @@ input[type="color"]:focus,
 .affix {
   position: fixed;
 }
+
+#awesome-navbar li {
+    cursor: pointer;
+};

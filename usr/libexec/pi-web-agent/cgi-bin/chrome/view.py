@@ -11,6 +11,11 @@ from menu import *
 from HTMLPageGenerator import *
 import cgi
 from pi_web_agent import VERSION
+
+def get_template(template):
+    return os.environ['MY_HOME']+'/templates/' + template + '.htm'
+
+
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -29,84 +34,25 @@ class View(object):
     '''
 
     def __init__(self, actions, cmdactions):
-        self.menu=Menu([])
-        self.nav_bar=Menu([], nav=True)
-        self.actions=actions
-        for action in actions:
-            if not 'version' in actions[action]:
-                version=""
-            else:
-                version = "<sup><sup>" + actions[action]['version'] + "</sup></sup>"
-            self.nav_bar.addItem(MenuItem(actions[action]['title'] + version,\
-                 actions[action]['url']))
-        if cmdactions != None:    
-            for cmdaction in cmdactions:
-                 self.menu.addItem(MenuItem(cmdactions[cmdaction]['title'],\
-                    cmdactions[cmdaction]['url']))
-            
-        self.title='The RPi'
-        self.titlespan=24
-        self.listspan=4
-        self.contentspan=16
+        self.start_part = ""
+        self.end_part = ""
+        self.content = ""
+        self.contentTitle = ""
         self.setContent('Welcome', 'This is the web agent for the Raspberry PI')
         
     def setContent(self, title, content):
-        """
-        gets a title and a content in pure html and finilises the 
-        shape and look of the user interface
-        """
-        self.contentTitle = title
-        self.content = content + self._dialog()
+        self.contentTitle = "<h2>" + title + "</h2>"
+        self.content = content
         
-        self._view()    
-    
-    #def _titleView(self):
-     #   return createTitle(self.title, self.titlespan)
-        
-    def _leftListView(self):
-        with open(os.environ['MY_HOME']+"/html/utilities/information_list.html", "r") as listFile:
-            data = listFile.read()    
-        return data
-    
-    def _createNavBar(self):
-        return str(self.nav_bar)    
-        
-    def _rightListView(self):
-        with open(os.environ['MY_HOME']+"/html/utilities/facebook_page.html", "r") as fbpageFile:
-            fbpage = fbpageFile.read()
-        fbpageFile.close()
-        rightSide = '<div class="span4 last">' +\
-         createMenuList(self.menu.items, span=None) + "\n" + fbpage + '</div>'    
-        return rightSide
-    
-    def _dialog(self):
-        return "<div id='dialog' title='pi-web-agent'><span id='dialog_content'></span></div>"
-    
-    def _mainWindow(self):
-        return createText(self.contentTitle, self.content, self.contentspan)
-    
-    def _footer(self):
-        return '<div align="center" id="footer">\n'+\
-        '<p>Version: ' + VERSION +\
-        ', Copyright &copy; pi-web-agent community 2014</p>\n'+\
-        '<img src=\'/icons/cy.png\' width="40" height="30"/><font size="1"> 100% Cyprus Product</font></p>\n'+\
-        '<p><time pubdate datetime="26/10/2013"></time></p>\n'+\
-        '</div>' 
-    
-    def _view(self):
-        self.mainhtml=createHeader(self.title, 16, self._createNavBar())+\
-        contain([self._leftListView(),\
-         self._mainWindow(), self._rightListView(), self._footer()])
-
-
     def output(self):
-        '''
-        Outputs the html in proper way to be 
-        read from the browser, with the composeDocument
-        function which is responsible to add the css declarations
-        '''
-        composeDocument(initialiseCss(), self.mainhtml)
-
+        template_start = get_template("_main_part1")
+        template_end = get_template("_main_part2")
+        with open(template_start) as sfile:
+            self.start_part = sfile.read()
+        with open(template_end) as efile:
+            self.end_part = efile.read()
+        outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
+        
     def js_output(self):
         composeJS(createText(self.contentTitle, self.content))
 	
