@@ -24,6 +24,8 @@ def traverse_fs(root, parent="", n_levels=3):
     # parent :: str
     # n_level :: int
     #
+    # Returns FileSystemObject - root of fs tree
+    #
     # for now ignore n_levels
     from os.path import getsize
     from os.path import join
@@ -50,6 +52,8 @@ def traverse_fs(root, parent="", n_levels=3):
     
 def get_chart_format(root_dir):
     # root_dir :: FileSystemObject
+    #
+    # Returns: entry_list :: List[List[str]]
     from collections import deque
     
     to_process = deque()
