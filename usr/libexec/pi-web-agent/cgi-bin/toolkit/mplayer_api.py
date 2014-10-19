@@ -112,7 +112,7 @@ if __name__ == "__main__":
                             if 'uri' in data['init']:
                                 uri= data['init']['uri']
                             else:
-                                return;
+                                sys.exit()
                             if (execute('pidof mplayer')==0):
                                 player = MPlayer(uri,volume,output)
                                 player.startStream();
