@@ -1,7 +1,15 @@
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
-
+#!/usr/bin/python
+import cgi
+import cgitb
+import os
+cgitb.enable()
+import sys
+import subprocess
+import json
+import http.client
 __author__="andreas"
 __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
