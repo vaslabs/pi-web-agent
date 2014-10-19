@@ -15,7 +15,7 @@ __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
 #codes from https://docs.python.org/3.0/library/http.client.html
 def jsonReply(stringifiedJSON,code=http.client.OK):
-		print "Status: "+code+" "+ http.client.responses[code];
+		print "Status: ",code," ", http.client.responses[code];
 		print "Content-Type: application/json"
 		print "Cache-Control: no-store"
 		print "Length:", len(stringifiedJSON)
