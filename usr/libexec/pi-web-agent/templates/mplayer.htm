@@ -119,6 +119,28 @@ background-position: center;
     <div class="loaderCircle"></div>
     <div class="loaderCircle2"></div>
 </div>
+    	<script>
+            window.volume= 20;
+            window.eqvals=[0,0,0,0,0,0,0,0,0,0];    
+            function howApropriateView(){
+                                function updateStatus(data){
+2                                   $("#status").html(data.status);
+3                               }
+				$.getJSON( "mplayer_api.py", function( data ) {
+				if (data.status=="playing") {
+					// data.redirect is the redirection link
+                                        $("#mplayerLauncherView").show();
+				}
+				else {
+                                    $("#mplayerPlayView").show();
+					updateStatus(data)
+             
+				}});
+            
+				
+			}
+       
+		</script>
 <div id="mplayerLauncherView" class="mplayerView">
     <form name=stream_form action=/cgi-bin/toolkit/mplayer.py method=POST>
         <fieldset>
@@ -153,25 +175,7 @@ background-position: center;
         <script src="/css/jquery-ui.js"></script>
   
 		
-    	<script>
-            window.volume= 20;
-            window.eqvals=[0,0,0,0,0,0,0,0,0,0];    
-            function checkStatus(){
-				$.getJSON( "mplayer_status.py", function( data ) {
-				if (data.redirect) {
-					// data.redirect is the redirection link
-            	location.href=data.redirect;
-				}
-				else {
-					updateStatus(data)
-             
-				}});
-            
-				
-			}
-			window.setInterval(function(){checkStatus()},3000);
-       
-		</script>
+
 		<script src="/css/sliders.js"></script>
 		<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
 			<span class="ui-icon ui-icon-volume-on" style="float:left;
