@@ -5,7 +5,6 @@
 __author__="andreas"
 __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
-<<<<<<< HEAD
 #codes from https://docs.python.org/3.0/library/http.client.html
 def jsonReply(stringifiedJSON,code=http.client.OK):
 		print "Status: "+code+" "+ http.client.responses[code];
@@ -14,11 +13,6 @@ def jsonReply(stringifiedJSON,code=http.client.OK):
 		print "Length:", len(stringifiedJSON)
 		print ""
 		print stringifiedJSON
-                
-=======
-
-        
->>>>>>> 317fec833ea38ba9c2dc420e887aa5df897e7d85
 class SettingsReader(object):
     def __init__(self, fileURL):
         self.fileURL = fileURL
@@ -74,15 +68,9 @@ if __name__ == "__main__":
 
     elif (os.environ['REQUEST_METHOD']=="DELETE"):
             if (execute ('echo "quit" > /tmp/mplayer-control')==0):
-<<<<<<< HEAD
                     jsonReply("{ \"status\" : \"success\" }")
             else:
                     jsonReply("{ \"status\" : \"failure\" }", http.client.INTERNAL_SERVER_ERROR)
-=======
-                    jsonReply("{ \"redirect\" : \"mplayer.py\" }")
-            else:
-                    jsonReply("{ \"status\" : \"stop failed\" }")
->>>>>>> 317fec833ea38ba9c2dc420e887aa5df897e7d85
     elif (os.environ['REQUEST_METHOD']=="POST"):
             data=json.loads(sys.stdin.read())
             try:
@@ -113,11 +101,7 @@ if __name__ == "__main__":
                                     jsonReply("{ \"status\" : \"Invalid eq settings[-12/12]:" +\
                                                 streq+ "\" }")
                     elif 'init' in data and 'uri' in data['init']:
-<<<<<<< HEAD
                             if ['volume'] in data['init'] and (0<=int(data['init']['volume'])<=100):
-=======
-                            if ['volume'] in data['init']:
->>>>>>> 317fec833ea38ba9c2dc420e887aa5df897e7d85
                                 volume=data['init']['volume'];
                             else:
                                 volume=99;
@@ -129,10 +113,6 @@ if __name__ == "__main__":
                                 uri= data['init']['uri']
                             else:
                                 return;
-<<<<<<< HEAD
-=======
-                                
->>>>>>> 317fec833ea38ba9c2dc420e887aa5df897e7d85
                             if (execute('pidof mplayer')==0):
                                 player = MPlayer(uri,volume,output)
                                 player.startStream();
