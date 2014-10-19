@@ -9,13 +9,13 @@ cgitb.enable()
 import sys
 import subprocess
 import json
-import http.client
+import httplib;
 __author__="andreas"
 __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
-#codes from https://docs.python.org/3.0/library/http.client.html
-def jsonReply(stringifiedJSON,code=http.client.OK):
-		print "Status: ",code," ", http.client.responses[code];
+#codes from https://docs.python.org/3.0/library/httplib.html
+def jsonReply(stringifiedJSON,code=httplib.OK):
+		print "Status: "+code+" "+ httplib.responses[code];
 		print "Content-Type: application/json"
 		print "Cache-Control: no-store"
 		print "Length:", len(stringifiedJSON)
@@ -78,7 +78,7 @@ if __name__ == "__main__":
             if (execute ('echo "quit" > /tmp/mplayer-control')==0):
                     jsonReply("{ \"status\" : \"success\" }")
             else:
-                    jsonReply("{ \"status\" : \"failure\" }", http.client.INTERNAL_SERVER_ERROR)
+                    jsonReply("{ \"status\" : \"failure\" }", httplib.INTERNAL_SERVER_ERROR)
     elif (os.environ['REQUEST_METHOD']=="POST"):
             data=json.loads(sys.stdin.read())
             try:
