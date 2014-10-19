@@ -121,11 +121,12 @@ background-position: center;
 </div>
     	<script>
             window.volume= 20;
-            window.eqvals=[0,0,0,0,0,0,0,0,0,0];    
-            function howApropriateView(){
-                                function updateStatus(data){
-2                                   $("#status").html(data.status);
-3                               }
+            window.eqvals=[0,0,0,0,0,0,0,0,0,0];   
+            function updateStatus(data){
+               $("#status").html(data.status);
+            }
+            function showAppropriateView(){
+                                
 				$.getJSON( "mplayer_api.py", function( data ) {
 				if (data.status=="playing") {
 					// data.redirect is the redirection link
@@ -138,7 +139,10 @@ background-position: center;
 				}});
             
 				
-			}
+            }
+            $( document ).ready(function() {
+                     showAppropriateView();
+                });
        
 		</script>
 <div id="mplayerLauncherView" class="mplayerView">
