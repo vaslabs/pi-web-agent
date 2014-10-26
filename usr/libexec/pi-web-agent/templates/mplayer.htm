@@ -130,12 +130,13 @@ background-position: center;
 				$.getJSON( "mplayer_api.py", function( data ) {
 				if (data.status=="playing") {
 					// data.redirect is the redirection link
-                                        $("#mplayerLauncherView").show();
+                                         $("#mplayerPlayView").show();
+					updateStatus(data)
+                                        $("#mplayerLoader").hide();
 				}
 				else {
-                                    $("#mplayerPlayView").show();
-					updateStatus(data)
-             
+                                        $("#mplayerLauncherView").show();
+                                        $("#mplayerLoader").hide();
 				}});
             
 				
