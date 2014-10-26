@@ -15,7 +15,7 @@ __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
 #codes from https://docs.python.org/3.0/library/httplib.html
 def jsonReply(stringifiedJSON,code=httplib.OK):
-    print "Status: ",code," ", httplib.responses[code];
+    print "Status: ",code," ", httplib.responses[code]
     print "Content-Type: application/json"
     print "Cache-Control: no-store"
     print "Length:", len(stringifiedJSON)
@@ -70,9 +70,10 @@ class MPlayer():
 if __name__ == "__main__":
     if (os.environ['REQUEST_METHOD']=="GET"):
             if (execute('pidof mplayer')==0):
-                    jsonReply("{ \"status\" : \"playing\" }")
-            else:
-                    jsonReply("{ \"status\" : \"stoped\" }")
+                    print "success"
+                   # jsonReply("{ \"status\" : \"playing\" }")
+            #else:
+                    #jsonReply("{ \"status\" : \"stoped\" }")
 
     elif (os.environ['REQUEST_METHOD']=="DELETE"):
             if (execute ('echo "quit" > /tmp/mplayer-control')==0):
