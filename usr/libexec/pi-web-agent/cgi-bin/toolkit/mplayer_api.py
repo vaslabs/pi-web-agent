@@ -70,10 +70,9 @@ class MPlayer():
 if __name__ == "__main__":
     if (os.environ['REQUEST_METHOD']=="GET"):
             if (execute('pidof mplayer')==0):
-                    print "success"
-                   # jsonReply("{ \"status\" : \"playing\" }")
-            #else:
-                    #jsonReply("{ \"status\" : \"stoped\" }")
+                    jsonReply("{ \"status\" : \"playing\" }")
+            else:
+                    jsonReply("{ \"status\" : \"stoped\" }")
 
     elif (os.environ['REQUEST_METHOD']=="DELETE"):
             if (execute ('echo "quit" > /tmp/mplayer-control')==0):
