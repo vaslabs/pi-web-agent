@@ -52,7 +52,11 @@ class SettingsReader(object):
     def getEQ(self):
         return self.eq
 
-
+def execute(command):
+	sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+	output, err = sp.communicate()
+	sp.wait()
+	return sp.returncode
 class MPlayer:
 
     def __init__(
