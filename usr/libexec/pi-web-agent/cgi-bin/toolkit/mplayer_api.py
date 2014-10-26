@@ -15,12 +15,12 @@ __date__ ="$Sep 14, 2014 9:23:40 PM$"
 
 #codes from https://docs.python.org/3.0/library/httplib.html
 def jsonReply(stringifiedJSON,code=httplib.OK):
-		print "Status: "+code+" "+ httplib.responses[code];
-		print "Content-Type: application/json"
-		print "Cache-Control: no-store"
-		print "Length:", len(stringifiedJSON)
-		print ""
-		print stringifiedJSON
+    print "Status: ",code," ", httplib.responses[code];
+    print "Content-Type: application/json"
+    print "Cache-Control: no-store"
+    print "Length:", len(stringifiedJSON)
+    print ""
+    print stringifiedJSON
 class SettingsReader(object):
     def __init__(self, fileURL):
         self.fileURL = fileURL
