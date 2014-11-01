@@ -40,6 +40,7 @@ $( "#master" ).slider({
 	}
 });
 $("#startStreamBtn").click(function(event){
+    alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
 				updateStatus(data)
