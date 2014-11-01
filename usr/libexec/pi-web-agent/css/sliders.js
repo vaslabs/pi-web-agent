@@ -39,8 +39,10 @@ $( "#master" ).slider({
 			});
 	}
 });
+$("#startStreamBtn").click(function(event){
 $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
 				updateStatus(data)
 			});
+                    });
 });

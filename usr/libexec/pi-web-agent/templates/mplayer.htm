@@ -142,7 +142,7 @@ background-position: center;
 				
             }
             function constructInitObject(formArr){
-                initObj={}
+                var initObj={}
                 for (var i=0; i<formArr.length;i++){
                     initObj[formArr[i]["name"]]=formArr[i]["value"];
                 }
@@ -162,7 +162,7 @@ background-position: center;
             <label for="uri">URI:</label>
             <input type="text" name="uri" class="form-control " placeholder="http ... or rtsp ...">
 
-            <input type="button"  value="Start Stream" class="btn btn-primary">
+            <input id="startStreamBtn" type="button"  value="Start Stream" class="btn btn-primary">
                     <div id="radio">
             <input type="radio" id="hdmi" name="selection"><label for="hdmi">HDMI</label>
             <input type="radio" id="auto" name="selection" checked="checked"><label for="auto">AUTO</label>
