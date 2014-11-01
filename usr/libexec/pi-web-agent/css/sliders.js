@@ -20,7 +20,7 @@ $( "#eq > span" ).each(function() {
 			$( "#eq > span" ).each(function(index,element) {
 				window.eqvals.push($(element).slider("value"));
 			} );
-			$.post( "mplayer_status.py", JSON.stringify({ eq: window.eqvals, volumehelper: $("#master").slider("value")  }))
+			$.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: $("#master").slider("value")  }))
 			.done(function( data ) {
 				updateStatus(data)
 			});
@@ -33,13 +33,13 @@ $( "#master" ).slider({
 		range: "min",
 		animate: true,
 		stop: function(event, ui) {
-			$.post( "mplayer_status.py", JSON.stringify({ volume: ui.value, eqhelper: window.eqvals}))
+			$.post( "mplayer_api.py", JSON.stringify({ volume: ui.value, eqhelper: window.eqvals}))
 			.done(function( data ) {
 				updateStatus(data)
 			});
 	}
 });
-$.post( "mplayer_status.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
 				updateStatus(data)
 			});
