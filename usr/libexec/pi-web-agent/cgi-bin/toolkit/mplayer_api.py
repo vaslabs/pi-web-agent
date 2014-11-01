@@ -139,8 +139,7 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
-                if ['volume'] in data['init'] and 0 <= int(data['init'
-                        ]['volume']) <= 100:
+                if ['volume'] in data['init'] and 0 <= int(data['init']['volume']) <= 100:
                     volume = data['init']['volume']
                 else:
                     volume = 99
