@@ -110,6 +110,7 @@ if __name__ == '__main__':
     elif os.environ['REQUEST_METHOD'] == 'POST':
         data = json.loads(sys.stdin.read())
         pprint.pprint(dict(data), width=1);
+        return;
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
