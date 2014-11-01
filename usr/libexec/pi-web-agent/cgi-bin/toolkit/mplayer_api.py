@@ -12,6 +12,7 @@ import sys
 import subprocess
 import json
 import httplib
+import pprint
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
@@ -108,6 +109,7 @@ if __name__ == '__main__':
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
         data = json.loads(sys.stdin.read())
+        pprint.pprint(dict(data), width=1);
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
