@@ -109,9 +109,9 @@ if __name__ == '__main__':
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
         data = json.loads(sys.stdin.read())
-        pprint.pprint(dict(data), width=1);
-        return;
-        try:
+        pprint.pprint(dict(data), width=1)
+        
+        '''try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
                     execute('echo "set_property volume '
@@ -160,6 +160,6 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "starting" }')
         except ValueError:
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
-                      + ' requests!" }')
+                      + ' requests!" }')'''
     else:
         jsonReply('{ "status" : "unknown operation" }')
