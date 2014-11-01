@@ -11,7 +11,7 @@ class Configuration(object):
         json_file = open(CONFIG_FILE)
         self.config=json.load(json_file)
         json_file.close()
-        system=self.config['pi-web-agent']['system']    
+        system=self.config['pi-web-agent']['system']
         actions = system['actions']
         self.system=System()
         self.system.actions = actions
