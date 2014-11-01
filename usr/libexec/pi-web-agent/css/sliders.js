@@ -39,4 +39,8 @@ $( "#master" ).slider({
 			});
 	}
 });
+$.post( "mplayer_status.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+			.done(function( data ) {
+				updateStatus(data)
+			});
 });
