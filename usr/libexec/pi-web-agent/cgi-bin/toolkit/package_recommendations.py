@@ -90,7 +90,7 @@ def main():
       else :
         composeJS( json.dumps( STOP ) )
     elif ('op' in form and form['op'].value == 'status'):          
-        composeJS(json.dumps({'status':getAptBusy()}))
+        composeJS(json.dumps({'status':not getAptBusy()}))
     else:
         composeJS(json.dumps({}))    
 
