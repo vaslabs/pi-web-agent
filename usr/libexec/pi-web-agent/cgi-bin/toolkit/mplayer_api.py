@@ -67,7 +67,7 @@ class MPlayer:
         ):
         self.uri = uri
         self.volume = volume
-        self.output = output
+        self.output = ('2' if output == 'HDMI' else ('1' if output == 'HEADPHONES' else '0'))
 
     def startStream(self):
         '''
@@ -77,10 +77,6 @@ class MPlayer:
         self.uri = urllib.unquote(self.uri).decode('utf8')
 
         # wow I ll be a bit pythonic here xD
-
-        self.outout = ('2' if self.form.getvalue('output') == 'HDMI'
-                        else ('1' if self.form.getvalue('output')
-                       == 'HEADPHONES' else '0'))
         command = \
             "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
             + self.outout \
