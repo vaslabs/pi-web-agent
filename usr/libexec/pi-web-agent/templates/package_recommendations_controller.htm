@@ -13,28 +13,28 @@
     <td data-bind="text: version"></td>
 </script>
 <h2>Package Recommendations</h2>
+<div id="packages-extension">
+    <div class="form-group" style="margin-bottom: 0px;overflow: hidden;">
+        <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
 
-<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">
-    <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
-
-    <div style="padding-top: 10px;">
-        <button id="extensive_search" style="float: right;" class="btn btn-primary" onclick="extensive_search();">
-        Search package</button>
+        <div style="padding-top: 10px;">
+            <button id="extensive_search" style="float: right;" class="btn btn-primary" onclick="extensive_search();">
+            Search package</button>
+        </div>
     </div>
-</div>
 
-<table id="packages-table-id">
-        <tr>
-            <th>Package Name</th>
-            <th>Status</th>
-            <th>Description</th>
-            <th>Version</th>
+    <table id="packages-table-id">
+            <tr>
+                <th>Package Name</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Version</th>
+            </tr>
+        <!-- ko foreach: filteredPackages -->
+        <tr data-bind="template: {name: 'package-template', data: $data}">
+            
         </tr>
-    <!-- ko foreach: packages -->
-    <tr data-bind="template: {name: 'package-template', data: $data}">
-        
-    </tr>
-    <!-- /ko -->
-</table>
-
+        <!-- /ko -->
+    </table>
+</div>
 <script type="text/javascript" src="/css/package_recommendations.js"></script>

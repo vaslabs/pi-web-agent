@@ -18,16 +18,31 @@ $(function() {
             url+= param2;   
             var info=getResponse(url);
 
-            $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");
+            $('#packages-extension').text("Installation in progress. . .The page will reload in 3 seconds:");
             reloadInXSecs( 3000 );
         };
     
     }
     var viewModel = {
                         packages:ko.observableArray(), 
-                        status:ko.observable(true)
+                        status:ko.observable(true),
+                        filter: ko.observable("")
+                        
                     };
-    ko.applyBindings(viewModel, document.getElementById('packages-table-id'));
+    
+    //filter the items using the filter text
+    viewModel.filteredPackages = ko.computed(function() {
+        var filter = this.filter().toLowerCase();
+        if (!filter) {
+            return this.packages();
+        } else {
+            return ko.utils.arrayFilter(this.packages(), function(item) {
+                return item.pname.toLowerCase().indexOf(filter.toLowerCase()) >= 0;
+            });
+        }
+    }, viewModel);                
+    
+    ko.applyBindings(viewModel, document.getElementById('packages-extension'));
    
     function initPackages(i) {
         if (i > 18)
@@ -47,17 +62,7 @@ $(function() {
     
     initPackages(1);
     
-    //filter the items using the filter text
-    viewModel.filteredItems = ko.computed(function() {
-        var filter = this.filter().toLowerCase();
-        if (!filter) {
-            return this.items();
-        } else {
-            return ko.utils.arrayFilter(this.items(), function(item) {
-                return ko.utils.stringStartsWith(item.pname().toLowerCase(), filter);
-            });
-        }
-    }, viewModel);
+    
     
     
 });
