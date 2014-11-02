@@ -21,7 +21,11 @@ PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
 STOP = {'STOP': 'There are no more packages to load'}
         
-def checkFlags(text):
+def checkFlags(pName):
+    bashCommand = "dpkg-query -l " + pName
+    text, errorcode = execute( bashCommand )
+    if errorcode != 0:
+        return False
     lines = text.split('\n')
     del lines[-1]
     package_line = lines[-1]
@@ -44,37 +48,6 @@ def getDpkgInfo(pName, fieldName) :
     if output == "" :
       return fieldName + " not available"
     return output
-        
-def createOnOffSwitch( pName ) :
-    checkedText = ""
-    bashCommand = "dpkg-query -l " + pName
-    output, errorcode = execute( bashCommand )
-
-    text = '<div class="on_off_switch">\n'
-    text +='<input type="checkbox" name="'+pName+'" onclick="submit_package(this)" class="on_off_switch-checkbox" id="'+pName 
-    if errorcode != 0:
-        installed=False
-        checkedText = text + '" checked>'
-    elif errorcode == 0 and checkFlags(output):
-        installed=True
-        checkedText = text + '">'
-    else:
-        installed=False
-        checkedText = text + '" checked>'
-    checkedText += '<label class="on_off_switch-label" for="'+pName+'">\n'
-    checkedText += '<div class="on_off_switch-inner"></div>\n'
-    checkedText += '<div class="on_off_switch-switch"></div>\n'
-    checkedText += '</label>\n'
-    checkedText += '</div>\n'
-    return checkedText, installed
-
-def getPackageList( ) :
-  ins = open( PACKAGES_LIST_PATH, "r" )
-  packages = []
-  for line in ins :
-    line = line.rstrip( ) # strip the new line
-    packages.append( {'label':line } )
-  return packages
 
 def getTableRecord( index ) :
     
@@ -98,21 +71,16 @@ def getTableRecord( index ) :
     allPackages = []
 
     for pName in packages :
-        checkedText, installed = createOnOffSwitch( pName )
+        installed = checkFlags(pName)
         descriptionText = getDpkgInfo( pName, "Description" )
         versionText = getDpkgInfo( pName, "Version" )
-        package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText, 'installed':installed}    
+        package = {'Package Name':pName, 'Description':descriptionText, 'Version':versionText, 'installed':installed}    
 
         allPackages.append( package )
 
     return allPackages
 
 def main():
-    '''
-    Application to manage the most used packages using apt-get.
-    Still in progress.
-    '''
-
     form = cgi.FieldStorage()
 
     if('index' in form and form['index'].value != -1 ) :
@@ -121,38 +89,11 @@ def main():
         composeJS( json.dumps( packages ) )
       else :
         composeJS( json.dumps( STOP ) )
-    else :
-      if ( 'action' in form and form['action'].value == 'getPackageList' ) :
-        #ajax call response
-        composeJS( json.dumps( getPackageList( ) ) )
-      elif ( getAptBusy( ) ):
-        view.setContent('Package Management',\
-        '<script src="/css/reloadBasedOnStatus.js"></script>\
-        The package manager is busy right now. . . \
-        This page will automatically reload once the service is available')
-        output(view, form)
-      else :
-        #lazyloading will populate the table
-        htmlcode = '<script src="/css/lazyLoading.js"></script>\
-        \n<script src="/css/autocomplete.js"></script>'
-        
-        #enable search feature
-        htmlcode += '\n<div class="form-group" style="margin-bottom: 0px;overflow: hidden;">\
-        \n<input id="autocomplete" name="filter" \
-        onkeyup="filter( \'autocomplete\',\'packages-table-id\',1 )" type="text" \
-        class="form-control" style="float:left;width:20%;" placeholder="Search. . .">\
-        \n\
-        <div style="padding-top: 10px;">\
-            <button id="extensive_search" style="float: right;" class="btn btn-primary" onclick="extensive_search();">\
-            Search package</button>\
-        </div>\
-        </div>'
-        
-        htmlcode += "\n<div id='packages-table'><table id='packages-table-id'>"
-        htmlcode += "\n</table></div>"
-        view.setContent('Package Management', htmlcode )
-        output(view, form)  
-   
+    elif ('op' in form and form['op'].value == 'status'):          
+        composeJS(json.dumps({'status':getAptBusy()}))
+    else:
+        composeJS(json.dumps({}))    
+
 if __name__ == '__main__':
     main()
 
