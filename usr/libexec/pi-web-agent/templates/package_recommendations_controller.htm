@@ -1,6 +1,7 @@
 <script type="text/html" id="package-template">
     <td data-bind="text: pname"></td>
     <td>
+        <!-- ko if: installed != null -->
         <div class="on_off_switch">
             <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: installed, click: submit_package" class="on_off_switch-checkbox">
             <label class="on_off_switch-label" for="emacs23">
@@ -8,27 +9,35 @@
                 <div class="on_off_switch-switch"></div>
             </label>
         </div>
+        <!-- /ko -->
+        <!-- ko if: installed == null -->
+        <div>Pending...</div>
+        <!-- /ko -->
     </td>
     <td data-bind="text: description"></td>
+    <!-- ko if: version -->
     <td data-bind="text: version"></td>
+    <!-- /ko -->
 </script>
+
 <h2>Package Recommendations</h2>
 <div id="packages-extension">
     <div class="form-group" style="margin-bottom: 0px;overflow: hidden;">
         <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
 
         <div style="padding-top: 10px;">
-            <button id="extensive_search" style="float: right;" class="btn btn-primary" onclick="extensive_search();">
+            <button id="extensive_search" style="float: right;" class="btn btn-primary" data-bind="click: extensive_search">
             Search package</button>
         </div>
     </div>
-
     <table id="packages-table-id">
             <tr>
                 <th>Package Name</th>
                 <th>Status</th>
                 <th>Description</th>
-                <th>Version</th>
+                <!-- ko ifnot: extensiveSearch --> 
+                    <th>Version</th>        
+                <!-- /ko -->
             </tr>
         <!-- ko foreach: filteredPackages -->
         <tr data-bind="template: {name: 'package-template', data: $data}">

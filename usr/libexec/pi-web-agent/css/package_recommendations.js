@@ -24,11 +24,39 @@ $(function() {
     
     }
     var viewModel = {
-                        packages:ko.observableArray(), 
-                        status:ko.observable(true),
-                        filter: ko.observable("")
-                        
-                    };
+        packages:ko.observableArray(),
+        backupPackages: null,
+        status:ko.observable(true),
+        filter: ko.observable(""),
+        extensiveSearch: ko.observable(false),
+        renderSearchResults: function (data, model) {
+            model.backupPackages = model.packages();
+            model.packages([]);
+            model.extensiveSearch(true);
+            $.each(data, function (package_name, package_description) {
+                model.packages.push(new Package([{
+                    'Package Name': package_name,
+                    'Description': package_description,
+                    'installed': null,
+                    'Version': null
+                }]));
+            });
+            endProcessing();
+        },
+        extensive_search: function () {
+            var package_name = this.filter();
+            if (package_name.length <= 2) {
+                popFailMessage("Type more letters or you are really going to slow down your Pi");
+                return;
+            }
+            processing();
+            var url="/cgi-bin/toolkit/pm_api.py?op=search&key="+package_name;
+            var model = this;
+            getJSONResponse(url, function (data) { model.renderSearchResults(data, model);});
+        }
+
+        
+    };
     
     //filter the items using the filter text
     viewModel.filteredPackages = ko.computed(function() {
@@ -56,13 +84,7 @@ $(function() {
         viewModel.packages.push(new Package(data));
     }
     
-    function getAPTStatus() {
-        
-    }
     
     initPackages(1);
-    
-    
-    
     
 });
