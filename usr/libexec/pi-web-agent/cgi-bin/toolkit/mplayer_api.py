@@ -12,7 +12,6 @@ import sys
 import subprocess
 import json
 import httplib
-import pprint
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
@@ -108,10 +107,7 @@ if __name__ == '__main__':
             jsonReply('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
-        data = json.loads(sys.stdin.read())
-        pprint.pprint(dict(data), width=1)
-        
-        '''try:
+        try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
                     execute('echo "set_property volume '
@@ -142,7 +138,7 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
-                if ['volume'] in data['init'] and 0 <= int(data['init']['volume']) <= 100:
+                if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
                     volume = data['init']['volume']
                 else:
                     volume = 99
@@ -160,6 +156,6 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "starting" }')
         except ValueError:
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
-                      + ' requests!" }')'''
+                      + ' requests!" }')
     else:
         jsonReply('{ "status" : "unknown operation" }')
