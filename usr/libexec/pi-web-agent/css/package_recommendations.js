@@ -3,7 +3,7 @@ $(function() {
         var self = this;
         var pdata = data[0];
         self.pname = pdata['Package Name'];
-        self.installed = pdata['installed'];
+        self.installed = ko.observable(pdata['installed']);
         self.version = pdata['Version'];
         self.description = pdata['Description'];
         
@@ -11,7 +11,7 @@ $(function() {
             var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
             
             var param2='install';
-            if (self.installed)
+            if (self.installed())
             {
                param2='uninstall';
             }
@@ -23,6 +23,24 @@ $(function() {
         };
     
     }
+    
+    function updatePackageDefinitions(data, keys, model) {
+        $.each(keys, function (pname, index) {
+            model.packages()[index].installed(data[pname].installed);
+        });
+    }
+    
+    
+    function findPackageInstallationStatus(keys, model) {
+        var url="/cgi-bin/toolkit/pm_api.py?op=check_group&packages="+JSON.stringify(Object.keys(keys));
+        getJSONResponse(url, function (data) {
+                                 updatePackageDefinitions(data, keys, model); 
+                             }
+                       );
+    }
+    
+    
+    
     var viewModel = {
         packages:ko.observableArray(),
         backupPackages: null,
@@ -42,6 +60,25 @@ $(function() {
                 }]));
             });
             endProcessing();
+            var i;
+            for (i = 0; i < model.packages().length; i+=10) {
+                var keyIndex = {};
+                for (var j = i; j < i+10 && j < model.packages().length; j++) {
+                    var pname = model.packages()[j].pname;
+                    keyIndex[pname] = j;
+                }
+                findPackageInstallationStatus(keyIndex, model);
+            }
+            if (i > model.packages().length) {
+                var keyIndex = {};
+                   
+                for (var j = model.packages().length - (i%10); j < model.packages().length; j++) {
+                    var pname = model.packages()[j].pname;
+                    keyIndex[pname] = j;
+                }
+                findPackageInstallationStatus(keyIndex, model);
+            }
+            
         },
         extensive_search: function () {
             var package_name = this.filter();

@@ -1,7 +1,7 @@
 <script type="text/html" id="package-template">
     <td data-bind="text: pname"></td>
     <td>
-        <!-- ko if: installed != null -->
+        <!-- ko if: (installed() != null) -->
         <div class="on_off_switch">
             <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: installed, click: submit_package" class="on_off_switch-checkbox">
             <label class="on_off_switch-label" for="emacs23">
@@ -10,7 +10,7 @@
             </label>
         </div>
         <!-- /ko -->
-        <!-- ko if: installed == null -->
+        <!-- ko if: (installed() == null) -->
         <div class="progress progress-striped active"><div class="progress-bar progress-bar-info " style="width: 100%"></div></div>
         <!-- /ko -->
     </td>
@@ -26,8 +26,8 @@
         <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
 
         <div style="padding-top: 10px;">
-            <button id="extensive_search" style="float: right;" class="btn btn-primary" data-bind="click: extensive_search">
-            Search package</button>
+            <button id="extensive_search" style="float: right;" class="btn btn-primary" data-bind="click: extensive_search, text: extensiveSearch() ? 'Go back' : 'Search package'">
+            </button>
         </div>
     </div>
     <table id="packages-table-id">
