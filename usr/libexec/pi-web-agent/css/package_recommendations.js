@@ -7,19 +7,19 @@ $(function() {
         self.version = pdata['Version'];
         self.description = pdata['Description'];
         
-        self.submit_package = function submit_package() {
-            var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
+        self.submit_package = function() {
+            var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName=' + self.pname + '&action=';
             
             var param2='install';
             if (self.installed())
             {
                param2='uninstall';
             }
-            url+= param2;   
+            url+= param2;
             var info=getResponse(url);
 
-            $('#packages-extension').text("Installation in progress. . .The page will reload in 3 seconds:");
-            reloadInXSecs( 3000 );
+            self.installed(!self.installed());
+            viewModel.status(false);
         };
     
     }
@@ -42,8 +42,14 @@ $(function() {
     }
     
     
+    function handleStatus(data, model) {
+        model.status(data.status);
+        setTimeout(function () {model.check_status(model);}, 5000);
+    }
+    
     
     var viewModel = {
+        self: this,
         packages:ko.observableArray(),
         backupPackages: null,
         status:ko.observable(true),
@@ -101,6 +107,12 @@ $(function() {
                 this.backupPackages = null;
                 this.filter("");
             }
+        },
+        
+        check_status: function (model) {
+            model = model == null ? this : model;
+            getJSONResponse('/cgi-bin/toolkit/package_recommendations.py?op=status', 
+            function (data) { handleStatus(data, model);});
         }
 
         
@@ -117,6 +129,8 @@ $(function() {
             });
         }
     }, viewModel);                
+    
+    viewModel.check_status();
     
     ko.applyBindings(viewModel, document.getElementById('packages-extension'));
    
@@ -136,3 +150,4 @@ $(function() {
     initPackages(1);
     
 });
+

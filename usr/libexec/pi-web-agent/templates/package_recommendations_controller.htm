@@ -4,7 +4,7 @@
         <!-- ko if: (installed() != null) -->
         <div class="on_off_switch">
             <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: !installed(), click: submit_package" class="on_off_switch-checkbox">
-            <label class="on_off_switch-label" for="emacs23">
+            <label class="on_off_switch-label" data-bind="attr: {for: pname}">
                 <div class="on_off_switch-inner"></div>
                 <div class="on_off_switch-switch"></div>
             </label>
@@ -22,7 +22,7 @@
 
 <h2>Package Recommendations</h2>
 <div id="packages-extension">
-    <!-- ko if: status -->
+    <!-- ko if: status() -->
     <div class="form-group" style="margin-bottom: 0px;overflow: hidden;">
         <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
 
@@ -47,7 +47,7 @@
         <!-- /ko -->
     </table>
     <!-- /ko -->
-    <!-- ko ifnot: status -->
+    <!-- ko ifnot: status() -->
     <div>
         The package manager is busy right now. This screen will refresh automatically when it becomes available.
     </div>
