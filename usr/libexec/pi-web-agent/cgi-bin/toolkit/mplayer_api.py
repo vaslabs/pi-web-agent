@@ -25,8 +25,11 @@ def jsonReply(stringifiedJSON, code=httplib.OK):
     print 'Length:', len(stringifiedJSON)
     print ''
     print stringifiedJSON
-
-
+#fire and forget success will be determined by triggering strace on websocket 
+#connection if strace fails web socket connection will fail .
+def fireAndForget(command):
+    subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    
 class SettingsReader(object):
 
     def __init__(self, fileURL):
@@ -73,9 +76,6 @@ class MPlayer:
         '''
         try to use mplayer for the given parameters
         '''
-
-        self.uri = urllib.unquote(self.uri).decode('utf8')
-
         # wow I ll be a bit pythonic here xD
         command = \
             "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
