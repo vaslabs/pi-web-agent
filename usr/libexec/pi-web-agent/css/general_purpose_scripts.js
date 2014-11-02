@@ -185,20 +185,7 @@ function updateStatuses(statuses) {
     setTimeout(getStatuses, 800);
 }
 
-function submit_package(element) {
-    var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
-    
-    var param2='install';
-    if (element.checked)
-    {
-       param2='uninstall';
-    }
-    url+= param2;   
-    var info=getResponse(url);
 
-    $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
-    reloadInXSecs( 3000 );
-}
 
 function reloadInXSecs( secs ){
   setTimeout(function () { location.reload(1); }, secs);
