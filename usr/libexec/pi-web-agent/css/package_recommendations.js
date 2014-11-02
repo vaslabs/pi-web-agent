@@ -25,9 +25,11 @@ $(function() {
     }
     
     function updatePackageDefinitions(data, keys, model) {
-        $.each(keys, function (pname, index) {
-            model.packages()[index].installed(data[pname].installed);
-        });
+        if (mode.extensiveSearch()) {
+            $.each(keys, function (pname, index) {
+                model.packages()[index].installed(data[pname].installed);
+            });
+        }
     }
     
     
@@ -81,15 +83,24 @@ $(function() {
             
         },
         extensive_search: function () {
-            var package_name = this.filter();
-            if (package_name.length <= 2) {
-                popFailMessage("Type more letters or you are really going to slow down your Pi");
-                return;
+            if (!this.extensiveSearch()) {
+            
+                var package_name = this.filter();
+                if (package_name.length <= 2) {
+                    popFailMessage("Type more letters or you are really going to slow down your Pi");
+                    return;
+                }
+                processing();
+                var url="/cgi-bin/toolkit/pm_api.py?op=search&key="+package_name;
+                var model = this;
+                getJSONResponse(url, function (data) { model.renderSearchResults(data, model);});
             }
-            processing();
-            var url="/cgi-bin/toolkit/pm_api.py?op=search&key="+package_name;
-            var model = this;
-            getJSONResponse(url, function (data) { model.renderSearchResults(data, model);});
+            else {
+                this.extensiveSearch(false);
+                this.packages(this.backupPackages);
+                this.backupPackages = null;
+                this.filter("");
+            }
         }
 
         
