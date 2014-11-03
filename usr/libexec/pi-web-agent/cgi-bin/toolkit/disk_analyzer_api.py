@@ -72,22 +72,24 @@ def get_chart_format(root_dir):
 
 def get_usage(top):
     # top :: str
-    # Returns fs_items:: List[(str, str, int, int)]
+    # Returns fs_items:: List[(str, str, int)]
     #      
     import os
     from os.path import join, getsize
     
-    colour_info = 0
     dir_size = 0
     fs_items = list()
-    
+    fs_items.append((top, None, 0))
+              
     for root, files, dirs in os.walk(top):
         for file in files:
-            size = getsize(join(root, file))
-            fs_items.append((file, root, size, colour_info))
+            fname = join(root, file)
+            size = getsize(fname)
+            fs_items.append((fname, root, size))
 
         for dir in dirs:
-            fs_items.append((dir, root, dir_size, colour_info))
+            dname = join(root, dir)
+            fs_items.append((dname, root, dir_size))
 
     return fs_items
             
@@ -99,4 +101,5 @@ def main_test():
     return entry_list_json
 
 def main_test_walk():
-    pass
+    fs_items = get_usage("/Users/argyris/workspace/pi-web-agent/etc/")
+    return json.dumps(fs_items)
