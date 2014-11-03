@@ -69,10 +69,34 @@ def get_chart_format(root_dir):
 
     return entry_list
 
+
+def get_usage(top):
+    # top :: str
+    # Returns fs_items:: List[(str, str, int, int)]
+    #      
+    import os
+    from os.path import join, getsize
     
+    colour_info = 0
+    dir_size = 0
+    fs_items = list()
+    
+    for root, files, dirs in os.walk(top):
+        for file in files:
+            size = getsize(join(root, file))
+            fs_items.append((file, root, size, colour_info))
+
+        for dir in dirs:
+            fs_items.append((dir, root, dir_size, colour_info))
+
+    return fs_items
+            
 def main_test():
     root_dir = traverse_fs("/Users/argyris/workspace/dir_test/dir1/")
     entry_list = get_chart_format(root_dir)
     entry_list_json = DefaultEncoder().encode(entry_list)
     
     return entry_list_json
+
+def main_test_walk():
+    pass
