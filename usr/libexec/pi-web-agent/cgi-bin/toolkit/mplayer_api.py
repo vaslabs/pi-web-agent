@@ -84,9 +84,9 @@ class MPlayer:
         '''
 
         command = \
-            "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
+            "sudo sh -c '[ -p /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control; amixer cset numid=3 " \
             + self.output \
-            + ';sudo mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
+            + '; mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
 
         command += ' -volume ' + self.volume
         command += ' "' + self.uri + '" > /tmp/mplayer_result &\''
