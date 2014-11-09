@@ -91,6 +91,7 @@ class MPlayer:
         command += ' -volume ' + self.volume
         command += ' "' + self.uri + '" </dev/null >/dev/null 2>&1 &\''
         fireAndForget(command)
+        execute("echo \""+command+"\" > /tmp/mplayer_log")
         execute("echo '" + self.volume
                 + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
