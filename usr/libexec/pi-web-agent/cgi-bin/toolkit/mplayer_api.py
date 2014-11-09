@@ -108,7 +108,7 @@ if __name__ == '__main__':
             jsonReply('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
-        data = json.loads(sys.stdin.read())
+        data=json.loads(sys.stdin.read())
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
@@ -155,8 +155,8 @@ if __name__ == '__main__':
                     sys.exit()
                 if execute('pidof mplayer') == 0:
                     jsonReply('{ "status" : "starting" }')
-                    player = MPlayer(uri, volume, output)
-                    player.startStream()
+                   # player = MPlayer(uri, volume, output)
+                   # player.startStream()
         except ValueError:
 
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
