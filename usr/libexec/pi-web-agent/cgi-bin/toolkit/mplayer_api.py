@@ -7,6 +7,7 @@ import sys
 import subprocess
 import json
 import httplib
+from live_info import execute
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
@@ -53,11 +54,11 @@ class SettingsReader(object):
         return self.eq
 
 
-def execute(command):
-    sp = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    (output, err) = sp.communicate()
-    sp.wait()
-    return sp.returncode
+#def execute(command):
+#    sp = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+#    (output, err) = sp.communicate()
+#    sp.wait()
+#    return sp.returncode
 
 
 class MPlayer:
@@ -96,13 +97,13 @@ class MPlayer:
 
 if __name__ == '__main__':
     if os.environ['REQUEST_METHOD'] == 'GET':
-        if execute('pidof mplayer') == 0:
+        if execute('pidof mplayer')[1] == 0:
             jsonReply('{ "status" : "playing" }')
         else:
             jsonReply('{ "status" : "stoped" }')
     elif os.environ['REQUEST_METHOD'] == 'DELETE':
 
-        if execute('echo "quit" > /tmp/mplayer-control') == 0:
+        if execute('echo "quit" > /tmp/mplayer-control')[1] == 0:
             jsonReply('{ "status" : "success" }')
         else:
             jsonReply('{ "status" : "failure" }',
@@ -153,7 +154,7 @@ if __name__ == '__main__':
                     uri = data['init']['uri']
                 else:
                      jsonReply('{ "status" : "failure" }')
-                if 1:
+                if execute('pidof mplayer')[1] == 0:
                     jsonReply('{ "status" : "starting" }')
                    # player = MPlayer(uri, volume, output)
                    # player.startStream()
