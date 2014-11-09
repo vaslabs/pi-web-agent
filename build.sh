@@ -20,16 +20,13 @@ composeFiles() {
 }
 
 appendJSToHTML() {
-    head $LAST_MAIN -n -2 >$working_directory/$LAST_MAIN
-    echo "<script src='/css/$1'></script>" >> $working_directory/$LAST_MAIN
-    tail $LAST_MAIN -n 2 >>$working_directory/$LAST_MAIN
-    sudo cp $working_directory/$LAST_MAIN $LAST_MAIN
-    echo $working_directory/$LAST_MAIN
+    
+    echo "<html><head><script src='/css/$1'></script>" > $working_directory/$FIRST_MAIN
     
 }
 
 appendCSSToHTML() {
-    echo "<html><head><link rel='stylesheet' href=/css/$1 type='text/css'>" >$working_directory/$FIRST_MAIN
+    echo "<link rel='stylesheet' href=/css/$1 type='text/css'>" >>$working_directory/$FIRST_MAIN
     cat $FIRST_MAIN >> $working_directory/$FIRST_MAIN
     sudo cp $working_directory/$FIRST_MAIN $FIRST_MAIN
 }
