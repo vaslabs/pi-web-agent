@@ -90,7 +90,15 @@ class MPlayer:
 
 
 if __name__ == '__main__':
+    print "Content-type: text/html"
+    print
+    print '<!DOCTYPE html>'
+
+    print "<html>"
+    print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
     print "result"
+    print "</body>"
+    print "</html>"
     '''try:
         if os.environ['REQUEST_METHOD'] == 'GET':
             if execute('pidof mplayer') == 0:
