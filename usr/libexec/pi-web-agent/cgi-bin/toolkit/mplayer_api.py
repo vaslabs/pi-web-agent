@@ -85,8 +85,7 @@ class MPlayer:
         command += ' -volume ' + self.volume
         command += ' "' + self.uri + '" </dev/null >/dev/null 2>&1 &\''
         fireAndForget(command)
-        execute("echo '" + self.volume
-                + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
+        execute("echo '" + self.volume+ "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
 if __name__ == '__main__':
@@ -107,17 +106,12 @@ if __name__ == '__main__':
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
-                    execute('echo "set_property volume '
-                            + str(data['volume'])
-                            + '" > /tmp/mplayer-control')
+                    execute('echo "set_property volume '+ str(data['volume'])+ '" > /tmp/mplayer-control')
                     streqhelper = ':'.join(map(str, data['eqhelper']))
-                    execute("echo '" + str(data['volume']) + '\n'
-                            + streqhelper + "' > /tmp/mplayer_status")
-                    jsonReply('{ "status" : "volume '
-                              + str(data['volume']) + '" }')
+                    execute("echo '" + str(data['volume']) + '\n'+ streqhelper + "' > /tmp/mplayer_status")
+                    jsonReply('{ "status" : "volume '+ str(data['volume']) + '" }')
                 else:
-                    jsonReply('{ "status" : "Oups!In valid volume range.'
-                               + 'Don\'t send castom requests!" }')
+                    jsonReply('{ "status" : "Oups!In valid volume range.'+ 'Don\'t send castom requests!" }')
             elif 'eq' in data:
                 c = 0
                 for n in data['eq']:
@@ -125,15 +119,12 @@ if __name__ == '__main__':
                         c += 1
                 if c == 10:
                     streq = ':'.join(map(str, data['eq']))
-                    execute('echo "af_cmdline equalizer ' + streq
-                            + '" > /tmp/mplayer-control')
-                    execute("echo '" + str(data['volumehelper']) + '\n'
-                            + streq + "' > /tmp/mplayer_status")
+                    execute('echo "af_cmdline equalizer ' + streq+ '" > /tmp/mplayer-control')
+                    execute("echo '" + str(data['volumehelper']) + '\n'+ streq + "' > /tmp/mplayer_status")
                     jsonReply('{ "status" : "eq ' + streq + '" }')
                 else:
                     streq = ':'.join(map(str, data['eq']))
-                    jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
-                               + streq + '" }')
+                    jsonReply('{ "status" : "Invalid eq settings[-12/12]:'+ streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
                 if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
                     volume = data['init']['volume']
@@ -153,7 +144,6 @@ if __name__ == '__main__':
                     #player.startStream()
                     
         except ValueError:
-            jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
-                      + ' requests!" }')
+            jsonReply('{ "status" : "Invalid Input!Don\'t send custom'+ ' requests!" }')
     else:
         jsonReply('{ "status" : "unknown operation" }')
