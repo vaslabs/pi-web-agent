@@ -1,31 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "/usr/libexec/pi-web-agent/etc/config/framework.c"
 int main() {
-    
-    FILE *ifp, *ofp;
-    char *mode = "r";
-
-    ifp = fopen("/usr/libexec/pi-web-agent/templates/volume_controller.htm", mode);
-
-    if (ifp == NULL) {
-        fprintf(stderr, "Failed to open template file!\n");
-        exit(1);
-    }
-
-    int c;
-    printf("Content-type: text/html\n\n");
-    do
-    {
-        c = fgetc(ifp);
-        if( feof(ifp) )
-        {
-          break ;
-        }
-        printf("%c", (char)c);
-    }while(1);
-   
-   fclose(ifp);
-   return 0; 
-
+    printMe("volume_controller");
 }
