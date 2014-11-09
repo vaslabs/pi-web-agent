@@ -1,9 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-# To change this license header, choose License Headers in Project Properties.
-# To change this template file, choose Tools | Templates
-# and open the template in the editor.
-
 import cgi
 import cgitb
 import os
@@ -16,8 +11,6 @@ __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
 
-# codes from https://docs.python.org/3.0/library/httplib.html
-
 def jsonReply(stringifiedJSON, code=httplib.OK):
     print 'Status: ', code, ' ', httplib.responses[code]
     print 'Content-Type: application/json'
@@ -25,11 +18,15 @@ def jsonReply(stringifiedJSON, code=httplib.OK):
     print 'Length:', len(stringifiedJSON)
     print ''
     print stringifiedJSON
-#fire and forget success will be determined by triggering strace on websocket 
-#connection if strace fails web socket connection will fail .
+
+
+# fire and forget success will be determined by triggering strace on websocket
+# connection if strace fails web socket connection will fail .
+
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    
+
+
 class SettingsReader(object):
 
     def __init__(self, fileURL):
@@ -55,27 +52,36 @@ class SettingsReader(object):
     def getEQ(self):
         return self.eq
 
+
 def execute(command):
-    sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    output, err = sp.communicate()
+    sp = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    (output, err) = sp.communicate()
     sp.wait()
     return sp.returncode
+
+
 class MPlayer:
+
     def __init__(
         self,
         uri,
         volume,
         output,
         ):
+
         self.uri = uri
         self.volume = volume
+
         # wow I ll be a bit pythonic here xD
-        self.output = ('2' if output == 'HDMI' else ('1' if output == 'HEADPHONES' else '0'))
+
+        self.output = ('2' if output == 'HDMI' else ('1' if output
+                       == 'HEADPHONES' else '0'))
 
     def startStream(self):
         '''
         try to use mplayer for the given parameters
         '''
+
         command = \
             "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
             + self.outout \
@@ -134,7 +140,8 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
-                if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
+                if 'volume' in data['init'] and 0 <= int(data['init'
+                        ]['volume']) <= 100:
                     volume = data['init']['volume']
                 else:
                     volume = 99
@@ -150,8 +157,8 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "starting" }')
                     player = MPlayer(uri, volume, output)
                     player.startStream()
-                    
         except ValueError:
+
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
                       + ' requests!" }')
     else:
