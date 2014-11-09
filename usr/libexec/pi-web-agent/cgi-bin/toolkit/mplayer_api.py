@@ -89,7 +89,7 @@ class MPlayer:
             + ';sudo mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
 
         command += ' -volume ' + self.volume
-        command += ' "' + self.uri + '" > &\''
+        command += ' "' + self.uri + '" > /tmp/mplayer_result &\''
         fireAndForget(command)
         execute("echo '" + self.volume
                 + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
