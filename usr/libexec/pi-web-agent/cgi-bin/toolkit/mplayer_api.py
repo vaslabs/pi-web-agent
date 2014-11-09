@@ -70,13 +70,13 @@ class MPlayer:
         ):
         self.uri = uri
         self.volume = volume
+        # wow I ll be a bit pythonic here xD
         self.output = ('2' if output == 'HDMI' else ('1' if output == 'HEADPHONES' else '0'))
 
     def startStream(self):
         '''
         try to use mplayer for the given parameters
         '''
-        # wow I ll be a bit pythonic here xD
         command = \
             "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
             + self.outout \
