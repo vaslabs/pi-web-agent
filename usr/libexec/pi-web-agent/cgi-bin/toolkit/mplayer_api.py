@@ -153,11 +153,11 @@ if __name__ == '__main__':
                 if 'uri' in data['init']:
                     uri = data['init']['uri']
                 else:
-                     jsonReply('{ "status" : "failure" }')
+                    jsonReply('{ "status" : "failure" }')
                 if execute('pidof mplayer')[1] != 0:
-                    jsonReply('{ "status" : "starting" }')
-                   # player = MPlayer(uri, volume, output)
-                   # player.startStream()
+                    player = MPlayer(uri, volume, output)
+                    player.startStream()
+                    jsonReply('{ "status" : "starting" }') 
         except ValueError:
 
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
