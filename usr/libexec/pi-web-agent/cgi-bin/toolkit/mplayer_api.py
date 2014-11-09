@@ -104,8 +104,9 @@ if __name__ == '__main__':
                 jsonReply('{ "status" : "failure" }',
                           httplib.INTERNAL_SERVER_ERROR)
         elif os.environ['REQUEST_METHOD'] == 'POST':
-            data = json.loads(sys.stdin.read())
-            try:
+            print ""
+            '''data = json.loads(sys.stdin.read())
+                try:
                 if 'volume' in data:
                     if 0 <= int(data['volume']) <= 100:
                         execute('echo "set_property volume '+ str(data['volume'])+ '" > /tmp/mplayer-control')
@@ -146,10 +147,10 @@ if __name__ == '__main__':
                         #player.startStream()
 
             except ValueError:
-                jsonReply('{ "status" : "Invalid Input!Don\'t send custom'+ ' requests!" }')
+                jsonReply('{ "status" : "Invalid Input!Don\'t send custom'+ ' requests!" }')'''
         else:
             jsonReply('{ "status" : "unknown operation" }')
     except:
         tb = traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback)
         tb = ''.join(tb)
-        print '<pre>%s</pre></body></html>' % tb
+        print '<html><body><pre>%s</pre></body></html>' % tb
