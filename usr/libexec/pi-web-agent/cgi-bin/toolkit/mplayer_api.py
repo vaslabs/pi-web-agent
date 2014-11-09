@@ -108,7 +108,8 @@ if __name__ == '__main__':
             jsonReply('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
-        data=json.loads(sys.stdin.read())
+        #data=json.loads(sys.stdin.read())
+        data = json.loads('{"init":{"volume":"50","uri":"http://imagine.1stepstream.com:8000/aac ","selection":"on","output":"AUTO"}}')
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
@@ -140,8 +141,7 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
-                if 'volume' in data['init'] and 0 <= int(data['init'
-                        ]['volume']) <= 100:
+                if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
                     volume = data['init']['volume']
                 else:
                     volume = 99
