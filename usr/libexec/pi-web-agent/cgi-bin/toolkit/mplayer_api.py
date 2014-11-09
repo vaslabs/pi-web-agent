@@ -12,7 +12,6 @@ import sys
 import subprocess
 import json
 import httplib
-import traceback
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
@@ -26,11 +25,11 @@ def jsonReply(stringifiedJSON, code=httplib.OK):
     print 'Length:', len(stringifiedJSON)
     print ''
     print stringifiedJSON
-#fire and forget success will be determined by triggering strace on websocket
+#fire and forget success will be determined by triggering strace on websocket 
 #connection if strace fails web socket connection will fail .
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-
+    
 class SettingsReader(object):
 
     def __init__(self, fileURL):
@@ -57,12 +56,11 @@ class SettingsReader(object):
         return self.eq
 
 def execute(command):
-	sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-	output, err = sp.communicate()
-	sp.wait()
-	return sp.returncode
+    sp=subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    output, err = sp.communicate()
+    sp.wait()
+    return sp.returncode
 class MPlayer:
-
     def __init__(
         self,
         uri,
@@ -80,86 +78,81 @@ class MPlayer:
         '''
         command = \
             "sh -c '[ -f /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control;sudo amixer cset numid=3 " \
-            + self.output \
+            + self.outout \
             + ';sudo mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
 
         command += ' -volume ' + self.volume
         command += ' "' + self.uri + '" </dev/null >/dev/null 2>&1 &\''
         fireAndForget(command)
-        execute("echo '" + self.volume+ "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
+        execute("echo '" + self.volume
+                + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
 if __name__ == '__main__':
-    print "Content-type: text/html"
-    print
-    print '<!DOCTYPE html>'
-
-    print "<html>"
-    print '<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">'
-    print "result"
-    print "</body>"
-    print "</html>"
-    '''try:
-        if os.environ['REQUEST_METHOD'] == 'GET':
-            if execute('pidof mplayer') == 0:
-                jsonReply('{ "status" : "playing" }')
-            else:
-                jsonReply('{ "status" : "stoped" }')
-        elif os.environ['REQUEST_METHOD'] == 'DELETE':
-
-            if execute('echo "quit" > /tmp/mplayer-control') == 0:
-                jsonReply('{ "status" : "success" }')
-            else:
-                jsonReply('{ "status" : "failure" }',
-                          httplib.INTERNAL_SERVER_ERROR)
-        elif os.environ['REQUEST_METHOD'] == 'POST':
-            print ""
-            data = json.loads(sys.stdin.read())
-            try:
-                if 'volume' in data:
-                    if 0 <= int(data['volume']) <= 100:
-                        execute('echo "set_property volume '+ str(data['volume'])+ '" > /tmp/mplayer-control')
-                        streqhelper = ':'.join(map(str, data['eqhelper']))
-                        execute("echo '" + str(data['volume']) + '\n'+ streqhelper + "' > /tmp/mplayer_status")
-                        jsonReply('{ "status" : "volume '+ str(data['volume']) + '" }')
-                    else:
-                        jsonReply('{ "status" : "Oups!In valid volume range.'+ 'Don\'t send castom requests!" }')
-                elif 'eq' in data:
-                    c = 0
-                    for n in data['eq']:
-                        if -12 <= n <= 12:
-                            c += 1
-                    if c == 10:
-                        streq = ':'.join(map(str, data['eq']))
-                        execute('echo "af_cmdline equalizer ' + streq+ '" > /tmp/mplayer-control')
-                        execute("echo '" + str(data['volumehelper']) + '\n'+ streq + "' > /tmp/mplayer_status")
-                        jsonReply('{ "status" : "eq ' + streq + '" }')
-                    else:
-                        streq = ':'.join(map(str, data['eq']))
-                        jsonReply('{ "status" : "Invalid eq settings[-12/12]:'+ streq + '" }')
-                elif 'init' in data and 'uri' in data['init']:
-                    if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
-                        volume = data['init']['volume']
-                    else:
-                        volume = 99
-                    if 'output' in data['init']:
-                        output = data['init']['output']
-                    else:
-                        output = 'HEADPHONES'
-                    if 'uri' in data['init']:
-                        uri = data['init']['uri']
-                    else:
-                        sys.exit()
-                    if execute('pidof mplayer') == 0:
-                        jsonReply('{ "status" : "starting" }')
-                        #player = MPlayer(uri, volume, output)
-                        #player.startStream()
-
-            except ValueError:
-                jsonReply('{ "status" : "Invalid Input!Don\'t send custom'+ ' requests!" }')
+    if os.environ['REQUEST_METHOD'] == 'GET':
+        if execute('pidof mplayer') == 0:
+            jsonReply('{ "status" : "playing" }')
         else:
-            jsonReply('{ "status" : "unknown operation" }')
-    except:
-        tb = traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback)
-        tb = ''.join(tb)
-        print '<html><body><pre>%s</pre></body></html>' % tb'''
+            jsonReply('{ "status" : "stoped" }')
+    elif os.environ['REQUEST_METHOD'] == 'DELETE':
+
+        if execute('echo "quit" > /tmp/mplayer-control') == 0:
+            jsonReply('{ "status" : "success" }')
+        else:
+            jsonReply('{ "status" : "failure" }',
+                      httplib.INTERNAL_SERVER_ERROR)
+    elif os.environ['REQUEST_METHOD'] == 'POST':
+        data = json.loads(sys.stdin.read())
+        try:
+            if 'volume' in data:
+                if 0 <= int(data['volume']) <= 100:
+                    execute('echo "set_property volume '
+                            + str(data['volume'])
+                            + '" > /tmp/mplayer-control')
+                    streqhelper = ':'.join(map(str, data['eqhelper']))
+                    execute("echo '" + str(data['volume']) + '\n'
+                            + streqhelper + "' > /tmp/mplayer_status")
+                    jsonReply('{ "status" : "volume '
+                              + str(data['volume']) + '" }')
+                else:
+                    jsonReply('{ "status" : "Oups!In valid volume range.'
+                               + 'Don\'t send castom requests!" }')
+            elif 'eq' in data:
+                c = 0
+                for n in data['eq']:
+                    if -12 <= n <= 12:
+                        c += 1
+                if c == 10:
+                    streq = ':'.join(map(str, data['eq']))
+                    execute('echo "af_cmdline equalizer ' + streq
+                            + '" > /tmp/mplayer-control')
+                    execute("echo '" + str(data['volumehelper']) + '\n'
+                            + streq + "' > /tmp/mplayer_status")
+                    jsonReply('{ "status" : "eq ' + streq + '" }')
+                else:
+                    streq = ':'.join(map(str, data['eq']))
+                    jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
+                               + streq + '" }')
+            elif 'init' in data and 'uri' in data['init']:
+                if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
+                    volume = data['init']['volume']
+                else:
+                    volume = 99
+                if 'output' in data['init']:
+                    output = data['init']['output']
+                else:
+                    output = 'HEADPHONES'
+                if 'uri' in data['init']:
+                    uri = data['init']['uri']
+                else:
+                    sys.exit()
+                if execute('pidof mplayer') == 0:
+                    jsonReply('{ "status" : "starting" }')
+                    player = MPlayer(uri, volume, output)
+                    player.startStream()
+                    
+        except ValueError:
+            jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
+                      + ' requests!" }')
+    else:
+        jsonReply('{ "status" : "unknown operation" }')
