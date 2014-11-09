@@ -154,7 +154,7 @@ if __name__ == '__main__':
                     uri = data['init']['uri']
                 else:
                      jsonReply('{ "status" : "failure" }')
-                if execute('pidof mplayer')[1] == 0:
+                if execute('pidof mplayer')[1] != 0:
                     jsonReply('{ "status" : "starting" }')
                    # player = MPlayer(uri, volume, output)
                    # player.startStream()
