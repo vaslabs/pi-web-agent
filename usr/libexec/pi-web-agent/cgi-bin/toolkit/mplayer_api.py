@@ -122,7 +122,7 @@ if __name__ == '__main__':
                     jsonReply('{ "status" : "volume '
                               + str(data['volume']) + '" }')
                 else:
-                    jsonReply('{ "status" : "Oups!In valid volume range.'
+                    jsonReply('{ "status" : "Oups!Invalid volume range.'
                                + 'Don\'t send castom requests!" }')
             elif 'eq' in data:
                 c = 0
@@ -152,8 +152,8 @@ if __name__ == '__main__':
                 if 'uri' in data['init']:
                     uri = data['init']['uri']
                 else:
-                    sys.exit()
-                if execute('pidof mplayer') == 0:
+                     jsonReply('{ "status" : "failure" }')
+                if 1:
                     jsonReply('{ "status" : "starting" }')
                    # player = MPlayer(uri, volume, output)
                    # player.startStream()
