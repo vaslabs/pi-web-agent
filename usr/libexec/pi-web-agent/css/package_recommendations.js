@@ -25,7 +25,7 @@ $(function() {
     }
     
     function updatePackageDefinitions(data, keys, model) {
-        if (mode.extensiveSearch()) {
+        if (model.extensiveSearch()) {
             $.each(keys, function (pname, index) {
                 model.packages()[index].installed(data[pname].installed);
             });
@@ -139,7 +139,7 @@ $(function() {
             return;
         var url = '/cgi-bin/toolkit/package_recommendations.py?index=' + i;
         getJSONResponse(url, addPackage);
-        setTimeout(function () {initPackages(i+1);}, 100);
+        setTimeout(function () {initPackages(i+1);}, 1000);
     }
     
     function addPackage(data) {
