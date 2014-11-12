@@ -3,20 +3,6 @@ $(function(){
     
 });
 
-function enableProtocolRule() {
-    if($("#enableProtocolCheckBox").is(':checked'))
-        $("#selectProtocol").show();  // checked
-    else
-        $("#selectProtocol").hide();  // unchecked
-}
-
-function enableIPRule() {
-    if($("#enableIPCheckBox").is(':checked'))
-        $("#ipAddress").show();  // checked
-    else
-        $("#ipAddress").hide();  // unchecked
-}
-
 function getMemoryInfo(usage) {
      //stab TODO
      //var usage =   Math.floor((Math.random()*100));
@@ -218,7 +204,7 @@ function camera_utils(action) {
         
     var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
     if (action == "snapshot") {
-        $(".span16").prepend(animationBar());
+        processing();
         getJSONResponse(url, displaySnapshot);
         return;
     }
