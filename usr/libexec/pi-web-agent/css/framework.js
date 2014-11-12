@@ -11,7 +11,14 @@ function View() {
     self.actions = [];
     self.categories = {};
     self.catnames = [];
-   
+    
+    self.navigateTo = function () {
+        var img = $("<img/>").attr("src", '/icons/' + this.icon).css({'width':'48px', 'height':'48px'});
+        $("#extension-title").append(img);
+        $("#extension-title").append(this.title);
+        navigate(this.url);
+    };
+    
     self.insertToCategory = function (cat, action) {
         if (!(cat in self.categories)) {
             self.categories[cat] = [];

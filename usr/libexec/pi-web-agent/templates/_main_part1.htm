@@ -59,7 +59,7 @@
                                 </a>
                                 <ul class="dropdown-menu" data-bind="foreach: $root.categories[name]">
                                     <li>
-                                        <a data-bind="click: function () { navigate(url); }">
+                                        <a data-bind="click: $root.navigateTo">
                                             <img data-bind="attr : { src: '/icons/' + icon}" width="16px" height="16px">
                                             <span data-bind="text: title"></span>
                                             <!-- ko if: $data.version -->
