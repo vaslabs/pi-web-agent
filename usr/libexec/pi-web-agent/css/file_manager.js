@@ -2,6 +2,7 @@ var spath="/home";
 getContents(spath);
 
 function getContents(path) {
+    processing();
     url = '/cgi-bin/toolkit/file_manager.py?path=' + path;
     spath = path;
     
@@ -18,12 +19,8 @@ function getContents(path) {
     var currentPath = allContents + "/" + currentDir;
     $("#bpath").append('<li title="refresh" class="active"><a href="javascript:getContents(\'' + spath + '\')\">' +  currentDir + '</a></li>');    
     
-    
-    
-    $(".span16").prepend(animationBar());
-        
     getJSONResponse(url, displayEntries);
-    
+
 }
 
 function displayEntries(contents) {
@@ -60,7 +57,9 @@ function displayEntries(contents) {
         }
         $("#file-manager-table").append(row$);
     }//for
-    $("#b-pb").remove()
+    
+    endProcessing();
+    
 }
 function download(path) {
 
