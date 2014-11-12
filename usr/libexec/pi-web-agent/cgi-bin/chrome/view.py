@@ -41,7 +41,6 @@ class View(object):
         self.setContent('Welcome', 'This is the web agent for the Raspberry PI')
         
     def setContent(self, title, content):
-        self.contentTitle = "<h2>" + title + "</h2>"
         self.content = content
         
     def output(self):
@@ -54,6 +53,6 @@ class View(object):
         outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
         
     def js_output(self):
-        composeJS(createText(self.contentTitle, self.content))
+        composeJS(createText("", self.content))
 	
 
