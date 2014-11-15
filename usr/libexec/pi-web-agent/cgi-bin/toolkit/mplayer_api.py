@@ -82,7 +82,7 @@ class MPlayer:
         try to use mplayer for the given parameters
         '''
 
-        command=("sh -c '[ -f /tmp/mplayer-control ]" 
+        command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
                  "sudo amixer cset numid=3 "+self.output+";"
                  "sudo mplayer -slave -input "
