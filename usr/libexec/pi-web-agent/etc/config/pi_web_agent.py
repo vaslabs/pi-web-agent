@@ -4,7 +4,7 @@ import json
 
 CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.cfg"
 CONFIG_PATH=os.environ['MY_HOME']+"/etc/config"
-VERSION="0.3"
+VERSION="0.4"
 class Configuration(object):
     
     def __init__(self):
