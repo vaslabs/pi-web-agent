@@ -69,7 +69,7 @@ class MPlayer:
         output,
         ):
 
-        self.uri = uri
+        self.uri = uri.strip()
         self.volume = volume
 
         # wow I ll be a bit pythonic here xD
