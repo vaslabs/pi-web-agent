@@ -82,16 +82,16 @@ class MPlayer:
         try to use mplayer for the given parameters
         '''
 
-        command = \
-            "sudo sh -c '[ -p /tmp/mplayer-control ]|| mkfifo /tmp/mplayer-control; amixer cset numid=3 " \
-            + self.output \
-            + '; mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
-
-        command += ' -volume ' + str(self.volume)
-        command += ' "' + self.uri + '" > /tmp/mplayer_result &\''
+        command=("sh -c '[ -f /tmp/mplayer-control ]" 
+                 "|| mkfifo /tmp/mplayer-control;"
+                 "sudo amixer cset numid=3 "+self.outout+";"
+                 "sudo mplayer -slave -input "
+                 "file=/tmp/mplayer-control -ao alsa:device=hw "
+                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
+        command+=" -volume "+str(self.volume)
+        command+=" \""+self.uri + "\" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
-        execute("echo '" + str(self.volume)
-                + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
+        execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
 if __name__ == '__main__':
