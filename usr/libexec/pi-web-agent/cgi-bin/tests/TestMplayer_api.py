@@ -3,6 +3,7 @@
 # and open the template in the editor.
 
 import unittest
+import PiWebAgentTestSuite
 from mplayer_api import *
 import time
 class  Mplayer_apiTestCase(unittest.TestCase):

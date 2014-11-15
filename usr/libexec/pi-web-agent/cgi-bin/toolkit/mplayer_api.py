@@ -29,7 +29,6 @@ def fireAndForget(command):
     execute("echo \""+command+"\" > /tmp/mplayer_log")
 
 class SettingsReader(object):
-
     def __init__(self, fileURL):
         self.fileURL = fileURL
 
