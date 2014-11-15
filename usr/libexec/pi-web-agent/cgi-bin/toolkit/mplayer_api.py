@@ -90,7 +90,7 @@ class MPlayer:
         command += ' -volume ' + str(self.volume)
         command += ' "' + self.uri + '" > /tmp/mplayer_result &\''
         fireAndForget(command)
-        execute("echo '" + self.volume
+        execute("echo '" + str(self.volume)
                 + "\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
