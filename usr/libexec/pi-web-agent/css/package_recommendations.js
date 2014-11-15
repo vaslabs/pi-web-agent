@@ -135,19 +135,21 @@ $(function() {
     ko.applyBindings(viewModel, document.getElementById('packages-extension'));
    
     function initPackages(i) {
-        if (i > 18)
+        if (i > 18) {
+            endProcessing();
             return;
+        }
         var url = '/cgi-bin/toolkit/package_recommendations.py?index=' + i;
+        
         getJSONResponse(url, addPackage);
         setTimeout(function () {initPackages(i+1);}, 1000);
     }
     
     function addPackage(data) {
         viewModel.packages.push(new Package(data));
-    }
-    
-    
+    }    
+        
     initPackages(1);
-    
+    processing();
 });
 

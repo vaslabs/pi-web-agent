@@ -1,7 +1,7 @@
 function navigate(link) {
      $("#extension-main-view").html('');
      processing();
-     $("#extension-main-view").load(link, endProcessing);
+     $("#extension-main-view").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
 }
 
@@ -23,11 +23,13 @@ function update_app() {
 
 function processing() {
     endProcessing();
+    if ($("#progress-ui").length == 0)
+        $("#extension-main-view").prepend('<div id="progress-ui"></div>');
     $("#progress-ui").html(animationBar());
 }
 
 function endProcessing() {
-    $("#progress-ui").html('');
+    $("#b-pb").remove();
 }
 
 function update_response(response) {
