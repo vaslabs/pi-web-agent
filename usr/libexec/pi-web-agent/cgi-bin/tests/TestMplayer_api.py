@@ -19,7 +19,7 @@ class  Mplayer_apiTestCase(unittest.TestCase):
         player = MPlayer("http://imagine.1stepstream.com:8000/aac ", 50, "AUTO")
         player.startStream()
         time.sleep( 5 )
-        self.assertEqual(0, execute('pidof mplayer')[1], "Success!");
+        self.assertEqual(0, execute('pidof mplayer')[1], "Failed to start stream ");
 
 if __name__ == '__main__':
     unittest.main()
