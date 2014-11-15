@@ -130,7 +130,7 @@ function getIPTableValues(chain, action, protocol, ip_address) {
 }
 
 function reload_firewall() {
-    $('.ui-dialog').remove();
+    closeDialog();
     processing();
     navigate('/cgi-bin/toolkit/pi_iptables.pwa?type=js');
 }
