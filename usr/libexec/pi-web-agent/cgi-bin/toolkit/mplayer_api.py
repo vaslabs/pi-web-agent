@@ -84,7 +84,7 @@ class MPlayer:
 
         command=("sh -c '[ -f /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
-                 "sudo amixer cset numid=3 "+self.outout+";"
+                 "sudo amixer cset numid=3 "+self.output+";"
                  "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
                  "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
