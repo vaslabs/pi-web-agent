@@ -87,7 +87,7 @@ class MPlayer:
             + self.output \
             + '; mplayer -slave -input file=/tmp/mplayer-control -ao alsa:device=hw -af equalizer=0:0:0:0:0:0:0:0:0:0 '
 
-        command += ' -volume ' + self.volume
+        command += ' -volume ' + str(self.volume)
         command += ' "' + self.uri + '" > /tmp/mplayer_result &\''
         fireAndForget(command)
         execute("echo '" + self.volume
