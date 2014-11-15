@@ -109,8 +109,7 @@ if __name__ == '__main__':
             jsonReply('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
-        #data=json.loads(sys.stdin.read())
-        data = json.loads('{"init":{"volume":"50","uri":"http://imagine.1stepstream.com:8000/aac ","selection":"on","output":"AUTO"}}')
+        data=json.loads(sys.stdin.read())
         try:
             if 'volume' in data:
                 if 0 <= int(data['volume']) <= 100:
