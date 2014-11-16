@@ -41,7 +41,7 @@ $( "#master" ).slider({
 	}
 });
 function mplayerWebSocket(){
-    var ws = new WebSocket('ws://'+window.location.hostname+':8080/');
+    var ws = new WebSocket('wss://'+window.location.hostname+':8080/');
     ws.onopen = function() {
             $(".mplayerView").hide();
                                     $("#mplayerPlayView").show();
