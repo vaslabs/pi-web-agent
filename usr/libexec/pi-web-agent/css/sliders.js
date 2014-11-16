@@ -1,3 +1,4 @@
+var mplayerSock;
 function updateStatus(data){
 	$("#status").html(data.status);
 }
@@ -39,11 +40,33 @@ $( "#master" ).slider({
 			});
 	}
 });
+function mplayerWebSocket(){
+    var ws = new WebSocket('ws://'+window.location.hostname+':8080/');
+    ws.onopen = function() {
+    updateStatus({status:'CONNECT'});
+  };
+   ws.onclose = function() {
+    updateStatus({status:'DISCONNECT'});
+  };
+   ws.onmessage = function(event) {
+    updateStatus(event.data);
+  };
+  return ws
+  
+
+}
 $("#startStreamBtn").click(function(event){
     //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
-				updateStatus(data)
+                                if (data.status=="success"){
+                                    $(".mplayerView").hide();
+                                    $("#mplayerPlayView").show();
+                                    mplayerSock=mplayerWebSocket();
+                                }
+                                    updateStatus(data)
+                                
+                                
 			});
                     });
 });
