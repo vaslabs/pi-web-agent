@@ -43,10 +43,13 @@ $( "#master" ).slider({
 function mplayerWebSocket(){
     var ws = new WebSocket('ws://'+window.location.hostname+':8080/');
     ws.onopen = function() {
-    updateStatus({status:'CONNECT'});
+            $(".mplayerView").hide();
+                                    $("#mplayerPlayView").show();
+    updateStatus({status:'CONNECTED'});
+
   };
    ws.onclose = function() {
-    updateStatus({status:'DISCONNECT'});
+    updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
     updateStatus(event.data);
@@ -60,8 +63,7 @@ $("#startStreamBtn").click(function(event){
 $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
                                 if (data.status=="success"){
-                                    $(".mplayerView").hide();
-                                    $("#mplayerPlayView").show();
+                                    
                                     mplayerSock=mplayerWebSocket();
                                 }
                                     updateStatus(data)
