@@ -91,7 +91,7 @@ class MPlayer:
         command+=" -volume "+str(self.volume)
         command+=" \""+self.uri + "\" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
-        fireAndForget("websocketd --port=8080 mplayerWebSocketd");
+        fireAndForget("websocketd --port=8080 --ssl --sslcert=/etc/pi-web-agent/conf.d/certs/pi-web-agent.crt --sslkey=/etc/pi-web-agent/conf.d/certs/pi-web-agent.key mplayerWebSocketd </dev/null >/dev/null 2>&1 &");
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
