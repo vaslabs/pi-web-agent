@@ -62,7 +62,7 @@ $("#startStreamBtn").click(function(event){
     //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
-                                if (data.status=="success"){
+                                if (data.status=="starting"){
                                     
                                     mplayerSock=mplayerWebSocket();
                                 }
