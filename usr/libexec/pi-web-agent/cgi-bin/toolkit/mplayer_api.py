@@ -91,7 +91,7 @@ class MPlayer:
         command+=" -volume "+str(self.volume)
         command+=" \""+self.uri + "\" </dev/null >/dev/null 2>&1 &'"
         fireAndForget(command)
-        print command
+        fireAndForget("websocketd --port=8080 mplayerWebSocketd");
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
