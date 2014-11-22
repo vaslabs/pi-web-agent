@@ -43,6 +43,21 @@ $( "#master" ).slider({
 			});
 	}
 });
+
+$("#startStreamBtn").click(function(event){
+    //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+			.done(function( data ) {
+                                if (data.status=="starting"){
+                                    
+                                    mplayerSock=mplayerWebSocket();
+                                }
+                                    updateStatus(data)
+                                
+                                
+			});
+                    });
+});
 function mplayerWebSocket(){
     var ws = new WebSocket('wss://'+window.location.hostname+':8080/');
     ws.onopen = function() {
@@ -61,17 +76,3 @@ function mplayerWebSocket(){
   
 
 }
-$("#startStreamBtn").click(function(event){
-    //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
-$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
-			.done(function( data ) {
-                                if (data.status=="starting"){
-                                    
-                                    mplayerSock=mplayerWebSocket();
-                                }
-                                    updateStatus(data)
-                                
-                                
-			});
-                    });
-});
