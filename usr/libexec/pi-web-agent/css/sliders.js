@@ -2,6 +2,9 @@ var mplayerSock;
 function updateStatus(data){
 	$("#status").html(data.status);
 }
+function showInfo(info){
+	$("#status").html(info);
+}
 $(function() {
 // setup master volume
 	
@@ -52,7 +55,7 @@ function mplayerWebSocket(){
     updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
-    updateStatus(event.data);
+    showInfo(event.data);
   };
   return ws
   
