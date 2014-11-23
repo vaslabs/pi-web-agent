@@ -67,7 +67,7 @@ function mplayerWebSocket(){
 
   };
    ws.onclose = function() {
-    updateStatus({status:'DISCONNECTED'});
+    //updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
     showInfo(event.data);
