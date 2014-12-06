@@ -7,44 +7,71 @@ function PiWebAgent () {
 }
 
 function View() {
-    self = this;
+    var self = this;
     self.actions = [];
-    self.extensions = [
-                      ];
-    self.extensionsOverflow = [];
-    self.extensionLimit = 5;
-    fetchViewData();
-   
+    self.categories = {};
+    self.catnames = [];
+    
+    self.navigateTo = function () {
+        var img = $("<img/>").attr("src", '/icons/' + this.icon).css({'width':'48px', 'height':'48px'});
+        $("#extension-title").html('');
+        $("#extension-title").append(img);
+        $("#extension-title").append(this.title);
+        navigate(this.url);
+    };
+    
+    self.insertToCategory = function (cat, action) {
+        if (!(cat in self.categories)) {
+            self.categories[cat] = [];
+            self.catnames.push({'name':cat});
+        }
+        self.categories[cat].push(action);
+    };
     
     
-    function fetchViewData() {
+    self.fetchViewData = function () {
         data = getJSONResponse('/cgi-bin/chrome/view.pwa', null);
         var extensionsCounter = 0;
         var allowed2Words = false;
         var allowed = 0;
         $.each(data[0]["pi-web-agent"].system.actions, function (key, action) {
-            var words = action.title.split(' ').length;
-            if ( words >= 3 - (allowed2Words ? 1 : 0)) {
-                self.extensionsOverflow.push(action);
+            var category = "Other";
+            if ("categories" in action)
+            {    $.each(action.categories, function (index, cat) {
+                    self.insertToCategory(cat, action);
+                });
             }
-            else if (extensionsCounter < self.extensionLimit) {
-                self.extensions.push(action);
-                if (words >= 2)
-                    allowed++;
-                allowed2Words = allowed >= 2;
-                extensionsCounter++; 
-            }
-            else
-                self.extensionsOverflow.push(action);
         });
         
         $.each(data[1]["pi-web-agent"].actions, function (key, action) {
-            self.actions.push(action);
+            action.icon = "applications-other-3.png";
+            self.insertToCategory("Other", action);
         });
     };
     
+    self.fetchViewData();
+    
 }
 $(function() {
+    ko.bindingHandlers.foreachprop = {
+        transformObject: function (obj) {
+            var properties = [];
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    properties.push({ key: key, value: obj[key] });
+                }
+            }
+            return properties;
+        },
+        init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+            var value = ko.utils.unwrapObservable(valueAccessor()),
+                properties = ko.bindingHandlers.foreachprop.transformObject(value);
+            ko.applyBindingsToNode(element, { foreach: properties }, bindingContext);
+            return { controlsDescendantBindings: true };
+        }
+    };
     var view = new View();
-    ko.applyBindings(view);
+    ko.applyBindings(view, document.getElementById("awesome-navbar"));
 });
+
+

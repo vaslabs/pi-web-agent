@@ -11,19 +11,16 @@ from HTMLPageGenerator import *
 from BlueprintDesigner import *
 import subprocess
 from live_info import execute
+from framework import get_template
 
 def getView():
-    iwpasswd = InputWidget('password', 'passwd', '', 'Current password: ',\
-    wClass='form-control password',attribs='placeholder="Current Password"')
-    iwpasswd_new1=InputWidget('password', 'passwd_new1', '', 'Set new Password: ',\
-    wClass='form-control password',attribs='placeholder="New Password"')
-    iwpasswd_new2=InputWidget('password', 'passwd_new2', '', 'Retype password: ',\
-    wClass='form-control password',attribs='placeholder="Retype Password"')
-    iw_submit=InputWidget('submit', '', 'Change password', '',wClass='btn btn-primary')
-    iwg = InputWidgetGroup()
-    iwg.widgets=[iwpasswd, iwpasswd_new1, iwpasswd_new2, iw_submit] 
-    return fieldset('/cgi-bin/toolkit/change_password.py', 'POST', \
-    'password_form', iwg, createLegend("Change password"))
+    form = cgi.FieldStorage()
+    
+    f = open(get_template('change_password_controller'))
+    view= f.read()
+    f.close()
+
+    return view
 
 
 def getSuccessView():

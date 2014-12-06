@@ -3,20 +3,6 @@ $(function(){
     
 });
 
-function enableProtocolRule() {
-    if($("#enableProtocolCheckBox").is(':checked'))
-        $("#selectProtocol").show();  // checked
-    else
-        $("#selectProtocol").hide();  // unchecked
-}
-
-function enableIPRule() {
-    if($("#enableIPCheckBox").is(':checked'))
-        $("#ipAddress").show();  // checked
-    else
-        $("#ipAddress").hide();  // unchecked
-}
-
 function getMemoryInfo(usage) {
      //stab TODO
      //var usage =   Math.floor((Math.random()*100));
@@ -185,20 +171,7 @@ function updateStatuses(statuses) {
     setTimeout(getStatuses, 800);
 }
 
-function submit_package(element) {
-    var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
-    
-    var param2='install';
-    if (element.checked)
-    {
-       param2='uninstall';
-    }
-    url+= param2;   
-    var info=getResponse(url);
 
-    $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
-    reloadInXSecs( 3000 );
-}
 
 function reloadInXSecs( secs ){
   setTimeout(function () { location.reload(1); }, secs);
@@ -231,7 +204,7 @@ function camera_utils(action) {
         
     var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
     if (action == "snapshot") {
-        $(".span16").prepend(animationBar());
+        processing();
         getJSONResponse(url, displaySnapshot);
         return;
     }

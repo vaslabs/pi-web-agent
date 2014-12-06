@@ -32,25 +32,6 @@ STARTUP_PWA=usr/bin/startup-manager-pwa.py
 
 CRONJOB_REBOOT=/etc/cron.d/cronpwa
 
-start_compiling() {
-    for file in $(ls *.c); do
-        filename=$(basename $file '.c')
-        gcc $file -o "$filename.pwa"
-    done
-    rm *.c
-}
-
-compilePWA() {
-    cd /usr/libexec/pi-web-agent/cgi-bin/toolkit
-    start_compiling
-    cd -
-    cd /usr/libexec/pi-web-agent/cgi-bin/chrome
-    start_compiling
-    cd -
-    #framework.c must be in source form to allow other developers
-    #to include it, no need for compiling it
-}
-
 this_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
@@ -149,15 +130,15 @@ this_install(){
     chmod 640 "/usr/libexec/pi-web-agent/.htpasswd"
     chown -R pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent
     chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.pwa
     chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.pwa
     chmod 770 /usr/libexec/pi-web-agent/html/utilities/*.html
     chmod 770 /usr/libexec/pi-web-agent/html/index.html
     chmod +x /usr/libexec/pi-web-agent/scripts/hostname.sh
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
-    chmod +x /usr/bin/*
-    echo "Compiling C specific modules"
-    compilePWA    
+    chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     
