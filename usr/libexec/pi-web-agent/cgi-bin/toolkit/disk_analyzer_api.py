@@ -1,4 +1,17 @@
 import json
+import os, sys
+from live_info import execute
+import cgi, cgitb
+cgitb.enable()
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+
+from HTMLPageGenerator import composeJS
+from framework import view, output
+from functools import partial
+import re
+import subprocess
 
 class FileSystemObject(object):
 
@@ -81,7 +94,7 @@ def get_usage(top):
     fs_items = list()
     fs_items.append((top, None, 0))
               
-    for root, files, dirs in os.walk(top):
+    for root, dirs, files in os.walk(top):
         for file in files:
             fname = join(root, file)
             size = getsize(fname)
@@ -92,7 +105,38 @@ def get_usage(top):
             fs_items.append((dname, root, dir_size))
 
     return fs_items
-            
+
+
+
+def error():
+    return json.dumps("Error")
+
+
+def op_dispatch(form):
+    # Do a dispatch on the operation, only one so far though so...!
+    op = form.getfirst("op")
+    args = dict((k, form[k].value) for k in form.keys() if not k=="op")
+
+    op_dict = {
+        "get_usage" : partial(get_usage, args['top'])
+    }
+
+    op_func = op_dict.get(op, error)
+    composeJS(op_func())
+
+    
+def main():
+    form = cgi.FieldStorage()
+    op_dispatch(form)
+
+    
+if __name__ == "__main__":
+    main()
+
+
+
+### test stuff, they should probably go in the /tests dir
+### or become unit tests whatever
 def main_test():
     root_dir = traverse_fs("/Users/argyris/workspace/dir_test/dir1/")
     entry_list = get_chart_format(root_dir)
@@ -101,5 +145,6 @@ def main_test():
     return entry_list_json
 
 def main_test_walk():
-    fs_items = get_usage("/Users/argyris/workspace/pi-web-agent/etc/")
+    fs_items = get_usage("/home/rpi/")
     return json.dumps(fs_items)
+        
