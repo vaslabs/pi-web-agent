@@ -12,17 +12,19 @@ from framework import output, view, get_template
 from BlueprintDesigner import *
 from HTMLPageGenerator import *
 
+
 def get_view():
-    # Returns str
     with open(get_template("disk_analyzer_controller")) as template:
         return template.read()
 
+    
 def main():
     # Serves the disk analyzer page
-
     fs = cgi.FieldStorage()
     content = get_view()
     view.setContent('Disk analyzer', content)
-
-if __name__ == "__main__":
+    
+    output(view, fs)
+    
+if __name__ == '__main__':    
     main()
