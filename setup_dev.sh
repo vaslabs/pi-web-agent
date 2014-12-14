@@ -79,13 +79,17 @@ this_install(){
          htpasswd -cbd "$htpasswd_PATH" 'admin' 'admin' && print_ok "DONE"
     }
 
+    mkdir -p /usr/libexec/pi-web-agent/etc/config/
+    
     echo -n "Copying framework file"
-    /bin/cp -v "$FW_FILE" "/$FW_FILE"
+    /bin/cp -av usr/libexec/pi-web-agent/etc/config/framework.c /usr/libexec/pi-web-agent/etc/config/framework.c 
     
     echo -n "Compile pwa files..."
     compilePWA
 
-    /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
+    /bin/cp -v "$htpasswd_PATH" "/$htpasswd_PATH" 
+
+    /bin/cp -rv "$APPLICATION_PATH"/* "/$APPLICATION_PATH"
 
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
@@ -258,7 +262,7 @@ print_warning() {
 case $1 in
     install)
         [ $(id -u) -eq 0 ] || {
-            echo "You need to be root to run the setup"
+            echo "You need to be reboot to run the setup"
             exit 1
         }
         this_install
