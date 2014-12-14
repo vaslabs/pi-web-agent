@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import json
 import os, sys
 from live_info import execute
@@ -30,7 +31,6 @@ class DefaultEncoder(json.JSONEncoder):
 
     def default(self, o):
         return o.__dict__
-
 
 def traverse_fs(root, parent="", n_levels=3):
     # root :: str
@@ -92,20 +92,19 @@ def get_usage(top):
     
     dir_size = 0
     fs_items = list()
-    fs_items.append((top, None, 0))
+    fs_items.append([top, None, 0])
               
     for root, dirs, files in os.walk(top):
         for file in files:
             fname = join(root, file)
             size = getsize(fname)
-            fs_items.append((fname, root, size))
+            fs_items.append([fname, root, size])
 
         for dir in dirs:
             dname = join(root, dir)
-            fs_items.append((dname, root, dir_size))
+            fs_items.append([dname, root, dir_size])
 
-    return fs_items
-
+    return json.dumps(fs_items)
 
 
 def error():
