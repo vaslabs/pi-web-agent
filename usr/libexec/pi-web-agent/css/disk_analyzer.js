@@ -1,4 +1,4 @@
-var spath="/home/rpi/pi-web-agent/usr/libexec/pi-web-agent/cgi-bin/toolkit/";
+var spath="/home/rpi/";
 google.load("visualization", "1", {packages:["treemap"]});
 
 function initChart(spath) {
