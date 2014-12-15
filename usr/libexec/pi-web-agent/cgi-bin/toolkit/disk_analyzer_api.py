@@ -97,8 +97,11 @@ def get_usage(top):
     for root, dirs, files in os.walk(top):
         for file in files:
             fname = join(root, file)
-            size = getsize(fname)
-            fs_items.append([fname, root, size])
+            try:
+                size = getsize(fname)
+                fs_items.append([fname, root, size])
+            except OSError:
+                pass
 
         for dir in dirs:
             dname = join(root, dir)
