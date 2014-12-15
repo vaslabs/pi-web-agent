@@ -47,8 +47,8 @@ Password: password
 
 2. Install git (sudo apt-get install git-core)
 Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
-Go into the directory (pi-web-agent), there is a file setup-dev.sh. Run sudo ./setup-dev.sh install . 
-If that fails run sudo ./setup-dev.sh reinstall . It should work by also installing some of the dependencies. You have to install
+Go into the directory (pi-web-agent), there is a file setup_dev.sh. Run sudo ./setup_dev.sh install . 
+If that fails run sudo ./setup_dev.sh reinstall . It should work by also installing some of the dependencies. You have to install
 manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
 
 3. Start the pi-web-agent service: sudo service pi-web-agent start
