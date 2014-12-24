@@ -54,7 +54,6 @@ function displayEntries(contents) {
         row$.append($('<td/>').html(entry['owner']));
         row$.append($('<td/>').html(entry['group']));
         row$.append($('<td/>').html(entry['size'] + "B"));
-	row$.append($('<td/>').html(entry['group']));
 	
         if (type == 'Directory') {
 	    var dPath = ''.concat(spath, '/', entry['name']);
