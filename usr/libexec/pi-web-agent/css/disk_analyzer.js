@@ -23,6 +23,10 @@ function initControls(path) {
     b.click(function(e) { tree.clearChart(); initChart($('#path').val()) });
 }
 
+function checkPath(path) {
+    return 0;
+}
+
 function initChart(path) {
     // call api to get files and then draw chart
     processing();
@@ -50,7 +54,7 @@ function drawChart(items) {
 }
 
 
-$(function() {
+$(document).ready(function(){
     var path = getPath();
     initControls(path)
     initChart(path);
