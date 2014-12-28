@@ -46,7 +46,9 @@ $( "#eq > span" ).each(function() {
 
 $("#startStreamBtn").click(function(event){
     //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
-$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+	$(".mplayerView").hide();
+	$("#mplayerLoader").show();  
+	$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
 			.done(function( data ) {
                                 if (data.status=="starting"){
                                     
@@ -64,10 +66,11 @@ function mplayerWebSocket(){
 	}catch(e){
 		window.open('https://'+window.location.hostname+':7777', '_blank');
 		updateStatus({status:'please add exception and refresh'});
+		$("#mplayerLauncherView").show();
 	}
     ws.onopen = function() {
             $(".mplayerView").hide();
-                                    $("#mplayerPlayView").show();
+            $("#mplayerPlayView").show();
     updateStatus({status:'CONNECTED'});
 
   };
