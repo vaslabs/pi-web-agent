@@ -126,6 +126,8 @@ background-position: center;
                $("#status").html(data.status);
             }
             function showAppropriateView(){
+            	 $("#mplayerPlayView").hide();
+            	 $("#mplayerLauncherView").hide();
             	$("#mplayerLoader").show();                
 				$.getJSON( "mplayer_api.py", function( data ) {
 				if (data.status=="playing") {
