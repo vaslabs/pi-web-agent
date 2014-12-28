@@ -7,6 +7,12 @@ import sys
 import subprocess
 import json
 import httplib
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+if 'ssl_cert' not in os.environ:
+    os.environ['ssl_cert']='/etc/pi-web-agent/conf.d/certs/pi-web-agent.crt'
+if 'ssl_key' not in os.environ:
+    os.environ['ssl_key']='/etc/pi-web-agent/conf.d/certs/pi-web-agent.key'
 from live_info import execute
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
@@ -81,17 +87,20 @@ class MPlayer:
         '''
         try to use mplayer for the given parameters
         '''
-
+        '''
+        start websocked to serve the   websocketdBro consumer
+        '''
+        fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']
+                ' -k '+os.environ['ssl_key']+ ' </dev/null >/dev/null 2>&1 &');
         command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
                  "sudo amixer cset numid=3 "+self.output+";"
                  "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
-                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 ") 
-        command+=" -volume "+str(self.volume)
-        command+=" \""+self.uri + "\" </dev/null >/dev/null 2>&1 &'"
+                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 -volume "+str(self.volume)+" \""+self.uri + "\"
+                 "| grep -Po 'KVolume.*?%|Title.*?|Album.*?|Year.*?|Track.*?|Name.*?|Website.*?|Genre.*?' "
+                 "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e default; done' &");
         fireAndForget(command)
-        fireAndForget("websocketd --port=8080 --ssl --sslcert=/etc/pi-web-agent/conf.d/certs/pi-web-agent.crt --sslkey=/etc/pi-web-agent/conf.d/certs/pi-web-agent.key mplayerWebSocketd </dev/null >/dev/null 2>&1 &");
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
 
