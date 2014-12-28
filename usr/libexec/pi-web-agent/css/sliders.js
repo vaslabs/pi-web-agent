@@ -59,7 +59,7 @@ $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').
                     });
 });
 function mplayerWebSocket(){
-    var ws = new WebSocket('wss://'+window.location.hostname+':7777/');
+    var ws = new WebSocket('wss://'+window.location.hostname+':7777');
     ws.onopen = function() {
             $(".mplayerView").hide();
                                     $("#mplayerPlayView").show();

@@ -1,0 +1,3 @@
+[submodule "usr/libexec/pi-web-agent/scripts/websocketdBro"]
+	path = usr/libexec/pi-web-agent/scripts/websocketdBro
+	url = git@github.com:CySC/websocketdBro.git
