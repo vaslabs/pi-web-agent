@@ -96,7 +96,7 @@ class MPlayer:
                  "sudo amixer cset numid=3 "+self.output+";"
                  "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
-                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 -volume "+str(self.volume)+" \""+self.uri + "\"
+                 "-af equalizer=0:0:0:0:0:0:0:0:0:0 -volume "+str(self.volume)+" \""+self.uri + "\""
                  "| grep -Po 'KVolume.*?%|Title.*?|Album.*?|Year.*?|Track.*?|Name.*?|Website.*?|Genre.*?' "
                  "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e default; done' &");
         fireAndForget(command)
