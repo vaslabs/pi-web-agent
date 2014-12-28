@@ -44,7 +44,7 @@ primary: "ui-icon-stop"
 })
 .click(function() {
 $.ajax({
-    url: "mplayer_status.py",
+    url: "mplayer_api.py",
     type: "DELETE",
     success: function(result) {
                    if (data.redirect) {

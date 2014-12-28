@@ -45,10 +45,10 @@ $( "#stop" ).button({
 })
 .click(function() {
 	$.ajax({
-		url: "mplayer_status.py",
+		url: "mplayer_api.py",
 		type: "DELETE",
 		success: function(result) {
-			if (result.status=="success") {
+			if (result.status==="success") {
 				showAppropriateView();
           }
 		}
