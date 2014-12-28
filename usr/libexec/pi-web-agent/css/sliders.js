@@ -31,7 +31,7 @@ $( "#eq > span" ).each(function() {
 		}
 	});
 });
-$( "#master" ).slider({
+/*$( "#master" ).slider({
 		value: window.volume,
 		orientation: "horizontal",
 		range: "min",
@@ -42,7 +42,7 @@ $( "#master" ).slider({
 				updateStatus(data)
 			});
 	}
-});
+});*/
 
 $("#startStreamBtn").click(function(event){
     //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))

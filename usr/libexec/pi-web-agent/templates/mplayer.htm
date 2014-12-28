@@ -245,8 +245,8 @@ background-position: center;
           
 </div>
 <script>$('#master').knob({
-    'release' : function (v) { 			
-    	$.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: v  }))
+    'release' : function (v) {
+    	$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
 		}
 })
 $('#volume').knob();
