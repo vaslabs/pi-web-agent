@@ -126,13 +126,15 @@ background-position: center;
                $("#status").html(data.status);
             }
             function showAppropriateView(){
-                                
+            	$("#mplayerLoader").show();                
 				$.getJSON( "mplayer_api.py", function( data ) {
 				if (data.status=="playing") {
 					// data.redirect is the redirection link
                                          $("#mplayerPlayView").show();
 					updateStatus(data)
+					if (!mplayerSock){
                                         mplayerSock=mplayerWebSocket();
+					}
                                         $("#mplayerLoader").hide();
 				}
 				else {

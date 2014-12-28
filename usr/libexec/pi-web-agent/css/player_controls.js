@@ -48,9 +48,8 @@ $( "#stop" ).button({
 		url: "mplayer_status.py",
 		type: "DELETE",
 		success: function(result) {
-			if (data.redirect) {
-            // data.redirect contains the string URL to redirect to
-            location.href=data.redirect;
+			if (result.status=="success") {
+				showAppropriateView();
           }
 		}
 	});
