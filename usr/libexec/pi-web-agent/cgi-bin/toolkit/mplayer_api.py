@@ -90,8 +90,7 @@ class MPlayer:
         '''
         start websocked to serve the   websocketdBro consumer
         '''
-        fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']
-                ' -k '+os.environ['ssl_key']+ ' </dev/null >/dev/null 2>&1 &');
+        fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' </dev/null >/dev/null 2>&1 &');
         command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
                  "sudo amixer cset numid=3 "+self.output+";"
