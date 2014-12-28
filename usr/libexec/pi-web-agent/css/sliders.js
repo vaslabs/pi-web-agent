@@ -59,7 +59,12 @@ $.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').
                     });
 });
 function mplayerWebSocket(){
-    var ws = new WebSocket('wss://'+window.location.hostname+':7777');
+	try{
+		var ws = new WebSocket('wss://'+window.location.hostname+':7777');
+	}catch(e){
+		window.open('https://'+window.location.hostname+':7777', '_blank');
+		updateStatus({status:'please add exception and refresh'});
+	}
     ws.onopen = function() {
             $(".mplayerView").hide();
                                     $("#mplayerPlayView").show();
@@ -67,7 +72,7 @@ function mplayerWebSocket(){
 
   };
    ws.onclose = function() {
-    //updateStatus({status:'DISCONNECTED'});
+    updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
     showInfo(event.data);
