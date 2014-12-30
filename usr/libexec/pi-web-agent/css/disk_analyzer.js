@@ -16,11 +16,14 @@ function getPath() {
     return params['path'];
 }
 
+function resetChart() {
+    tree.clearChart();
+    initChart($('#path').val()); 
+}
+
 function initControls(path) {
     $('#path').val(path);
-    var b = $('button').button();
-
-    b.click(function(e) { tree.clearChart(); initChart($('#path').val()) });
+    $('button').click(function(e) { resetChart(); });
 }
 
 function checkPath(path) {
