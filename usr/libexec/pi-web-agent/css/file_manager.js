@@ -1,5 +1,10 @@
+var analyzerLoc = '../toolkit/disk_analyzer.py?path=';
 var spath="/home";
 getContents(spath);
+
+function redir(dirPath) {
+    document.location.href = analyzerLoc + dirPath;
+}
 
 function getContents(path) {
     processing();
@@ -49,7 +54,13 @@ function displayEntries(contents) {
         row$.append($('<td/>').html(entry['owner']));
         row$.append($('<td/>').html(entry['group']));
         row$.append($('<td/>').html(entry['size'] + "B"));
+	
         if (type == 'Directory') {
+	    var dPath = ''.concat(spath, '/', entry['name']);
+	    var bt = $('<button class="btn btn-info"> Calculate </button>');
+	    bt.click(function(dPath) {
+	    	return function() { redir(dPath); }}(dPath));
+	    row$.append($('<td/>').html(bt));
             row$.attr('onclick', "getContents(\"" + spath + "/" + entry['name'] + "\")");
         }
         else if (type == 'File') {

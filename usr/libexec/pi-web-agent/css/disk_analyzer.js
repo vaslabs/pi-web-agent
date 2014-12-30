@@ -1,11 +1,39 @@
-var spath="/home/rpi/";
 google.load("visualization", "1", {packages:["treemap"]});
 
-function initChart(spath) {
+function getURLParams(url) {
+    //returns the GET params in url in a assoc array
+    var params = {};
+    var paramsStr = url.split("?")[1];
+
+    paramsStr.split("&").map(function(ps) {kv = ps.split("="); params[kv[0]] = kv[1] });
+    
+    return params;
+}
+
+function getPath() {
+    var params = getURLParams(document.URL);
+    
+    return params['path'];
+}
+
+function resetChart() {
+    tree.clearChart();
+    initChart($('#path').val()); 
+}
+
+function initControls(path) {
+    $('#path').val(path);
+    $('button').click(function(e) { resetChart(); });
+}
+
+function checkPath(path) {
+    return 0;
+}
+
+function initChart(path) {
     // call api to get files and then draw chart
     processing();
-    alert("Hello, world");
-    url = '/cgi-bin/toolkit/disk_analyzer_api.py?op=get_usage&top=' + spath;
+    url = '/cgi-bin/toolkit/disk_analyzer_api.py?op=get_usage&top=' + path;
 
     getJSONResponse(url, drawChart);
 }
@@ -29,7 +57,8 @@ function drawChart(items) {
 }
 
 
-$(function() {
-    alert("Hello, world");
-    initChart(spath);
+$(document).ready(function(){
+    var path = getPath();
+    initControls(path)
+    initChart(path);
 });
