@@ -40,7 +40,7 @@ function initChart(path) {
 
 function drawChart(items) {
 
-    function fileSize(size) {
+    function readableFileSize(size) {
 	var i = Math.floor(Math.log(size) / Math.log(1024));
 	return (size / Math.pow(1024, i)).toFixed(2) * 1 + '' + ['B', 'KB', 'MB', 'GB', 'TB'][i];
     }
@@ -49,7 +49,7 @@ function drawChart(items) {
 	return '<div style="background:#fd9; padding:10px; border-style:solid">' +
             '<span style="font-family:Courier"><b>' + data.getValue(row, 0) +
             '</b></span><br>' +
-            'Size: ' + fileSize(size) + ' </div>';
+            'Size: ' + readableFileSize(size) + ' </div>';
     }
     
     items.unshift(["Parent dir", "File", "Size"]);
