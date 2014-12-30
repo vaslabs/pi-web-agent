@@ -10,12 +10,18 @@ function initialise_services() {
 }
 
 function Service(name, status) {
-    self=this;
+    var self=this;
     self.status = ko.observable(status);
     self.name = ko.observable(name);
-    self.killMe = function () { submit_service(this.name(), true); popSuccessMessage('Kill signal sent to: ' + this.name());};
-    self.toggleService = function () {submit_service(this.name(), this.status());};
-    self.activateMe = function () {submit_service(this.name(), false); popSuccessMessage('Start signal sent to: ' + this.name());};
+    self.killMe = function () { submit_service(self.name(), false); popSuccessMessage('Kill signal sent to: ' + self.name());};
+    
+    self.activateMe = function () {submit_service(self.name(), true); popSuccessMessage('Start signal sent to: ' + self.name());};
+    self.status.subscribe(function (newValue) {
+        if (newValue)
+            self.activateMe();
+        else
+            self.killMe();
+    });
 }
 
 var servicesModel = {services: ko.observableArray()};
