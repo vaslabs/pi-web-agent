@@ -115,9 +115,10 @@ int get_ip()
             if (s != 0) {
                 exit(EXIT_FAILURE);
             }
-            if (strcmp(ifa->ifa_name, "eth0") == 0)
+            if (strcmp(ifa->ifa_name, "eth0") == 0) {
                 printf("{\"name\":\"%s\", \"address\":\"%s\"}\n", ifa->ifa_name, host);
-            
+                break;
+            }
         }
     }      
     
