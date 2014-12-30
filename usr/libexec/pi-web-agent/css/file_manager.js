@@ -64,6 +64,7 @@ function displayEntries(contents) {
             row$.attr('onclick', "getContents(\"" + spath + "/" + entry['name'] + "\")");
         }
         else if (type == 'File') {
+	    row$.append($('<td/>').html(""));
             row$.attr('onclick', "openFile(\"" + spath + "/" + entry['name'] + "\")");
         }
         $("#file-manager-table").append(row$);
