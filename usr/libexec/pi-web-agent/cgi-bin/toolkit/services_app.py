@@ -21,7 +21,6 @@ def main():
     Unfinished.
     '''
     form = cgi.FieldStorage()
-    form = cgi.FieldStorage()
     
     f = open(get_template('services_controller'))
     html_tables= f.read()
