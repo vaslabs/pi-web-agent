@@ -3,24 +3,10 @@ $(function(){
     
 });
 
-function enableProtocolRule() {
-    if($("#enableProtocolCheckBox").is(':checked'))
-        $("#selectProtocol").show();  // checked
-    else
-        $("#selectProtocol").hide();  // unchecked
-}
-
-function enableIPRule() {
-    if($("#enableIPCheckBox").is(':checked'))
-        $("#ipAddress").show();  // checked
-    else
-        $("#ipAddress").hide();  // unchecked
-}
-
 function getMemoryInfo(usage) {
      //stab TODO
      //var usage =   Math.floor((Math.random()*100));
-     var msg = "Mem usage: " + usage + "%";
+     var msg = "Mem usage: " + Math.round(usage*100) + "%";
      html = generateCriticalMessage(usage, msg);  
      $('#li_memory').html(html);
     
@@ -38,7 +24,7 @@ function check_update() {
 function getTempInfo(temp) {
     //stab TODO
     //var usage =   Math.floor((Math.random()*100));
-    var msg = "Temperature: " + temp;
+    var msg = "Temperature: " + Math.round(temp);
     if (temp == 'N/A')
         html = generateCriticalMessage(86, msg);        
     else if (temp > 65)    
@@ -57,7 +43,7 @@ function getSwapInfo(usage) {
      if (usage > 0) {
         usg=usage*10;
      }
-     var msg = "Swap usage: " + usage + "%";
+     var msg = "Swap usage: " + Math.round(usage*100) + "%";
      if (usage < 0) {
         msg = "No swap space";
         usg=0;
@@ -69,7 +55,7 @@ function getSwapInfo(usage) {
 function getHardDiskInfo(usage) {
     //stab TODO
     //var usage =   Math.floor((Math.random()*100)); 
-    var msg = "Disk usage: " + usage + "%";
+    var msg = "Disk usage: " + Math.round(usage*100) + "%";
     html = generateCriticalMessage(usage, msg); 
     $('#li_hard_drive').html(html);
 }
@@ -138,11 +124,13 @@ function getJSONResponse(jsurl, method_call) {
         async: method_call != null,
         success: function(data) {
             if (method_call != null)
-                method_call(data);    
+                method_call(data);
+            else 
+                result = data;    
         } 
     });
     
-    //return value;
+    return result;
 } 
 
 function getKernelInfo(info) {
@@ -168,35 +156,22 @@ function initialise()
 }
 
 function getStatuses() {
-    url = '/cgi-bin/toolkit/live_info.py?cmd=all_status'
+    url = '/cgi-bin/toolkit/live_info.pwa'
     getJSONResponse(url, updateStatuses);
 }
 
 function updateStatuses(statuses) {
-    getHostnameInfo(statuses['hostname']);
+    getHostnameInfo(statuses['ip']['address']);
     getKernelInfo(statuses['kernel']);
     getUpdateCheck(statuses['ucheck']);
     getTempInfo(statuses['temp']);
     getMemoryInfo(statuses['mem']);
     getHardDiskInfo(statuses['disk']);
     getSwapInfo(statuses['swap']);
-    setTimeout(getStatuses, 8000);
+    setTimeout(getStatuses, 800);
 }
 
-function submit_package(element) {
-    var url='/cgi-bin/toolkit/installUninstallPackage.py?packageName='+element.name+'&action=';
-    
-    var param2='install';
-    if (element.checked)
-    {
-       param2='uninstall';
-    }
-    url+= param2;   
-    var info=getResponse(url);
 
-    $('#packages-table').text("Installation in progress. . .The page will reload in 3 seconds:");    
-    reloadInXSecs( 3000 );
-}
 
 function reloadInXSecs( secs ){
   setTimeout(function () { location.reload(1); }, secs);
@@ -229,7 +204,7 @@ function camera_utils(action) {
         
     var url='/cgi-bin/toolkit/camera_utils.py?action='+action;
     if (action == "snapshot") {
-        $(".span16").prepend(animationBar());
+        processing();
         getJSONResponse(url, displaySnapshot);
         return;
     }

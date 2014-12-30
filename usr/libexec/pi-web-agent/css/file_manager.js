@@ -1,7 +1,13 @@
+var analyzerLoc = '../toolkit/disk_analyzer.py?path=';
 var spath="/home";
 getContents(spath);
 
+function redir(dirPath) {
+    document.location.href = analyzerLoc + dirPath;
+}
+
 function getContents(path) {
+    processing();
     url = '/cgi-bin/toolkit/file_manager.py?path=' + path;
     spath = path;
     
@@ -18,12 +24,8 @@ function getContents(path) {
     var currentPath = allContents + "/" + currentDir;
     $("#bpath").append('<li title="refresh" class="active"><a href="javascript:getContents(\'' + spath + '\')\">' +  currentDir + '</a></li>');    
     
-    
-    
-    $(".span16").prepend(animationBar());
-        
     getJSONResponse(url, displayEntries);
-    
+
 }
 
 function displayEntries(contents) {
@@ -52,7 +54,13 @@ function displayEntries(contents) {
         row$.append($('<td/>').html(entry['owner']));
         row$.append($('<td/>').html(entry['group']));
         row$.append($('<td/>').html(entry['size'] + "B"));
+	
         if (type == 'Directory') {
+	    var dPath = ''.concat(spath, '/', entry['name']);
+	    var bt = $('<button class="btn btn-info"> Calculate </button>');
+	    bt.click(function(dPath) {
+	    	return function() { redir(dPath); }}(dPath));
+	    row$.append($('<td/>').html(bt));
             row$.attr('onclick', "getContents(\"" + spath + "/" + entry['name'] + "\")");
         }
         else if (type == 'File') {
@@ -60,7 +68,9 @@ function displayEntries(contents) {
         }
         $("#file-manager-table").append(row$);
     }//for
-    $("#b-pb").remove()
+    
+    endProcessing();
+    
 }
 function download(path) {
 

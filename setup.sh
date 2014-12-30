@@ -9,7 +9,7 @@ cd $(dirname $0)
 VERSION=0.1
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc"
+DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc libprocps0-dev"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
@@ -93,10 +93,6 @@ this_install(){
         echo 
         exit 1
     }
-    curr_dir=$(pwd)
-    cd /usr/share/pi-web-agent/extras/HTML.py-0.04
-    sudo python setup.py install
-    cd $curr_dir
 
     [ -d $LOGS ] || mkdir -p $LOGS
     [ -d $AND_LOGS ] || mkdir -p $AND_LOGS
@@ -134,14 +130,15 @@ this_install(){
     chmod 640 "/usr/libexec/pi-web-agent/.htpasswd"
     chown -R pi-web-agent:pi-web-agent /usr/libexec/pi-web-agent
     chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/*.pwa
     chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.py
+    chmod 770 /usr/libexec/pi-web-agent/cgi-bin/toolkit/*.pwa
     chmod 770 /usr/libexec/pi-web-agent/html/utilities/*.html
     chmod 770 /usr/libexec/pi-web-agent/html/index.html
     chmod +x /usr/libexec/pi-web-agent/scripts/hostname.sh
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
-    chmod +x /usr/bin/*
-    
+    chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     

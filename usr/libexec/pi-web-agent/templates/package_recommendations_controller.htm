@@ -1,0 +1,55 @@
+<script type="text/html" id="package-template">
+    <td data-bind="text: pname"></td>
+    <td>
+        <!-- ko if: (installed() != null) -->
+        <div class="on_off_switch">
+            <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: !installed(), click: submit_package" class="on_off_switch-checkbox">
+            <label class="on_off_switch-label" data-bind="attr: {for: pname}">
+                <div class="on_off_switch-inner"></div>
+                <div class="on_off_switch-switch"></div>
+            </label>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: (installed() == null) -->
+        <div class="progress progress-striped active"><div class="progress-bar progress-bar-info " style="width: 100%"></div></div>
+        <!-- /ko -->
+    </td>
+    <td data-bind="text: description"></td>
+    <!-- ko if: version -->
+    <td data-bind="text: version"></td>
+    <!-- /ko -->
+</script>
+
+<div id="packages-extension">
+    <!-- ko if: status() -->
+    <div class="form-group" style="margin-bottom: 0px;overflow: hidden;">
+        <input data-bind="value: filter, valueUpdate: 'afterkeydown'" type="text" class="form-control" style="float:left; width:20%;" placeholder="Search. . .">
+
+        <div style="padding-top: 10px;">
+            <button id="extensive_search" style="float: right;" class="btn btn-primary" data-bind="click: extensive_search, text: extensiveSearch() ? 'Go back' : 'Search package'">
+            </button>
+        </div>
+    </div>
+    <table id="packages-table-id">
+            <tr>
+                <th>Package Name</th>
+                <th>Status</th>
+                <th>Description</th>
+                <!-- ko ifnot: extensiveSearch --> 
+                    <th>Version</th>        
+                <!-- /ko -->
+            </tr>
+        <!-- ko foreach: filteredPackages -->
+        <tr data-bind="template: {name: 'package-template', data: $data}">
+            
+        </tr>
+        <!-- /ko -->
+    </table>
+    <!-- /ko -->
+    <!-- ko ifnot: status() -->
+    <div>
+        The package manager is busy right now. This screen will refresh automatically when it becomes available.
+    </div>
+    <!-- /ko -->
+</div>
+<script type="text/javascript" src="/css/package_recommendations.js"></script>

@@ -15,7 +15,6 @@ from functools import partial
 import re
 import subprocess
 from live_info import package_is_installed
-from package_recommendations import createOnOffSwitch
 
 def search_package(args):
     package_name = args['key']
@@ -49,8 +48,7 @@ def check_group_installed(args):
     for pkg in packages:
         if not pkg in package_group:
             package_group[pkg] = {}
-            package_group[pkg]['status'] = package_is_installed(pkg)
-            package_group[pkg]['content'] = createOnOffSwitch(pkg)
+            package_group[pkg]['installed'] = package_is_installed(pkg)
             
     return package_group
 

@@ -17,12 +17,12 @@ from live_info import execute, getAptBusy
 from framework import output, view, getDependencies
 from HTMLPageGenerator import composeJS
 import json
-from package_recommendations import createOnOffSwitch, checkFlags
+from pm_api import check_installed
 
 PACKAGES_LIST_PATH=\
 "/usr/libexec/pi-web-agent/etc/config/pm/recommendationsList.txt"
 STOP = {'STOP': 'There are no more packages to load'}
-        
+    
 class PackageManager(object):
 
 
@@ -34,10 +34,11 @@ class PackageManager(object):
         return output
     
     def getPkgData(self, pName):
-        checkedText, installed = createOnOffSwitch( pName )
+        installed = check_installed({'key':pName})
+        
         descriptionText = self.getDpkgInfo( pName, "Description" )
         versionText = self.getDpkgInfo( pName, "Version" )
-        package = {'Package Name':pName, 'Status':checkedText, 'Description':descriptionText, 'Version':versionText, 'installed':installed}    
+        package = {'Package Name':pName, 'Description':descriptionText, 'Version':versionText, 'installed':installed['installed']}    
         return package
     
     def loadPackages(self, packages):

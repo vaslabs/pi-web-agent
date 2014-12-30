@@ -4,14 +4,14 @@ import json
 
 CONFIG_FILE=os.environ['MY_HOME']+"/etc/config/config.cfg"
 CONFIG_PATH=os.environ['MY_HOME']+"/etc/config"
-VERSION="0.3"
+VERSION="0.4"
 class Configuration(object):
     
     def __init__(self):
         json_file = open(CONFIG_FILE)
         self.config=json.load(json_file)
         json_file.close()
-        system=self.config['pi-web-agent']['system']    
+        system=self.config['pi-web-agent']['system']
         actions = system['actions']
         self.system=System()
         self.system.actions = actions
