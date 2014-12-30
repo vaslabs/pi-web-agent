@@ -57,7 +57,7 @@ function displayEntries(contents) {
 	
         if (type == 'Directory') {
 	    var dPath = ''.concat(spath, '/', entry['name']);
-	    var bt = $('<button class="btn btn-primary"> Calculate </button>');
+	    var bt = $('<button class="btn btn-info"> Calculate </button>');
 	    bt.click(function(dPath) {
 	    	return function() { redir(dPath); }}(dPath));
 	    row$.append($('<td/>').html(bt));
