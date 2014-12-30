@@ -57,12 +57,10 @@ function displayEntries(contents) {
 	
         if (type == 'Directory') {
 	    var dPath = ''.concat(spath, '/', entry['name']);
-	    var button = document.createElement('button');
-	    var butText = document.createTextNode('Calculate');
-	    button.appendChild(butText);
-	    button.addEventListener('click', function(dPath) {
-		return function() { redir(dPath); }}(dPath));
-	    row$.append($('<td/>').html(button));
+	    var bt = $('<button class="btn btn-primary"> Calculate </button>');
+	    bt.click(function(dPath) {
+	    	return function() { redir(dPath); }}(dPath));
+	    row$.append($('<td/>').html(bt));
             row$.attr('onclick', "getContents(\"" + spath + "/" + entry['name'] + "\")");
         }
         else if (type == 'File') {
