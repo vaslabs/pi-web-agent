@@ -1,34 +1,34 @@
 <script type="text/javascript" src="/css/services.js"></script>
 <div id="services_area">
-    <table id="services_table" cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
+    <table id="services_table" cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse; display: none;" border="1">
         <tr>
             <th>Service Name</th>
             <th>Status</th>
         </tr>
-        <!-- ko foreach: services -->
-	<!-- ko ifnot: status() == null -->
-		<tr>
-			<td data-bind="text: name"></td>
-			<td>
-				<div class="onoffswitch">
-					<input type="checkbox" data-bind="attr: {'name':name, 'id':name}, click: submit_service, checked: status" class="onoffswitch-checkbox">
-					<label class="onoffswitch-label" data-bind="attr: {'for': name}">   
-						<div class="onoffswitch-inner"></div>  
-						<div class="onoffswitch-switch"></div>
-					</label>  
-				</div>
-			</td>
-		</tr>
-	<!-- /ko -->
-	<!-- ko if: status() == null -->
-		<tr>
-			<td data-bind="text: name"></td>
-			<td>
-				<a href="#" class="btn btn-danger" data-bind="click: killMe">Send kill signal</a>
-				<a href="#" class="btn btn-default">Activate service</a>
-			</td>
-		</tr>
-	<!-- /ko -->
+    <!-- ko foreach: services -->
+        <!-- ko ifnot: status() == null -->
+        <tr>
+            <td data-bind="text: name"></td>
+            <td>
+                <div class="onoffswitch">
+                    <input type="checkbox" data-bind="attr: {'name':name, 'id':name}, click: submit_service, checked: status" class="onoffswitch-checkbox">
+                        <label class="onoffswitch-label" data-bind="attr: {'for': name}">   
+                            <div class="onoffswitch-inner"></div>  
+                            <div class="onoffswitch-switch"></div>
+                        </label>  
+                    </div>
+                </td>
+            </tr>
+        <!-- /ko -->
+        <!-- ko if: status() == null -->
+            <tr>
+                <td data-bind="text: name"></td>
+                <td>
+                    <a href="#" class="btn btn-danger" data-bind="click: killMe">Send kill signal</a>
+                    <a href="#" class="btn btn-default" data-bind="click: activateMe">Activate service</a>
+                </td>
+            </tr>
+        <!-- /ko -->
 
     <!-- /ko -->
     </table>
