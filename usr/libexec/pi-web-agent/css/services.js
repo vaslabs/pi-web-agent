@@ -3,40 +3,30 @@ $(document).ready(
         initialise_services();
 });
 
-var onoffSwitchHtml = '<div class="onoffswitch">' +
-                        '<input type="checkbox" name="service-name" onclick="submit_service(this)" class="onoffswitch-checkbox" id="service-name">'+
-                        '<label class="onoffswitch-label" for="service-name">'+
-                         '   <div class="onoffswitch-inner"></div>'+
-                          '  <div class="onoffswitch-switch"></div>'+
-                        '</label>'+
-                      '  </div>';
 
 function initialise_services() {
     processing();
-    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=services', createServicesTable);
-
+    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=services', parseServices);
 }
 
+function Service(name, status) {
+    self=this;
+    self.status = ko.observable(status);
+    self.name = ko.observable(name);
+    self.killMe = function () {};
+    self.submit_service = function () {};
+    self.activateMe = function () {};
+}
 
-
-function createServicesTable(services) {
+var servicesModel = {services: ko.observableArray()};
+function parseServices(services) {
     $.each(services, function (service, status) {
-        var tr$ = '<tr/>';
-        var tdName$ = '<td/>';
-        var tdSwitch$ = '<td/>';
-        tdName$ = $(tdName$).text(service);
-        tdSwitch$ = $(tdSwitch$).html(onoffSwitchHtml);
-        $($(tdSwitch$).find('input')[0]).attr('name', service);
-        $($(tdSwitch$).find('input')[0]).attr('id', service);
-        $($(tdSwitch$).find('input')[0]).prop('checked', status);
-        $($(tdSwitch$).find('label')[0]).attr('for', service);
-        tr$ = $(tr$).append(tdName$);
-        tr$ = $(tr$).append(tdSwitch$);
-        $('#services_table > tbody').append(tr$);
+        serviceObj = new Service(service, status);
+        servicesModel.services.push(serviceObj);
     });
+    ko.applyBindings(servicesModel, document.getElementById("services_area"));
     endProcessing();
 }
-
 function submit_service(element) {
     
      var url='/cgi-bin/toolkit/live_info.py?cmd=edit_service&param1='+element.id;
