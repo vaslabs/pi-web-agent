@@ -139,18 +139,19 @@ this_install(){
     chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
-    
+    echo "Starting pi-web-agent"
+    "/$SERVICE_PATH" start
 }
 
 
 this_uninstall() {
+    echo -n "Stopping pi web agent apache instance daemon "
+    "/$SERVICE_PATH" stop
     echo "Removing pi web agent"
 
     this_safe_remove "/$APPLICATION_PATH"
 
     this_safe_remove "/$ETC_PATH"
-    echo -n "Stopping pi web agent apache instance daemon "
-    "/$SERVICE_PATH" stop
     this_safe_remove "/$SERVICE_PATH"
     this_safe_remove "/$SHARE"
     /bin/rm "/$EXECUTE_BIN"
