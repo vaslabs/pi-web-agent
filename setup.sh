@@ -1,9 +1,7 @@
 #!/bin/bash
-#Version 0.1
-#Description setup tool for the pi-web-agent
+#Version 0.2
+#Description: setup tool for the pi-web-agent
 #Author: Vasilis Nicolaou
-#Copyright (c) CERN 2013
-#All rights reserved
 called_from=$(pwd)
 cd $(dirname $0)
 VERSION=0.1
