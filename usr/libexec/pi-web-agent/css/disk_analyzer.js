@@ -3,6 +3,8 @@ google.load("visualization", "1", {packages:["treemap"]});
 function getURLParams(url) {
     //returns the GET params in url in a assoc array
     var params = {};
+    if (url.indexOf("?") < 0)
+       return null;
     var paramsStr = url.split("?")[1];
 
     paramsStr.split("&").map(function(ps) {kv = ps.split("="); params[kv[0]] = kv[1] });
@@ -12,17 +14,19 @@ function getURLParams(url) {
 
 function getPath() {
     var params = getURLParams(document.URL);
-    
+    if (params == null)
+        return null;
     return params['path'];
 }
 
 function resetChart() {
-    tree.clearChart();
+    if (typeof(tree) != 'undefined')
+    	tree.clearChart();
     initChart($('#path').val()); 
 }
 
 function initControls(path) {
-    $('#path').val(path);
+    $('#path').val(path == null ? "" : path);
     $('button').click(function(e) { resetChart(); });
 }
 
@@ -32,6 +36,8 @@ function checkPath(path) {
 
 function initChart(path) {
     // call api to get files and then draw chart
+    if (path == null)
+        return;
     processing();
     url = '/cgi-bin/toolkit/disk_analyzer_api.py?op=get_usage&top=' + path;
 
