@@ -43,8 +43,21 @@ function initChart(path) {
 
     getJSONResponse(url, drawChart);
 }
-    
+
 function drawChart(items) {
+
+    function readableFileSize(size) {
+	var i = Math.floor(Math.log(size) / Math.log(1024));
+	return (size / Math.pow(1024, i)).toFixed(2) * 1 + '' + ['B', 'KB', 'MB', 'GB', 'TB'][i];
+    }
+    
+    function showTooltip(row, size, value) {
+	return '<div style="background:#fd9; padding:10px; border-style:solid">' +
+            '<span style="font-family:Courier"><b>' + data.getValue(row, 0) +
+            '</b></span><br>' +
+            'Size: ' + readableFileSize(size) + ' </div>';
+    }
+    
     items.unshift(["Parent dir", "File", "Size"]);
     
     var data = google.visualization.arrayToDataTable(items);
@@ -56,7 +69,8 @@ function drawChart(items) {
         maxColor: '#0d0',
         headerHeight: 15,
         fontColor: 'black',
-        showScale: true
+        showScale: true,
+	generateTooltip: showTooltip
     });
 
     endProcessing();
