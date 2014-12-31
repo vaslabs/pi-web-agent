@@ -1,6 +1,3 @@
-google.load("visualization", "1", {packages:["treemap"]});
-
-
 function resetChart() {
     if (typeof(tree) != 'undefined')
     	tree.clearChart();
@@ -61,10 +58,13 @@ function drawChart(items) {
     endProcessing();
 }
 
-
-$(document).ready(function(){
+function initDiskAnalyzer(){
     var path = sharedPath;
     sharedPath = "";
     initControls(path)
     initChart(path);
+}
+$.getScript("https://www.google.com/jsapi", function () {
+     google.load("visualization", "1", {callback: 'initDiskAnalyzer', packages:["treemap"]});
+     endProcessing()
 });
