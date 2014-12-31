@@ -4,6 +4,10 @@ getContents(spath);
 
 function redir(dirPath) {
     var link = analyzerLoc;
+    var img = $("<img/>").attr("src", '/icons/disk_analysis.png').css({'width':'48px', 'height':'48px'});
+    $("#extension-title").html('');
+    $("#extension-title").append(img);
+    $("#extension-title").append("Disk Usage Analyzer");
     diskAnalyser(dirPath, link);
 }
 
