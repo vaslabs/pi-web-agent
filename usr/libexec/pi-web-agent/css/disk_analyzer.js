@@ -1,23 +1,5 @@
 google.load("visualization", "1", {packages:["treemap"]});
 
-function getURLParams(url) {
-    //returns the GET params in url in a assoc array
-    var params = {};
-    if (url.indexOf("?") < 0)
-       return null;
-    var paramsStr = url.split("?")[1];
-
-    paramsStr.split("&").map(function(ps) {kv = ps.split("="); params[kv[0]] = kv[1] });
-    
-    return params;
-}
-
-function getPath() {
-    var params = getURLParams(document.URL);
-    if (params == null)
-        return null;
-    return params['path'];
-}
 
 function resetChart() {
     if (typeof(tree) != 'undefined')
@@ -57,7 +39,10 @@ function drawChart(items) {
             '</b></span><br>' +
             'Size: ' + readableFileSize(size) + ' </div>';
     }
-    
+    if (items == "Error") {
+	endProcessing();
+        return;
+    }
     items.unshift(["Parent dir", "File", "Size"]);
     
     var data = google.visualization.arrayToDataTable(items);
@@ -78,7 +63,8 @@ function drawChart(items) {
 
 
 $(document).ready(function(){
-    var path = getPath();
+    var path = sharedPath;
+    sharedPath = "";
     initControls(path)
     initChart(path);
 });

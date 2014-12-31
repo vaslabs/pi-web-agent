@@ -1,9 +1,10 @@
-var analyzerLoc = '../toolkit/disk_analyzer.py?path=';
+var analyzerLoc = '/cgi-bin/toolkit/disk_analyzer.py?type=js';
 var spath="/home";
 getContents(spath);
 
 function redir(dirPath) {
-    document.location.href = analyzerLoc + dirPath;
+    var link = analyzerLoc;
+    diskAnalyser(dirPath, link);
 }
 
 function getContents(path) {

@@ -86,7 +86,7 @@ def get_chart_format(root_dir):
 def get_usage(top):
     # top :: str
     # Returns fs_items:: List[(str, str, int)]
-    #      
+    #
     import os
     from os.path import join, getsize
     
@@ -129,9 +129,10 @@ def op_dispatch(form):
     
 def main():
     form = cgi.FieldStorage()
-    op_dispatch(form)
-
-    
+    try:
+	op_dispatch(form)
+    except:
+    	composeJS(error())
 if __name__ == "__main__":
     main()
 

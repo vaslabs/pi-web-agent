@@ -18,6 +18,11 @@ function download(path) {
 
 var sharedPath = "";
 
+function diskAnalyser(path, link) {
+    sharedPath = path;
+    navigate(link);
+}
+
 function startupManager(path) {
     sharedPath = path;
     $( "#openDialog" ).dialog( "close" );
