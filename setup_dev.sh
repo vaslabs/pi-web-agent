@@ -5,32 +5,7 @@
 called_from=$(pwd)
 cd $(dirname $0)
 VERSION=0.1
-APPLICATION_PATH="usr/libexec/pi-web-agent"
-SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc libprocps0-dev"
-VNC_SERVICE="etc/init.d/vncboot"
-ETC_PATH="etc/pi-web-agent"
-LOGS=/var/log/pi-web-agent
-SHARE="usr/share/pi-web-agent"
-PI_UPDATE=usr/bin/pi-update
-PI_UPGRADE=usr/bin/pi-upgrade
-PI_FIX=usr/bin/pi-fix
-APT_QUERY=usr/bin/apt-query
-SUDOERS_D=etc/sudoers.d/pi-web-agent
-GPIO_QUERY=usr/bin/gpio-query
-CRON_JOBS=etc/cron.daily
-EXECUTE_BIN=usr/bin/execute-pwa.sh
-PI_APT=usr/bin/pi-package-management
-htpasswd_PATH=usr/libexec/pi-web-agent/.htpasswd
-UPDATE_APP_BIN=usr/bin/pi-web-agent-update
-UPDATE_CHECK_PY=usr/bin/update_check.py
-OTHER_BINS="usr/bin/start-stream-cam.sh usr/bin/pi-camera-stream.sh"
-SYSTEM_UPDATE_CHECK=usr/bin/system_update_check.sh
-STARTUP_PWA=usr/bin/startup-manager-pwa.py
-FW_FILE=usr/libexec/pi-web-agent/etc/config/framework.c
-CRONJOB_REBOOT=/etc/cron.d/cronpwa
-
-
+source setup.sh
 
 start_compiling() {
     for file in $(ls *.c); do
@@ -54,7 +29,7 @@ compilePWA() {
     #to include it, no need for compiling it
 }
 
-this_install(){
+this_dev_install(){
     echo -n "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
         print_error "ABORTED"
@@ -176,51 +151,7 @@ this_install(){
     
 }
 
-
-this_uninstall() {
-    echo "Removing pi web agent"
-
-    this_safe_remove "/$APPLICATION_PATH"
-
-    this_safe_remove "/$ETC_PATH"
-    echo -n "Stopping pi web agent apache instance daemon "
-    "/$SERVICE_PATH" stop
-    this_safe_remove "/$SERVICE_PATH"
-    this_safe_remove "/$SHARE"
-    /bin/rm "/$EXECUTE_BIN"
-    /bin/rm "/usr/bin/execute.sh"
-    /bin/rm "/$PI_APT"
-    
-    /bin/rm "/$UPDATE_CHECK_PY"
-    /bin/rm "/$UPDATE_APP_BIN"
-    /bin/rm "/$SYSTEM_UPDATE_CHECK"
-    /bin/rm $CRONJOB_REBOOT
-    /bin/rm "/$STARTUP_PWA"
-    /etc/init.d/vncboot stop
-    rm /etc/init.d/vncboot
-
-    print_ok
-    echo "Deleting user account of appliance..."
-    rm /$SUDOERS_D
-    rm -r /etc/pi-web-agent
-    userdel -f pi-web-agent
-    print_ok "DONE"
-}
-
-this_safe_remove() {
-    echo "attempting to remove $1"
-    [[ -f "$1" || -d "$1" ]] && {
-        echo -n "Removing $1"
-        /bin/rm -r "$1"
-        [ $? -eq 0 ] || {
-            print_error "FAILED"
-
-        }
-        print_ok
-    }
-}
-
-this_reinstall() {
+this_dev_reinstall() {
     echo "Reinstalling pi web agent"
     echo "Keeping the same password"
     echo -e "\e[0;34m Backing up Camera Snapshots\e[0m"
@@ -231,7 +162,7 @@ this_reinstall() {
     	print_error "404 Camera snapshots not found"
     fi
     this_uninstall
-    this_install $1
+    this_dev_install $1
     echo -e "\e[0;34m Restoring Camera Snapshots\e[0m"
     if [ -d "/tmp/camera-media" ]; then
     	cp -af /tmp/camera-media "/$SHARE/"
@@ -241,32 +172,13 @@ this_reinstall() {
     echo "Recovering your snapshots"
 }
 
-print_ok() {
-msg="OK"
-[ -n "$1" ] && {
-   msg=$1
-} 
-echo -e "[ \e[1;32m $msg \e[0m ]"
-
-}
-
-print_error() {
-    echo -e "[ \e[1;31m $1 \e[0m ]"
-}
-
-print_warning() {
-   echo -e "[ \e[1;33m $1 \e[0m ]"    
-}
-
-
-
 case $1 in
     install)
         [ $(id -u) -eq 0 ] || {
             echo "You need to be reboot to run the setup"
             exit 1
         }
-        this_install
+        this_dev_install
         exit $?
     ;;
     uninstall)
@@ -283,7 +195,7 @@ case $1 in
             echo "You need to be root to run the setup"
             exit 1
         }
-        this_reinstall
+        this_dev_reinstall
         
         exit $?
     ;;
@@ -297,4 +209,3 @@ case $1 in
     ;;
 esac    
 
-cd $called_from
