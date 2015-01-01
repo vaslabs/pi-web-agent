@@ -90,7 +90,7 @@ class MPlayer:
         '''
         start websocked to serve the   websocketdBro consumer
         '''
-        fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' </dev/null >/dev/null 2>&1 &');
+        fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' -e mplayer </dev/null >/dev/null 2>&1 &');
         command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
                  "sudo amixer cset numid=3 "+self.output+";"
@@ -98,7 +98,7 @@ class MPlayer:
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
                  "-af equalizer=0:0:0:0:0:0:0:0:0:0 -volume "+str(self.volume)+" \""+self.uri + "\" "
                  "| grep -Po \"KVolume.*?%|Title.*?|Album.*?|Year.*?|Track.*?|Name.*?|Website.*?|Genre.*?\" "
-                 "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e default; done' &");
+                 "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e mplayer; done' &");
         fireAndForget(command)
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
 
