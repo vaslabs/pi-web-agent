@@ -1,6 +1,8 @@
 import os, sys
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-
+'''
+The following set of methods is deprecated. This module will be deleted soon
+'''
 def createText(title, body, span=None):
     if (span == None):
         div=""

@@ -6,8 +6,6 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from BlueprintDesigner import *
-from menu import *
 from HTMLPageGenerator import *
 import cgi
 from pi_web_agent import VERSION
@@ -53,6 +51,6 @@ class View(object):
         outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
         
     def js_output(self):
-        composeJS(createText("", self.content))
+        composeJS(self.content)
 	
 

@@ -11,7 +11,6 @@ sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 from HTMLPageGenerator import *
-from BlueprintDesigner import *
 from live_info import *
 from framework import view, output
 
