@@ -69,8 +69,10 @@ function mplayerWebSocket(){
 		$("#mplayerLauncherView").show();
 	}
     ws.onopen = function() {
+    	$("#mplayerLoader").hide(); 
             $(".mplayerView").hide();
             $("#mplayerPlayView").show();
+            
     updateStatus({status:'CONNECTED'});
 
   };
