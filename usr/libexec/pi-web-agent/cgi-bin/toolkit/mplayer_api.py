@@ -163,9 +163,9 @@ if __name__ == '__main__':
                 if execute('pidof mplayer')[1] == 0:
                     player = MPlayer(uri, volume, output)
                     if (player.startStream()==0):
-                        jsonReply('{ "status" : "starting" }'); 
-                        return;
-                    jsonReply('{ "status" : "failure" }');         
+                        jsonReply('{ "status" : "starting" }');
+                    else:
+                        jsonReply('{ "status" : "failure" }');         
         except ValueError:
 
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
