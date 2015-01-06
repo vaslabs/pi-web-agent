@@ -88,7 +88,7 @@ class MPlayer:
         '''
         startConsumer=os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' -e mplayer </dev/null >/dev/null 2>&1 &'
         '''start only if consumer started otherwise the state of the appplication would be unknown'''
-        if (execute(startConsumer)[1]==1):
+        if ( execute('pidof websocketd')[1] == 1&&execute(startConsumer)[1]==1):
             return 1
         command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
