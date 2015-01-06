@@ -32,7 +32,6 @@ def jsonReply(stringifiedJSON, code=httplib.OK):
 
 def fireAndForget(command):
     subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    execute("echo \""+command+"\" > /tmp/mplayer_log")
 
 class SettingsReader(object):
     def __init__(self, fileURL):
@@ -87,7 +86,10 @@ class MPlayer:
         '''
         try to use mplayer for the given parameters
         '''
-
+        startConsumer=os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' -e mplayer </dev/null >/dev/null 2>&1 &'
+        '''start only if consumer started otherwise the state of the appplication would be unknown'''
+        if (execute(startConsumer)[1]==1):
+            return 1
         command=("sh -c '[ -p /tmp/mplayer-control ]" 
                  "|| mkfifo /tmp/mplayer-control;"
                  "sudo amixer cset numid=3 "+self.output+";"
@@ -98,7 +100,7 @@ class MPlayer:
                  "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e mplayer; done' &");
         fireAndForget(command)
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
-
+        return 0;
 
 if __name__ == '__main__':
     if os.environ['REQUEST_METHOD'] == 'GET':
@@ -158,10 +160,12 @@ if __name__ == '__main__':
                     uri = data['init']['uri']
                 else:
                     jsonReply('{ "status" : "failure" }')
-                if execute('pidof mplayer')[1] != 0:
+                if execute('pidof mplayer')[1] == 0:
                     player = MPlayer(uri, volume, output)
-                    player.startStream()
-                    jsonReply('{ "status" : "starting" }') 
+                    if (player.startStream()==0):
+                        jsonReply('{ "status" : "starting" }'); 
+                        return;
+                    jsonReply('{ "status" : "failure" }');         
         except ValueError:
 
             jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
