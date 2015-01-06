@@ -137,14 +137,14 @@ background-position: center;
 					if (!mplayerSock){
                                         mplayerSock=mplayerWebSocket();
 					}
-					console.log("loader hidden")
-                                        $("#mplayerLoader").hide();
+					console.log("loader hidden");
 				}
 				else {
                                     
                                         $("#mplayerLauncherView").show();
-                                        $("#mplayerLoader").hide();
-				}});
+				}
+				$("#mplayerLoader").hide();
+				});
             
 				
             }

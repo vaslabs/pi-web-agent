@@ -19,6 +19,13 @@ from framework import output, view, get_template
 from BlueprintDesigner import *
 from HTMLPageGenerator import *
 from DependableExtension import DependableExtension
+'''
+doesn't hurt to start this early enough
+start websocked to serve the   websocketdBro consumer
+this could also start when the service is initiated so that it can
+serve all the applications through a 'piWebagent' exchange
+'''
+fireAndForget(os.environ['MY_HOME'] + '/scripts/websocketdBro/bro -m consumer -c '+ os.environ['ssl_cert']+' -k '+os.environ['ssl_key']+ ' -e mplayer </dev/null >/dev/null 2>&1 &');
 class MediaPlayerManager(DependableExtension):
     def __init__(self):
         DependableExtension.__init__(self, EXTENSION_ID)
