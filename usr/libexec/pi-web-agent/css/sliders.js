@@ -62,7 +62,7 @@ $("#startStreamBtn").click(function(event){
 });
 function mplayerWebSocket(){
 	try{
-		var ws = new WebSocket('wss://'+window.location.hostname+':7777');
+		var ws = new ReconnectingWebSocket('wss://'+window.location.hostname+':7777');
 	}catch(e){
 		window.open('https://'+window.location.hostname+':7777', '_blank');
 		updateStatus({status:'please add exception and refresh'});
