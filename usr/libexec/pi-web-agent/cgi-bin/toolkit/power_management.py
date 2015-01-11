@@ -9,7 +9,6 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import output, view
-from BlueprintDesigner import *
 from HTMLPageGenerator import *
 POWEROFF="poweroff"
 RESTART="restart"
@@ -36,15 +35,7 @@ class PowerManager(object):
 
 def getView():
     
-    iw_submit=InputWidget('submit', '', 'Apply Action', '', wClass='btn btn-warning')
-    options=[]
-    options.append({"value":POWEROFF, "text":"Shut down"})
-    options.append({"value":RESTART, "text":"Restart"})
-    iw_dropdown_list=DropDownListWidget('','action_list','', options, dClass='form-control select',attributes='id="select"')
-    iwg = InputWidgetGroup()
-    iwg.widgets=[iw_dropdown_list, iw_submit] 
-    return fieldset('/cgi-bin/toolkit/power_management.py', 'GET', 'shutdown_form', iwg, createLegend("Power Options"))
-    
+    return "Obsolete call"
     
 def main():
     pm=PowerManager()

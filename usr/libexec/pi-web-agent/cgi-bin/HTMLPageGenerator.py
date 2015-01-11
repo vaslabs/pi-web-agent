@@ -96,6 +96,13 @@ def composeDocument(references, body):
     print body
     print "</body>"
     print "</html>"
+    
+def outputHTMLDocument(*parts):
+    print "Content-type: text/html"
+    print
+    print '<!DOCTYPE html>' 
+    for part in parts:
+        print part
 
 def composeJS(body):
     print "Content-type: application/json"

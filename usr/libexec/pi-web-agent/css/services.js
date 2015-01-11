@@ -3,48 +3,45 @@ $(document).ready(
         initialise_services();
 });
 
-var onoffSwitchHtml = '<div class="onoffswitch">' +
-                        '<input type="checkbox" name="service-name" onclick="submit_service(this)" class="onoffswitch-checkbox" id="service-name">'+
-                        '<label class="onoffswitch-label" for="service-name">'+
-                         '   <div class="onoffswitch-inner"></div>'+
-                          '  <div class="onoffswitch-switch"></div>'+
-                        '</label>'+
-                      '  </div>';
 
 function initialise_services() {
     processing();
-    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=services', createServicesTable);
-
+    getJSONResponse('/cgi-bin/toolkit/live_info.py?cmd=services', parseServices);
 }
 
-
-
-function createServicesTable(services) {
-    $.each(services, function (service, status) {
-        var tr$ = '<tr/>';
-        var tdName$ = '<td/>';
-        var tdSwitch$ = '<td/>';
-        tdName$ = $(tdName$).text(service);
-        tdSwitch$ = $(tdSwitch$).html(onoffSwitchHtml);
-        $($(tdSwitch$).find('input')[0]).attr('name', service);
-        $($(tdSwitch$).find('input')[0]).attr('id', service);
-        $($(tdSwitch$).find('input')[0]).prop('checked', status);
-        $($(tdSwitch$).find('label')[0]).attr('for', service);
-        tr$ = $(tr$).append(tdName$);
-        tr$ = $(tr$).append(tdSwitch$);
-        $('#services_table > tbody').append(tr$);
+function Service(name, status) {
+    var self=this;
+    self.status = ko.observable(status);
+    self.name = ko.observable(name);
+    self.killMe = function () { submit_service(self.name(), false); popSuccessMessage('Kill signal sent to: ' + self.name());};
+    
+    self.activateMe = function () {submit_service(self.name(), true); popSuccessMessage('Start signal sent to: ' + self.name());};
+    self.status.subscribe(function (newValue) {
+        if (newValue)
+            self.activateMe();
+        else
+            self.killMe();
     });
+}
+
+var servicesModel = {services: ko.observableArray()};
+function parseServices(services) {
+    $.each(services, function (service, status) {
+        serviceObj = new Service(service, status);
+        servicesModel.services.push(serviceObj);
+    });
+    ko.applyBindings(servicesModel, document.getElementById("services_area"));
+    $('#services_table').css('display', 'block');
     endProcessing();
 }
-
-function submit_service(element) {
+function submit_service(service_name, status) {
     
-     var url='/cgi-bin/toolkit/live_info.py?cmd=edit_service&param1='+element.id;
+     var url='/cgi-bin/toolkit/live_info.py?cmd=edit_service&param1='+service_name;
      var param2='off';
-     if (element.checked)
+     if (status)
      {
         param2='on';
      }
      url+='&param2=' + param2;   
-     var info=getResponse(url, null);
+     var info = getJSONResponse(url, null);
 }

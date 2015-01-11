@@ -9,7 +9,7 @@ sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 from live_info import execute
 import cgi
 import cgitb
-import HTML
+
 cgitb.enable()
 from framework import output, view, get_template
 

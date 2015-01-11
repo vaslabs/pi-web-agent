@@ -41,12 +41,14 @@ a virtual machine that runs something similar to the raspberry pi Raspbian. Here
 
 1. Download and install Virtual box. Install a debian distribution, it does not matter if it is x86 architecture. 
 Download this image https://www.dropbox.com/s/0lkkau03ar3pqip/RaspberryPi.ova and open it with VirtualBox. 
-It is good enough for basic development and testing.
+It is good enough for basic development and testing. Default credentials are:
+Username: rpi
+Password: password
 
 2. Install git (sudo apt-get install git-core)
 Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
-Go into the directory (pi-web-agent), there is a file setup.sh. Run sudo ./setup.sh install . 
-If that fails run sudo ./setup.sh reinstall . It should work by also installing some of the dependencies. You have to install
+Go into the directory (pi-web-agent), there is a file setup_dev.sh. Run sudo ./setup_dev.sh install . 
+If that fails run sudo ./setup_dev.sh reinstall . It should work by also installing some of the dependencies. You have to install
 manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
 
 3. Start the pi-web-agent service: sudo service pi-web-agent start

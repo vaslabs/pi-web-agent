@@ -1,7 +1,7 @@
 function navigate(link) {
-     $(".span16").html('');
+     $("#extension-main-view").html('');
      processing();
-     $(".span16").load(link);
+     $("#extension-main-view").load(link);
       window.history.pushState({}, "", link.split("?")[0]);
 }
 
@@ -22,8 +22,10 @@ function update_app() {
 }
 
 function processing() {
-    $('.progress.progress-striped.active').remove();
-    $(".span16").prepend(animationBar());
+    endProcessing();
+    if ($("#progress-ui").length == 0)
+        $("#extension-main-view").prepend('<div id="progress-ui"></div>');
+    $("#progress-ui").html(animationBar());
 }
 
 function endProcessing() {
@@ -132,12 +134,12 @@ function closeDialog() {
 function popSuccessMessage(msg) {
     var dialog = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' +
               '<strong>Success</strong>' + msg + '.</div>'
-    $(".span16").prepend(dialog);
+    $("#extension-main-view").prepend(dialog);
 }
 
 
 function popFailMessage(msg) {
     var dialog = '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
               '<strong>Failed: </strong>' + msg + '.</div>'
-    $(".span16").prepend(dialog);
+    $("#extension-main-view").prepend(dialog);
 }

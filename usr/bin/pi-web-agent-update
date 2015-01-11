@@ -7,12 +7,12 @@ do_update() {
         exit 1
     fi
 
-    zip_url=$(update_check.py || exit 0)
+    zip_url=$(update_check.py upd || exit 0)
     
     working_dir=$(mktemp -d)
     cd $working_dir
     
-    wget $zip_url -O pi-web-agent.zip
+    wget "$zip_url" -O pi-web-agent.zip
     
     unzip pi-web-agent
     rm *.zip

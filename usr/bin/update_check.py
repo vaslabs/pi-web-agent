@@ -82,4 +82,7 @@ def main():
     print getNewUpdate()
     
 if __name__ == "__main__":
-    main()
+    if (len(sys.argv) == 1):
+        main()
+    else:
+        print getReleaseLink()

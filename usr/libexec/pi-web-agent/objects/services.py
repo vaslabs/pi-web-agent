@@ -24,11 +24,14 @@ def serviceManagerBuilder():
     which contains the Services converted from each
     line of the chkconfig result
     '''
-    sp=subprocess.Popen('sudo service --status-all', stdout=subprocess.PIPE, shell=True)
-    output, _ = sp.communicate()
+    sp=subprocess.Popen('sudo service --status-all', stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output, error = sp.communicate()
     sp.wait()
     lines=output.split('\n')
     del lines[-1]
+    unknownServices = error.split('\n')
+    del unknownServices[-1]
+    lines.extend(unknownServices)
     sm=ServiceManager(lines)
     return sm    
 
