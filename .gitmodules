@@ -1,3 +1,6 @@
 [submodule "usr/libexec/pi-web-agent/scripts/websocketdBro"]
 	path = usr/libexec/pi-web-agent/scripts/websocketdBro
 	url = git@github.com:CySC/websocketdBro.git
+[submodule "usr/libexec/pi-web-agent/css/reconnecting-websocket"]
+	path = usr/libexec/pi-web-agent/css/reconnecting-websocket
+	url = git@github.com:joewalnes/reconnecting-websocket.git
