@@ -4,9 +4,11 @@ function navigate(link) {
     $("#extension-main-view").html('');
     processing();
     if (cache[link] == undefined) {
-	cache[link] = $.ajax({type: "GET", url: link, async: false}).responseText;
-    } 
-    $("#extension-main-view").html(cache[link]);
+	$("#extension-main-view").load(link, function(responseText) { cache[link] = responseText; });
+    } else {
+	$("#extension-main-view").html(cache[link]);
+    }
+    
     window.history.pushState({}, "", link.split("?")[0]);
 }
 
