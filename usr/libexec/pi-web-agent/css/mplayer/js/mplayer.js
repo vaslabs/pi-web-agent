@@ -73,7 +73,7 @@ $(function() {
 
     $( "#radio" ).buttonset();
     ///setup circular view eq knobs
-    * Apply a class to each child
+    /* Apply a class to each child
     * Required for IE8-
     */
    $('.circle-container').children().each(function() {
