@@ -48,17 +48,7 @@ $(function() {
 	    	$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
 			}
 	});
-	$('#volume').knob(
-		'release' : function (v) {
-			window.eqvals=[]; 	
-			$( ".eq" ).each(function(index,element) { 	
-				window.eqvals.push($(this).val); 	
-			} );
-			$.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: $("#master").slider("value") }))
-			.done(function( data ) {
-				updateStatus(data)
-			});
-		});
+	$('#volume').knob();
 	//start stream button
 	$("#startStreamBtn").click(function(event){
 	    //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
@@ -96,10 +86,21 @@ $(function() {
              .data("thickness",0.7)
 
 
-   $('.eq').knob({"min":-12,
-               "max":12,
-               "fgColor":"#999999",
-               "skin":"tron"});
+   $('.eq').knob({ "min":-12,
+	               "max":12,
+	               "fgColor":"#999999",
+	               "skin":"tron",
+	               "release" : function (v) {
+	            	   window.eqvals=[]; 	
+		       		   $( ".eq" ).each(function(index,element) { 	
+		       				window.eqvals.push($(this).val()); 	
+		       		   } );
+		       		   $.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: $("#master").slider("value") }))
+		       			.done(function( data ) {
+		       				updateStatus(data)
+		       		   });
+		       		}
+   				});
 
 });
 
