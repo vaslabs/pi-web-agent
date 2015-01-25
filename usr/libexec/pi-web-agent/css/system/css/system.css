@@ -1,0 +1,11 @@
+#awesome-navbar.navbar{
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+#overview.jumbotron{
+	padding-bottom: 0;
+	padding-top: 0;
+}
+#overview .span24{
+	margin-left:0px;
+}
