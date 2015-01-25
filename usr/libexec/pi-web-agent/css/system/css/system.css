@@ -8,6 +8,8 @@
 }
 #overview.jumbotron h1{
 	font-size:45px!important;
+	margin-bottom:6px!important;
+	margin-top:0px!important;
 	
 }
 #overview .span24{
