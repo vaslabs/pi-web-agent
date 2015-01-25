@@ -12,7 +12,7 @@
   position: relative;
   /* [1] */
   width: 30em;
-  height: 36em;
+  height: 35em;
   padding: 0;
   border-radius: 50%;
   list-style: none;
@@ -21,7 +21,7 @@
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   /* [3] */
-  margin: 40px auto 0;
+  margin: 0 auto;
   border: solid 5px transparent;
 }
 .circle-container > * {
