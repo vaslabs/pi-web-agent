@@ -1,8 +1,0 @@
-#toolbar {
-	padding: 4px;
-	display: inline-block;
-}
-/* support: IE7 */
-*+html #toolbar {
-	display: inline;
-}
