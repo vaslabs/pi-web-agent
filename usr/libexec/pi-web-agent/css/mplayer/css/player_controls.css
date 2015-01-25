@@ -1,12 +1,13 @@
-@CHARSET "UTF-8";
-//compiled from http://codepen.io/agalazis/pen/MYmwxq
+@charset "utf-8";
 /**
+ *compiled from http://codepen.io/agalazis/pen/MYmwxq
  * Mixin to put items on a circle
  * [1] - Allows children to be absolutely positioned
  * [2] - Allows the mixin to be used on a list
  * [3] - In case box-sizing: border-box has been enabled
  * [4] - Allows any type of direct children to be targeted
  */
+ 
 .circle-container {
   position: relative;
   /* [1] */
