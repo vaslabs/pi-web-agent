@@ -96,7 +96,7 @@ class MPlayer:
                  "sudo mplayer -slave -input "
                  "file=/tmp/mplayer-control -ao alsa:device=hw "
                  "-af equalizer=0:0:0:0:0:0:0:0:0:0 -volume "+str(self.volume)+" \""+self.uri + "\" "
-                 "| grep -Po \"KVolume.*?$|Title.*$|Album.*$|Year.*$|Track.*?$|Name.*$|Website.*?$|Genre.*?$\" "
+                 "| grep -Po \"volume.*?$|Title.*$|Album.*$|Year.*$|Track.*?$|Name.*$|Website.*?$|Genre.*?$\" "
                  "|while IFS= read -r line; do echo $line |"+os.environ['MY_HOME'] + "/scripts/websocketdBro/bro -m publisher -e mplayer; done' &");
         fireAndForget(command)
         execute("echo '"+str(self.volume)+"\n0:0:0:0:0:0:0:0:0:0' > /tmp/mplayer_status")
@@ -122,7 +122,8 @@ if __name__ == '__main__':
                 if 0 <= int(data['volume']) <= 100:
                     execute('echo "set_property volume '
                             + str(data['volume'])
-                            + '" > /tmp/mplayer-control')
+                            + '" > /tmp/mplayer-control;echo "get_property volume" > /tmp/mplayer-control;')
+                    
                     streqhelper = ':'.join(map(str, data['eqhelper']))
                     execute("echo '" + str(data['volume']) + '\n'
                             + streqhelper + "' > /tmp/mplayer_status")
