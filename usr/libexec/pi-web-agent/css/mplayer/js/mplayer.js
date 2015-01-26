@@ -93,9 +93,9 @@ $(function() {
 	               "release" : function (v) {
 	            	   window.eqvals=[]; 	
 		       		   $( ".eq" ).each(function(index,element) { 	
-		       				window.eqvals.push($(this).val()); 	
+		       				window.eqvals.push(parseInt($(this).val())); 	
 		       		   } );
-		       		   $.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: $("#master").val() }))
+		       		   $.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: parseInt($("#master").val()) }))
 		       			.done(function( data ) {
 		       				updateStatus(data)
 		       		   });
