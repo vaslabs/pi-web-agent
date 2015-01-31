@@ -6,7 +6,7 @@ function showAppropriateView(){
 	$.getJSON( "mplayer_api.py", function( data ) {
 	if (data.status=="playing") {
 		// data.redirect is the redirection link
-                             $("#mplayerPlayView").show();
+        $("#mplayerPlayView").show();
 		updateStatus(data)
 		if (!mplayerSock){
                             mplayerSock=mplayerWebSocket();
@@ -39,13 +39,16 @@ function showInfo(info){
 window.volume= 20;
 window.eqvals=[0,0,0,0,0,0,0,0,0,0];   
 var mplayerSock;
-
+var volElements=$("#master,#volume")
+var controller=mplayerController.getInstance(volElements)
 //ui
 $(function() {
 	// setup master volume
 	$('#master').knob({
 	    'release' : function (v) {
-	    	$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
+	    	controller.execute(function(){
+	    		$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
+	    		});
 			}
 	});
 	$('#volume').knob();
@@ -95,7 +98,7 @@ $(function() {
 		       		   $( ".eq" ).each(function(index,element) { 	
 		       				window.eqvals.push(parseInt($(this).val())); 	
 		       		   } );
-		       		   $.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: parseInt($("#master").val()) }))
+		       		   $.post( "mplayer_api.py", JSON.stringify({ eq: window.eqvals, volumehelper: parseInt($("#").val()) }))
 		       			.done(function( data ) {
 		       				updateStatus(data)
 		       		   });
@@ -131,6 +134,9 @@ function mplayerWebSocket(){
   };
    ws.onmessage = function(event) {
 	   console.log("message:"+event.data)
+	   if (event.data.indexOf("volume") > -1){
+		   controller.setVolume(event.data); 
+	   }
     showInfo(event.data);
   };
   return ws
