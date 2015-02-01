@@ -5,7 +5,7 @@
 *I have decided to go for a 
 *singleton here.(using closure)
 */
-var mplayerContorller= (function () {
+var mplayerController= (function () {
 	  var instance;
 	  function init(volEl) {
 	 
