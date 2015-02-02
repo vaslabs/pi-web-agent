@@ -35,7 +35,7 @@ var mplayerController= (function () {
 	    tasks=0;
 	    function getVolumeFromSlaveProtocolReply(str){
 	    	if (isNaN(str)){
-	    		var parts=str.split(":");
+	    		var parts=str.split("=");
 		    	if (parts.length<2){
 		    		  throw{
 		    			  name: "SlaveProtocolStringError",
