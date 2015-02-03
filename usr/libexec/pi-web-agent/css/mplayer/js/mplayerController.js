@@ -59,6 +59,7 @@ var mplayerController= (function () {
 				vol=getVolumeFromSlaveProtocolReply(vol)
 				tasks++;
 				volumeEl.val(vol);
+				volumeEl.trigger('change')
 				volume=vol;
 			},execute:function(cb){
 				if(tasks==0&&typeof cb=="function"){
