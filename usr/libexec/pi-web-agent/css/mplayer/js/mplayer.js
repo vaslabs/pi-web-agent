@@ -47,6 +47,7 @@ $(function() {
 	$('#master').knob({
 	    'release' : function (v) {
 	    	controller.execute(function(){
+	    		console.log('release')
 	    		$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
 	    		});
 			}
