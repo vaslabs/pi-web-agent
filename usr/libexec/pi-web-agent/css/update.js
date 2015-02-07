@@ -4,15 +4,15 @@ function no_action_msg() {
 }
 
 function new_update_msg() {
-    $("#extension-main-view").html('Yo');
+    $("#extension-main-view").html('<br><h4>Warning: Last update was interrupted!</h4><br><h5>Recovery procedure initiated. Please come back in a moment...</h5>');
 }
 
 function reboot_required_msg() {
-    $("#extension-main-view").html('');
+    $("#extension-main-view").html('<br>Reboot is required to apply previous updates.');
 }
 
 function update_pending_msg() {
-    $("#extension-main-view").html('');
+    $("#extension-main-view").html('<br>Update in progress. Please try again later...');
 }
 
 
@@ -32,6 +32,10 @@ function display_packages(res) {
 
     for (pack in res.packages) {
 	//build the table here
+	var row$ = $('<tr/>');
+	row$.append($('<td/>').html(pack.package_name));
+	row$.append($('<td/>').html(pack.description));
+	$("#update-table").append(row$);	    
     }
 
     //make table and update button visible
