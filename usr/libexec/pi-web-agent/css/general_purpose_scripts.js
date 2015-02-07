@@ -25,13 +25,15 @@ function getTempInfo(temp) {
     //stab TODO
     //var usage =   Math.floor((Math.random()*100));
     var msg = "Temperature: " + Math.round(temp);
-    if (temp == 'N/A')
+    if  (temp == 'N/A')
         html = generateCriticalMessage(86, msg);        
     else if (temp > 65)    
         html = generateCriticalMessage(99, msg + "'C");
     else if (temp > 55)
         html = generateCriticalMessage(86, msg + "'C");
-    else 
+    else if (temp == null)
+	html = '<span class="label label-info"> Temperature: N/A</span>';
+    else
         html = generateCriticalMessage(10, msg + "'C");  
     $('#li_temp').html(html);
 }

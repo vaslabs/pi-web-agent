@@ -1,8 +1,15 @@
+var cache = {};
+
 function navigate(link) {
-     $("#extension-main-view").html('');
-     processing();
-     $("#extension-main-view").load(link);
-      window.history.pushState({}, "", link.split("?")[0]);
+    $("#extension-main-view").html('');
+    processing();
+    if (cache[link] == undefined) {
+	$("#extension-main-view").load(link, function(responseText) { cache[link] = responseText; });
+    } else {
+	$("#extension-main-view").html(cache[link]);
+    }
+    
+    window.history.pushState({}, "", link.split("?")[0]);
 }
 
 function animationBar() {

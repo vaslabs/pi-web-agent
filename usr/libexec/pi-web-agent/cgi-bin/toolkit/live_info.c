@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
     printf("\"ucheck\":%s,\n", access(fname_update, F_OK) == 0 ? TRUE : FALSE);
     printf("\"ip\":");
     get_ip();
-    printf(",\n");
     get_temperature();
     printf("}\n");
     return 0;
@@ -74,8 +73,14 @@ int get_temperature() {
     FILE *temperatureFile;
     double T;
     temperatureFile = fopen ("/sys/class/thermal/thermal_zone0/temp", "r");
+    if (!temperatureFile) {
+      printf(",\n");
+      printf ("\"temp\": null");
+      return;
+    }
     fscanf (temperatureFile, "%lf", &T);
     T /= 1000;
+    printf(",\n");
     printf ("\"temp\":%.2f", T);
     fclose (temperatureFile);
 }
