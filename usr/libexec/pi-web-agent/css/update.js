@@ -1,6 +1,30 @@
 
+function update_res(res) {
+    var dpkg_config_needed = 200;
+    var message = '';
+    if (res.status == dpkg_config_needed) {
+	message = '<br><h4>Warning: Last update was interrupted!</h4>\
+<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>';
+    } else {
+	message = '<br><h4>Update procedure initiated!</h4> Please come back in a moment...';
+    }
+
+    $("#extension-main-view").html(message);
+    endProcessing();
+}
+
+function do_update() {
+    url = '/cgi-bin/toolkit/update_api.py?op=update';
+    processing();
+    getJSONResponse(url, update_res);
+}
+
 function no_action_msg() {
-    $("#extension-main-view").html('');
+    
+    $("#extension-main-view").html('<br><h4>System is up to date!</h4>');
+    var bt = $('<button type="button" onClick="check_update()" class="btn btn-success">Check</button>');
+    $("#extension-main-view").append(bt);
+    
 }
 
 function new_update_msg() {
@@ -10,6 +34,7 @@ function new_update_msg() {
 function reboot_required_msg() {
     $("#extension-main-view").html('<br>Reboot is required to apply previous updates.');
 }
+
 
 function update_pending_msg() {
     $("#extension-main-view").html('<br>Update in progress. Please try again later...');
@@ -30,8 +55,10 @@ function display_packages(res) {
 	return;
     }
 
-    for (pack in res.packages) {
+    var n_packages = res.package_list.length;
+    for (var i=0; i<n_packages; i++) {
 	//build the table here
+	var pack = res.package_list[i];
 	var row$ = $('<tr/>');
 	row$.append($('<td/>').html(pack.package_name));
 	row$.append($('<td/>').html(pack.description));
@@ -41,6 +68,7 @@ function display_packages(res) {
     //make table and update button visible
     $('#update-table').show();
     $('#update-button').show();
+    endProcessing();
 }
 
 function get_packages() {
@@ -52,10 +80,11 @@ function get_packages() {
 function checkAptBusy(response){
      if (response == 'True')
         setTimeout(function() {getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt',
-                    checkAptBusy)}, 5000); 
+					   checkAptBusy)}, 5000); 
     else
         navigate('/cgi-bin/toolkit/package_recommendations.py?type=js');
 }
+
 
 function main(res) {
     if (res.status == "busy") {
@@ -72,7 +101,8 @@ function main(res) {
 function init() {
     $('#update-table').hide();
     $('#update-button').hide();
-    url = '/cgi-bin/toolkit/update_api.py?op=get_packages';
+    $('#update-button').click(do_update);
+    url = '/cgi-bin/toolkit/update_api.py?op=get_status';
 
     processing();
     getJSONResponse(url, main);
