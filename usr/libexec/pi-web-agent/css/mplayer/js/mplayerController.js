@@ -56,17 +56,10 @@ var mplayerController= (function () {
 	    	 * loop of messages
 	    	 */
 			setVolume: function(vol) {
-				vol=getVolumeFromSlaveProtocolReply(vol)
-				tasks++;
+				vol=getVolumeFromSlaveProtocolReply(vol);
 				volumeEl.val(vol);
 				volumeEl.trigger('change')
 				volume=vol;
-			},execute:function(cb){
-				if(tasks==0&&typeof cb=="function"){
-					return cb();
-				}
-				tasks--;
-				
 			}
 	    };
 	 

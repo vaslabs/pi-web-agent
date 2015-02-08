@@ -46,11 +46,7 @@ $(function() {
 	// setup master volume
 	$('#master').knob({
 	    'release' : function (v) {
-	    	console.log('release1');
-	    	controller.execute(function(){
-	    		console.log('release2');
 	    		$.post( "mplayer_api.py", JSON.stringify({ volume: v, eqhelper: window.eqvals}));
-	    		});
 			}
 	});
 	$('#volume').knob();
