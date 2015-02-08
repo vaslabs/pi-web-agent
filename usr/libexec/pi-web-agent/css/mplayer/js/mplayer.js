@@ -131,14 +131,16 @@ function mplayerWebSocket(){
     updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
-	   console.log("message:"+event.data)
+	   showInfo(event.data);
 	   if (event.data.indexOf("volume") > -1){
 		   controller.setVolume(event.data); 
+		   return;
 	   }
 	   if (event.data.indexOf("Exit") > -1){
-		   showAppropriateView(); 
+		   showAppropriateView();
+		   return;
 	   }
-    showInfo(event.data);
+    
   };
   return ws
   
