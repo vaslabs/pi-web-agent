@@ -135,6 +135,9 @@ function mplayerWebSocket(){
 	   if (event.data.indexOf("volume") > -1){
 		   controller.setVolume(event.data); 
 	   }
+	   if (event.data.indexOf("Exit") > -1){
+		   showAppropriateView(); 
+	   }
     showInfo(event.data);
   };
   return ws
