@@ -26,7 +26,7 @@ var mplayerController= (function () {
 	    * @type {Object}
 	    * @default null
 	    */
-	    volumeEl=volEl,
+	    volumeEl=volEl;
 	    function getVolumeFromSlaveProtocolReply(str){
 	    	if (isNaN(str)){
 	    		var parts=str.split("=");
