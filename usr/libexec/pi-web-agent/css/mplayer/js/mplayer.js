@@ -110,7 +110,6 @@ $(document).ready(function(){
 	showAppropriateView();
 
 });
-
 function mplayerWebSocket(){
 	try{
 		var ws = new ReconnectingWebSocket('wss://'+window.location.hostname+':7777');
@@ -120,17 +119,23 @@ function mplayerWebSocket(){
 		$("#mplayerLauncherView").show();
 	}
     ws.onopen = function() {
+    	$.getJSON( "mplayer_api.py", function( data ) {});
     	$("#mplayerLoader").hide(); 
-            $(".mplayerView").hide();
-            $("#mplayerPlayView").show();
-            
-    updateStatus({status:'CONNECTED'});
+        $(".mplayerView").hide();
+        $("#mplayerPlayView").show();
+        
+        //this will be enough but can be decreased
+        //in next version
+        connectionChecker.getInstance(4200)
+        				.startConnectionCheck(showAppropriateView);    
+        updateStatus({status:'CONNECTED'});
 
   };
    ws.onclose = function() {
     updateStatus({status:'DISCONNECTED'});
   };
    ws.onmessage = function(event) {
+	   connectionChecker.getInstance().stopConnectionCheck()
 	   showInfo(event.data);
 	   if (event.data.indexOf("volume") > -1){
 		   controller.setVolume(event.data); 

@@ -5,6 +5,9 @@
 *I have decided to go for a 
 *singleton here.(using closure)
 */
+/*in the next version with the new api 
+all requests used by mplayer_controls 
+ui will go here*/
 var mplayerController= (function () {
 	  var instance;
 	  function init(volEl) {
@@ -24,15 +27,6 @@ var mplayerController= (function () {
 	    * @default null
 	    */
 	    volumeEl=volEl,
-	    /**
-	    * Tasks denotes tasks cancelled
-	    * when zero execute the tasks given
-	    * to the execute function
-	    * @property tasks
-	    * @type {Number}
-	    * @default 0
-	    */
-	    tasks=0;
 	    function getVolumeFromSlaveProtocolReply(str){
 	    	if (isNaN(str)){
 	    		var parts=str.split("=");
