@@ -22,7 +22,7 @@ var connectionChecker= (function () {
 	    	 *Starts connection check
 	    	 */
 	    	startConnectionCheck:function(cb){
-	    		timer.setTimeout(function(){
+	    		timer=setTimeout(function(){
 	    			if(typeof cb==="function"){
 	    			 cb();
 	    			}
