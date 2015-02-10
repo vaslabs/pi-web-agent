@@ -1,10 +1,9 @@
-
 function update_res(res) {
     var dpkg_config_needed = 200;
     var message = '';
     if (res.status == dpkg_config_needed) {
 	message = '<br><h4>Warning: Last update was interrupted!</h4>\
-<br><h5>Recovery procedure initiated. Please come back in a moment...</h5>';
+                  <br><h5>Recovery procedure initiated. Please come back in a moment...</h5>';
     } else {
 	message = '<br><h4>Update procedure initiated!</h4> Please come back in a moment...';
     }
@@ -20,7 +19,6 @@ function do_update() {
 }
 
 function no_action_msg() {
-    
     $("#extension-main-view").html('<br><h4>System is up to date!</h4>');
     var bt = $('<button type="button" onClick="check_update()" class="btn btn-success">Check</button>');
     $("#extension-main-view").append(bt);
@@ -28,23 +26,28 @@ function no_action_msg() {
 }
 
 function new_update_msg() {
-    $("#extension-main-view").html('<br><h4>Warning: Last update was interrupted!</h4><br><h5>Recovery procedure initiated. Please come back in a moment...</h5>');
+    $("#extension-main-view").html('<br><h4>Warning: Last update was interrupted!</h4>\
+                                    <br><h5>Recovery procedure initiated. \
+                                    Please come back in a moment...</h5>');
 }
 
 function reboot_required_msg() {
     $("#extension-main-view").html('<br>Reboot is required to apply previous updates.');
 }
 
-
 function update_pending_msg() {
     $("#extension-main-view").html('<br>Update in progress. Please try again later...');
 }
 
+function interrupted_msg() {
+    $("#extension-main-view").html('<br><h4>Warning: Last update was interrupted!</h4>\
+                                    <br><h5>Recovery procedure initiated.\
+                                    Please come back in a moment...</h5>');
+}
 
 function display_packages(res) {
     var status = {0: no_action_msg,
 		  101: no_action_msg,
-		  110: new_update_msg,
 		  120:reboot_required_msg,
 		  100:update_pending_msg
 		 };
@@ -55,6 +58,12 @@ function display_packages(res) {
 	return;
     }
 
+    if (res.status != 110) {
+	interrupted_msg();
+	endProcessing();
+	return;
+    }
+    
     var n_packages = res.package_list.length;
     for (var i=0; i<n_packages; i++) {
 	//build the table here
@@ -88,7 +97,9 @@ function checkAptBusy(response){
 
 function main(res) {
     if (res.status == "busy") {
-	$("#extension-main-view").html('The Update Manager is busy right now. This page will automatically reload once the service is available');
+	$("#extension-main-view").html('The Update Manager is busy right now. \
+                                       This page will automatically reload once\
+                                       the service is available');
 	getResponse('/cgi-bin/toolkit/live_info.py?cmd=apt', checkAptBusy);
 	endProcessing();
     } else {
