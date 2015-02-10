@@ -42,9 +42,8 @@ def get_packages():
     packages = list()
     update_info, returncode = update_check_quick()
 
-    if returncode in (UPDATE_PENDING, REBOOT_REQUIRED, UPDATE_READY,
-                      NO_ACTION, NEW_UPDATE):
-        return json.dumps({"status":returncode, "package_list":[]})
+    if not returncode == NEW_UPDATE:
+         return json.dumps({"status":returncode, "package_list":[]})
     
     for package_entry in update_info.split("\n"):
         package_name=parse_package_name(package_entry)
