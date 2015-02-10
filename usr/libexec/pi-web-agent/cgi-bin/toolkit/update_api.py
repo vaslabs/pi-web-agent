@@ -62,14 +62,14 @@ def get_status():
     return json.dumps({"status": "free"})
 
 
-def update(self):
+def update():
     command = "sudo pi-update -a"
     err = os.system(command)
 
     return err
 
 
-def perform_update(self):
+def perform_update():
     err = update()
     
     if err == DPKG_CONFIG_NEEDED:
@@ -89,7 +89,7 @@ def op_dispatch(form):
 
     op_dict = {
         "get_status"   : get_status,
-        "update"       : update,
+        "update"       : perform_update,
         "get_packages" : get_packages
     }
 
