@@ -126,7 +126,7 @@ function mplayerWebSocket(){
         
         //this will be enough but can be decreased
         //in next version
-        connectionChecker.getInstance(4200)
+        connectionChecker.getInstance(8000)
         				.startConnectionCheck(showAppropriateView);    
         updateStatus({status:'CONNECTED'});
 
