@@ -93,8 +93,9 @@ class MPlayer:
 
 if __name__ == '__main__':
     if os.environ['REQUEST_METHOD'] == 'GET':
-        fireAndForget('echo "get_property volume" > /tmp/mplayer-control;');
+        
         if execute('pidof mplayer')[1] == 0:
+            fireAndForget('echo "get_property volume" > /tmp/mplayer-control;');
             jsonReply('{ "status" : "playing" }')
         else:
             jsonReply('{ "status" : "stoped" }')
