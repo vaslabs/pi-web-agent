@@ -45,15 +45,14 @@ var mplayerController= (function () {
 
 	    	/*set volume accepts number
 	    	 * or string in the format returned by mplayer
-	    	 * it also locks the player from sending back
-	    	 * the update to avoid a non terminating 
-	    	 * loop of messages
+	    	 * the integer volume is returned 
 	    	 */
-			setVolume: function(vol) {
+			setVolume: function(vol,cb) {
 				vol=getVolumeFromSlaveProtocolReply(vol);
 				volumeEl.val(vol);
 				volumeEl.trigger('change')
 				volume=vol;
+				return vol;
 			}
 	    };
 	 

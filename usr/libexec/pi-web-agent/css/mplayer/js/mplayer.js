@@ -136,11 +136,12 @@ function mplayerWebSocket(){
   };
    ws.onmessage = function(event) {
 	   connectionChecker.getInstance().endConnectionCheck()
-	   showInfo(event.data);
+	   
 	   if (event.data.indexOf("volume") > -1){
-		   controller.setVolume(event.data); 
+		   showInfo("volume: "+controller.setVolume(event.data)); 
 		   return;
 	   }
+	   showInfo(event.data);
 	   if (event.data.indexOf("Exit") > -1){
 		   showAppropriateView();
 		   return;
