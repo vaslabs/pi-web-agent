@@ -53,8 +53,10 @@ this_dev_install(){
     mkdir -p /usr/libexec/pi-web-agent/etc/config/
     
     echo -n "Copying framework file"
-    /bin/cp -av usr/libexec/pi-web-agent/etc/config/framework.c /usr/libexec/pi-web-agent/etc/config/framework.c 
-    
+    /bin/cp -av usr/libexec/pi-web-agent/etc/config/framework.c /usr/libexec/pi-web-agent/etc/config/framework.c
+    echo -n "Installing websocketdBro" 
+    chmod +x ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
+    ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     echo -n "Compile pwa files..."
     compilePWA
 
@@ -141,6 +143,7 @@ this_dev_install(){
     chmod +x /usr/libexec/pi-web-agent/scripts/memory_information
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/* 
+    
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     

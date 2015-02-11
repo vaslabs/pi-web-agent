@@ -50,7 +50,9 @@ this_install(){
     }
     
     /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
-
+    echo -n "Installing websocketdBro"
+	/bin/chmod +x ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
+    ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     /bin/cp -av "$SHARE" "/$SHARE"
     /bin/cp -v "$SERVICE_PATH" "/$SERVICE_PATH"
     /bin/cp -v "$EXECUTE_BIN" "/$EXECUTE_BIN"
@@ -132,6 +134,7 @@ this_install(){
     chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
+    
     echo "Starting pi-web-agent"
     "/$SERVICE_PATH" start
 }
