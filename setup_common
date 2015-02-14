@@ -50,7 +50,7 @@ this_install(){
     }
     
     /bin/cp -rv "$APPLICATION_PATH" "/$APPLICATION_PATH"
-    echo -n "Installing websocketdBro"
+    echo "Installing websocketdBro"
 	/bin/chmod +x ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     /bin/cp -av "$SHARE" "/$SHARE"

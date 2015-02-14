@@ -30,7 +30,7 @@ compilePWA() {
 }
 
 this_dev_install(){
-    echo -n "Installing pi web agent "
+    echo "Installing pi web agent "
     [[ ! -d "/$APPLICATION_PATH" && ! -f "/$SERVICE_PATH" && ! -d "/$ETC_PATH" ]] || {
         print_error "ABORTED"
         echo "The application is already installed. Run \`setup reinstall' if the installation is broken "
