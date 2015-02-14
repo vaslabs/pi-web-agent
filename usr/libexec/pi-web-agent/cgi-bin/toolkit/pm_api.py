@@ -9,8 +9,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 
-from HTMLPageGenerator import composeJS
-from framework import view, output
+from framework import view, output, composeJS
 from functools import partial
 import re
 import subprocess
