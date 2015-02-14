@@ -6,8 +6,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-from framework import view, output, get_template
-from HTMLPageGenerator import composeJS
+from framework import view, output, get_template, composeJS
 from live_info import execute
 
 gpio="/usr/local/bin/gpio"

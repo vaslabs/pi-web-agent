@@ -9,7 +9,6 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import output, view
-from HTMLPageGenerator import *
 POWEROFF="poweroff"
 RESTART="restart"
 class PowerManager(object):
