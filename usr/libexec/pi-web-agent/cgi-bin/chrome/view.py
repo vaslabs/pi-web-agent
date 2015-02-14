@@ -6,21 +6,14 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-import httplib
+from framework import *
 import cgi
 from pi_web_agent import VERSION
 
 def get_template(template):
     return os.environ['MY_HOME']+'/templates/' + template + '.htm'
 
-def composeJS(stringifiedJSON, code=httplib.OK):
-    print 'Status: ', code, ' ', httplib.responses[code]
-    print 'Content-Type: application/json'
-    print 'Cache-Control: no-store'
-    print 'Length:', len(stringifiedJSON)
-    print ''
-    print stringifiedJSON
-    
+
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
