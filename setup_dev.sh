@@ -54,7 +54,7 @@ this_dev_install(){
     
     echo -n "Copying framework file"
     /bin/cp -av usr/libexec/pi-web-agent/etc/config/framework.c /usr/libexec/pi-web-agent/etc/config/framework.c
-    echo -n "Installing websocketdBro" 
+    echo "Installing websocketdBro" 
     chmod +x ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     ./usr/libexec/pi-web-agent/scripts/websocketdBro/raspbian_setup.sh
     echo -n "Compile pwa files..."
