@@ -14,8 +14,7 @@ import cgitb
 from subprocess import Popen, PIPE
 cgitb.enable()
 from live_info import execute, getAptBusy
-from framework import output, view, getDependencies
-from HTMLPageGenerator import composeJS
+from framework import output, view, getDependencies, composeJS
 import json
 from pm_api import check_installed
 

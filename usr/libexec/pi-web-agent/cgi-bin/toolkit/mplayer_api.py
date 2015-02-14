@@ -14,17 +14,12 @@ if 'ssl_cert' not in os.environ:
 if 'ssl_key' not in os.environ:
     os.environ['ssl_key']='/etc/pi-web-agent/conf.d/certs/pi-web-agent.key'
 from live_info import execute
+from framework import composeJSON
+
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 
 
-def jsonReply(stringifiedJSON, code=httplib.OK):
-    print 'Status: ', code, ' ', httplib.responses[code]
-    print 'Content-Type: application/json'
-    print 'Cache-Control: no-store'
-    print 'Length:', len(stringifiedJSON)
-    print ''
-    print stringifiedJSON
 
 
 # fire and forget success will be determined by triggering strace on websocket
@@ -96,15 +91,15 @@ if __name__ == '__main__':
         
         if execute('pidof mplayer')[1] == 0:
             fireAndForget('echo "get_property volume" > /tmp/mplayer-control;');
-            jsonReply('{ "status" : "playing" }')
+            composeJSON('{ "status" : "playing" }')
         else:
-            jsonReply('{ "status" : "stoped" }')
+            composeJSON('{ "status" : "stoped" }')
     elif os.environ['REQUEST_METHOD'] == 'DELETE':
 
         if execute('echo "quit" > /tmp/mplayer-control')[1] == 0:
-            jsonReply('{ "status" : "success" }')
+            composeJSON('{ "status" : "success" }')
         else:
-            jsonReply('{ "status" : "failure" }',
+            composeJSON('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
         data=json.loads(sys.stdin.read())
@@ -118,10 +113,10 @@ if __name__ == '__main__':
                     streqhelper = ':'.join(map(str, data['eqhelper']))
                     execute("echo '" + str(data['volume']) + '\n'
                             + streqhelper + "' > /tmp/mplayer_status")
-                    jsonReply('{ "status" : "volume '
+                    composeJSON('{ "status" : "volume '
                               + str(data['volume']) + '" }')
                 else:
-                    jsonReply('{ "status" : "Oups!Invalid volume range.'
+                    composeJSON('{ "status" : "Oups!Invalid volume range.'
                                + 'Don\'t send castom requests!" }')
             elif 'eq' in data:
                 c = 0
@@ -134,10 +129,10 @@ if __name__ == '__main__':
                             + '" > /tmp/mplayer-control')
                     execute("echo '" + str(data['volumehelper']) + '\n'
                             + streq + "' > /tmp/mplayer_status")
-                    jsonReply('{ "status" : "eq ' + streq + '" }')
+                    composeJSON('{ "status" : "eq ' + streq + '" }')
                 else:
                     streq = ':'.join(map(str, data['eq']))
-                    jsonReply('{ "status" : "Invalid eq settings[-12/12]:'
+                    composeJSON('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
                 if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
@@ -151,16 +146,16 @@ if __name__ == '__main__':
                 if 'uri' in data['init']:
                     uri = data['init']['uri']
                 else:
-                    jsonReply('{ "status" : "failure" }')
+                    composeJSON('{ "status" : "failure" }')
                 if execute('pidof mplayer')[1] != 0:
                     player = MPlayer(uri, volume, output)
                     if player.startStream()==0:
-                        jsonReply('{ "status" : "starting" }')
+                        composeJSON('{ "status" : "starting" }')
                     else:
-                        jsonReply('{ "status" : "failure" }')  
+                        composeJSON('{ "status" : "failure" }')  
         except ValueError:
 
-            jsonReply('{ "status" : "Invalid Input!Don\'t send custom'
+            composeJSON('{ "status" : "Invalid Input!Don\'t send custom'
                       + ' requests!" }')
     else:
-        jsonReply('{ "status" : "unknown operation" }')
+        composeJSON('{ "status" : "unknown operation" }')
