@@ -13,7 +13,14 @@ from pi_web_agent import VERSION
 def get_template(template):
     return os.environ['MY_HOME']+'/templates/' + template + '.htm'
 
-
+def composeJS(stringifiedJSON, code=httplib.OK):
+    print 'Status: ', code, ' ', httplib.responses[code]
+    print 'Content-Type: application/json'
+    print 'Cache-Control: no-store'
+    print 'Length:', len(stringifiedJSON)
+    print ''
+    print stringifiedJSON
+    
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -52,5 +59,5 @@ class View(object):
         
     def js_output(self):
         composeJS(self.content)
-from framework import *	
+	
 
