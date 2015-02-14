@@ -54,9 +54,9 @@ def outputHTMLDocument(*parts):
 #USED TO SET TEXT/HTML(contnet-type) HEADER
 #\---> FOR PRINTING XML REPLIES
 def composeXMLDocument(xml):
-print "Content-type: text/html"
-print
-print ET.tostring(xml, encoding='UTF-8')
+    print "Content-type: text/html"
+    print
+    print ET.tostring(xml, encoding='UTF-8')
 
 def requestDefinition(extensionID):
     return config.system.actions[extensionID]
