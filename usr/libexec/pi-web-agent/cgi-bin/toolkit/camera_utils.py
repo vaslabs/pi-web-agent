@@ -14,7 +14,7 @@ import cgi
 import cgitb
 from cernvm import Response
 from live_info import execute
-from HTMLPageGenerator import *
+from framework import *
 import time
 import pygame
 import json

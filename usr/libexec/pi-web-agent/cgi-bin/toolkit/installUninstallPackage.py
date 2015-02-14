@@ -4,7 +4,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/api')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/')
-from HTMLPageGenerator import *
+from framework import *
 from cernvm import Response
 import cgi
 import cgitb

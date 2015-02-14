@@ -22,7 +22,7 @@ UPDATE_PENDING=100
 DPKG_CONFIG_NEEDED=200
 PROCESS_RUNNING=201
 
-from HTMLPageGenerator import *
+from framework import *
 
 def execute(command):
     
