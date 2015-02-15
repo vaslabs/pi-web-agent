@@ -6,8 +6,8 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from framework import compseJS as jsOutput
-from framework import outputHTMLDocumen as htmlOutput
+from framework import composeJS as jsOutput
+from framework import outputHTMLDocument as htmlOutput
 import cgi
 from pi_web_agent import VERSION
 
