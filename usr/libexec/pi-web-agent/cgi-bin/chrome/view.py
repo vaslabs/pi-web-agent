@@ -8,11 +8,11 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import composeJS as jsOutput
 from framework import outputHTMLDocument as htmlOutput
+from framework import get_template
 import cgi
 from pi_web_agent import VERSION
 
-def get_template(template):
-    return os.environ['MY_HOME']+'/templates/' + template + '.htm'
+
 
 
 #any extension should be a subclass of view. View implements by default the default views
