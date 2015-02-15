@@ -13,7 +13,8 @@ import cgitb
 from subprocess import Popen, PIPE
 cgitb.enable()
 from live_info import execute, getAptBusy
-from framework import output, view, composeJS
+from framework import output, view
+from view import composeJS
 import json
 
 PACKAGES_LIST_PATH=\

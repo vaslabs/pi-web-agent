@@ -10,7 +10,7 @@ import cgitb
 cgitb.enable()
 from live_info import execute
 from functools import partial
-from framework import composeJS
+from view import composeJS
 import json
 gpio="/usr/local/bin/gpio"
 

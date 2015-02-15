@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from camera_manager import CameraManager
 import json
-from framework import composeJS
+from view import composeJS
 import cgi
 
 def get_images():

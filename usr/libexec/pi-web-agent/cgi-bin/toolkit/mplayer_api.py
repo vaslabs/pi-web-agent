@@ -14,8 +14,7 @@ if 'ssl_cert' not in os.environ:
 if 'ssl_key' not in os.environ:
     os.environ['ssl_key']='/etc/pi-web-agent/conf.d/certs/pi-web-agent.key'
 from live_info import execute
-from framework import composeJSON
-
+from view import composeJS
 __author__ = 'andreas'
 __date__ = '$Sep 14, 2014 9:23:40 PM$'
 

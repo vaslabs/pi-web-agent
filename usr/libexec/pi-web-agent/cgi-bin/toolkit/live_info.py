@@ -23,6 +23,7 @@ DPKG_CONFIG_NEEDED=200
 PROCESS_RUNNING=201
 
 from framework import *
+from view import *
 
 def execute(command):
     

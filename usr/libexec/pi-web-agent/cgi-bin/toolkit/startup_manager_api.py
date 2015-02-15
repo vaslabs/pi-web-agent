@@ -3,7 +3,7 @@ from startup_manager import StartupManager
 startupMgr = StartupManager()
 import json
 import cgi
-from framework import composeJS
+from view import composeJS
 
 def get_current_definitions():
     return startupMgr.getStartupDefinitions()

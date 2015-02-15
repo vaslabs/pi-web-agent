@@ -6,15 +6,46 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from framework import composeJS as jsOutput
-from framework import outputHTMLDocument as htmlOutput
-from framework import get_template
 import cgi
+#required for working with http status codes
+import httplib
 from pi_web_agent import VERSION
 
+def get_template(template):
+    return os.environ['MY_HOME']+'/templates/' + template + '.htm'
 
-
-
+#replaces deprecated html page generator function
+#(the mplayer version is used since code gets a 
+#default value)
+#USED TO SET APPLICATION/JSON(content-type)HEADER 
+#AND APPROPRIATE HTTP STATUS CODE
+#\---> FOR PRINTING JSON REPLIES
+def composeJS(stringifiedJSON, code=httplib.OK):
+    print 'Status: ', code, ' ', httplib.responses[code]
+    print 'Content-Type: application/json'
+    print 'Cache-Control: no-store'
+    print 'Length:', len(stringifiedJSON)
+    print ''
+    print stringifiedJSON
+    
+#from html page generator/ used in chrome/view.py
+#USED TO SET TEXT/HTML(contnet-type) HEADER
+#\---> FOR PRINTING HTML REPLIES
+def outputHTMLDocument(*parts):
+    print "Content-type: text/html"
+    print
+    print '<!DOCTYPE html>'
+    for part in parts:
+        print part
+        
+#from html page generator
+#used in camera_utils.py installUninstallPackage.py
+#USED TO SET TEXT/HTML(contnet-type) HEADER
+#\---> FOR PRINTING XML REPLIES
+def composeXMLDocument(xml):
+    print "Content-type: text/html"
+    print
+    print ET.tostring(xml, encoding='UTF-8')
 #any extension should be a subclass of view. View implements by default the default views
 #of the menus in the user interface. The difference of each subclass of view should be
 #on the content part of the interface. 
@@ -49,9 +80,9 @@ class View(object):
             self.start_part = sfile.read()
         with open(template_end) as efile:
             self.end_part = efile.read()
-        htmlOutput(self.start_part, self.contentTitle, self.content, self.end_part)
+        outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
         
     def js_output(self):
-        jsOutput(self.content)
+        composeJS(self.content)
 	
 

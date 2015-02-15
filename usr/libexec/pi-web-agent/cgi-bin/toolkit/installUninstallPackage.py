@@ -5,6 +5,7 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/api')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/')
 from framework import *
+from view import *
 from cernvm import Response
 import cgi
 import cgitb

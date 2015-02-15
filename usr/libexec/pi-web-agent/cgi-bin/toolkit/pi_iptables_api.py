@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from pi_iptables import *
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
-from framework import composeJS
+from view import composeJS
 import json
 
 class IPTablesManagerAPI(IPTablesManager):
