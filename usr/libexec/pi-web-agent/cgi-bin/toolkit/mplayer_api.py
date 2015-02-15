@@ -9,6 +9,7 @@ import json
 import httplib
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 if 'ssl_cert' not in os.environ:
     os.environ['ssl_cert']='/etc/pi-web-agent/conf.d/certs/pi-web-agent.crt'
 if 'ssl_key' not in os.environ:
