@@ -6,6 +6,7 @@ if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from framework import view, output, get_template
 from view import  composeJS
 from live_info import execute

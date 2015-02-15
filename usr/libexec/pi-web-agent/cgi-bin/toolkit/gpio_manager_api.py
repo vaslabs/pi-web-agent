@@ -1,7 +1,9 @@
 #!/usr/bin/python
 from gpio_manager import *
 import json
-
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 def main():
     gpio_data, code = execute(gpio + ' readalljson')
     if (code != 0):

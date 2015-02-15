@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from pi_iptables import *
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 from view import composeJS
 import json
 

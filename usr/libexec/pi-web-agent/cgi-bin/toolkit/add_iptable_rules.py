@@ -5,6 +5,7 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/api')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/')
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 
 
 import cgi
@@ -12,7 +13,7 @@ import cgitb
 from subprocess import Popen, PIPE
 import json
 cgitb.enable()
-from framework import composeJS
+from view import composeJS
 from live_info import execute
 import re
 

@@ -1,7 +1,11 @@
 #!/usr/bin/python
 from camera_manager import CameraManager
 import json
+
 from view import composeJS
+if 'MY_HOME' not in os.environ:
+    os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 import cgi
 
 def get_images():

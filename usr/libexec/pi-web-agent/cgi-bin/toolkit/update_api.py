@@ -7,6 +7,7 @@ import cgi, cgitb
 cgitb.enable()
 if 'MY_HOME' not in os.environ:
     os.environ['MY_HOME']='/usr/libexec/pi-web-agent'
+sys.path.append(os.environ['MY_HOME'] + '/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME'] + '/etc/config')
 
 from framework import view, output
