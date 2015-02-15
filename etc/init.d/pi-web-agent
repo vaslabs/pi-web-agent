@@ -52,7 +52,8 @@ stop() {
             echo
             exit 3
         fi
-        
+        sudo killall -9 mplayer
+        sudo killall -9 websocketd
         kill $(cat /var/run/pi-web-agent.pid)
         if [ $? -eq 0 ]; then
             echo_success
