@@ -91,15 +91,15 @@ if __name__ == '__main__':
         
         if execute('pidof mplayer')[1] == 0:
             fireAndForget('echo "get_property volume" > /tmp/mplayer-control;');
-            composeJSON('{ "status" : "playing" }')
+            composeJS('{ "status" : "playing" }')
         else:
-            composeJSON('{ "status" : "stoped" }')
+            composeJS('{ "status" : "stoped" }')
     elif os.environ['REQUEST_METHOD'] == 'DELETE':
 
         if execute('echo "quit" > /tmp/mplayer-control')[1] == 0:
-            composeJSON('{ "status" : "success" }')
+            composeJS('{ "status" : "success" }')
         else:
-            composeJSON('{ "status" : "failure" }',
+            composeJS('{ "status" : "failure" }',
                       httplib.INTERNAL_SERVER_ERROR)
     elif os.environ['REQUEST_METHOD'] == 'POST':
         data=json.loads(sys.stdin.read())
@@ -113,10 +113,10 @@ if __name__ == '__main__':
                     streqhelper = ':'.join(map(str, data['eqhelper']))
                     execute("echo '" + str(data['volume']) + '\n'
                             + streqhelper + "' > /tmp/mplayer_status")
-                    composeJSON('{ "status" : "volume '
+                    composeJS('{ "status" : "volume '
                               + str(data['volume']) + '" }')
                 else:
-                    composeJSON('{ "status" : "Oups!Invalid volume range.'
+                    composeJS('{ "status" : "Oups!Invalid volume range.'
                                + 'Don\'t send castom requests!" }')
             elif 'eq' in data:
                 c = 0
@@ -129,10 +129,10 @@ if __name__ == '__main__':
                             + '" > /tmp/mplayer-control')
                     execute("echo '" + str(data['volumehelper']) + '\n'
                             + streq + "' > /tmp/mplayer_status")
-                    composeJSON('{ "status" : "eq ' + streq + '" }')
+                    composeJS('{ "status" : "eq ' + streq + '" }')
                 else:
                     streq = ':'.join(map(str, data['eq']))
-                    composeJSON('{ "status" : "Invalid eq settings[-12/12]:'
+                    composeJS('{ "status" : "Invalid eq settings[-12/12]:'
                                + streq + '" }')
             elif 'init' in data and 'uri' in data['init']:
                 if 'volume' in data['init'] and 0 <= int(data['init']['volume']) <= 100:
@@ -146,16 +146,16 @@ if __name__ == '__main__':
                 if 'uri' in data['init']:
                     uri = data['init']['uri']
                 else:
-                    composeJSON('{ "status" : "failure" }')
+                    composeJS('{ "status" : "failure" }')
                 if execute('pidof mplayer')[1] != 0:
                     player = MPlayer(uri, volume, output)
                     if player.startStream()==0:
-                        composeJSON('{ "status" : "starting" }')
+                        composeJS('{ "status" : "starting" }')
                     else:
-                        composeJSON('{ "status" : "failure" }')  
+                        composeJS('{ "status" : "failure" }')  
         except ValueError:
 
-            composeJSON('{ "status" : "Invalid Input!Don\'t send custom'
+            composeJS('{ "status" : "Invalid Input!Don\'t send custom'
                       + ' requests!" }')
     else:
-        composeJSON('{ "status" : "unknown operation" }')
+        composeJS('{ "status" : "unknown operation" }')
