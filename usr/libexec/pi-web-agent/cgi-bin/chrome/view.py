@@ -6,7 +6,8 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/toolkit')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
-from framework import *
+from framework import compseJS as jsOutput
+from framework import outputHTMLDocumen as htmlOutput
 import cgi
 from pi_web_agent import VERSION
 
@@ -48,9 +49,9 @@ class View(object):
             self.start_part = sfile.read()
         with open(template_end) as efile:
             self.end_part = efile.read()
-        outputHTMLDocument(self.start_part, self.contentTitle, self.content, self.end_part)
+        htmlOutput(self.start_part, self.contentTitle, self.content, self.end_part)
         
     def js_output(self):
-        composeJS(self.content)
+        jsOutput(self.content)
 	
 
