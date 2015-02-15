@@ -35,6 +35,21 @@ function updateStatus(data){
 function showInfo(info){
 	$("#status").html(info);
 }
+function launch(){
+    //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+	$(".mplayerView").hide();
+	$("#mplayerLoader").show();  
+	$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
+			.done(function( data ) {
+                                if (data.status=="starting"){
+                                    
+                                    mplayerSock=mplayerWebSocket();
+                                }
+                                    updateStatus(data)
+                                
+                                
+			});
+}
 //globals
 window.volume= 20;
 window.eqvals=[0,0,0,0,0,0,0,0,0,0];   
@@ -50,21 +65,10 @@ $(function() {
 			}
 	});
 	$('#volume').knob();
+
 	//start stream button
 	$("#startStreamBtn").click(function(event){
-	    //alert(JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
-		$(".mplayerView").hide();
-		$("#mplayerLoader").show();  
-		$.post( "mplayer_api.py", JSON.stringify(constructInitObject($('#launcherForm').serializeArray())))
-				.done(function( data ) {
-	                                if (data.status=="starting"){
-	                                    
-	                                    mplayerSock=mplayerWebSocket();
-	                                }
-	                                    updateStatus(data)
-	                                
-	                                
-				});
+		launch();
 	});
     $("#radio label").click(function(){
         $("[name=output]").val($(this).text());
@@ -106,7 +110,14 @@ $(function() {
 });
 
 $(document).ready(function(){
-	
+	var params=URI.parseQuery(location.search);
+	if (params.uri&&!isNaN(params.volume) 
+			&& parseInt(params.volume) == parseFloat(params.volume)){
+		$('#launcherForm input[name="uri"]').val(params.uri);
+		$('#launcherForm input[name="volume"]').val(params.volume);
+		launch();
+		return;
+	}
 	showAppropriateView();
 
 });

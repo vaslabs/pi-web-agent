@@ -1,3 +1,4 @@
+//dependencies: URI.js
 var ext="", apps=[],defaultApps=[], extApps={};
 //---default apps- the apps tha can be used on any file
 defaultApps.push({"name": "Download", "startFunction":download, "icon": "download.png"});
@@ -10,10 +11,12 @@ apps.push({"name": "Startup Manager", "startFunction":startupManager, "icon": "s
 //--------start functions go here-------------
 //the reason why we need start functions is that later on we can play with iframes
 function mplayer(path) {
-	window.location='/cgi-bin/toolkit/mplayer.py?uri='+path+'&volume=50';
+	var query=URI.buildQuery({uri:path,volume:50});
+	window.location='/cgi-bin/toolkit/mplayer.py?'+query;
 }
 function download(path) {
-    window.location='/cgi-bin/toolkit/file_manager.py?download='+path;
+	var query=URI.buildQuery({download:path});
+    window.location='/cgi-bin/toolkit/file_manager.py?'+query;
 }
 
 var sharedPath = "";
