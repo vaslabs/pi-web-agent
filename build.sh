@@ -5,22 +5,22 @@ WDIR="usr/libexec/pi-web-agent/css"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
+
 composeFiles() {
-    
     JS_FILE="$2.$2"
-    
     echo "" > $CSS_DIR/$JS_FILE
     for part in $1; do
         cat $WDIR/$part >>$CSS_DIR/$JS_FILE
     done
-
     md5=$(md5sum $CSS_DIR/$JS_FILE | cut -d ' ' -f 1)
     mv $CSS_DIR/$JS_FILE $CSS_DIR/${md5}.$2
     echo ${md5}.$2
 }
 
 appendJSToHTML() {
-    
+    mv $working_directory/$FIRST_MAIN $working_directory/$FIRST_MAIN.prebuild; 
+    grep -v -x -f $working_directory/$FIRST_MAIN.buildDiff $working_directory/$FIRST_MAIN.prebuild >  $working_directory/$FIRST_MAIN;
+    rm $working_directory/$FIRST_MAIN.prebuild;    
     echo "<html><head><script src='/css/$1'></script>" > $working_directory/$FIRST_MAIN
     
 }
