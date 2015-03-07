@@ -18,14 +18,14 @@ composeFiles() {
 }
 
 appendJSToHTML() {
-    mv $working_directory/$FIRST_MAIN $working_directory/$FIRST_MAIN.prebuild; 
-    grep -v -x -f $working_directory/$FIRST_MAIN.buildDiff $working_directory/$FIRST_MAIN.prebuild >  $working_directory/$FIRST_MAIN;
-    rm $working_directory/$FIRST_MAIN.prebuild;    
     echo "<html><head><script src='/css/$1'></script>" > $working_directory/$FIRST_MAIN
     
 }
 
 appendCSSToHTML() {
+    mv $FIRST_MAIN $FIRST_MAIN.prebuild; 
+    grep -v -x -f $FIRST_MAIN.buildDiff $FIRST_MAIN.prebuild >  $FIRST_MAIN;
+    rm $FIRST_MAIN.prebuild;    
     echo "<link rel='stylesheet' href=/css/$1 type='text/css'>" >>$working_directory/$FIRST_MAIN
     cat $FIRST_MAIN >> $working_directory/$FIRST_MAIN
     sudo cp $working_directory/$FIRST_MAIN $FIRST_MAIN
