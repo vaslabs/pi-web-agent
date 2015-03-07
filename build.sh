@@ -36,11 +36,11 @@ appendCSSToHTML() {
 }
 
 minifyCSS() {
-    java -jar yuicompressor-2.4.8.jar --type css $CSS_DIR/$1 > pi-web-agent/$WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type css $CSS_DIR/$1 > $WDIR/$1
 }
 
 minifyJS() {
-    java -jar yuicompressor-2.4.8.jar --type js $CSS_DIR/$1 > pi-web-agent/$WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type js $CSS_DIR/$1 > $WDIR/$1
 }
 
 start_compiling() {
@@ -52,6 +52,10 @@ start_compiling() {
 }
 
 compilePWA() {
+	 #compiled files include the framework.c file 
+	 #from /usr/libexec/pi-web-agent/etc/config/framework.c
+	 #so we should set it up first:
+    cp --parents usr/libexec/pi-web-agent/etc/config/framework.c /
     cd usr/libexec/pi-web-agent/cgi-bin/toolkit
     start_compiling
     cd -
