@@ -1,4 +1,8 @@
-
+RELEASE=$1
+if [ -z "$RELEASE" ]; then
+	echo "Please enter release name:"
+	read RELEASE
+fi
 working_directory=$(mktemp -d)
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
 WDIR="usr/libexec/pi-web-agent/css"
@@ -57,7 +61,17 @@ compilePWA() {
     #framework.c must be in source form to allow other developers
     #to include it, no need for compiling it
 }
-
+if [ -z "$RELEASE" ]; then
+	echo -e "This build will \e[0;34m not \e[0m be used for a release"
+else
+	echo -e "This build will be used for Release:\e[0m $RELEASE \e[0m"
+	echo -e "Creating Branch \e[0;34m $RELEASE\e[0m"
+	git checkout -b "$RELEASE"
+	echo "Pushing new branch to origin"
+	git push origin "$RELEASE"
+	echo "Now your branches are:"
+	git branch
+fi;
 js_to_combine="jquery-1.10.2.min.js bootstrap.min.js bootswatch.js knockout.js system_scripts.js dependency_manager.js general_purpose_scripts.js framework.js"
 
 css_to_combine="blueprint/screen.css bootstrap.css installUninstallSwitch.css"
@@ -86,5 +100,11 @@ cd -
 compilePWA
 
 #commit current state
-git add .
-git commit -m "Version build"
+if [ ! -z "$RELEASE" ]; then
+	git add .
+	git commit -m "Version build for release $RELEASE"
+	git push origin "$RELEASE"
+fi;
+
+
+
