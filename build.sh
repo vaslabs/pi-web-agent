@@ -3,8 +3,6 @@ if [ -z "$RELEASE" ]; then
 	echo "Please enter release name:"
 	read RELEASE
 fi
-#initialize submodules
-git submodule update --init --recursive
 working_directory=$(mktemp -d)
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
 WDIR="usr/libexec/pi-web-agent/css"
