@@ -79,7 +79,7 @@ else
 fi;
 js_to_combine="jquery-1.10.2.min.js bootstrap.min.js bootswatch.js knockout.js system_scripts.js dependency_manager.js general_purpose_scripts.js framework.js"
 
-css_to_combine="blueprint/screen.css bootstrap.css installUninstallSwitch.css"
+css_to_combine="blueprint/screen.css bootstrap.css installUninstallSwitch.css system/css/system.css"
 
 
 mkdir -p $CSS_DIR
