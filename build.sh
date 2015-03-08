@@ -37,11 +37,11 @@ appendCSSToHTML() {
 }
 
 minifyCSS() {
-    java -jar yuicompressor-2.4.8.jar --type css $DIR/$CSS_DIR/$1 > $WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type css $CSS_DIR/$1 > $DIR/$WDIR/$1
 }
 
 minifyJS() {
-    java -jar yuicompressor-2.4.8.jar --type js $DIR/$CSS_DIR/$1 > $WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type js $CSS_DIR/$1 > $DIR/$WDIR/$1
 }
 
 start_compiling() {
