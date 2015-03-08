@@ -6,7 +6,7 @@ fi
 working_directory=$(mktemp -d)
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 echo "setting up yui compressor ..."
-[ !-f "~/yuicompressor-2.4.8.jar" ] && cd ~ && { curl -O https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar ; cd -; }
+[ ! -f "~/yuicompressor-2.4.8.jar" ] && cd ~ && { curl -O https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar ; cd -; }
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
 WDIR="usr/libexec/pi-web-agent/css"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
