@@ -32,7 +32,9 @@ this_install(){
     }
     [ -d /usr/libexec ] || mkdir /usr/libexec
     print_ok
-    
+    echo "initialising submodules ..."
+    git submodule update --init --recursive
+    print_ok
     echo "Updating packages"
     apt-get update
     echo "Installing dependencies"
