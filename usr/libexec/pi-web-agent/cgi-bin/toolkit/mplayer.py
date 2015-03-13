@@ -31,6 +31,11 @@ def get_view():
 def main():
     # Serves the mplayer page
     fs = cgi.FieldStorage()
+    mpm = MediaPlayerManager()
+    if (not mpm.check_status()):
+        view.setContent('Media Player', mpm._generateMissingDependenciesView())
+        output(view, form)
+        return
     content = get_view()
     view.setContent('Mplayer', content)
     
