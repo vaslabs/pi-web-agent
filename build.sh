@@ -12,7 +12,7 @@ WDIR="usr/libexec/pi-web-agent/css"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
-
+sed -i '/VERSION\=/c\VERSION="'$RELEASE'"' $DIR/usr/libexec/pi-web-agent/etc/config/pi_web_agent.py
 composeFiles() {
     JS_FILE="$2.$2"
     echo "" > $CSS_DIR/$JS_FILE
@@ -36,6 +36,7 @@ appendCSSToHTML() {
     echo "<link rel='stylesheet' href=/css/$1 type='text/css'>" >>$working_directory/$FIRST_MAIN
     cat $FIRST_MAIN >> $working_directory/$FIRST_MAIN
     sudo cp $working_directory/$FIRST_MAIN $FIRST_MAIN
+    sed -i '/Version/c\<div align="center" id="footer">Version: $RELEASE, Copyright © pi-web-agent community 2014' $FIRST_MAIN
 }
 
 minifyCSS() {
