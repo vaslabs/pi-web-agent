@@ -62,11 +62,11 @@ compilePWA() {
 	 #compiled files include the framework.c file 
 	 #from /usr/libexec/pi-web-agent/etc/config/framework.c
 	 #so we should set it up first:
-    sudo cp --parents usr/libexec/pi-web-agent/etc/config/framework.c /
-    cd usr/libexec/pi-web-agent/cgi-bin/toolkit
+    sudo cp --parents $DIR/usr/libexec/pi-web-agent/etc/config/framework.c /
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin/toolkit
     start_compiling
     cd -
-    cd usr/libexec/pi-web-agent/cgi-bin/chrome
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin/chrome
     start_compiling
     cd -
     #framework.c must be in source form to allow other developers
