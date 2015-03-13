@@ -34,7 +34,7 @@ def main():
     mpm = MediaPlayerManager()
     if (not mpm.check_status()):
         view.setContent('Media Player', mpm._generateMissingDependenciesView())
-        output(view)
+        output(view,fs)
         return
     content = get_view()
     view.setContent('Mplayer', content)
