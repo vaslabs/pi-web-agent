@@ -47,21 +47,18 @@ minifyJS() {
 }
 
 start_compiling() {
-    pwd
-    ls
     for file in $(ls *.c); do
         filename=$(basename $file '.c')
         gcc $file -o "$filename.pwa"
     done
     rm *.c
-    pwd
-    ls
 }
 
 compilePWA() {
 	 #compiled files include the framework.c file 
 	 #from /usr/libexec/pi-web-agent/etc/config/framework.c
 	 #so we should set it up first:
+    rm $DIR/.gitignore
     sudo cp --parents $DIR/usr/libexec/pi-web-agent/etc/config/framework.c /
     cd $DIR/usr/libexec/pi-web-agent/cgi-bin/toolkit
     start_compiling
