@@ -67,6 +67,9 @@ compilePWA() {
     cd $DIR/usr/libexec/pi-web-agent/cgi-bin/chrome
     start_compiling
     cd -
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin
+    start_compiling
+    cd -
     #framework.c must be in source form to allow other developers
     #to include it, no need for compiling it
 }
