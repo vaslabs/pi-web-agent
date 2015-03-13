@@ -47,11 +47,15 @@ minifyJS() {
 }
 
 start_compiling() {
+    pwd
+    ls
     for file in $(ls *.c); do
         filename=$(basename $file '.c')
         gcc $file -o "$filename.pwa"
     done
     rm *.c
+    pwd
+    ls
 }
 
 compilePWA() {
