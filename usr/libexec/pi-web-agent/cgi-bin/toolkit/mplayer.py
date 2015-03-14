@@ -16,6 +16,7 @@ sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
 sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import output, view, get_template
 from DependableExtension import DependableExtension
+EXTENSION_ID='Media Player'
 class MediaPlayerManager(DependableExtension):
     def __init__(self):
         DependableExtension.__init__(self, EXTENSION_ID)
@@ -31,6 +32,11 @@ def get_view():
 def main():
     # Serves the mplayer page
     fs = cgi.FieldStorage()
+    mpm = MediaPlayerManager()
+    if (not mpm.check_status()):
+        view.setContent('Media Player', mpm._generateMissingDependenciesView())
+        output(view,fs)
+        return
     content = get_view()
     view.setContent('Mplayer', content)
     

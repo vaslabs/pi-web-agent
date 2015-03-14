@@ -12,7 +12,7 @@ WDIR="usr/libexec/pi-web-agent/css"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
-
+sed -i '/VERSION\=/c\VERSION="'$RELEASE'"' $DIR/usr/libexec/pi-web-agent/etc/config/pi_web_agent.py
 composeFiles() {
     JS_FILE="$2.$2"
     echo "" > $CSS_DIR/$JS_FILE
@@ -36,6 +36,7 @@ appendCSSToHTML() {
     echo "<link rel='stylesheet' href=/css/$1 type='text/css'>" >>$working_directory/$FIRST_MAIN
     cat $FIRST_MAIN >> $working_directory/$FIRST_MAIN
     sudo cp $working_directory/$FIRST_MAIN $FIRST_MAIN
+    sed -i '/Version/c\<div align="center" id="footer">Version: $RELEASE, Copyright © pi-web-agent community 2014' $FIRST_MAIN
 }
 
 minifyCSS() {
@@ -58,11 +59,15 @@ compilePWA() {
 	 #compiled files include the framework.c file 
 	 #from /usr/libexec/pi-web-agent/etc/config/framework.c
 	 #so we should set it up first:
-    sudo cp --parents usr/libexec/pi-web-agent/etc/config/framework.c /
-    cd usr/libexec/pi-web-agent/cgi-bin/toolkit
+    rm $DIR/.gitignore
+    sudo cp --parents $DIR/usr/libexec/pi-web-agent/etc/config/framework.c /
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin/toolkit
     start_compiling
     cd -
-    cd usr/libexec/pi-web-agent/cgi-bin/chrome
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin/chrome
+    start_compiling
+    cd -
+    cd $DIR/usr/libexec/pi-web-agent/cgi-bin
     start_compiling
     cd -
     #framework.c must be in source form to allow other developers
