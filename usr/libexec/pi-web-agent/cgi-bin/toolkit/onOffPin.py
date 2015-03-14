@@ -5,7 +5,6 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/api')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
-from cernvm import Response
 import cgi
 import cgitb
 cgitb.enable()
