@@ -32,6 +32,8 @@ this_install(){
     }
     [ -d /usr/libexec ] || mkdir /usr/libexec
     print_ok
+    echo "checking git setup ..."
+    [ -z "$(command -v git)" ]&& sudo apt-get install git-core ||echo "git already installed"
     echo "initialising submodules ..."
     git submodule update --init --recursive
     print_ok
