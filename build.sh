@@ -73,17 +73,7 @@ compilePWA() {
     #framework.c must be in source form to allow other developers
     #to include it, no need for compiling it
 }
-if [ -z "$RELEASE" ]; then
-	echo -e "This build will \e[0;34m not \e[0m be used for a release"
-else
-	echo -e "This build will be used for Release:\e[0m $RELEASE \e[0m"
-	echo -e "Creating Branch \e[0;34m $RELEASE\e[0m"
-	git checkout -b "$RELEASE"
-	echo "Pushing new branch to origin"
-	git push origin "$RELEASE"
-	echo "Now your branches are:"
-	git branch
-fi;
+
 git submodule update --init --recursive
 js_to_combine="jquery-1.10.2.min.js bootstrap.min.js bootswatch.js knockout.js system_scripts.js dependency_manager.js appDefinitions.js general_purpose_scripts.js framework.js"
 
@@ -112,12 +102,6 @@ cd -
 
 compilePWA
 
-#commit current state
-if [ ! -z "$RELEASE" ]; then
-	git add .
-	git commit -m "Version build for release $RELEASE"
-	git push origin "$RELEASE"
-fi;
 
 
 
