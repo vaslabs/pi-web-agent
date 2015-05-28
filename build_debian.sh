@@ -59,14 +59,23 @@ function cleanBuild {
 		poop "clean build failed"
 	fi
 }
+function removeHiddenSrc {
+	if find ./src/$RELEASENAME -name '.*' ! -name '.' ! -name '..' -exec rm -rf '{}' \; ;then
+		ok "hidden files removed successfully "
+	else
+		poop "Oh parots...I didn't manage to remove those hidden files"
+	fi	
+}
 function tarRelease {
-	if tar -zcvf /tmp/$RELEASENAME.tar.gz ./src/$RELEASENAME\
+	cd ./src/
+	if tar -zcvf /tmp/$RELEASENAME.tar.gz $RELEASENAME \
  	--exclude "./src/$RELEASENAME/.git"\
-	&&mv /tmp/$RELEASENAME.tar.gz ./src/$RELEASENAME/$RELEASENAME.tar.gz ;then
+	&&mv /tmp/$RELEASENAME.tar.gz $RELEASENAME/$RELEASENAME.tar.gz ;then
 		ok "release compression complete"
 	else
 		poop "release compression failed"
 	fi
+	cd $PROJDIR
 }
 ###long description needs a seperate function
 ###as it is multiline
