@@ -156,9 +156,17 @@ cd $PROJDIR
 propertiesToControl
 longDescriptionToControl
 rm src/$RELEASENAME/debian/*.ex
-cp ./postinst src/$RELEASENAME/debian/postinst
-cp ./postinst src/$RELEASENAME/debian/prerm
 
+cp ./buildfiles/debian/postinst src/$RELEASENAME/debian/postinst\
+&&ok "postinst included successfully"|| poop "Oh parrots, fialed to include postinst"
+
+cp ./buildfiles/debian/prerm src/$RELEASENAME/debian/prerm\
+&&ok "prerm included successfully"|| poop "Oh parrots, failed to include prerm"
+
+cp ./buildfiles/debian/copyright src/$RELEASENAME/debian/copyright\
+&&ok "copyright included successfully"|| poop "Oh parrots, failed to include copyright" 
+
+rm src/$RELEASENAME/$RELEASENAME.tar.gz 
 ##commit current state
 #if [ ! -z "$RELEASE" ]; then
 #        git add .
