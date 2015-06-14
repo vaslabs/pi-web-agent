@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-#the perpose of thi script is to traverse 
-#json confiuration files given a set of 
+#the purpose of this script is to traverse 
+#json configuration files given a set of 
 #keys as the path to follow both array
 #indexes and object keys can be used
 
