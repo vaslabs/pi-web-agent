@@ -45,7 +45,7 @@ function poop(){
 	exit 1
 }
 function build {
-	if cd ./src/$RELEASENAME&&sh ./build.sh&&cd $PROJDIR;then
+	if cd ./src/$RELEASENAME&&sh ./build.sh $RELEASE &&cd $PROJDIR;then
 		ok "build complete"
 	else
 		poop "build failed"
@@ -167,6 +167,12 @@ cp ./buildfiles/debian/copyright src/$RELEASENAME/debian/copyright\
 &&ok "copyright included successfully"|| poop "Oh parrots, failed to include copyright" 
 
 rm src/$RELEASENAME/$RELEASENAME.tar.gz 
+rm src/$RELEASENAME/debian/files
+cd src/$RELEASENAME/
+fakeroot dpkg-buildpackage -F
+cd $PROJDIR
+rm bin/*
+cp src/*.deb bin/.
 ##commit current state
 #if [ ! -z "$RELEASE" ]; then
 #        git add .

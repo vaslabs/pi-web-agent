@@ -2,10 +2,10 @@
 	"source": "pi-web-agent",
 	"package": "pi-web-agent",
 	"version": "0.5",
-	"section": "Web Software",
+	"section": "Miscellaneous",
 	"homepage": "http://store.raspberrypi.com/projects/pi-web-agent",
 	"architecture": "any",
-	"depends": "python2.7",
+	"depends": "python2.7, tightvncserver, apache2, libapache2-mod-dnssd, alsa-utils, gcc, libprocps0-dev",
 	"description": "A web application agent for the Raspberry Pi",
 	"longDescription": "The pi-web-agent is a web application that aims to provide a more user friendly way of interacting with the Raspberry Pi and performing basic tasks by eliminating the need of using the command line directly." 
 }
