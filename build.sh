@@ -60,7 +60,7 @@ compilePWA() {
 	 #from /usr/libexec/pi-web-agent/etc/config/framework.c
 	 #so we should set it up first:
     rm $DIR/.gitignore
-    sudo cp --parents $DIR/usr/libexec/pi-web-agent/etc/config/framework.c /
+    sudo cp --parents ./usr/libexec/pi-web-agent/etc/config/framework.c /
     cd $DIR/usr/libexec/pi-web-agent/cgi-bin/toolkit
     start_compiling
     cd -

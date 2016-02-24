@@ -94,7 +94,8 @@ this_install(){
     chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
-    
+    chown -R pi-web-agent /usr/libexec/pi-web-agent/etc
+    chown -R pi-web-agent:pi-web-agent /usr/libexec/pi-webagent/share
     echo "Starting pi-web-agent"
     "/$SERVICE_PATH" start    
 }

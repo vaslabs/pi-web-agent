@@ -170,6 +170,7 @@ rm src/$RELEASENAME/$RELEASENAME.tar.gz
 rm src/$RELEASENAME/debian/files
 cd src/$RELEASENAME/
 fakeroot dpkg-buildpackage -F
+echo $PROJDIR
 cd $PROJDIR
 rm bin/*
 cp src/*.deb bin/.
