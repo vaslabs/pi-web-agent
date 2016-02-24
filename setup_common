@@ -139,6 +139,9 @@ this_install(){
     chmod +x /etc/cron.daily/update-check
     chmod +x /usr/bin/* 
     mkdir "/$SHARE/camera-media"
+    
+    a2enmod authz_groupfile
+
     chown -R pi-web-agent:pi-web-agent "/$SHARE/camera-media"
     
     echo "Starting pi-web-agent"
