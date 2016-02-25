@@ -69,7 +69,7 @@ stop() {
 
 # Check for missing binaries
 apache2_BIN="/usr/sbin/apache2"
-CONFIG_FILE="/etc/pi-web-agent/conf/apache2-appliance.conf"
+CONFIG_FILE="/etc/pi-web-agent/conf/apache2.4-appliance.conf"
 test -x $apache2_BIN || { 
         echo "$update_BIN not installed";
         if [ "$1" = "stop" ]; then exit 0;
