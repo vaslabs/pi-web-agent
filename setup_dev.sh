@@ -88,6 +88,7 @@ this_dev_install(){
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
     ln -s "/usr/lib/apache2/modules" "/$ETC_PATH/modules"
+    ln -s /etc/apache2/mods-enabled "/$ETC_PATH/mods-enabled"
     ln -s "/var/run/httpd" "/$ETC_PATH/run"
     chown -R pi-web-agent "/$APPLICATION_PATH/etc"
     chown -R pi-web-agent:pi-web-agent "/$SHARE"

@@ -1,6 +1,6 @@
 APPLICATION_PATH="usr/libexec/pi-web-agent"
 SERVICE_PATH="etc/init.d/pi-web-agent"
-DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc libprocps0-dev"
+DEPENDENCIES="git tightvncserver apache2 libapache2-mod-dnssd alsa-utils python gcc libprocps3-dev"
 VNC_SERVICE="etc/init.d/vncboot"
 ETC_PATH="etc/pi-web-agent"
 LOGS=/var/log/pi-web-agent
@@ -83,6 +83,7 @@ this_install(){
     /bin/cp -rv "$ETC_PATH" "/$ETC_PATH"
     rm -rf "/$ETC_PATH/modules" "/$ETC_PATH/run"
     ln -s "/usr/lib/apache2/modules" "/$ETC_PATH/modules"
+    ln -s /etc/apache2/mods-enabled "/$ETC_PATH/mods-enabled"
     ln -s "/var/run/httpd" "/$ETC_PATH/run"
     chown -R pi-web-agent "/$APPLICATION_PATH/etc"
     chown -R pi-web-agent:pi-web-agent "/$SHARE"
