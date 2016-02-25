@@ -4,7 +4,7 @@ getContents(spath);
 
 function redir(dirPath) {
     var link = analyzerLoc;
-    var img = $("<img/>").attr("src", '/icons/disk_analysis.png').css({'width':'48px', 'height':'48px'});
+    var img = $("<img/>").attr("src", '/images/disk_analysis.png').css({'width':'48px', 'height':'48px'});
     $("#extension-title").html('');
     $("#extension-title").append(img);
     $("#extension-title").append("Disk Usage Analyzer");
@@ -95,7 +95,7 @@ function camelCase(myAwesomeString) {
 }
 
 function getAppIconHtml(appDescrObj){
-	return '<a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link"><img src="../../icons/'+appDescrObj['icon']+'" width="60" height="60"  /></a><a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link">'+appDescrObj['name']+'</a>'	
+	return '<a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link"><img src="../../images/'+appDescrObj['icon']+'" width="60" height="60"  /></a><a href="javascript:;" class="'+camelCase(appDescrObj['name'])+'link">'+appDescrObj['name']+'</a>'	
 }
 function setClickFroApp(appDescrObj,path){
 	$('a.'+camelCase(appDescrObj['name'])+'link' ).click(function(e){e.preventDefault; appDescrObj['startFunction'].apply(this,[path])});	
