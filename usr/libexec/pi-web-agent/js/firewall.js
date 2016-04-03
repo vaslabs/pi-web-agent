@@ -1,15 +1,15 @@
 function enableProtocolRule() {
     if($("#enableProtocolCheckBox").is(':checked'))
-        $("#selectProtocol").show();  // checked
+        $("div#select-protocol").show();  // checked
     else
-        $("#selectProtocol").hide();  // unchecked
+        $("div#select-protocol").hide();  // unchecked
 }
 
 function enableIPRule() {
     if($("#enableIPCheckBox").is(':checked'))
-        $("#ipAddress").show();  // checked
+        $("div#ip-address").show();  // checked
     else
-        $("#ipAddress").hide();  // unchecked
+        $("div#ip-address").hide();  // unchecked
 }
 
 function initialise_iptables() {
@@ -69,7 +69,7 @@ function firewall_dialog(chain) {
     $('#ip_overlay').remove();
     showDialog('Chain: ' + chain, overlay);
     $('#ip_overlay').data("chain", chain);
-    
+    $('select').material_select(); 
 }
 
 

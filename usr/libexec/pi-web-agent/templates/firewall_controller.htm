@@ -7,27 +7,37 @@
             <h2>Add Rules</h2>
             <form onsubmit="return false;" name="inputRule" id="addRuleID">
                 Choose action<br>
-                <div  style="margin-bottom: 15px;">            
+                <div class="input-field" style="margin-bottom: 15px;">            
                     <select id="selectAction" class="form-control">
                         <option>ACCEPT</option>
                         <option>DROP</option>
                     </select>
                 </div>
                 <div id="protocolRuleOption" style="margin-bottom: 15px;">
-                    <input type="checkbox" id="enableProtocolCheckBox" onclick="enableProtocolRule()"/> Protocol
-                    <select id="selectProtocol" class="form-control">
-                        <option>ALL</option>
-                        <option>TCP</option>
-                        <option>UDPLITE</option>
-                        <option>ICMP</option>
-                        <option>ESP</option>
-                        <option>AH</option>
-                        <option>SCTP</option>
-                    </select>
+                    <p>
+                        <input type="checkbox" id="enableProtocolCheckBox" onclick="enableProtocolRule()"/> 
+                        <label for="enableProtocolCheckBox">Protocol</label>
+                    </p>
+                    <div id="select-protocol" class="input-field">
+                        <select id="selectProtocol" class="form-control">
+                            <option>ALL</option>
+                            <option>TCP</option>
+                            <option>UDPLITE</option>
+                            <option>ICMP</option>
+                            <option>ESP</option>
+                            <option>AH</option>
+                            <option>SCTP</option>
+                        </select>
+                    </div>
                 </div>       
                 <div id="IPRuleOption" style="margin-bottom: 15px;">
-                    <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/> Source Address<br>
-                    <input id="ipAddress" type="text" name="ipaddress">
+                    <p>
+                        <input type="checkbox" id="enableIPCheckBox" onclick="enableIPRule()"/>
+                        <label for="enableIPCheckBox">Source Address</label>
+                    </p>
+                    <div class="input-field" id="ip-address">
+                        <input id="ipAddress" type="text" name="ipaddress">
+                    </div>
                 </div>
                 <button onclick="validateIPField();" class="btn btn-primary">Submit rule</button>
             </form>
