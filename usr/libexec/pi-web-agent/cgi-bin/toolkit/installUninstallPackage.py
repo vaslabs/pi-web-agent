@@ -5,9 +5,9 @@ if 'MY_HOME' not in os.environ:
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/api')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/')
 sys.path.append(os.environ['MY_HOME']+'/cgi-bin/chrome')
+sys.path.append(os.environ['MY_HOME']+'/etc/config')
 from framework import *
 from view import *
-from cernvm import Response
 import cgi
 import cgitb
 from subprocess import Popen, PIPE
@@ -33,9 +33,7 @@ def main():
     elif form['action'].value == 'uninstall' :
         output, errorcode = uninstallPackage(pName)
 
-    response = Response(0)
-        
-    response.buildResponse(errorcode)
-    composeXMLDocument(response.xml)
+    return '{message:"ok"}'
+
 if __name__ == '__main__':
     main()

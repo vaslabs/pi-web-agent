@@ -1,25 +1,6 @@
-<script type="text/javascript" src="/css/gpio.js"></script>
-<div id="data-inout" style="display:none;">
-    <div class="inoutswitch">
-        <input type="checkbox" id="" onclick="submit_gpio_direction(this)" class="inoutswitch-checkbox" name="" value="0">
-        <label class="inoutswitch-label" for="">
-            <div class="inoutswitch-inner"></div>
-            <div class="inoutswitch-switch"></div>
-        </label>
-    </div>
-</div>
-<div id="data-onoff" style="display:none;">
-    <div class="onoffswitch">
-        <input type="checkbox" id="" onclick="submit_gpio_value(this)" class="onoffswitch-checkbox" name="" value="0">
-        <label class="onoffswitch-label" for="">
-            <div class="onoffswitch-inner"></div>
-            <div class="onoffswitch-switch"></div>
-        </label>
-    </div>
-</div>
-
+<script type="text/javascript" src="/js/gpio.js"></script>
 <div id="gpio_area">
-    <table id="gpio_table" cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
+    <table id="gpio_table" class="striped" cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
         <tr>
             <th>DIRECTION</th>
             <th>VALUE</th>
