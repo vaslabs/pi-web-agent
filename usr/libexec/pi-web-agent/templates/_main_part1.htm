@@ -43,7 +43,7 @@
             ul.side-nav.fixed li.logo {
                 text-align: center;
                 margin-top: 32px;
-                margin-bottom: 80px;
+                margin-bottom: 20px;
             }
         </style>
 
@@ -62,8 +62,12 @@
                 <a class="page-title">pi-web-agent</a></div>
             </div>
             <ul id="slide-out" class="side-nav fixed">
-            <li class="logo"><a id="logo-container" href="/" class="brand-logo">
-              <img src="/images/logo.png" width="64" height="64" align="left">
+            <li class="logo">
+                <div class="row">
+                    <div class="column s12">                    
+                        <img src="/images/logo.png" width="128" height="128">
+                    </div>                    
+                </div>
             </li>
               <li class="no-padding">
                 <ul class="collapsible collapsible-accordion" data-bind="foreach: $root.catnames">
