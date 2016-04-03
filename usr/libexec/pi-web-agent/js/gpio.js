@@ -92,12 +92,12 @@ function getInOutWidget(pin) {
         input$ = $(input$).prop('disabled', true);
     }
     var divSwitch$ = '<div class="switch"></div>';
-    var label$ = '<label>off</label>';
+    var label$ = '<label>in</label>';
     label$ = $(label$).append(input$);
     var span$ = '<span class="lever"></span>';
 
     label$ = $(label$).append(span$);
-    label$ = $(label$).append('on');
+    label$ = $(label$).append('out');
 
     divSwitch$ = $(divSwitch$).append(label$); 
     
