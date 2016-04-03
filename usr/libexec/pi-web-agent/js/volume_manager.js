@@ -47,9 +47,9 @@ function renderControlsUI(data) {
         if (index == 0) {
             option$ = $(option$).attr('selected', 'selected');
         }
-        $('#control_list').append(option$);
+        $('select#control_list').append(option$);
     });
-    selectMenu = $("#control_list").selectmenu();
+    $('select').material_select();
     if (data.length > 0) {
         url = '/cgi-bin/toolkit/volume_api.py?op=get_vol&mixer=' + data[0];
         getJSONResponse(url, create_controls);
