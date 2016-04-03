@@ -1,5 +1,8 @@
 This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
 
+If you are looking for a Raspbian jessie working version of pi-web-agent source code go to:
+https://github.com/vaslabs/pi-web-agent/tree/feature/%23138_supportApache2.4
+
 For users:
 Install this application to your Raspberry Pi via the pistore:
 http://store.raspberrypi.com/projects/pi-web-agent
