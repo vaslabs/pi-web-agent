@@ -72,13 +72,11 @@ $(function() {
     };
     var view = new View();
     ko.applyBindings(view, document.getElementById("awesome-navbar"));
-$('.button-collapse').sideNav({
-      menuWidth: 340, // Default is 240
-      edge: 'right', // Choose the horizontal origin
-    }
-  );
-     
-
+    $('.button-collapse').sideNav({
+          menuWidth: 340, // Default is 240
+          edge: 'right', // Choose the horizontal origin
+        }
+      );
     
 });
 
