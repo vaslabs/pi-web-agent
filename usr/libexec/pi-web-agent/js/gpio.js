@@ -49,27 +49,29 @@ function getOnOffWidget(pin) {
         else
             return '<td><span class="label label-warning">' + pin['Name'].trim() + '</span></td>';
     }
+    var input$ = '<input type="checkbox" onclick="submit_gpio_value(this)">';
     
-    var onoff$ = $("#data-onoff").html();
-
-    var label = $(onoff$).find('label').attr('for', 'wPiV-'+pin['wPi']);
-    var input = $(onoff$).find('input');
-    input = $(input).prop('checked', pin['Val'] == 1);
-    input = $(input).attr('id', 'wPiV-'+pin['wPi']);
-    input = $(input).attr('name', pin['Name'].trim());
-    input = $(input).data('wPi', pin['wPi']);
-    
+    input$ = $(input$).prop('checked', pin['Val'] == "1");
+    input$ = $(input$).attr('name', pin['Name'].trim());
+    input$ = $(input$).attr('direction', pin['Mode'].trim());
+    input$ = $(input$).attr('id', 'wPiV-'+pin['wPi']);
     if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
-        input = $(input).prop('disabled', true);
+        input$ = $(input$).prop('disabled', true);
     }
-    onoff$ = $(onoff$).html(input);
-    onoff$ = $(onoff$).append(label);
-    var tdOnOff$ = "<td></td>";
-    tdOnOff$ = $(tdOnOff$).append(onoff$);
+    var divSwitch$ = '<div class="switch"></div>';
+    var label$ = '<label>off</label>';
+    label$ = $(label$).append(input$);
+    var span$ = '<span class="lever"></span>';
+
+    label$ = $(label$).append(span$);
+    label$ = $(label$).append('on');
+
+    divSwitch$ = $(divSwitch$).append(label$); 
     
+    var tdInOut$ = "<td></td>";
+    tdInout$ = $(tdInOut$).append(divSwitch$);
     
-    
-    return tdOnOff$;
+    return tdInout$;
 }
 
 function getInOutWidget(pin) {
@@ -79,43 +81,33 @@ function getInOutWidget(pin) {
         else
             return '<td><span class="label label-warning">' + pin['Name'].trim() + '</span></td>';
     }
+
+    var input$ = '<input type="checkbox" onclick="submit_gpio_direction(this)">';
     
-    var inout$ = $("#data-inout").html();
+    input$ = $(input$).prop('checked', pin['Mode'] == "OUT");
+    input$ = $(input$).attr('name', pin['Name'].trim());
+    input$ = $(input$).attr('direction', pin['Mode'].trim());
+    input$ = $(input$).attr('id', 'wPiD-'+pin['wPi']);
+    if (pin['Mode'] != 'IN' && pin['Mode'] != 'OUT') {
+        input$ = $(input$).prop('disabled', true);
+    }
+    var divSwitch$ = '<div class="switch"></div>';
+    var label$ = '<label>off</label>';
+    label$ = $(label$).append(input$);
+    var span$ = '<span class="lever"></span>';
+
+    label$ = $(label$).append(span$);
+    label$ = $(label$).append('on');
+
+    divSwitch$ = $(divSwitch$).append(label$); 
     
-    var label = $(inout$).find('label').attr('for', 'wPiD-'+pin['wPi']);
-    var input = $(inout$).find('input');
-    input = $(input).prop('checked', pin['Mode'] == "OUT");
-    input = $(input).attr('name', pin['Name'].trim());
-    input = $(input).attr('direction', pin['Mode'].trim());
-    input = $(input).attr('id', 'wPiD-'+pin['wPi']);
-    inout$ = $(inout$).html(input);
-    inout$ = $(inout$).append(label);
     var tdInOut$ = "<td></td>";
-    tdInout$ = $(tdInOut$).append(inout$);
+    tdInout$ = $(tdInOut$).append(divSwitch$);
     
     return tdInout$;
 }
 
 function gpio_clear() {
-    /*var url='/cgi-bin/toolkit/onOffPin.py?cmd=cleanup'
-    var value='0';
-    $('#gpio_table').remove();
-    var info=getResponse(url, null);
-    result = info;
-    var xmlDoc = result,
-    $xml = $( xmlDoc ),
-    $title = $xml.find("response");
-    value = $title.text();
-    if (value == 0) {
-        html_message = '<div class="success" id="user_message">Successful clean up</div>';
-    } 
-    else {
-        html_message = '<div class="error" id="user_message">Cleanup failed</div>';
-    }
-    
-    $('#user_space').prepend(html_message);
-    setTimeout(function() { location.reload(); }, 1000);
-    */
     alert("The cleanup is problematic for the moment, it may hung your Pi. Remember to set the inputs you switched on to IN mode");
 }
 
