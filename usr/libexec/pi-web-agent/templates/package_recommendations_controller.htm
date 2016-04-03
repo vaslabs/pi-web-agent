@@ -2,13 +2,14 @@
     <td data-bind="text: pname"></td>
     <td>
         <!-- ko if: (installed() != null) -->
-        <div class="on_off_switch">
-            <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: !installed(), click: submit_package" class="on_off_switch-checkbox">
-            <label class="on_off_switch-label" data-bind="attr: {for: pname}">
-                <div class="on_off_switch-inner"></div>
-                <div class="on_off_switch-switch"></div>
-            </label>
-        </div>
+
+            <div class="switch">
+                <label>
+                  Installed
+                  <input type="checkbox" data-bind="attr: {name: pname, id: pname}, checked: installed(), click: submit_package">
+                  <span class="lever"></span>
+                </label>
+            </div>
         <!-- /ko -->
         <!-- ko if: (installed() == null) -->
         <div class="progress progress-striped active"><div class="progress-bar progress-bar-info " style="width: 100%"></div></div>
