@@ -13,7 +13,7 @@ function navigate(link) {
 }
 
 function animationBar() {
-    return '<div id="b-pb" class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div>'
+    return '<div id="b-pb" class="progress"><div class="indeterminate"></div></div>'
 }
 
 function check_for_updates() {
