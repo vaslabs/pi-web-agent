@@ -52,7 +52,6 @@ function View() {
     self.fetchViewData();
     
 }
-var showing = false;
 
 $(function() {
     ko.bindingHandlers.foreachprop = {
@@ -79,12 +78,10 @@ $(function() {
           edge: 'right', // Choose the horizontal origin
         }
       );
-
+    
     $('#menu-controller').click(function() {
-        var status = showing ? 'hide' : 'show';
         console.log(status);
-        $('.button-collapse').sideNav( status );
-        showing = !showing;  
+        $('.button-collapse').sideNav( 'show' );
     });
     
 });
