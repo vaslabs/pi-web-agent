@@ -22,27 +22,20 @@
 
                 z-index: 8000;
             }
-			#footer {
-			  clear: both;
-			  height: 3em;
-			  line-height: 3em;
-			  position: relative;
-			  z-index: 10;
-			}
-            footer{
-	            width: 100%;
-	            position: fixed;
-	            bottom: 0px; 
-	            height: 3em; 
-	            background-color: rgba(255, 255, 255, 0.6);
-            }
+            body {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+              }
+
+              main {
+                flex: 1 0 auto;
+              }
             nav a.page-title {
                 font-size: 48px;
             }
-            ul.side-nav.fixed li.logo {
-                text-align: center;
-                margin-top: 32px;
-                margin-bottom: 20px;
+            footer {
+                padding-top: 0px !important;
             }
         </style>
 
@@ -51,10 +44,11 @@
     <script type="text/html" id="dropdown-menu-template">
         
     </script>
-    <body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+    <body>
         <header id="overview">
             
         </header>
+        <main>
         <nav id="awesome-navbar">
             <div class="container">
               <div class="nav-wrapper">
