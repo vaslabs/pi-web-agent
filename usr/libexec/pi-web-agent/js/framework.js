@@ -52,6 +52,7 @@ function View() {
     self.fetchViewData();
     
 }
+
 $(function() {
     ko.bindingHandlers.foreachprop = {
         transformObject: function (obj) {
@@ -72,11 +73,16 @@ $(function() {
     };
     var view = new View();
     ko.applyBindings(view, document.getElementById("awesome-navbar"));
-    $('.button-collapse').sideNav({
+      $('.button-collapse').sideNav({
           menuWidth: 340, // Default is 240
           edge: 'right', // Choose the horizontal origin
         }
       );
+    
+    $('#menu-controller').click(function() {
+        console.log(status);
+        $('.button-collapse').sideNav( 'show' );
+    });
     
 });
 
