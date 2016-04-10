@@ -8,20 +8,20 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 echo "setting up yui compressor ..."
 [ ! -f ~/yuicompressor-2.4.8.jar ] && cd ~ && { curl -O -L https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar ; cd -; }
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
-WDIR="usr/libexec/pi-web-agent/"
-JS_DIR="usr/libexec/pi-web-agent/js"
+JS_DIR="$working_directory/usr/libexec/pi-web-agent/js"
+WDIR="usr/libexec/pi-web-agent"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
 sed -i '/VERSION\=/c\VERSION="'$RELEASE'"' $DIR/usr/libexec/pi-web-agent/etc/config/pi_web_agent.py
 composeFiles() {
-    JS_FILE="$2.$2"
-    echo "" > $2/$JS_FILE
-    for part in $1; do
-        cat $WDIR/$2/$part >>$2/$JS_FILE
+    JS_FILE="temp-$(date +%s).$2"
+    echo "" > $working_directory/$WDIR/$2/$JS_FILE
+    for file in $1; do
+        cat $WDIR/$2/$file >>$working_directory/$WDIR/$2/$JS_FILE
     done
-    md5=$(md5sum $2/$JS_FILE | cut -d ' ' -f 1)
-    mv $2/$JS_FILE $JS_DIR/${md5}.$2
+    md5=$(md5sum $working_directory/$WDIR/$2/$JS_FILE | cut -d ' ' -f 1)
+    mv $working_directory/$WDIR/$2/$JS_FILE $working_directory/$WDIR/$2/${md5}.$2
     echo ${md5}.$2
 }
 
