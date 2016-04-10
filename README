@@ -1,90 +1,37 @@
+#Description
+
 This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
 
-If you are looking for a Raspbian jessie working version of pi-web-agent source code go to:
-https://github.com/vaslabs/pi-web-agent/tree/feature/%23138_supportApache2.4
 
-For users:
-Install this application to your Raspberry Pi via the pistore:
-http://store.raspberrypi.com/projects/pi-web-agent
+#Raspbian Jessie
 
-The product can be installed on the Raspberry Pi. Then run:
-sudo /etc/init.d/pi-web-agent start
-to start the apache2 instance that serves the application.
-Access the appliation via:
-https://raspberrypi:8003
-Default username and password is admin. If raspberrypi does not work on the browser address bar use
-the full ip as your internet router may not match the hostnames.
+Get release from:
 
-This product is in beta version. Report any problems to help us make the final release soon.
+https://github.com/vaslabs/pi-web-agent/releases/tag/0.4-rc-2_jessie
+
+If you want to try out the pre-release of the new user interface get it from:
+
+https://github.com/vaslabs/pi-web-agent/releases/tag/0.5_pre
 
 
-Video: https://www.youtube.com/watch?v=gdFHKbmvGNQ
+#Raspbian Wheezy
+Get release from:
 
-Supported browsers:
-Chrome
-Firefox
+https://github.com/vaslabs/pi-web-agent/releases/tag/0.4-rc-2
 
-Verified to work browsers:
-Safari
-Safari-IPad
-
-If you tried this application on a different browser please inform us about the results at vaslabsco@gmail.com
-
-====dependencies====
-apache2
-libapache2-mod-dnssd
-tightvnc
-vlc
-mplayer
+This is the last release that supports Raspbian Wheezy
 
 
-== Developer Information ==
-If you are a developer and you want to test or work on this project you don't need to work on a raspberrypi. You just need
-a virtual machine that runs something similar to the raspberry pi Raspbian. Here is how we did it:
+# How to install
 
-1. Download and install Virtual box. Install a debian distribution, it does not matter if it is x86 architecture. 
-Download this image https://www.dropbox.com/s/0lkkau03ar3pqip/RaspberryPi.ova and open it with VirtualBox. 
-It is good enough for basic development and testing. Default credentials are:
-Username: rpi
-Password: password
-
-2. Install git (sudo apt-get install git-core)
-Clone the project (git clone https://github.com/vaslabs/pi-web-agent)
-Go into the directory (pi-web-agent), there is a file setup_dev.sh. Run sudo ./setup_dev.sh install . 
-If that fails run sudo ./setup_dev.sh reinstall . It should work by also installing some of the dependencies. You have to install
-manually (at the moment) the dependencies described just above (sudo apt-get install apache2 libapache2-mod-dnssd) etc...
-
-3. Start the pi-web-agent service: sudo service pi-web-agent start
-
-4. Set up a host only adapter on your virtual box if you want to access it from your normal browser. 
-The ip to access the application from a browser inside the virtual machine is: http://127.0.0.1:8004
-The ip to access the application from your PC (the host) is https://192.168.56.101:8003 if you set up things correctly (see
-below how to set up network interface)
-
-== How to set up the network interface ==
-1. Shut down the virtual machine that runs the Ubuntu mod. From the Virtual box program go to File->preferences->Network
-and add a host only adapter if there is not already one in the list.
-2. Select the RaspberryPi virtual machine and press settings. Go to network->adapter2 and select host-only-adapter option
-at the Attached to. Select your host only adapter you created on step 1 if it is not already selected and press ok.
-OR use VBOXManage:
-1. $ VBoxManage hostonlyif create
-2. $ VBoxManage modifyvm "RaspberryPi" --nic2 hostonly 
-
-3. Launch the RaspberryPi Virtual Machine again and then:
-  a) open terminal (inside the VM)
-  b) check the interface that is down ifconfig -a (eth1 or eth2)
-  c) sudo nano /etc/network/interfaces
-  d) copy paste this below the other content of the file
-    # The host-only network interface
-    auto eth1
-    iface eth1 inet static
-    address 192.168.56.101
-    netmask 255.255.255.0
-    network 192.168.56.0
-    broadcast 192.168.56.255
-OR run hostonlyifconfig.sh
-4. Reboot (or restart the network service)
-
-Now you can access the application via your browser on your host pc that runs the virtual machine by putting in the
-address bar:
-https://192.168.56.101:8003
+ssh to your pi and wget the release zip. E.g. for 0.5 do:
+```shell
+wget https://github.com/vaslabs/pi-web-agent/archive/0.5_pre.zip
+```
+Then unzip the downloaded file and go to the unzipped directory. Then run install.sh.
+E.g. for the above example:
+```shell
+unzip 0.5_pre.zip
+cd 0.5_pre
+./install.sh
+```
