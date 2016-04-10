@@ -82,6 +82,7 @@ css_to_combine="materialize.min.css jquery-ui.min.css system/css/system.css"
 
 
 mkdir -p $CSS_DIR
+mkdir -p $JS_DIR
 
 COMBINED_JS=$(composeFiles "$js_to_combine" "js")
 COMBINED_CSS=$(composeFiles "$css_to_combine" "css")
