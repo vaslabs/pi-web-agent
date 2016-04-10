@@ -139,14 +139,18 @@ function closeDialog() {
 }
 
 function popSuccessMessage(msg) {
-    var dialog = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>' +
-              '<strong>Success</strong>' + msg + '.</div>'
-    $("#extension-main-view").prepend(dialog);
+    if (msg == null || msg == "")
+        msg = "Success";
+    else
+        msg = 'Success: ' + msg;
+    Materialize.toast(msg, 3000, 'rounded');
 }
 
 
 function popFailMessage(msg) {
-    var dialog = '<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
-              '<strong>Failed: </strong>' + msg + '.</div>'
-    $("#extension-main-view").prepend(dialog);
+    if (msg == null || msg == "")
+        msg = "Unexpected failure!";
+    else
+        msg = 'Error: ' + msg;
+    Materialize.toast(msg, 3000, 'rounded');
 }
