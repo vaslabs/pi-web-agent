@@ -8,24 +8,25 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 echo "setting up yui compressor ..."
 [ ! -f ~/yuicompressor-2.4.8.jar ] && cd ~ && { curl -O -L https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar ; cd -; }
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
-WDIR="usr/libexec/pi-web-agent/css"
+JS_DIR="$working_directory/usr/libexec/pi-web-agent/js"
+WDIR="usr/libexec/pi-web-agent"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
 sed -i '/VERSION\=/c\VERSION="'$RELEASE'"' $DIR/usr/libexec/pi-web-agent/etc/config/pi_web_agent.py
 composeFiles() {
-    JS_FILE="$2.$2"
-    echo "" > $CSS_DIR/$JS_FILE
-    for part in $1; do
-        cat $WDIR/$part >>$CSS_DIR/$JS_FILE
+    JS_FILE="temp-$(date +%s).$2"
+    echo "" > $working_directory/$WDIR/$2/$JS_FILE
+    for file in $1; do
+        cat $WDIR/$2/$file >>$working_directory/$WDIR/$2/$JS_FILE
     done
-    md5=$(md5sum $CSS_DIR/$JS_FILE | cut -d ' ' -f 1)
-    mv $CSS_DIR/$JS_FILE $CSS_DIR/${md5}.$2
+    md5=$(md5sum $working_directory/$WDIR/$2/$JS_FILE | cut -d ' ' -f 1)
+    mv $working_directory/$WDIR/$2/$JS_FILE $working_directory/$WDIR/$2/${md5}.$2
     echo ${md5}.$2
 }
 
 appendJSToHTML() {
-    echo "<html><head><script src='/css/$1'></script>" > $working_directory/$FIRST_MAIN
+    echo "<html><head><script src='/js/$1'></script>" > $working_directory/$FIRST_MAIN
     
 }
 
@@ -40,11 +41,11 @@ appendCSSToHTML() {
 }
 
 minifyCSS() {
-    java -jar yuicompressor-2.4.8.jar --type css $CSS_DIR/$1 > $DIR/$WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type css $CSS_DIR/$1 > $DIR/$WDIR/css/$1
 }
 
 minifyJS() {
-    java -jar yuicompressor-2.4.8.jar --type js $CSS_DIR/$1 > $DIR/$WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type js $JS_DIR/$1 > $DIR/$WDIR/js/$1
 }
 
 start_compiling() {
@@ -75,9 +76,9 @@ compilePWA() {
 }
 
 git submodule update --init --recursive
-js_to_combine="jquery-1.10.2.min.js bootstrap.min.js bootswatch.js knockout.js system_scripts.js dependency_manager.js appDefinitions.js general_purpose_scripts.js framework.js"
+js_to_combine="jquery-2.1.1.min.js materialize.min.js knockout.js system_scripts.js dependency_manager.js appDefinitions.js general_purpose_scripts.js framework.js"
 
-css_to_combine="blueprint/screen.css bootstrap.css installUninstallSwitch.css system/css/system.css"
+css_to_combine="materialize.min.css jquery-ui.min.css system/css/system.css"
 
 
 mkdir -p $CSS_DIR
