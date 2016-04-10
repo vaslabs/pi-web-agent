@@ -76,12 +76,17 @@ $(function() {
       $('.button-collapse').sideNav({
           menuWidth: 340, // Default is 240
           edge: 'right', // Choose the horizontal origin
+          closeOnClick: window.screen.width <= 768
         }
       );
     
     $('#menu-controller').click(function() {
         console.log(status);
         $('.button-collapse').sideNav( 'show' );
+    });
+
+    $('#menu-refresh').click(function() {
+        navigate(document.URL + '?type=js')
     });
     
 });
