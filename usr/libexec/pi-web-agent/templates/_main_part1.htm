@@ -32,7 +32,7 @@
                 flex: 1 0 auto;
               }
             nav a.page-title {
-                font-size: 48px;
+                font-size: 32px;
             }
             footer {
                 padding-top: 0px !important;
@@ -53,8 +53,12 @@
             <div class="container">
               <div class="nav-wrapper">
                 <a class="page-title">pi-web-agent</a>
-                <ul class="right hide-on-med-and-up">
+                <ul class="right show-on-medium-and-down">
                     <li><a id="menu-controller" href="#"><i class="material-icons">view_module</i></a></li>
+                </ul>
+                <ul class="left">
+                    <li><a id="refresh"><i class="material-icons">replay</i></a></li>
+                    <li><a href="/"><i class="material-icons">web</i></a></li>
                 </ul>
               </div>
             </div>
@@ -91,31 +95,9 @@
 
             </nav>
         <div class="container">
-            <div style="position: absolute; left: 0;">
-                    <div class="hide-on-med-and-down" style="padding: 8px 0;">   
-                        <ul id="pwa-live-info" class="nav nav-list">
-                            <li class="nav-header">Information</li></hl>       
-                            <li class="divider"></li>
-                            <li id="li_kernel">Kernel: </li>
-                            <li class="nav-list-space"></li>
-                            <li id="li_hostname">Hostname: </li></hl>
-                            <li class="divider"></li>
-                            <li id="li_memory">Memory: </li>
-                            <li class="nav-list-space"></li>
-                            <li id="li_swap">Swap: </li></hl>
-                            <li class="divider"></li>
-                            <li id="li_hard_drive">Hard Drive: </li></hl>
-                            <li class="divider"></li>
-                            <li id="li_update">Update</li>
-                            <li class="nav-list-space"></li>
-                            <li id="li_temp">Temperature</li>
-                        </ul>
-                    </div>
-            </div>
             <div class="row">
-
-            <div class="col s11">
-                
-                <h2 id="extension-title"></h2>
-                <div id="extension-main-view">
-                <div id="progress-ui"></div>
+                <div class="col s11">
+                    
+                    <h2 id="extension-title"></h2>
+                    <div id="extension-main-view">
+                    <div id="progress-ui"></div>

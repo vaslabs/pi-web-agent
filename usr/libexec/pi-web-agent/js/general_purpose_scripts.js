@@ -6,7 +6,7 @@ $(function(){
 function getMemoryInfo(usage) {
      //stab TODO
      //var usage =   Math.floor((Math.random()*100));
-     var msg = "Mem usage: " + Math.round(usage*100) + "%";
+     var msg = "Memory: " + Math.round(usage*100) + "%";
      html = generateCriticalMessage(usage, msg);  
      $('#li_memory').html(html);
     
@@ -24,7 +24,7 @@ function check_update() {
 function getTempInfo(temp) {
     //stab TODO
     //var usage =   Math.floor((Math.random()*100));
-    var msg = "Temperature: " + Math.round(temp);
+    var msg = "Temp: " + Math.round(temp);
     if  (temp == 'N/A')
         html = generateCriticalMessage(86, msg);        
     else if (temp > 65)    
@@ -32,7 +32,7 @@ function getTempInfo(temp) {
     else if (temp > 55)
         html = generateCriticalMessage(86, msg + "'C");
     else if (temp == null)
-	html = '<span class="label label-info"> Temperature: N/A</span>';
+	html = '<div class="chip orange">Temp: N/A</div>';
     else
         html = generateCriticalMessage(10, msg + "'C");  
     $('#li_temp').html(html);
@@ -40,13 +40,10 @@ function getTempInfo(temp) {
 
 function getSwapInfo(usage) {
     //stab TODO
-     //var usage =   Math.floor((Math.random()*100));
-     var usg = 0;
-     if (usage > 0) {
-        usg=usage*10;
-     }
-     var msg = "Swap usage: " + Math.round(usage*100) + "%";
-     if (usage < 0) {
+     //var usage =   Math.random();
+     usg = usage*100;
+     var msg = "Swap usage: " + Math.round(usg) + "%";
+     if (usg < 0) {
         msg = "No swap space";
         usg=0;
      }
@@ -69,7 +66,7 @@ function getUpdateCheck(info) {
         html = generateCriticalMessage(86, "Updates available");
     }
     else
-        html = generateCriticalMessage(0, "System is up to date");
+        html = generateCriticalMessage(0, "Up to date");
 
     $('#li_update').html(html);
 }
@@ -77,16 +74,18 @@ function getUpdateCheck(info) {
 
 function generateCriticalMessage(usage, msg) {
 
-    var span = "label label-success";
+    var span = "chip green";
     if (usage >= 95)
     {
-        span = "label label-danger";
+        span = "chip red";
     }
     else if (usage >= 85) {
-        span="label label-warning";
+        span="chip orange";
+    } else if (usage == 'N/A') {
+        span="chip orange";
     }
-    var html = '<span class="'+span+'">' + msg +
-    '</span>';
+    var html = '<div class="'+span+'">' + msg +
+    '</div>';
     return html; 
 }
 
@@ -137,8 +136,8 @@ function getJSONResponse(jsurl, method_call) {
 
 function getKernelInfo(info) {
     //stab TODO
-    var html='<span class="label label-info">\nKernel: <br>\n'+
-    info+'\n</span>\n';
+    var html='<div class="chip blue">Kernel: '+
+    info+'</div>';
     $('#li_kernel').html(html);
     
 }   
@@ -146,8 +145,8 @@ function getKernelInfo(info) {
 function getHostnameInfo(info) {
     //stab TODO
 
-    html='<span class="label label-info">\nHostname: <br>'+
-    info+'\n</span>\n';
+    html='<div class="chip blue">Lan IP:'+
+    info+'</span>';
     $('#li_hostname').html(html);
 }
 
