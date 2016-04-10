@@ -12,9 +12,12 @@
     </div>
 </div>
 <br>
-<select class="form-control" id="startupList">
+<div class="input-field">
+    <select id="startupList">
+
     
-</select>
+    </select>
+</div>
 <br>
 <button onclick="removeScript()" class="btn btn-danger">Remove script from startup</button>
 
@@ -49,6 +52,7 @@
             var option = '<option value="' + index + '">' + value['script'] + ' ' + value['args'] + '</option>';
             $('#startupList').append(option);
         });
+        $('select').material_select();
         endProcessing();
     }
     
