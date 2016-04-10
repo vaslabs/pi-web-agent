@@ -9,6 +9,7 @@ echo "setting up yui compressor ..."
 [ ! -f ~/yuicompressor-2.4.8.jar ] && cd ~ && { curl -O -L https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.jar ; cd -; }
 CSS_DIR="$working_directory/usr/libexec/pi-web-agent/css"
 WDIR="usr/libexec/pi-web-agent/css"
+JS_DIR="usr/libexec/pi-web-agent/js"
 LAST_MAIN="usr/libexec/pi-web-agent/templates/_main_part2.htm"
 FIRST_MAIN="usr/libexec/pi-web-agent/templates/_main_part1.htm"
 TEMPLATE_DIR="$working_directory/usr/libexec/pi-web-agent/templates"
@@ -25,7 +26,7 @@ composeFiles() {
 }
 
 appendJSToHTML() {
-    echo "<html><head><script src='/css/$1'></script>" > $working_directory/$FIRST_MAIN
+    echo "<html><head><script src='/js/$1'></script>" > $working_directory/$FIRST_MAIN
     
 }
 
@@ -44,7 +45,7 @@ minifyCSS() {
 }
 
 minifyJS() {
-    java -jar yuicompressor-2.4.8.jar --type js $CSS_DIR/$1 > $DIR/$WDIR/$1
+    java -jar yuicompressor-2.4.8.jar --type js $JS_DIR/$1 > $DIR/$JS_DIR/$1
 }
 
 start_compiling() {
@@ -75,9 +76,9 @@ compilePWA() {
 }
 
 git submodule update --init --recursive
-js_to_combine="jquery-1.10.2.min.js bootstrap.min.js bootswatch.js knockout.js system_scripts.js dependency_manager.js appDefinitions.js general_purpose_scripts.js framework.js"
+js_to_combine="jquery-2.1.1.min.js materialize.min.js knockout.js system_scripts.js dependency_manager.js appDefinitions.js general_purpose_scripts.js framework.js"
 
-css_to_combine="blueprint/screen.css bootstrap.css installUninstallSwitch.css system/css/system.css"
+css_to_combine="materialize.min.css jquery-ui.min.css system/css/system.css"
 
 
 mkdir -p $CSS_DIR
