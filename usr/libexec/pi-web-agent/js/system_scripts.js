@@ -54,7 +54,6 @@ function update_check_completed(info) {
     else {
         $("#updates").append('Version: ' + info['tag_name'] + '<br>');
         $("#updates").append(info['body'].replace(/\n/g,"<br>") + '<br><br>');
-        $("#updates").append('<button class="btn btn-info" type="button" onclick="update_app()" id="update_button">Update</button>');
     }
     endProcessing();
 
