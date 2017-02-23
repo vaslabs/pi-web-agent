@@ -31,3 +31,14 @@ unzip 0.5.zip
 cd 0.5
 ./install.sh
 ```
+# Troubleshooting
+There's bin a report about the cgi daemon not starting. The following commands solve the issue.
+```
+sudo a2dismod mpm_event
+sudo a2enmod mpm_prefork
+sudo service pi-web-agent restart
+
+sudo a2enmod cgi
+
+service pi-web-agent restart
+```
