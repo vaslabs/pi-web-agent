@@ -12,6 +12,6 @@
 
 ## Specifications
 
-  - Version:
-  - Platform:
-  - Subsystem:
+  - Raspberry Version:
+  - Raspbian Version:
+  - Pi Web Agent Version:
