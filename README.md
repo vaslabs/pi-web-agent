@@ -42,3 +42,13 @@ sudo a2enmod cgi
 
 service pi-web-agent restart
 ```
+
+Installation not working:
+- a2dismod not found:
+```
+sudo apt-get install apache2
+```
+
+- Due to a comment in Apache config:
+Open the file and remove the comment on line 42
+
