@@ -1,10 +1,10 @@
 {
     "pi-web-agent": {
         "version": "1.0",
-        "actions": {
-            "System Information": {
+        "actions": [
+            {
                 "title": "System Information",
-                "url": "/cgi-bin/toolkit/main.py?page=System+Information&type=js",
+                "identifier": "system-information",
                 "command-group": [
                     [
                         {
@@ -35,9 +35,9 @@
                     ]
                 ]
             },
-            "Running Processes": {
+            {
                 "title": "Processes",
-                "url": "/cgi-bin/toolkit/main.py?page=Running+Processes&type=js",
+                "identifier": "running-processes",
                 "command-group": [
                     [
                         {
@@ -48,9 +48,9 @@
                     ]
                 ]
             },
-            "Scheduled Tasks": {
+            {
                 "title": "Scheduled Tasks",
-                "url": "/cgi-bin/toolkit/main.py?page=Scheduled+Tasks&type=js",
+                "identifier": "scheduled-tasks",
                 "command-group": [
                     [
                         {
@@ -87,6 +87,6 @@
                     ]
                 ]
             }
-        }
+        ]
     }
 }
