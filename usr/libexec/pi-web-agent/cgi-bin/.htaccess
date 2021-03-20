@@ -1,5 +1,0 @@
-AuthName "Pi web agent (default credentials=admin/admin)"
-AuthType Basic 
-AuthUserFile /usr/libexec/pi-web-agent/.htpasswd
-AuthGroupFile /dev/null 
-require user admin
