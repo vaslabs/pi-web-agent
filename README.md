@@ -1,4 +1,4 @@
-![sanity build](https://github.com/github/docs/actions/workflows/sanity.yml/badge.svg?branch=remaster)
+![sanity build](https://github.com/vaslabs/pi-web-agent/actions/workflows/sanity.yml/badge.svg?branch=remaster)
 
 
 # Description
