@@ -1,0 +1,1 @@
+Will contain the angular build, keeping the old code in here for reference but all directories will be removed.
