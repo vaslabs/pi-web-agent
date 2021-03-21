@@ -12,7 +12,7 @@ func main() {
 		io.WriteString(w, "Hello, world!\n")
 	}
 	// Simple static webserver:
-	http.HandleFunc("/action/", dummyHandler)
+	http.HandleFunc("/api/action/", dummyHandler)
 	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

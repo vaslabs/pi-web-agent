@@ -4,7 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+(Ensure that you have associated pi web agent address with the name `rpi` in `/etc/hosts` first, 
+so that /api requests can be proxied to your raspberry pi)
 
 ## Code scaffolding
 
