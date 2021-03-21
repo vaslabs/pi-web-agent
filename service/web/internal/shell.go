@@ -7,19 +7,11 @@ import (
 	"os/exec"
 )
 
-func RunWithInput(input *bytes.Buffer, command string, arg ...string) *bytes.Buffer {
+func RunWithInput(input *bytes.Buffer, out *bytes.Buffer, command string, arg ...string) {
 	cmd := exec.Command(command, arg...)
 	cmd.Stdin = bufio.NewReader(input)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	return &out
-}
-
-func RunBufferedOutput(input *bytes.Buffer, command string, arg ...string) *bytes.Buffer {
-	cmd := exec.Command(command, arg...)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	return &out
+	cmd.Stdout = out
+	cmd.Run()
 }
 
 func RunSingle(command string, arg ...string) (string, error) {
