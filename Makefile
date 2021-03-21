@@ -8,3 +8,6 @@ build_ui_dev:
 
 build_service:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
+
+clean:
+ rm -r service/web/assets/pi-web-agent-app
