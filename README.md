@@ -1,3 +1,6 @@
+![sanity build](https://github.com/github/docs/actions/workflows/sanity.yml/badge.svg?branch=remaster)
+
+
 # Description
 
 This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
