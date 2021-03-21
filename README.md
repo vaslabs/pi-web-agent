@@ -17,8 +17,9 @@ This is a web-app agent for the raspberry pi. It allows you to interact easily w
 
 ### Front-End development
 
-associate pi web agent address with the name `rpi` in /etc/hosts
-for example:
+Associate pi web agent address with the name `rpi` in `/etc/hosts`
+
+For example:
 ```
 192.168.0.12 rpi
 ```
