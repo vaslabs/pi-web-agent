@@ -1,6 +1,8 @@
 
-build: build_ui_dev build_service
+run: build
+	cd service/web && go run cmd/pi-web-agent.go || cd -
 
+build: build_ui_dev build_service
 
 build_ui_dev:
 	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -

@@ -1,12 +1,10 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net/http"
-	"io"
 )
-
-
 
 func main() {
 
@@ -14,7 +12,8 @@ func main() {
 		io.WriteString(w, "Hello, world!\n")
 	}
 	// Simple static webserver:
-	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 	http.HandleFunc("/action/", dummyHandler)
+	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
