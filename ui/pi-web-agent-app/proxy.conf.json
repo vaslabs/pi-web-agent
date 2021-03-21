@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "http://rpi:8282",
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }
+  

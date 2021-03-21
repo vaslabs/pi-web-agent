@@ -68,7 +68,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pi-web-agent-app:build"
+            "browserTarget": "pi-web-agent-app:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

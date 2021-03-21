@@ -11,8 +11,23 @@ This is a web-app agent for the raspberry pi. It allows you to interact easily w
 ## Devs only
 
 ### Pre-requisites
+
 - npm
 - angular (`npm install -g @angular/cli`)
+
+### Front-End development
+
+associate pi web agent address with the name `rpi` in /etc/hosts
+for example:
+```
+192.168.0.12 rpi
+```
+(that name is used to proxy requests to your raspberry pi)
+
+```
+cd ui/pi-we-agent
+npm start
+```
 
 ### Build
 
