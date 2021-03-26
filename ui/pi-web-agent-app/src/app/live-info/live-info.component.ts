@@ -19,9 +19,15 @@ export class LiveInfoComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.system_info_service.fetch_system_info().subscribe(
+    this.periodic_update(this.system_info_service)
+  }
+
+  private periodic_update(infoService: SystemInfoService): void {
+    
+    infoService.fetch_system_info().subscribe(
       (info: SystemInfo) => this.system_info = info
     );
+    setTimeout(() => this.periodic_update(infoService), 10000);
   }
 
 }
