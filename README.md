@@ -26,7 +26,7 @@ For example:
 (that name is used to proxy requests to your raspberry pi)
 
 ```
-cd ui/pi-we-agent
+cd ui/pi-we-agent-app
 npm start
 ```
 
