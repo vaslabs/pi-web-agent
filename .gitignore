@@ -1,3 +1,4 @@
 .htpasswd
 *.pwa
 *.pyc
+.vscode
