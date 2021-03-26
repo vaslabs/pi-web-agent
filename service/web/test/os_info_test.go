@@ -23,6 +23,14 @@ func TestTempMeasure(t *testing.T) {
 	}
 }
 
+func TestKernelInfo(t *testing.T) {
+	expectedKernelInfo := "5.11.9-200"
+	kernel_info := api.Kernel_Info_From("echo", "-n", "5.11.9-200")
+	if (expectedKernelInfo != kernel_info) {
+		expectationFailure(expectedKernelInfo, kernel_info, t)
+	}
+}
+
 func expectationFailure(expected string, got string, t *testing.T) {
 	t.Errorf("Expected %s but got %s", expected, got)
 }

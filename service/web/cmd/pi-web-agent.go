@@ -11,14 +11,17 @@ import (
 type system_info_response struct {
 	OS_Info api.Os_Info_Response
 	Temperature api.Temperature_Response
+	Kernel string
 }
 
 func system_info_handler(w http.ResponseWriter, req *http.Request) {
 	os_info := api.OS_Info()
 	temperature := api.Measure_Temperature()
+	kernel_info := api.Kernel_Info()
 	json.NewEncoder(w).Encode(system_info_response{
 		os_info,
 		temperature,
+		kernel_info,
 	})
 }
 

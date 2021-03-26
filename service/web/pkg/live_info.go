@@ -53,3 +53,17 @@ func Measure_Temperature_From(command string, args ...string) Temperature_Respon
 		}
 	}
 }
+
+func Kernel_Info() string {
+	return Kernel_Info_From("uname", "-r")
+}
+
+func Kernel_Info_From(command string, args...string) string {
+	output, error := shell.RunSingle(command, args...)
+	if (error != nil) {
+		log.Fatalf("Error getting kernel info: %s", error)
+		return ""
+	} else {
+		return output
+	}
+}
