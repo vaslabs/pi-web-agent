@@ -4,6 +4,9 @@ run: build
 
 build: build_ui_dev build_service
 
+test-backend:
+	cd service/web && go test ./test/ && cd -
+
 build_ui_dev:
 	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -
 	cp -r ui/pi-web-agent-app/dist/pi-web-agent-app service/web/assets/

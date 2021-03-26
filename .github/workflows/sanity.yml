@@ -32,3 +32,6 @@ jobs:
         
         - name: Generic (dev) build
           run: make build
+        
+        - name: Test service
+          run: make test-backend
