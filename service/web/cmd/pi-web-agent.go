@@ -1,17 +1,18 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
+
 	api "github.com/vaslabs/pi-web-agent/pkg"
-	"encoding/json"
 )
 
 type system_info_response struct {
-	OS_Info api.Os_Info_Response
-	Temperature api.Temperature_Response
-	Kernel string
+	OS_Info     api.Os_Info_Response
+	Temperature string
+	Kernel      string
 }
 
 func system_info_handler(w http.ResponseWriter, req *http.Request) {
@@ -20,7 +21,7 @@ func system_info_handler(w http.ResponseWriter, req *http.Request) {
 	kernel_info := api.Kernel_Info()
 	json.NewEncoder(w).Encode(system_info_response{
 		os_info,
-		temperature,
+		temperature.Temp,
 		kernel_info,
 	})
 }
@@ -35,7 +36,7 @@ func main() {
 	}
 	// Simple static webserver:
 	http.HandleFunc(api_action_prefix, dummyHandler)
-	http.HandleFunc(api_info_prefix + "os_info", system_info_handler)
+	http.HandleFunc(api_info_prefix+"os_info", system_info_handler)
 	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
