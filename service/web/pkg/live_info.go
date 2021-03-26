@@ -2,6 +2,7 @@ package api
 
 import (
 	"log"
+	"strings"
 
 	shell "github.com/vaslabs/pi-web-agent/internal"
 )
@@ -64,6 +65,6 @@ func Kernel_Info_From(command string, args...string) string {
 		log.Fatalf("Error getting kernel info: %s", error)
 		return ""
 	} else {
-		return output
+		return strings.TrimSuffix(output, "\n")
 	}
 }
