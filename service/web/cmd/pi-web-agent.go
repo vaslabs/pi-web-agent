@@ -1,42 +1,30 @@
 package main
 
 import (
-	"encoding/json"
 	"io"
 	"log"
 	"net/http"
 
+	net "github.com/vaslabs/pi-web-agent/net"
 	api "github.com/vaslabs/pi-web-agent/pkg"
 )
 
-type system_info_response struct {
-	OS_Info     api.Os_Info_Response
-	Temperature string
-	Kernel      string
-}
-
-func system_info_handler(w http.ResponseWriter, req *http.Request) {
-	os_info := api.OS_Info()
-	temperature := api.Measure_Temperature()
-	kernel_info := api.Kernel_Info()
-	json.NewEncoder(w).Encode(system_info_response{
-		os_info,
-		temperature.Temp,
-		kernel_info,
-	})
-}
-
 func main() {
 
+	single_user_session := net.NewSession()
+
 	api_action_prefix := "/api/action/"
-	api_info_prefix := "/api/info/"
 
 	dummyHandler := func(w http.ResponseWriter, req *http.Request) {
 		io.WriteString(w, "Hello, world!\n")
 	}
+	action_dispatcher := api.CreateDispatcher()
+	action_dispatcher_handler := func(w http.ResponseWriter, req *http.Request) {
+		single_user_session.Open_Web_Socket(w, req, action_dispatcher)
+	}
 	// Simple static webserver:
 	http.HandleFunc(api_action_prefix, dummyHandler)
-	http.HandleFunc(api_info_prefix+"os_info", system_info_handler)
+	http.HandleFunc("/api/control/stream", action_dispatcher_handler)
 	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

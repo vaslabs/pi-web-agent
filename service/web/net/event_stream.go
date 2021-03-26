@@ -1,10 +1,10 @@
 package net
 
 import (
+	"io"
 	"log"
 	"net/http"
 	"time"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -38,30 +38,34 @@ type Session struct {
 	registered_client *Client
 }
 
-func (session *Session) send(message interface{}) error {
+func NewSession() Session {
+	return Session{nil}
+}
+
+func (session *Session) Send(message interface{}) error {
 	return session.registered_client.conn.WriteJSON(message)
 }
 
-func (session *Session) receive(command interface{}) (interface{}, error) {
-	err := session.registered_client.conn.ReadJSON(command)
-	return command, err
+func (session *Session) receive() (*io.Reader, error) {
+	_, r, err := session.registered_client.conn.NextReader()
+	return &r, err
 }
 
-type Dispatcher func(*Session, interface{})
-type CommandFactory func() interface{}
+
+type Dispatcher func(session *Session, nextCommand *io.Reader)
 
 func (s *Session) Close() {
 	s.registered_client.conn.Close()
 }
-func (s *Session) stream_ws(dispatcher Dispatcher, command_factory CommandFactory) {
+func (s *Session) stream_ws(dispatcher Dispatcher) {
 	defer s.Close()
 
 	for {
-		message, err := s.receive(command_factory())
+		encapsulated_message, err := s.receive()
 		if err != nil {
 			break
 		}
-		dispatcher(s, message)
+		dispatcher(s, encapsulated_message)
 	}
 }
 
@@ -79,12 +83,12 @@ func (session *Session) register_new_client(ws *websocket.Conn) {
 	}
 }
 
-func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, dispatcher Dispatcher, command_factory CommandFactory) {
+func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, dispatcher Dispatcher) {
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		configure_connection(ws)
 		session.register_new_client(ws)
-		session.stream_ws(dispatcher, command_factory)
+		session.stream_ws(dispatcher)
 	} else {
 		log.Fatalf("Error upgrading connection for websocket use: %s", err.Error())
 	}
