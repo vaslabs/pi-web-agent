@@ -1,7 +1,7 @@
-package power_management
+package api
 
 import (
-	"vaslabs.org/pi-web-agent/internal/shell"
+	shell "github.com/vaslabs/pi-web-agent/internal"
 )
 
 type power_off_response struct {
@@ -10,13 +10,13 @@ type power_off_response struct {
 }
 
 func power_off() power_off_response {
-	message, err := shell.RunSinle("poweroff")
+	message, err := shell.RunSingle("poweroff")
 	exit_code := 0
 	if err == nil {
-		exit_code  = 1
+		exit_code = 1
 	}
 	return power_off_response{
-		message: message,
+		message:   message,
 		exit_code: int32(exit_code),
 	}
 }
