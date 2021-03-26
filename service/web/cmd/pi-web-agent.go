@@ -8,9 +8,18 @@ import (
 	"encoding/json"
 )
 
-func os_info_handler(w http.ResponseWriter, req *http.Request) {
+type system_info_response struct {
+	OS_Info api.Os_Info_Response
+	Temperature api.Temperature_Response
+}
+
+func system_info_handler(w http.ResponseWriter, req *http.Request) {
 	os_info := api.OS_Info()
-	json.NewEncoder(w).Encode(os_info)
+	temperature := api.Measure_Temperature()
+	json.NewEncoder(w).Encode(system_info_response{
+		os_info,
+		temperature,
+	})
 }
 
 func main() {
@@ -23,7 +32,7 @@ func main() {
 	}
 	// Simple static webserver:
 	http.HandleFunc(api_action_prefix, dummyHandler)
-	http.HandleFunc(api_info_prefix + "os_info", os_info_handler)
+	http.HandleFunc(api_info_prefix + "os_info", system_info_handler)
 	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

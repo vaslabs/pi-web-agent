@@ -15,6 +15,14 @@ func TestOsReleaseParsing(t *testing.T) {
 	}
 }
 
+func TestTempMeasure(t *testing.T) {
+	expectedTemp := "49.2'C"
+	temperature := api.Measure_Temperature_From("echo", "temp=49.2'C")
+	if (temperature.Temp != expectedTemp) {
+		expectationFailure(expectedTemp, temperature.Temp, t)
+	}
+}
+
 func expectationFailure(expected string, got string, t *testing.T) {
 	t.Errorf("Expected %s but got %s", expected, got)
 }
