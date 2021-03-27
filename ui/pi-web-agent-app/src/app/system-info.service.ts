@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { PiControlService } from './pi-control.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemInfoService {
 
-  private api_endpoint = "/api/info"
-
-  constructor(private http: HttpClient) { }
+  constructor(private piControlService: PiControlService) { 
+    
+  }
 
 
   fetch_system_info() {
-    return this.http.get<SystemInfo>(`${this.api_endpoint}/os_info`)
+    this.piControlService.sendCommand({Action_Type: "DISPLAY_LIVE_INFO"})
   }
 }
 

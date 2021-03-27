@@ -23,10 +23,8 @@ export class LiveInfoComponent implements OnInit {
   }
 
   private periodic_update(infoService: SystemInfoService): void {
-    
-    infoService.fetch_system_info().subscribe(
-      (info: SystemInfo) => this.system_info = info
-    );
+    console.log("Sending command for display live info")
+    infoService.fetch_system_info();
     setTimeout(() => this.periodic_update(infoService), 10000);
   }
 

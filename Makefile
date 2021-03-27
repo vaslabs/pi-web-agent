@@ -2,7 +2,7 @@
 run: build
 	cd service/web && go run cmd/pi-web-agent.go || cd -
 
-build: build-dev-ui backend
+build: build-dev-ui build-backend
 
 test-backend:
 	cd service/web && go test ./test/ && cd -

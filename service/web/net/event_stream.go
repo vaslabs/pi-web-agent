@@ -85,7 +85,7 @@ func (session *Session) register_new_client(ws *websocket.Conn) {
 
 func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, dispatcher Dispatcher) {
 	ws, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
+	if err == nil {
 		configure_connection(ws)
 		session.register_new_client(ws)
 		session.stream_ws(dispatcher)
