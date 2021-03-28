@@ -19,3 +19,6 @@ build-backend:
 
 clean:
 	rm -r service/web/assets/pi-web-agent-app
+
+check-hook:
+	[ -f .git/hooks/pre-commit ] && echo "Hook ready" || pre-commit install || echo "Please install pre-commit (https://pre-commit.com/)" 

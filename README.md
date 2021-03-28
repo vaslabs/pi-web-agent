@@ -12,15 +12,22 @@ This is a web-app agent for the raspberry pi. It allows you to interact easily w
 
 ### Pre-requisites
 
-- golang
+- [pre-commit](https://pre-commit.com/)
+- [golang](https://golang.org/)
 - npm
-- angular (`npm install -g @angular/cli`)
+- [angular](https://angular.io/)
 
 ### Back-End development
 The service will be communicating via a websocket. To test the service without
 FE you can use https://chrome.google.com/webstore/detail/smart-websocket-client/omalebghpgejjiaoknljcfmglgbpocdp/related?utm_source=chrome-app-launcher-info-dialog
 
+#### Setup hook
+```
+make check-hook
+```
+
 #### Run app
+
 ```
 make run-backend
 ```
