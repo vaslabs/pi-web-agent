@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PiControlService } from '../pi-control.service';
 import { SystemInfo, SystemInfoService } from '../system-info.service';
 
 @Component({
@@ -8,9 +9,9 @@ import { SystemInfo, SystemInfoService } from '../system-info.service';
 })
 export class LiveInfoComponent implements OnInit {
 
-  constructor(private system_info_service: SystemInfoService) { }
+  constructor(private systemInfoService: SystemInfoService, private piControl: PiControlService) { }
 
-  system_info: SystemInfo = {
+  systemInfo: SystemInfo = {
     Temperature: "",
     Kernel: "",
     OS_Info: {
@@ -19,15 +20,23 @@ export class LiveInfoComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.periodic_update(this.system_info_service)
+    this.periodicUpdate(this.systemInfoService)
+    this.piControl.eventSource()?.subscribe(
+      (next: any) => {
+        console.log("Received " + JSON.stringify(next))
+        if (next["OS_Info"]) {
+          this.systemInfo.OS_Info = next.OS_Info
+          this.systemInfo.Kernel = next.Kernel
+          this.systemInfo.Temperature = next.Temperature
+        }
+      }
+    )
   }
 
-  private periodic_update(infoService: SystemInfoService): void {
-    
-    infoService.fetch_system_info().subscribe(
-      (info: SystemInfo) => this.system_info = info
-    );
-    setTimeout(() => this.periodic_update(infoService), 10000);
+  private periodicUpdate(infoService: SystemInfoService): void {
+    console.log("Sending command for display live info")
+    infoService.fetchSystemInfo();
+    setTimeout(() => this.periodicUpdate(infoService), 1000);
   }
 
 }

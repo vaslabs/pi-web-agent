@@ -2,7 +2,8 @@
     "/api": {
       "target": "http://rpi:8080",
       "secure": false,
-      "logLevel": "debug"
+      "logLevel": "debug",
+      "ws": true
     }
   }
   

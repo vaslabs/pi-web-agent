@@ -1,6 +1,9 @@
 on:
   push:
-    branches: [ remaster ]
+    branches:    
+      - '*/*'       # matches every branch containing a single '/'
+      - 'remaster'        # matches every branch
+      - '!master'   # excludes master
 
 name: Build
 jobs:

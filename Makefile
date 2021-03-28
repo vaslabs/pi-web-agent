@@ -1,17 +1,20 @@
 
-run: build
+run-backend: build-backend
 	cd service/web && go run cmd/pi-web-agent.go || cd -
 
-build: build_ui_dev build_service
+run-frontend: 
+	cd ui/pi-web-agent-app && ng serve || cd -
+
+build: build-dev-ui build-backend
 
 test-backend:
 	cd service/web && go test ./test/ && cd -
 
-build_ui_dev:
+build-dev-ui:
 	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -
 	cp -r ui/pi-web-agent-app/dist/pi-web-agent-app service/web/assets/
 
-build_service:
+build-backend:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
 
 clean:

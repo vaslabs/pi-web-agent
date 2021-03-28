@@ -9,6 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "pre-commit": [
+    "bash -c 'npm --prefix ui/pi-web-agent-app run lint -- --fix'"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.6",
@@ -39,6 +42,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "pre-commit": "^1.2.2",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
