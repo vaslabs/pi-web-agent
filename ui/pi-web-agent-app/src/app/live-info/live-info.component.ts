@@ -9,9 +9,9 @@ import { SystemInfo, SystemInfoService } from '../system-info.service';
 })
 export class LiveInfoComponent implements OnInit {
 
-  constructor(private system_info_service: SystemInfoService, private pi_control: PiControlService) { }
+  constructor(private systemInfoService: SystemInfoService, private piControl: PiControlService) { }
 
-  system_info: SystemInfo = {
+  systemInfo: SystemInfo = {
     Temperature: "",
     Kernel: "",
     OS_Info: {
@@ -20,22 +20,22 @@ export class LiveInfoComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.periodic_update(this.system_info_service)
-    this.pi_control.eventSource()?.subscribe(
+    this.periodicUpdate(this.systemInfoService)
+    this.piControl.eventSource()?.subscribe(
       (next: any) => {
         console.log("Received " + JSON.stringify(next))
         if (next["OS_Info"]) {
-          this.system_info.OS_Info = next.OS_Info
-          this.system_info.Kernel = next.Kernel
+          this.systemInfo.OS_Info = next.OS_Info
+          this.systemInfo.Kernel = next.Kernel
         }
       }
     )
   }
 
-  private periodic_update(infoService: SystemInfoService): void {
+  private periodicUpdate(infoService: SystemInfoService): void {
     console.log("Sending command for display live info")
-    infoService.fetch_system_info();
-    setTimeout(() => this.periodic_update(infoService), 1000);
+    infoService.fetchSystemInfo();
+    setTimeout(() => this.periodicUpdate(infoService), 1000);
   }
 
 }
