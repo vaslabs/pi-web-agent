@@ -27,6 +27,7 @@ export class LiveInfoComponent implements OnInit {
         if (next["OS_Info"]) {
           this.systemInfo.OS_Info = next.OS_Info
           this.systemInfo.Kernel = next.Kernel
+          this.systemInfo.Temperature = next.Temperature
         }
       }
     )
