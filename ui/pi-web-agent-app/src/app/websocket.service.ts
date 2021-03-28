@@ -16,12 +16,12 @@ export class WebsocketService {
     const host = window.location.host;
     return `${protocol}//${host}/api/control/stream`;
   }
-  public connect(sink: (next: any) => void)  {
+  public connect(subscriber: (next: any) => void)  {
     try {
       if (!this.subject) {
         console.log(`Connecting to ${this.url()} for the first time`)
         this.subject = this.create();
-        this.subject.subscribe(sink)
+        this.subject.subscribe(subscriber)
         console.log("Successfully connected: ");
       }
     } catch (error) {
