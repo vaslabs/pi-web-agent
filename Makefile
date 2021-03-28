@@ -2,6 +2,9 @@
 run-backend: build-backend
 	cd service/web && go run cmd/pi-web-agent.go || cd -
 
+run-frontend: 
+	cd ui/pi-web-agent-app && ng serve || cd -
+
 build: build-dev-ui build-backend
 
 test-backend:

@@ -17,7 +17,7 @@ export class PiControlService {
     private _zone: NgZone,
     private websocketService: WebsocketService
   ) {
-    this.websocketService.connect();
+    this.websocketService.connect((next: any) => this.messageSource.next(next))
   }
 
   commandSink() {
@@ -25,7 +25,7 @@ export class PiControlService {
   }
 
   eventSource() {
-    return this.messageSource;
+    return this.currentMessage;
   }
 
   sendCommand(command: PiCommand) {
