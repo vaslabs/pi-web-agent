@@ -9,9 +9,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "pre-commit": [
-    "bash -c 'npm --prefix ui/pi-web-agent-app run lint -- --fix'"
-  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.6",
