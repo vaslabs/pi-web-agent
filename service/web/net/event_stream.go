@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -38,19 +39,32 @@ type Session struct {
 	registered_client *Client
 }
 
+type SessionWithoutClient struct{}
+
+func (*SessionWithoutClient) Error() string {
+	return "Session without client"
+}
+
 func NewSession() Session {
 	return Session{nil}
 }
 
-func (session *Session) Send(message interface{}) error {
-	return session.registered_client.conn.WriteJSON(message)
+func (session *Session) Send(message interface{}) {
+	log.Printf("Sending message %s", message)
+	err := session.registered_client.conn.WriteJSON(message)
+	if err != nil {
+		log.Printf("Error sending message to websocket %s", err)
+	}
 }
 
 func (session *Session) receive() (*io.Reader, error) {
-	_, r, err := session.registered_client.conn.NextReader()
-	return &r, err
+	if session.registered_client != nil {
+		_, r, err := session.registered_client.conn.NextReader()
+		return &r, err
+	} else {
+		return nil, &SessionWithoutClient{}
+	}
 }
-
 
 type Dispatcher func(session *Session, nextCommand *io.Reader)
 
@@ -59,10 +73,10 @@ func (s *Session) Close() {
 }
 func (s *Session) stream_ws(dispatcher Dispatcher) {
 	defer s.Close()
-
 	for {
 		encapsulated_message, err := s.receive()
 		if err != nil {
+			log.Printf("Closing websocket connection due to %s", err.Error())
 			break
 		}
 		dispatcher(s, encapsulated_message)
@@ -80,16 +94,23 @@ func (session *Session) register_new_client(ws *websocket.Conn) {
 		new_client := Client{ws}
 		session.registered_client = &new_client
 		old_client.conn.Close()
+	} else {
+		session.registered_client = &Client{ws}
 	}
 }
 
 func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, dispatcher Dispatcher) {
+	//TODO find a way to safeguard this a bit
+	upgrader.CheckOrigin = func(r *http.Request) bool {
+		return true
+	}
 	ws, err := upgrader.Upgrade(w, r, nil)
+	log.Print("Connecting to websocket")
 	if err == nil {
 		configure_connection(ws)
 		session.register_new_client(ws)
 		session.stream_ws(dispatcher)
 	} else {
-		log.Fatalf("Error upgrading connection for websocket use: %s", err.Error())
+		log.Printf("Error upgrading connection for websocket use: %s", err.Error())
 	}
 }

@@ -1,5 +1,5 @@
 
-run: build
+run-backend: build-backend
 	cd service/web && go run cmd/pi-web-agent.go || cd -
 
 build: build-dev-ui build-backend

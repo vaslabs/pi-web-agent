@@ -76,8 +76,8 @@ func Parse_Action(r *io.Reader) (Action, error) {
 func CreateDispatcher() net.Dispatcher {
 	return func(session *net.Session, r *io.Reader) {
 		action, error := Parse_Action(r)
-		if (error != nil) {
-			log.Fatalf("Error parsing next action %s", error.Error())
+		if error != nil {
+			log.Printf("Error parsing next action %s", error.Error())
 		} else {
 			action.execute(session)
 		}
