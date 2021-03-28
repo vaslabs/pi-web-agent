@@ -8,23 +8,23 @@ import { SystemInfo, SystemInfoService } from '../system-info.service';
 })
 export class LiveInfoComponent implements OnInit {
 
-  constructor(private system_info_service: SystemInfoService) { }
+  constructor(private systemInfoService: SystemInfoService) { }
 
-  system_info: SystemInfo = {
-    Temperature: "",
-    Kernel: "",
+  systemInfo: SystemInfo = {
+    Temperature: '',
+    Kernel: '',
     OS_Info: {
-      Id: "",
-      Version_Codename: ""
+      Id: '',
+      Version_Codename: ''
     }
-  }
+  };
   ngOnInit(): void {
-    this.periodic_update(this.system_info_service)
+    this.periodic_update(this.systemInfoService);
   }
 
   private periodic_update(infoService: SystemInfoService): void {
-    console.log("Sending command for display live info")
-    infoService.fetch_system_info();
+    console.log('Sending command for display live info');
+    infoService.fetchSystemInfo();
     setTimeout(() => this.periodic_update(infoService), 10000);
   }
 

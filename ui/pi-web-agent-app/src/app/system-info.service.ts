@@ -7,21 +7,21 @@ import { PiControlService } from './pi-control.service';
 })
 export class SystemInfoService {
 
-  constructor(private piControlService: PiControlService) { 
-    
+  constructor(private piControlService: PiControlService) {
+
   }
 
 
-  fetch_system_info() {
-    this.piControlService.sendCommand({Action_Type: "DISPLAY_LIVE_INFO"})
+  fetchSystemInfo(): void {
+    this.piControlService.sendCommand({Action_Type: 'DISPLAY_LIVE_INFO'});
   }
 }
 
 export interface SystemInfo {
-  Temperature: string,
-  Kernel: string,
+  Temperature: string;
+  Kernel: string;
   OS_Info: {
     Id: string,
     Version_Codename: string
-  }
+  };
 }

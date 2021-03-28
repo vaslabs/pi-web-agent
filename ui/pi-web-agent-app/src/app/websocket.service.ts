@@ -6,47 +6,47 @@ import { Observable, Subject, Observer, BehaviorSubject } from 'rxjs';
 })
 export class WebsocketService {
   subject: Subject<any> | null = null;
-  defaultMessage: any = {}
+  defaultMessage: any = {};
 
-  ready = new BehaviorSubject(this.defaultMessage)
+  ready = new BehaviorSubject(this.defaultMessage);
 
   constructor() {
   }
 
-  private url() {
+  private url(): string {
     const protocol = window.location.protocol.replace('http', 'ws');
     const host = window.location.host;
     return `${protocol}//${host}/api/control/stream`;
   }
-  public connect()  {
+  public connect(): void{
     try {
       if (!this.subject) {
-        console.log(`Connecting to ${this.url()} for the first time`)
+        console.log(`Connecting to ${this.url()} for the first time`);
         this.subject = this.create();
-        console.log("Successfully connected: ");
+        console.log('Successfully connected: ');
       }
-      this.ready.next({ready:true})
+      this.ready.next({ready: true});
     } catch (error) {
-      console.log(`Failed to connect due to ${error}`)
+      console.log(`Failed to connect due to ${error}`);
     }
   }
 
   private create(): Subject<any> {
-    let ws = new WebSocket(this.url());
+    const ws = new WebSocket(this.url());
 
-    let observable = Observable.create((obs: Observer<any>) => {
+    const observable = Observable.create((obs: Observer<any>) => {
       ws.onmessage = obs.next.bind(obs);
       ws.onerror = obs.error.bind(obs);
       ws.onclose = obs.complete.bind(obs);
       return ws.close.bind(ws);
     });
-    let observer = {
+    const observer = {
       next: (data: any) => {
         if (ws.readyState === WebSocket.OPEN) {
-          console.log(`Forwarding ${JSON.stringify(data)} to websocket`)
+          console.log(`Forwarding ${JSON.stringify(data)} to websocket`);
           ws.send(JSON.stringify(data));
         } else {
-          console.log(`Websocket is not open but ${ws.readyState}`)
+          console.log(`Websocket is not open but ${ws.readyState}`);
         }
       }
     };

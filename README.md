@@ -11,9 +11,8 @@ This is a web-app agent for the raspberry pi. It allows you to interact easily w
 ## Devs only
 
 ### Pre-requisites
-
+- [pre-commit](https://pre-commit.com/) (pip install -U pre-commit)
 - npm
-- angular (`npm install -g @angular/cli`)
 
 ### Front-End development
 
@@ -36,6 +35,10 @@ npm start
 make build
 ```
 
+### Pre-Commit
+Before doing you first commit run precommit install
+Running pre-commit hooks locally ensures you keep up with basic project setup/standards and gives you the chance to fix anything needed before committing your code
+ 
 # Old versions
 
 
