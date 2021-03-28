@@ -11,12 +11,12 @@ export class WebsocketService {
   constructor() {
   }
 
-  private url() {
+  private url(): string {
     const protocol = window.location.protocol.replace('http', 'ws');
     const host = window.location.host;
     return `${protocol}//${host}/api/control/stream`;
   }
-  public connect(subscriber: (next: any) => void)  {
+  public connect(subscriber: (next: any) => void): void  {
     try {
       if (!this.subject) {
         console.log(`Connecting to ${this.url()} for the first time`);
@@ -29,7 +29,7 @@ export class WebsocketService {
     }
   }
 
-  sendMessage(event: any) {
+  sendMessage(event: any): void {
     this.subject?.next(event);
   }
 

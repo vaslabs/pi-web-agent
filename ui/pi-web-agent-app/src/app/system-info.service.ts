@@ -12,7 +12,7 @@ export class SystemInfoService {
   }
 
 
-  fetchSystemInfo() {
+  fetchSystemInfo(): void {
     this.piControlService.sendCommand({Action_Type: 'DISPLAY_LIVE_INFO'});
   }
 }

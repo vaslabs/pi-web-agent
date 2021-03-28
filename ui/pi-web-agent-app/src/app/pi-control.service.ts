@@ -14,21 +14,21 @@ export class PiControlService {
   currentMessage: Observable<any> = this.messageSource.asObservable();
 
   constructor(
-    private _zone: NgZone,
+    private zone: NgZone,
     private websocketService: WebsocketService
   ) {
     this.websocketService.connect((next: any) => this.messageSource.next(next));
   }
 
-  commandSink() {
+  commandSink(): Subject<any> | null {
     return this.websocketService.subject;
   }
 
-  eventSource() {
+  eventSource(): Observable<any> {
     return this.currentMessage;
   }
 
-  sendCommand(command: PiCommand) {
+  sendCommand(command: PiCommand): void {
     this.commandSink()?.next(command);
   }
 
@@ -38,13 +38,13 @@ export class PiControlService {
       const observable = new Observable(
         (observer: Observer<any>) => {
           observer.next = event => {
-            this._zone.run(() => {
+            this.zone.run(() => {
               this.sendCommand(event);
             });
           };
 
           observer.error = error => {
-            this._zone.run( () => {
+            this.zone.run( () => {
               observer.error(error);
             });
           };
