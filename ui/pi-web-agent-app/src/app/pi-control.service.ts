@@ -9,7 +9,7 @@ import { WebsocketService } from './websocket.service';
 })
 export class PiControlService {
 
-  defaultMessage: any = {}
+  defaultMessage: any = {};
   private messageSource = new BehaviorSubject(this.defaultMessage);
   currentMessage: Observable<any> = this.messageSource.asObservable();
 
@@ -17,7 +17,7 @@ export class PiControlService {
     private _zone: NgZone,
     private websocketService: WebsocketService
   ) {
-    this.websocketService.connect((next: any) => this.messageSource.next(next))
+    this.websocketService.connect((next: any) => this.messageSource.next(next));
   }
 
   commandSink() {
@@ -29,34 +29,35 @@ export class PiControlService {
   }
 
   sendCommand(command: PiCommand) {
-    this.commandSink()?.next(command)
+    this.commandSink()?.next(command);
   }
 
   commandEventStream(): Observable<any> | null {
-    const commandSink = this.commandSink()
+    const commandSink = this.commandSink();
     if (commandSink) {
       const observable = new Observable(
         (observer: Observer<any>) => {
           observer.next = event => {
             this._zone.run(() => {
-              this.sendCommand(event)
-            }); 
+              this.sendCommand(event);
+            });
           };
 
           observer.error = error => {
             this._zone.run( () => {
-              observer.error(error)
+              observer.error(error);
             });
           };
           commandSink?.subscribe(observer);
         }
       );
       return observable;
-    } else
+    } else {
       return null;
+    }
   }
 }
 
 export interface PiCommand {
-  Action_Type: string
+  Action_Type: string;
 }

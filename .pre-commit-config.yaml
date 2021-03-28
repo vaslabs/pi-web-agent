@@ -1,0 +1,7 @@
+- repo: local
+  hooks:
+    - id: lint-fix-angular-app
+      name:  Lint and fix linting issues in angular app
+      entry: bash -c 'npm --prefix ui/pi-web-agent-app run lint -- --fix'
+      language: system
+      pass_filenames: false

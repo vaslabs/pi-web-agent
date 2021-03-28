@@ -2,3 +2,4 @@
 *.pwa
 *.pyc
 .vscode
+node_modules/
