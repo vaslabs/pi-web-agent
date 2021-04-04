@@ -8,12 +8,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
+import { PoweroffComponent } from './poweroff/poweroff.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LiveInfoComponent
+    LiveInfoComponent,
+    PoweroffComponent
   ],
   imports: [
     BrowserModule,
