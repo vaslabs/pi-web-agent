@@ -31,31 +31,6 @@ export class PiControlService {
   sendCommand(command: PiCommand): void {
     this.commandSink()?.next(command);
   }
-
-  commandEventStream(): Observable<any> | null {
-    const commandSink = this.commandSink();
-    if (commandSink) {
-      const observable = new Observable(
-        (observer: Observer<any>) => {
-          observer.next = event => {
-            this.zone.run(() => {
-              this.sendCommand(event);
-            });
-          };
-
-          observer.error = error => {
-            this.zone.run( () => {
-              observer.error(error);
-            });
-          };
-          commandSink?.subscribe(observer);
-        }
-      );
-      return observable;
-    } else {
-      return null;
-    }
-  }
 }
 
 export interface PiCommand {

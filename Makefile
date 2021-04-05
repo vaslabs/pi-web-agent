@@ -17,6 +17,12 @@ build-dev-ui:
 build-backend:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
 
+install-dev:
+	sudo apt-get update && curl -L https://git.io/vQhTU | bash -s -- --version 1.16
+
+uninstall-go:
+	curl -L https://git.io/vQhTU | bash -s -- --remove
+
 clean:
 	rm -r service/web/assets/pi-web-agent-app
 
