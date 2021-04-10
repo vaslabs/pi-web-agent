@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Observable, BehaviorSubject, Observer } from 'rxjs';
 import { WebsocketService } from './websocket.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +16,15 @@ export class PiControlService {
     private zone: NgZone,
     private websocketService: WebsocketService
   ) {
-    this.websocketService.connect((next: any) => this.messageSource.next(next));
+    const broker = (next: any) => this.messageSource.next(next);
+    this.connectToSocket(broker);
+  }
+
+  private connectToSocket(broker: (next: any) => void): void {
+    this.websocketService.connect(broker, (error: any) => {
+      console.log(`Attempting to reconnect to socket after ${JSON.stringify(error)}`);
+      this.connectToSocket(broker);
+    });
   }
 
   commandSink(): Subject<any> | null {
@@ -30,6 +37,10 @@ export class PiControlService {
 
   sendCommand(command: PiCommand): void {
     this.commandSink()?.next(command);
+  }
+
+  private ping(): void {
+    this.commandSink()?.next('ping');
   }
 }
 
