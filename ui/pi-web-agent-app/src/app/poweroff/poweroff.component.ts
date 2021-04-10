@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PiControlService } from '../pi-control.service';
 
 @Component({
   selector: 'app-poweroff',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PoweroffComponent implements OnInit {
 
-  constructor() { }
+  constructor(private piControlService: PiControlService) { }
 
   ngOnInit(): void {
+  }
+
+  poweroff(): void {
+    this.piControlService.sendCommand({Action_Type: 'POWER_OFF'});
+  }
+
+  reboot(): void {
+    this.piControlService.sendCommand({Action_Type: 'REBOOT'});
   }
 
 }

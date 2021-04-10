@@ -17,10 +17,25 @@ type Action interface {
 type Display_Live_Info struct {
 }
 
-const DISPLAY_LIVE_INFO = "DISPLAY_LIVE_INFO"
+type Power_Off struct {
+}
 
-func (c Display_Live_Info) Action_Type() string {
+type Reboot struct {
+}
+
+const DISPLAY_LIVE_INFO = "DISPLAY_LIVE_INFO"
+const REBOOT = "REBOOT"
+const POWER_OFF = "POWER_OFF"
+
+func (c *Display_Live_Info) Action_Type() string {
 	return DISPLAY_LIVE_INFO
+}
+
+func (r *Reboot) Action_Type() string {
+	return REBOOT
+}
+func (p *Power_Off) Action_Type() string {
+	return POWER_OFF
 }
 
 type UnrecognisedAction struct {
@@ -57,6 +72,14 @@ func (display_live_info *Display_Live_Info) execute(session *net.Session) {
 	session.Send(message)
 }
 
+func (reboot *Reboot) execute(session *net.Session) {
+	session.Send(System_Reboot())
+}
+
+func (power_off *Power_Off) execute(session *net.Session) {
+	session.Send(System_Power_Off())
+}
+
 func Parse_Action(r *io.Reader) (Action, error) {
 	json_reader := viper.New()
 	json_reader.SetConfigType("json")
@@ -66,11 +89,17 @@ func Parse_Action(r *io.Reader) (Action, error) {
 		return nil, &UnparseableAction{err}
 	}
 	action_type := json_reader.GetString("Action_Type")
-	if action_type == DISPLAY_LIVE_INFO {
+	switch action_choice := action_type; action_choice {
+	case DISPLAY_LIVE_INFO:
 		return &Display_Live_Info{}, nil
-	} else {
+	case REBOOT:
+		return &Reboot{}, nil
+	case POWER_OFF:
+		return &Power_Off{}, nil
+	default:
 		return nil, &UnrecognisedAction{action_type}
 	}
+
 }
 
 func CreateDispatcher() net.Dispatcher {
