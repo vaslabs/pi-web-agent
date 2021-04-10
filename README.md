@@ -3,6 +3,10 @@
 This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
 
 
+# Next gen
+
+We are rewriting pi-web-agent. If you want to follow the progress see https://github.com/vaslabs/pi-web-agent/tree/remaster
+
 # Raspbian Jessie
 
 Get release from:
