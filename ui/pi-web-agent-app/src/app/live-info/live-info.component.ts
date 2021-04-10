@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { interval } from 'rxjs';
 import { PiControlService } from '../pi-control.service';
 import { SystemInfo, SystemInfoService } from '../system-info.service';
 
@@ -23,7 +24,6 @@ export class LiveInfoComponent implements OnInit {
     this.periodicUpdate(this.systemInfoService);
     this.piControl.eventSource()?.subscribe(
       (next: any) => {
-        console.log('Received ' + JSON.stringify(next));
         if (next.OS_Info) {
           this.systemInfo.OS_Info = next.OS_Info;
           this.systemInfo.Kernel = next.Kernel;
@@ -34,9 +34,7 @@ export class LiveInfoComponent implements OnInit {
   }
 
   private periodicUpdate(infoService: SystemInfoService): void {
-    console.log('Sending command for display live info');
-    infoService.fetchSystemInfo();
-    setTimeout(() => this.periodicUpdate(infoService), 1000);
+    interval(1000).subscribe(() => infoService.fetchSystemInfo());
   }
 
 }
