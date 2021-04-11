@@ -1,7 +1,7 @@
 package api
 
 import (
-	shell "github.com/vaslabs/pi-web-agent/internal"
+	"syscall"
 )
 
 type power_off_response struct {
@@ -10,10 +10,12 @@ type power_off_response struct {
 }
 
 func System_Power_Off() power_off_response {
-	message, err := shell.RunSingle("poweroff")
+	err := syscall.Reboot(syscall.LINUX_REBOOT_CMD_POWER_OFF)
+	message := "Powering off"
 	exit_code := 0
-	if err == nil {
+	if err != nil {
 		exit_code = 1
+		message = err.Error()
 	}
 	return power_off_response{
 		Message:   message,
@@ -22,10 +24,12 @@ func System_Power_Off() power_off_response {
 }
 
 func System_Reboot() power_off_response {
-	message, err := shell.RunSingle("reboot")
+	err := syscall.Reboot(syscall.LINUX_REBOOT_CMD_RESTART)
+	message := "Rebooting"
 	exit_code := 0
-	if err == nil {
+	if err != nil {
 		exit_code = 1
+		message = err.Error()
 	}
 	return power_off_response{
 		Message:   message,

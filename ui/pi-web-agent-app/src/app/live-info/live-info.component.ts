@@ -19,7 +19,7 @@ export class LiveInfoComponent implements OnInit, OnDestroy {
       Id: '',
       Version_Codename: ''
     }
-  }
+  };
 
   constructor(private systemInfoService: SystemInfoService, private piControl: PiControlService) {
     this.systemInfo$ = this.piControl.eventSource().pipe(
