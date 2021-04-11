@@ -39,7 +39,7 @@ export class LiveInfoComponent implements OnInit, OnDestroy {
   }
 
   private periodicUpdate(): Observable<number> {
-    return interval(2000).pipe(
+    return interval(1000).pipe(
       tap(() => this.systemInfoService.fetchSystemInfo())
     );
   }
