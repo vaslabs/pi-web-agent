@@ -1,47 +1,47 @@
-import { NgZone } from '@angular/core';
+import { NgZone, OnDestroy } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable, BehaviorSubject, Observer } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { WebsocketService } from './websocket.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PiControlService {
+export class PiControlService implements OnDestroy {
 
   defaultMessage: any = {};
-  private messageSource = new BehaviorSubject(this.defaultMessage);
-  currentMessage: Observable<any> = this.messageSource.asObservable();
+  private messageSource$ = new BehaviorSubject(this.defaultMessage);
+  private webSocketSubscription: Subscription| null = null;
+  currentMessage$: Observable<any> = this.messageSource$.asObservable();
 
   constructor(
     private zone: NgZone,
     private websocketService: WebsocketService
   ) {
-    const broker = (next: any) => this.messageSource.next(next);
+    const broker = (next: any) => this.messageSource$.next(next);
     this.connectToSocket(broker);
   }
 
   private connectToSocket(broker: (next: any) => void): void {
-    this.websocketService.connect(broker, (error: any) => {
-      console.log(`Attempting to reconnect to socket after ${JSON.stringify(error)}`);
-      this.connectToSocket(broker);
-    });
+    this.webSocketSubscription = this.websocketService.getMessageStream().subscribe(
+      broker
+    );
   }
 
-  commandSink(): Subject<any> | null {
-    return this.websocketService.subject;
-  }
 
   eventSource(): Observable<any> {
-    return this.currentMessage;
+    return this.currentMessage$;
   }
 
   sendCommand(command: PiCommand): void {
-    this.commandSink()?.next(command);
+    this.websocketService.sendMessage(command);
   }
 
-  private ping(): void {
-    this.commandSink()?.next('ping');
+  ngOnDestroy(): void{
+    if (this.webSocketSubscription !==null){
+      this.webSocketSubscription.unsubscribe()
+    }
   }
+
 }
 
 export interface PiCommand {

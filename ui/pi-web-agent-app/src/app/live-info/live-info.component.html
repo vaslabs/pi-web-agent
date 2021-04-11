@@ -1,6 +1,6 @@
 
 
-<mat-list>
+<mat-list *ngIf='systemInfo$ | async as systemInfo'>
     <mat-list-item>OS: {{systemInfo.OS_Info.Id}} {{systemInfo.OS_Info.Version_Codename}}</mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>Kernel: {{systemInfo.Kernel}}</mat-list-item>

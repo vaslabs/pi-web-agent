@@ -16,23 +16,33 @@ var upgrader = websocket.Upgrader{
 
 const (
 	// Time allowed to write a message to the peer.
-	writeWait = 5 * time.Second
+	writeWait = 10 * time.Second
 
 	// Maximum message size allowed from peer.
 	maxMessageSize = 8192
 
 	// Time allowed to read the next pong message from the peer.
-	pongWait = 30 * time.Second
+	pongWait = 60 * time.Second
 
 	// Send pings to peer with this period. Must be less than pongWait.
 	pingPeriod = (pongWait * 9) / 10
-
-	// Time to wait before force close on connection.
-	closeGracePeriod = 5 * time.Second
 )
 
 type Client struct {
 	conn *websocket.Conn
+}
+
+func (client *Client) SendJSON(message interface{}) {
+	client.ExtendWriteDeadline()
+	err := client.conn.WriteJSON(message)
+	if err != nil {
+		log.Printf("Error sending message to websocket %s", err)
+	}
+}
+
+func (client *Client) ExtendWriteDeadline() {
+	log.Printf("Extending dealine %s", time.Now().Add(writeWait))
+	client.conn.SetWriteDeadline(time.Now().Add(writeWait))
 }
 
 type Session struct {
@@ -51,10 +61,7 @@ func NewSession() Session {
 
 func (session *Session) Send(message interface{}) {
 	log.Printf("Sending message %s", message)
-	err := session.registered_client.conn.WriteJSON(message)
-	if err != nil {
-		log.Printf("Error sending message to websocket %s", err)
-	}
+	session.registered_client.SendJSON(message)
 }
 
 func (session *Session) receive() (*io.Reader, error) {
@@ -83,9 +90,31 @@ func (s *Session) stream_ws(dispatcher Dispatcher) {
 	}
 }
 
+func ping_writer(ws *websocket.Conn) {
+	pingTicker := time.NewTicker(pingPeriod)
+	defer func() {
+		pingTicker.Stop()
+		ws.Close()
+	}()
+	for {
+		<-pingTicker.C
+		ws.SetWriteDeadline(time.Now().Add(writeWait))
+		if err := ws.WriteMessage(websocket.PingMessage, []byte{}); err != nil {
+			return
+		}
+		log.Printf("Sending ping message...")
+	}
+}
+
 func configure_connection(ws *websocket.Conn) {
+	go ping_writer(ws)
 	ws.SetReadLimit(maxMessageSize)
 	ws.SetReadDeadline(time.Now().Add(pongWait))
+	ws.SetPongHandler(func(string) error {
+		log.Print("Pong Received")
+		ws.SetReadDeadline(time.Now().Add(pongWait))
+		return nil
+	})
 }
 
 func (session *Session) register_new_client(ws *websocket.Conn) {
@@ -105,6 +134,7 @@ func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, 
 		return true
 	}
 	ws, err := upgrader.Upgrade(w, r, nil)
+
 	log.Print("Connecting to websocket")
 	if err == nil {
 		configure_connection(ws)

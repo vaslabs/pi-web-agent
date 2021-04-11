@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { interval, Subscription, Observable } from 'rxjs';
+import { filter, map, startWith, tap } from 'rxjs/operators';
 import { PiControlService } from '../pi-control.service';
 import { SystemInfo, SystemInfoService } from '../system-info.service';
 
@@ -8,33 +9,39 @@ import { SystemInfo, SystemInfoService } from '../system-info.service';
   templateUrl: './live-info.component.html',
   styleUrls: ['./live-info.component.scss']
 })
-export class LiveInfoComponent implements OnInit {
-
-  constructor(private systemInfoService: SystemInfoService, private piControl: PiControlService) { }
-
-  systemInfo: SystemInfo = {
+export class LiveInfoComponent implements OnInit, OnDestroy {
+  public systemInfo$: Observable<SystemInfo>;
+  private periodicUpdateSubscription: Subscription | null = null;
+  private initialState: SystemInfo = {
     Temperature: '',
     Kernel: '',
     OS_Info: {
       Id: '',
       Version_Codename: ''
     }
-  };
-  ngOnInit(): void {
-    this.periodicUpdate(this.systemInfoService);
-    this.piControl.eventSource()?.subscribe(
-      (next: any) => {
-        if (next.OS_Info) {
-          this.systemInfo.OS_Info = next.OS_Info;
-          this.systemInfo.Kernel = next.Kernel;
-          this.systemInfo.Temperature = next.Temperature;
-        }
-      }
+  }
+
+  constructor(private systemInfoService: SystemInfoService, private piControl: PiControlService) {
+    this.systemInfo$ = this.piControl.eventSource().pipe(
+      filter(({OS_Info}) => !!OS_Info),
+      startWith(this.initialState)
     );
   }
 
-  private periodicUpdate(infoService: SystemInfoService): void {
-    interval(1000).subscribe(() => infoService.fetchSystemInfo());
+  ngOnInit(): void {
+    this.periodicUpdateSubscription = this.periodicUpdate().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (this.periodicUpdateSubscription !== null) {
+      this.periodicUpdateSubscription.unsubscribe();
+    }
+  }
+
+  private periodicUpdate(): Observable<number> {
+    return interval(2000).pipe(
+      tap(() => this.systemInfoService.fetchSystemInfo())
+    );
   }
 
 }
