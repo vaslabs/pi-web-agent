@@ -102,7 +102,7 @@ func ping_writer(ws *websocket.Conn) {
 		if err := ws.WriteMessage(websocket.PingMessage, []byte{}); err != nil {
 			return
 		}
-		log.Printf("Sending ping message...")
+		log.Print("Sending ping message...")
 	}
 }
 
