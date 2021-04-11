@@ -12,7 +12,7 @@ export class WebsocketService {
   private messageStream: Observable<any>;
   constructor() {
     this.websocket = this.create();
-    this.messageStream = this.websocket.pipe(retryBackoff(1000), share())
+    this.messageStream = this.websocket.pipe(retryBackoff(1000), share());
   }
 
   private url(): string {
