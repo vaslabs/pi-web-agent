@@ -20,12 +20,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'pi-web-agent-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('pi-web-agent-app');
-  });
-
   it('should render live info', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
