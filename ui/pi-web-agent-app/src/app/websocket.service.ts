@@ -1,14 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject, Observer } from 'rxjs';
-import { webSocket } from 'rxjs/webSocket';
+import { Injectable, OnDestroy } from '@angular/core';
+import { retryBackoff } from 'backoff-rxjs';
+import { Observable, Subject, Observer, Subscription } from 'rxjs';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { share } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebsocketService {
-  subject: Subject<any> | null = null;
-
+  private websocket: WebSocketSubject<any>;
+  private messageStream: Observable<any>;
   constructor() {
+    this.websocket = this.create();
+    this.messageStream = this.websocket.pipe(retryBackoff(1000), share())
   }
 
   private url(): string {
@@ -16,24 +20,15 @@ export class WebsocketService {
     const host = window.location.host;
     return `${protocol}//${host}/api/control/stream`;
   }
-  public connect(subscriber: (next: any) => void, erroWatcher: (error: any) => void): void  {
-    try {
-      if (!this.subject || this.subject?.isStopped) {
-        console.log(`Connecting to ${this.url()} for the first time`);
-      }
-      this.subject = this.create();
-      this.subject.subscribe(subscriber, erroWatcher);
-      console.log('Successfully connected: ');
-    } catch (error) {
-      console.log(`Failed to connect due to ${error}`);
-    }
+  public getMessageStream(): Observable<any>{
+    return this.messageStream;
   }
 
   sendMessage(event: any): void {
-    this.subject?.next(event);
+    this.websocket?.next(event);
   }
 
-  private create(): Subject<any> {
+  private create(): WebSocketSubject<any>{
     return webSocket(this.url());
   }
 }
