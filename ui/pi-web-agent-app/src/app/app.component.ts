@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pi-web-agent-app';
+  showFiller = false;
 }
