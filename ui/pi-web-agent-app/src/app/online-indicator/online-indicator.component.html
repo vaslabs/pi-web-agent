@@ -1,0 +1,15 @@
+<ng-container  *ngIf="connectionStatus$|async as connectionStatus">
+  <ng-container *ngIf="connectionStatus === ConnectionStatus.connecting; else complete">
+    <mat-spinner [diameter]="18"></mat-spinner>
+  </ng-container>
+  <ng-template  #complete>
+    <mat-icon>
+      <ng-container *ngIf="connectionStatus === ConnectionStatus.connected">
+        cloud_done
+      </ng-container>
+      <ng-container *ngIf="connectionStatus === ConnectionStatus.disconnected">
+        cloud_off
+      </ng-container>
+    </mat-icon>
+  <ng-template>
+<ng-container>

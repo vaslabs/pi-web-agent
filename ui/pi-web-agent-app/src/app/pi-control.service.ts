@@ -1,8 +1,7 @@
 import { NgZone, OnDestroy } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { WebsocketService } from './websocket.service';
+import { Observable, BehaviorSubject,  Subscription } from 'rxjs';
+import { WebsocketService, ConnectionStatus} from './websocket.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +33,10 @@ export class PiControlService implements OnDestroy {
 
   sendCommand(command: PiCommand): void {
     this.websocketService.sendMessage(command);
+  }
+
+  getConnectionStatus(): Observable<ConnectionStatus>{
+    return this.websocketService.getConnectionStatus();
   }
 
   ngOnDestroy(): void{

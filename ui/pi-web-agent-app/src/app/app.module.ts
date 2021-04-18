@@ -1,3 +1,4 @@
+import { OnlineIndicatorModule } from './online-indicator/online-indicator.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -25,7 +26,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatDividerModule,
     MatListModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    OnlineIndicatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
