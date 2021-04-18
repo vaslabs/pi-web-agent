@@ -40,8 +40,8 @@ export class PiControlService implements OnDestroy {
   }
 
   ngOnDestroy(): void{
-    if (this.webSocketSubscription !==null){
-      this.webSocketSubscription.unsubscribe()
+    if (this.webSocketSubscription !== null){
+      this.webSocketSubscription.unsubscribe();
     }
   }
 

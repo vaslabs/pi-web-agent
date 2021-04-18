@@ -19,7 +19,7 @@ export class WebsocketService {
   constructor() {
     this.websocket$ = this.create();
     this.messageStream$ = this.websocket$.pipe(
-      catchError((error: Error)=>{
+      catchError((error: Error) => {
         this.connectionStatus$.next(ConnectionStatus.connecting);
         return throwError(error);
       }),
