@@ -1,0 +1,11 @@
+$themeMainColor: #3f51b5;
+:host{
+  color: $themeMainColor;
+  position: fixed;
+  bottom:0;
+  right: 8px;
+  z-index: 1;
+}
+mat-spinner{
+  margin-bottom: 8px;
+}

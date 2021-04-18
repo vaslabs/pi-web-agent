@@ -1,3 +1,4 @@
+import { OnlineIndicatorModule } from './online-indicator/online-indicator.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -30,6 +31,7 @@ import { MainViewComponent } from './main-view/main-view.component';
     MatListModule,
     HttpClientModule,
     MatIconModule,
+    OnlineIndicatorModule,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule
