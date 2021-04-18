@@ -12,12 +12,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { PoweroffComponent } from './poweroff/poweroff.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MainViewComponent } from './main-view/main-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LiveInfoComponent,
-    PoweroffComponent
+    PoweroffComponent,
+    MainViewComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatListModule,
     HttpClientModule,
     MatIconModule,
-    OnlineIndicatorModule
+    OnlineIndicatorModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
