@@ -12,8 +12,8 @@ function copy_backend_main() {
 }
 
 function copy_ui_assets() {
-    mkdir -p $build_dir/usr/share/pi-web-agent/
-    cp -r ui/pi-web-agent-app/dist/pi-web-agent-app $build_dir/usr/share/pi-web-agent/assets
+    mkdir -p $build_dir/usr/share/piwebagent2/
+    cp -r ui/pi-web-agent-app/dist/pi-web-agent-app $build_dir/usr/share/piwebagent2/assets
 }
 
 function zip_app() {

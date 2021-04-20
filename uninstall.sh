@@ -2,7 +2,9 @@
 
 SERVICE_PATH=lib/systemd/system/piwebagent2.service
 BINARY_PATH=usr/bin/piwebagent2
-SHARED_PATH=usr/share/pi-web-agent
+SHARED_PATH=usr/share/piwebagent2
+SUDOERS_PATH=etc/sudoers.d/piwebagent2
+
 function remove_user() {
     userdel piwebagent2
 }
@@ -24,8 +26,13 @@ function remove_assets() {
     rm -r /$SHARED_PATH
 }
 
+function unregister_sudoer() {
+    rm /$SUDOERS_PATH
+}
+
 stop_service || echo "Could not stop service"
 unregister_service || echo "Could not unregister service"
+unregister_sudoer || echo "Could not remove from sudoers"
 remove_user || echo "Could not remove piwebagent2 user"
 remove_assets || echo "Could not remove assets"
 remove_binary || echo "Could not remove piwebagent2 binary"

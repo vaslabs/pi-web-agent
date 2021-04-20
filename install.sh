@@ -2,7 +2,8 @@
 
 SERVICE_PATH=lib/systemd/system/piwebagent2.service
 BINARY_PATH=usr/bin/piwebagent2
-SHARED_PATH=usr/share/pi-web-agent
+SHARED_PATH=usr/share/piwebagent2
+SUDOERS_PATH=etc/sudoers.d/piwebagent2
 function create_user() {
     useradd -r piwebagent2
 }
@@ -11,6 +12,10 @@ function register_service() {
     cp -r  $SERVICE_PATH /$SERVICE_PATH
     chmod 644 /$SERVICE_PATH
     systemctl enable piwebagent2.service
+}
+
+function sudoer_user_priviledges() {
+    cp $SUDOERS_PATH /$SUDOERS_PATH
 }
 
 function start_service() {
@@ -41,6 +46,7 @@ install_binary
 install_assets
 create_user
 chown piwebagent2 -R /$SHARED_PATH
+sudoer_user_priviledges
 register_service
 start_service
 set +e

@@ -12,7 +12,7 @@ LimitNOFILE=1024
 Restart=on-failure
 RestartSec=10
 
-WorkingDirectory=/usr/share/pi-web-agent/
+WorkingDirectory=/usr/share/piwebagent2
 ExecStart=/usr/bin/piwebagent2
 
 PermissionsStartOnly=true
