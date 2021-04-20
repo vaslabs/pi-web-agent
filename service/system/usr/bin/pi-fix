@@ -1,5 +1,0 @@
-#!/bin/bash
-
-sudo dpkg --configure -a
-
-exit $?

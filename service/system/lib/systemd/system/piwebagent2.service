@@ -1,0 +1,24 @@
+[Unit]
+Description=Pi-web-agent next gen (2)
+ConditionPathExists=/usr/bin/piwebagent2
+After=network.target
+ 
+[Service]
+Type=simple
+User=piwebagent2
+Group=piwebagent2
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+
+WorkingDirectory=/usr/share/pi-web-agent/
+ExecStart=/usr/bin/piwebagent2
+
+PermissionsStartOnly=true
+ExecStartPre=/bin/mkdir -p /var/log/piwebagent2
+ExecStartPre=/bin/chmod 655 /var/log/piwebagent2
+
+ 
+[Install]
+WantedBy=multi-user.target

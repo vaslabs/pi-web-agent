@@ -25,7 +25,7 @@ func main() {
 	// Simple static webserver:
 	http.HandleFunc(api_action_prefix, dummyHandler)
 	http.HandleFunc("/api/control/stream", action_dispatcher_handler)
-	http.Handle("/assets/", http.FileServer(http.Dir("assets")))
+	http.Handle("/", http.FileServer(http.Dir("assets")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

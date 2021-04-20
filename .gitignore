@@ -3,3 +3,5 @@
 *.pyc
 .vscode
 node_modules/
+target/
+*.zip

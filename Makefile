@@ -12,8 +12,6 @@ test-backend:
 
 build-dev-ui:
 	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -
-	cp -r ui/pi-web-agent-app/dist/pi-web-agent-app service/web/assets/
-
 build-backend:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
 
@@ -28,3 +26,12 @@ clean:
 
 check-hook:
 	[ -f .git/hooks/pre-commit ] && echo "Hook ready" || pre-commit install || echo "Please install pre-commit (https://pre-commit.com/)" 
+
+package-dev: build
+	./package.sh
+
+install: package-dev
+	sudo ./install.sh
+
+make uninstall:
+	sudo ./uninstall.sh
