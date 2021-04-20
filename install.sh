@@ -16,6 +16,7 @@ function register_service() {
 
 function sudoer_user_priviledges() {
     cp $SUDOERS_PATH /$SUDOERS_PATH
+    chmod 400 /$SUDOERS_PATH
 }
 
 function start_service() {
