@@ -1,1 +1,1 @@
-piwebagent2 ALL=NOPASSWD: /sbin/reboot, /sbin/poweroff
+piwebagent2 ALL=NOPASSWD: /sbin/reboot, /sbin/poweroff, /opt/vc/bin/vcgencmd

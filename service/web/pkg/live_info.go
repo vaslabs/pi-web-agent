@@ -36,7 +36,7 @@ type Temperature_Response struct {
 }
 
 func Measure_Temperature() Temperature_Response {
-	return Measure_Temperature_From("/opt/vc/bin/vcgencmd", "measure_temp")
+	return Measure_Temperature_From("sudo", "/opt/vc/bin/vcgencmd", "measure_temp")
 }
 
 func Measure_Temperature_From(command string, args ...string) Temperature_Response {
