@@ -36,6 +36,6 @@ jobs:
           with:
             version: latest
             args: release --rm-dist
-          workdir: target/piwebagent2/
+            workdir: target/piwebagent2/
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
