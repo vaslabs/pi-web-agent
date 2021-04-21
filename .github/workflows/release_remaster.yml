@@ -2,7 +2,7 @@ on:
   push:
     branches:    
       - feature/packageDeb
-name: Build
+name: Release
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,28 +32,15 @@ jobs:
         
         - name: Generic (dev) build
           run: make build
-        
+
         - name: Test service
           run: make test-backend
-  release-latest:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      -
-        name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.16
-      -
-        name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          install-only: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Release for raspbian
-        run: make package-debian
+        -
+          name: Run GoReleaser
+          uses: goreleaser/goreleaser-action@v2
+          with:
+            install-only: true
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Release for raspbian
+          run: make package-debian
