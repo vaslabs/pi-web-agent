@@ -1,11 +1,8 @@
 on:
   push:
-    branches:    
-      - '*/*'       # matches every branch containing a single '/'
-      - remaster
-      - '!master'   # excludes master
-
-name: Build
+    tags:    
+      - 0.7.*
+name: Release
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +15,8 @@ jobs:
         shell: bash
     steps:
         - uses: actions/checkout@v1
-
+          with:
+            fetch-depth: 0
         - name: Cache node modules
           uses: actions/cache@v1
           with:
@@ -32,9 +30,13 @@ jobs:
             node-version: ${{ matrix.node-version }}
         - name: Install dependencies
           run: npm install -g @angular/cli
-        
-        - name: Generic (dev) build
-          run: make build
-        
-        - name: Test service
-          run: make test-backend
+        - name: Prepare debian packaging
+          run: make package-debian
+        - name: Run GoReleaser
+          uses: goreleaser/goreleaser-action@v2
+          with:
+            version: latest
+            args: release --rm-dist
+            workdir: target/piwebagent2/
+          env:
+            GITHUB_TOKEN: ${{ secrets.GH_PAT }}

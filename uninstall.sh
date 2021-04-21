@@ -6,7 +6,6 @@ function remove_user() {
 }
 
 function unregister_service() {
-    chmod 755 /$SERVICE_PATH
     systemctl disable piwebagent2.service
 }
 

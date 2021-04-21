@@ -1,0 +1,1 @@
+userdel piwebagent2 || echo "Could not remove piwebagent2 user"
