@@ -12,6 +12,7 @@ test-backend:
 
 build-dev-ui:
 	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -
+
 build-backend:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
 
@@ -35,3 +36,19 @@ install: package-dev
 
 make uninstall:
 	sudo ./uninstall.sh
+
+
+
+build-rpi-ui:
+	cd ui/pi-web-agent-app && npm i && ng build --prod --base-href / && cd -
+	
+build-rpi-backend:
+	cd service/web && env GOOS=linux GOARCH=arm GOARM=5 go build -o pi-web-agent cmd/pi-web-agent.go && cd -
+
+build-rpi: build-rpi-ui build-rpi-backend
+
+package-rpi: build-rpi
+	./package.sh
+
+package_debian: package-rpi
+	
