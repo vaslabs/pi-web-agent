@@ -29,12 +29,11 @@ jobs:
             node-version: ${{ matrix.node-version }}
         - name: Install dependencies
           run: npm install -g @angular/cli
-        -
-          name: Run GoReleaser
+        - name: Run GoReleaser
           uses: goreleaser/goreleaser-action@v2
           with:
-            install-only: true
-        - name: Release for raspbian
-          run: make package-debian
+          version: latest
+          args: release --rm-dist
+          workdir: target/piwebagent2/
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
