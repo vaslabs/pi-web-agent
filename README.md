@@ -13,7 +13,7 @@ On your raspberry pi download and install pi-web-agent_0.7.0_linux_arm.deb
 from https://github.com/vaslabs/pi-web-agent/releases/tag/0.7.0
 
 This is a pre release. For any ideas let us know https://github.com/vaslabs/pi-web-agent/discussions
-For any issues feel free https://github.com/vaslabs/pi-web-agent/issues
+For any issues feel free to report here https://github.com/vaslabs/pi-web-agent/issues
 
 We are not supporting the old version anymore, all hands are to build a brand new pi-web-agent that's easy to maintain and for users to install and use with minimal to zero dependencies.
 
