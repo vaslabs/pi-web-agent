@@ -31,9 +31,6 @@ nfpms:
     builds:
       - piwebagent
 
-    replacements:
-      arm: Arm
-
     # Your app's vendor.
     # Default is empty.
     vendor: vaslabs
