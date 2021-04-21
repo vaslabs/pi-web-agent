@@ -1,7 +1,7 @@
 on:
   push:
-    tags: 
-      - 0.6.*
+    branches:    
+      - remaster
 name: Build
 jobs:
   build:
