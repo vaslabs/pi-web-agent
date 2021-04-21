@@ -50,5 +50,5 @@ build-rpi: build-rpi-ui build-rpi-backend
 package-rpi: build-rpi
 	./package.sh
 
-package_debian: package-rpi
-	
+package-debian: package-rpi
+	./debian.sh

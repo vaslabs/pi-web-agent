@@ -1,8 +1,7 @@
 on:
   push:
     branches:    
-      - '*/*'       # matches every branch containing a single '/'
-      - '!master'   # excludes master
+      - 'remaster'        # matches every branch
 
 name: Build
 jobs:
@@ -37,3 +36,25 @@ jobs:
         
         - name: Test service
           run: make test-backend
+  release-latest:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          install-only: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release for raspbian
+        run: make package-debian
