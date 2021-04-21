@@ -1,9 +1,5 @@
 #!/bin/bash
-
-SERVICE_PATH=lib/systemd/system/piwebagent2.service
-BINARY_PATH=usr/bin/piwebagent2
-SHARED_PATH=usr/share/piwebagent2
-SUDOERS_PATH=etc/sudoers.d/piwebagent2
+source installation_paths
 
 function remove_user() {
     userdel piwebagent2
