@@ -117,9 +117,6 @@ nfpms:
 
       - src: usr/share/piwebagent2/assets
         dst: /usr/share/piwebagent2/assets
-        file_info:
-          mode: 0400
-          owner: piwebagent2
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process
