@@ -2,6 +2,7 @@ on:
   push:
     branches:    
       - '*/*'       # matches every branch containing a single '/'
+      - remaster
       - '!master'   # excludes master
 
 name: Build

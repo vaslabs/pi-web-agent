@@ -5,5 +5,5 @@ mv .goreleaser.yml piwebagent2/
 cp -r ../scripts piwebagent2/
 cd piwebagent2
 
-goreleaser release --snapshot
+goreleaser release
 cd ../..

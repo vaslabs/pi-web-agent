@@ -1,7 +1,7 @@
 on:
   push:
-    branches:    
-      - feature/packageDeb
+    tags:    
+      - 0.7.*
 name: Release
 jobs:
   build:
@@ -29,12 +29,6 @@ jobs:
             node-version: ${{ matrix.node-version }}
         - name: Install dependencies
           run: npm install -g @angular/cli
-        
-        - name: Generic (dev) build
-          run: make build
-
-        - name: Test service
-          run: make test-backend
         -
           name: Run GoReleaser
           uses: goreleaser/goreleaser-action@v2
