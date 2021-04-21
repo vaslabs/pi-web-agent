@@ -30,13 +30,12 @@ jobs:
         - name: Install dependencies
           run: npm install -g @angular/cli
         - name: Prepare debian packaging
-          run:
-            make package-debian
+          run: make package-debian
         - name: Run GoReleaser
           uses: goreleaser/goreleaser-action@v2
           with:
-          version: latest
-          args: release --rm-dist
+            version: latest
+            args: release --rm-dist
           workdir: target/piwebagent2/
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
