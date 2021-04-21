@@ -15,7 +15,8 @@ jobs:
         shell: bash
     steps:
         - uses: actions/checkout@v1
-
+          with:
+            fetch-depth: 0
         - name: Cache node modules
           uses: actions/cache@v1
           with:
