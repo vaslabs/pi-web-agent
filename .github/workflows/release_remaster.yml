@@ -1,8 +1,7 @@
 on:
   push:
-    branches:    
-      - 'remaster'        # matches every branch
-
+    tags: 
+      - 0.6.*
 name: Build
 jobs:
   build:

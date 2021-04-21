@@ -5,6 +5,6 @@ mv .goreleaser.yml piwebagent2/
 cp -r ../scripts piwebagent2/
 cd piwebagent2
 
-goreleaser release --skip-publish --version latest
-
+goreleaser --snapshot
+goreleaser release --skip-publish
 cd ../..
