@@ -34,7 +34,7 @@ jobs:
           uses: goreleaser/goreleaser-action@v2
           with:
             install-only: true
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Release for raspbian
           run: make package-debian
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
