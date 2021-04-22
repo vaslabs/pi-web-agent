@@ -9,8 +9,10 @@ This is a web-app agent for the raspberry pi. It allows you to interact easily w
 # How to install
 
 ## Early adapters
-On your raspberry pi download and install pi-web-agent_0.7.0_linux_arm.deb
-from https://github.com/vaslabs/pi-web-agent/releases/tag/0.7.0
+On your raspberry pi download and install the latest 0.7.x debian package from
+from https://github.com/vaslabs/pi-web-agent/releases .
+
+You're probably gonna need the arm.deb one (not the arm64)
 
 This is a pre release. For any ideas let us know https://github.com/vaslabs/pi-web-agent/discussions
 For any issues feel free to report here https://github.com/vaslabs/pi-web-agent/issues
