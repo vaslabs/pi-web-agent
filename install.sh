@@ -35,6 +35,19 @@ function prepare_unpack() {
     echo $target
 }
 
+function install_pwa_ca(){
+    mkdir $PWA_CA_PATH
+    cd $PWA_CA_PATH
+	curl -sf https://gobinaries.com/jsha/minica | sh
+
+	minica --domains rpi
+    group add pwassl
+    sudo chmod 640 $PWA_CA_PATH # group read
+    sudo chown root:pwassl -R $PWA_CA_PATH
+    usermod -a -G pwassl piwebagent2 # pi web agent can only read
+    cd -
+}
+
 work_dir=$(prepare_unpack)
 set -e
 cd $work_dir
@@ -46,6 +59,7 @@ install_assets
 create_user
 chown piwebagent2 -R /$SHARED_PATH
 sudoer_user_priviledges
+install_pwa_ca
 register_service
 start_service
 set +e
