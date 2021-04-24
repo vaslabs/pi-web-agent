@@ -32,7 +32,7 @@ function install_assets() {
 function install_config() {
     mkdir -p $CONFIG_DIR
     cp $CONFIG_FILE /$CONFIG_FILE
-    echo "Run sudo chown username:username /$CONFIG_FILE to have permissions to read/write config when testing the app"
+    chown -R piwebagent2 /$CONFIG_FILE
 }
 
 function prepare_unpack() {
@@ -51,6 +51,7 @@ install_binary
 install_assets
 create_user
 chown piwebagent2 -R /$SHARED_PATH
+install_config
 sudoer_user_priviledges
 register_service
 start_service
