@@ -29,6 +29,12 @@ function install_assets() {
     cp -r $SHARED_PATH /$SHARED_PATH
 }
 
+function install_config() {
+    mkdir -p $CONFIG_DIR
+    cp $CONFIG_FILE /$CONFIG_FILE
+    chown -R piwebagent2 /$CONFIG_FILE
+}
+
 function prepare_unpack() {
     target=$(mktemp -d)
     cp target/piwebagent2.zip $target/
@@ -45,6 +51,7 @@ install_binary
 install_assets
 create_user
 chown piwebagent2 -R /$SHARED_PATH
+install_config
 sudoer_user_priviledges
 register_service
 start_service

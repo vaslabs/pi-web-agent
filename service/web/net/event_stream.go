@@ -1,12 +1,15 @@
 package net
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/gorilla/websocket"
+	shell "github.com/vaslabs/pi-web-agent/internal"
 )
 
 var upgrader = websocket.Upgrader{
@@ -47,6 +50,7 @@ func (client *Client) ExtendWriteDeadline() {
 
 type Session struct {
 	registered_client *Client
+	PWA_Config        shell.RPI_Config
 }
 
 type SessionWithoutClient struct{}
@@ -56,7 +60,7 @@ func (*SessionWithoutClient) Error() string {
 }
 
 func NewSession() Session {
-	return Session{nil}
+	return Session{nil, shell.Load_RPI_PWA_Config()}
 }
 
 func (session *Session) Send(message interface{}) {
@@ -129,7 +133,10 @@ func (session *Session) register_new_client(ws *websocket.Conn) {
 }
 
 func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, dispatcher Dispatcher) {
-	//TODO find a way to safeguard this a bit
+	if !session.check_password(r) {
+		log.Println("Unauthorized access, ignored")
+		return
+	}
 	upgrader.CheckOrigin = func(r *http.Request) bool {
 		return true
 	}
@@ -143,4 +150,21 @@ func (session *Session) Open_Web_Socket(w http.ResponseWriter, r *http.Request, 
 	} else {
 		log.Printf("Error upgrading connection for websocket use: %s", err.Error())
 	}
+}
+
+func (session *Session) check_password(r *http.Request) bool {
+	if session.PWA_Config.Password_Hash() == "" {
+		fmt.Println("No passhprase has been set - all connections allowed")
+		return true
+	}
+
+	password := r.Header.Get("Authorization")
+	password_sha256_bytes := sha256.Sum256([]byte(password))
+	password_sha256 := fmt.Sprintf("%x", password_sha256_bytes)
+
+	return session.PWA_Config.Password_Hash() == password_sha256
+}
+
+func (session *Session) Set_Pass(new_passphrase string) {
+	session.PWA_Config.Update_Passphrase(new_passphrase)
 }

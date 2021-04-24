@@ -6,3 +6,6 @@ echo "Enabling piwebagent2.service"
 systemctl enable piwebagent2.service
 echo "Starting piwebagent2.service"
 systemctl start piwebagent2.service
+
+echo "Giving permissions to the config directory"
+chown -R piwebagent2 /etc/piwebagent2/config

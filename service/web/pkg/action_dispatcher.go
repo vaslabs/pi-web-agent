@@ -23,9 +23,14 @@ type Power_Off struct {
 type Reboot struct {
 }
 
+type Set_Passphrase struct {
+	Passphrase string
+}
+
 const DISPLAY_LIVE_INFO = "DISPLAY_LIVE_INFO"
 const REBOOT = "REBOOT"
 const POWER_OFF = "POWER_OFF"
+const SET_PASSPHRASE = "SET_PASSPHRASE"
 
 func (c *Display_Live_Info) Action_Type() string {
 	return DISPLAY_LIVE_INFO
@@ -36,6 +41,10 @@ func (r *Reboot) Action_Type() string {
 }
 func (p *Power_Off) Action_Type() string {
 	return POWER_OFF
+}
+
+func (p *Set_Passphrase) Action_Type() string {
+	return SET_PASSPHRASE
 }
 
 type UnrecognisedAction struct {
@@ -78,6 +87,10 @@ func (reboot *Reboot) execute(session *net.Session) {
 
 func (power_off *Power_Off) execute(session *net.Session) {
 	session.Send(System_Power_Off())
+}
+
+func (set_pass *Set_Passphrase) execute(session *net.Session) {
+	session.Set_Pass(set_pass.Passphrase)
 }
 
 func Parse_Action(r *io.Reader) (Action, error) {

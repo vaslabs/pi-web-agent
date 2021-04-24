@@ -90,6 +90,10 @@ nfpms:
         file_info:
           mode: 0644
 
+      - src: etc/piwebagent2/config/config.env
+        dst: /etc/piwebagent2/config/config.env
+        type: "config|noreplace"
+        
       - src: usr/share/piwebagent2/assets
         dst: /usr/share/piwebagent2/assets
 
