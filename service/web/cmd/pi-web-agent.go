@@ -39,7 +39,8 @@ func main() {
 				nil,
 			),
 		)
-	} else {
+	} else {:wq
 		log.Fatal(http.ListenAndServe(addr, nil))
 	}
 
+}
