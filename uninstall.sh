@@ -9,6 +9,10 @@ function unregister_service() {
     systemctl disable piwebagent2.service
 }
 
+function remove_config() {
+    rm -r /etc/piwebagent2
+}
+
 function stop_service() {
     systemctl stop piwebagent2.service
 }
@@ -31,3 +35,4 @@ unregister_sudoer || echo "Could not remove from sudoers"
 remove_user || echo "Could not remove piwebagent2 user"
 remove_assets || echo "Could not remove assets"
 remove_binary || echo "Could not remove piwebagent2 binary"
+remove_config || echo "Could not remove /etc/piwebagent2"

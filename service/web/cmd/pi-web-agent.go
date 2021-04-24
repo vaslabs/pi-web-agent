@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,8 +12,8 @@ import (
 )
 
 func main() {
-
 	single_user_session := net.NewSession()
+	addr := fmt.Sprintf(":%d", single_user_session.PWA_Config.Port())
 
 	api_action_prefix := "/api/action/"
 	key_path := "/etc/pwa_ca/rpi/key.pem"
@@ -39,6 +40,6 @@ func main() {
 			),
 		)
 	} else {
-		log.Fatal(http.ListenAndServe(":8080", nil))
+		log.Fatal(http.ListenAndServe(addr, nil))
 	}
-}
+
