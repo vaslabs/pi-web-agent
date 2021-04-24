@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -27,5 +28,7 @@ func main() {
 	http.HandleFunc("/api/control/stream", action_dispatcher_handler)
 	http.Handle("/", http.FileServer(http.Dir("assets")))
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	addr := fmt.Sprintf(":%d", single_user_session.PWA_Config.Port())
+
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
