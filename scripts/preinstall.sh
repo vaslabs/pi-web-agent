@@ -1,4 +1,2 @@
 
-useradd -r piwebagent2
-
-
+id piwebagent2 || useradd -r piwebagent2
