@@ -39,7 +39,7 @@ func main() {
 				nil,
 			),
 		)
-	} else {:wq
+	} else {
 		log.Fatal(http.ListenAndServe(addr, nil))
 	}
 
