@@ -29,6 +29,12 @@ function install_assets() {
     cp -r $SHARED_PATH /$SHARED_PATH
 }
 
+function install_config() {
+    mkdir -p $CONFIG_DIR
+    cp $CONFIG_FILE /$CONFIG_FILE
+    echo "Run sudo chown username:username /$CONFIG_FILE to have permissions to read/write config when testing the app"
+}
+
 function prepare_unpack() {
     target=$(mktemp -d)
     cp target/piwebagent2.zip $target/

@@ -3,3 +3,5 @@ SERVICE_PATH=lib/systemd/system/piwebagent2.service
 BINARY_PATH=usr/bin/piwebagent2
 SHARED_PATH=usr/share/piwebagent2
 SUDOERS_PATH=etc/sudoers.d/piwebagent2
+CONFIG_DIR=etc/piwebagent2/config
+CONFIG_FILE=${CONFIG_DIR}/config.env
