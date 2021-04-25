@@ -16,8 +16,8 @@ func main() {
 	config := single_user_session.PWA_Config
 	addr := fmt.Sprintf(":%d", config.Port())
 	tls_addr := fmt.Sprintf(":%d", config.TLS_Port())
-	key_path := "/etc/pwa_ca/rpi/key.pem"
-	cert_path := "/etc/pwa_ca/rpi/cert.pem"
+	key_path := config.TLS_Key_File()
+	cert_path := config.TLS_Cert_File()
 
 	api_action_prefix := "/api/action/"
 
