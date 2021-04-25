@@ -13,11 +13,13 @@ import (
 
 func main() {
 	single_user_session := net.NewSession()
-	addr := fmt.Sprintf(":%d", single_user_session.PWA_Config.Port())
-
-	api_action_prefix := "/api/action/"
+	config := single_user_session.PWA_Config
+	addr := fmt.Sprintf(":%d", config.Port())
+	tls_addr := fmt.Sprintf(":%d", config.TLS_Port())
 	key_path := "/etc/pwa_ca/rpi/key.pem"
 	cert_path := "/etc/pwa_ca/rpi/cert.pem"
+
+	api_action_prefix := "/api/action/"
 
 	dummyHandler := func(w http.ResponseWriter, req *http.Request) {
 		io.WriteString(w, "Hello, world!\n")
@@ -31,15 +33,19 @@ func main() {
 	http.HandleFunc("/api/control/stream", action_dispatcher_handler)
 	http.Handle("/", http.FileServer(http.Dir("assets")))
 	if _, err := os.Stat(key_path); err == nil {
+		log.Println("Redirecting from ", addr)
+		go net.RedirectToHTTPS(addr, config.TLS_Port())
+		log.Println("Serving over TLS on ", tls_addr)
 		log.Fatal(
 			http.ListenAndServeTLS(
-				":443",
-				key_path,
+				tls_addr,
 				cert_path,
+				key_path,
 				nil,
 			),
 		)
 	} else {
+		log.Println("Listening to ", addr)
 		log.Fatal(http.ListenAndServe(addr, nil))
 	}
 

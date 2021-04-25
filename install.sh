@@ -33,6 +33,8 @@ function install_config() {
     mkdir -p $CONFIG_DIR
     cp $CONFIG_FILE /$CONFIG_FILE
     chown -R piwebagent2 /$CONFIG_FILE
+    chown piwebagent2 /$SERVICE_PATH/web/config
+    ln -sfn /$CONFIG_DIR/ /$SERVICE_PATH/web/config
 }
 
 function prepare_unpack() {
@@ -42,13 +44,19 @@ function prepare_unpack() {
 }
 
 function install_pwa_ca(){
-    mkdir $PWA_CA_PATH
+    tmp=$(mktemp -d)
+    cd $tmp
+    git clone https://github.com/jsha/minica.git
+    cd minica 
+    go build
+    mkdir -p $PWA_CA_PATH
     cd $PWA_CA_PATH
-	curl -sf https://gobinaries.com/jsha/minica | sh
-
-	minica --domains rpi
-    group add pwassl
-    sudo chmod 640 $PWA_CA_PATH # group read
+	$tmp/minica/minica --domains rpi
+    groupadd pwassl
+    # group read execute for direcotries
+    find $PWA_CA_PATH -type d -print0 | xargs -0 chmod 750
+    # group read for files
+    find $PWA_CA_PATH -type f -print0 | xargs -0 chmod 640
     sudo chown root:pwassl -R $PWA_CA_PATH
     usermod -a -G pwassl piwebagent2 # pi web agent can only read
     cd -

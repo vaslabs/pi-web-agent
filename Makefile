@@ -1,6 +1,7 @@
 
 run-backend: build-backend
-	cd service/web && go run cmd/pi-web-agent.go || cd -
+	ln -sfn ../system/etc/piwebagent2/config service/web/config \
+		&&cd service/web && go run cmd/A.go || cd -
 
 run-frontend: 
 	cd ui/pi-web-agent-app && ng serve || cd -
@@ -11,13 +12,13 @@ test-backend:
 	cd service/web && go test ./test/ && cd -
 
 build-dev-ui:
-	cd ui/pi-web-agent-app && npm i && ng build --base-href / && cd -
+	npm --prefix ui/pi-web-agent-app i &&npm --prefix ui/pi-web-agent-app run ng build -- --base-href / 
 
 build-backend:
 	cd service/web && go build -o pi-web-agent cmd/pi-web-agent.go && cd -
 
 install-dev:
-	sudo apt-get update && sudo apt-get install git && curl -L https://git.io/vQhTU | bash -s -- --version 1.16
+	sudo apt-get update && sudo apt-get install git nodejs npm && curl -L https://git.io/vQhTU | bash -s -- --version 1.16
 
 uninstall-go:
 	curl -L https://git.io/vQhTU | bash -s -- --remove
@@ -40,7 +41,8 @@ make uninstall:
 
 
 build-rpi-ui:
-	cd ui/pi-web-agent-app && npm i && ng build --prod --base-href / && cd -
+	npm --prefix ui/pi-web-agent-app i \
+		&&npm --prefix ui/pi-web-agent-app run ng build -- --prod --base-href / 
 	
 build-rpi-backend:
 	cd service/web && env GOOS=linux GOARCH=arm GOARM=5 go build -o pi-web-agent cmd/pi-web-agent.go && cd -
