@@ -32,7 +32,7 @@ function install_assets() {
 function install_config() {
     mkdir -p $CONFIG_DIR
     cp $CONFIG_FILE /$CONFIG_FILE
-    chown -R piwebagent2 /$CONFIG_FILE
+    chown -R piwebagent2 /$CONFIG_DIR
 }
 
 function prepare_unpack() {
@@ -40,6 +40,7 @@ function prepare_unpack() {
     cp target/piwebagent2.zip $target/
     echo $target
 }
+
 
 work_dir=$(prepare_unpack)
 set -e
