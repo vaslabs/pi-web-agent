@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function install_pwa_ca(){
     PWA_CA_PATH='/etc/pwa_ca'
     tmp=$(mktemp -d)
