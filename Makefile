@@ -1,7 +1,7 @@
 
 run-backend: build-backend
 	ln -sfn ../system/etc/piwebagent2/config service/web/config \
-		&&cd service/web && go run cmd/A.go || cd -
+		&&cd service/web && go run cmd/pi-web-agent.go  || cd -
 
 run-frontend: 
 	cd ui/pi-web-agent-app && ng serve || cd -
