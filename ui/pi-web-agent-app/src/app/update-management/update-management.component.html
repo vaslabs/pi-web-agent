@@ -1,6 +1,8 @@
 <h2>Available Updates</h2>
+
+<button (click)="update_system()" *ngIf="packageUpdates.length > 0" mat-raised-button color="primary">Update</button>
+
 <mat-list>
     <mat-list-item *ngFor="let packageUpdate of packageUpdates"> {{packageUpdate.Name}} : {{packageUpdate.Current_Version}} -> {{packageUpdate.Next_Version}}</mat-list-item>
 </mat-list>
 
-<button *ngIf="packageUpdates.length > 0" mat-raised-button color="primary">Update</button>

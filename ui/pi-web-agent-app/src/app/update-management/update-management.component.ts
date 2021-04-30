@@ -22,6 +22,9 @@ export class UpdateManagementComponent implements OnInit {
     );
   }
 
+  update_system(): void {
+    this.piControl.sendCommand({Action_Type: 'APPLY_UPDATES'});
+  }
 
 }
 
