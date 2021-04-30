@@ -86,7 +86,7 @@ cd piwebagent2
 echo "Installing from $work_dir"
 install_binary
 install_assets
-install_apt_get_cron_daily
+install_apt_get_cron_daily || echo "Skipping apt-get cron"
 create_user
 install_pwa_ca
 chown piwebagent2 -R /$SHARED_PATH
