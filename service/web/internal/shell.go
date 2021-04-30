@@ -3,6 +3,7 @@ package shell
 import (
 	"bufio"
 	"bytes"
+	"io"
 	"log"
 	"os/exec"
 )
@@ -14,9 +15,9 @@ func RunWithInput(input *bytes.Buffer, out *bytes.Buffer, command string, arg ..
 	cmd.Run()
 }
 
-func RunWithOutput(out *bytes.Buffer, command string, arg ...string) {
+func RunWithOutput(out *io.Writer, command string, arg ...string) {
 	cmd := exec.Command(command, arg...)
-	cmd.Stdout = out
+	cmd.Stdout = *out
 	err := cmd.Run()
 	if err != nil {
 		log.Printf("Error running command %s, %v", command, arg)

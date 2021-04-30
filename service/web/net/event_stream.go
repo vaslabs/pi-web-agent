@@ -1,7 +1,7 @@
 package net
 
 import (
-	"bytes"
+	"bufio"
 	"crypto/sha256"
 	"fmt"
 	"io"
@@ -73,9 +73,9 @@ func (session *Session) Send(message interface{}) {
 	session.registered_client.SendJSON(message)
 }
 
-func (session *Session) SendMultiple(out *bytes.Buffer) {
+func (session *Session) SendMultiple(reader *bufio.Reader) {
 	for {
-		line, err := out.ReadString('\n')
+		line, err := reader.ReadString('\n')
 		if err != nil {
 			break
 		}

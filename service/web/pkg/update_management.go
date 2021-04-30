@@ -2,7 +2,7 @@ package api
 
 import (
 	"bufio"
-	"bytes"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -40,7 +40,7 @@ func Available_Updates() []Package_Update {
 	return Available_Updates_From_File("/usr/lib/piwebagent2/update_check")
 }
 
-func Update(out *bytes.Buffer) {
+func Update(out *io.Writer) {
 	shell.RunWithOutput(out, "sudo", "apt-get", "-y", "upgrade")
 }
 
