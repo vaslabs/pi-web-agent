@@ -17,7 +17,10 @@ func RunWithInput(input *bytes.Buffer, out *bytes.Buffer, command string, arg ..
 func RunWithOutput(out *bytes.Buffer, command string, arg ...string) {
 	cmd := exec.Command(command, arg...)
 	cmd.Stdout = out
-	cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		log.Printf("Error running command %s, %v", command, arg)
+	}
 }
 
 func RunSingle(command string, arg ...string) (string, error) {
