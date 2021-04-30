@@ -27,10 +27,13 @@ type Set_Passphrase struct {
 	Passphrase string
 }
 
+type Find_Available_Updates struct {}
+
 const DISPLAY_LIVE_INFO = "DISPLAY_LIVE_INFO"
 const REBOOT = "REBOOT"
 const POWER_OFF = "POWER_OFF"
 const SET_PASSPHRASE = "SET_PASSPHRASE"
+const AVAILABLE_UPDATES = "AVAILABLE_UPDATES"
 
 func (c *Display_Live_Info) Action_Type() string {
 	return DISPLAY_LIVE_INFO
@@ -45,6 +48,10 @@ func (p *Power_Off) Action_Type() string {
 
 func (p *Set_Passphrase) Action_Type() string {
 	return SET_PASSPHRASE
+}
+
+func (available_updates *Find_Available_Updates) Action_Type() string {
+	return AVAILABLE_UPDATES
 }
 
 type UnrecognisedAction struct {
@@ -93,6 +100,10 @@ func (set_pass *Set_Passphrase) execute(session *net.Session) {
 	session.Set_Pass(set_pass.Passphrase)
 }
 
+func (available_updates *Find_Available_Updates) execute(session *net.Session) {
+	session.Send(Available_Updates())
+}
+
 func Parse_Action(r *io.Reader) (Action, error) {
 	json_reader := viper.New()
 	json_reader.SetConfigType("json")
@@ -109,6 +120,8 @@ func Parse_Action(r *io.Reader) (Action, error) {
 		return &Reboot{}, nil
 	case POWER_OFF:
 		return &Power_Off{}, nil
+	case AVAILABLE_UPDATES:
+		return &Find_Available_Updates{}, nil
 	default:
 		return nil, &UnrecognisedAction{action_type}
 	}

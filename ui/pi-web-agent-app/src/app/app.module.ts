@@ -15,13 +15,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MainViewComponent } from './main-view/main-view.component';
+import { UpdateManagementComponent } from './update-management/update-management.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LiveInfoComponent,
     PoweroffComponent,
-    MainViewComponent
+    MainViewComponent,
+    UpdateManagementComponent
   ],
   imports: [
     BrowserModule,
