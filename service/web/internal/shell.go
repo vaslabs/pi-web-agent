@@ -1,28 +1,19 @@
 package shell
 
 import (
-	"bufio"
-	"bytes"
 	"io"
 	"log"
 	"os/exec"
 )
 
-func RunWithInput(input *bytes.Buffer, out *bytes.Buffer, command string, arg ...string) {
+func RunWithOutput(command string, arg ...string) (io.ReadCloser, error) {
 	cmd := exec.Command(command, arg...)
-	cmd.Stdin = bufio.NewReader(input)
-	cmd.Stdout = out
-	cmd.Run()
-}
-
-func RunWithOutput(out *io.Writer, command string, arg ...string) {
-	cmd := exec.Command(command, arg...)
-	cmd.Stdout = *out
 	log.Printf("Running %s %v", command, arg)
-	err := cmd.Run()
-	log.Printf("Completed run %s %v with %v", command, arg, err)
-	if err != nil {
-		log.Printf("Error running command %s, %v", command, arg)
+	reader, err := cmd.StdoutPipe()
+	if err == nil {
+		return reader, cmd.Start()
+	} else {
+		return reader, err
 	}
 }
 

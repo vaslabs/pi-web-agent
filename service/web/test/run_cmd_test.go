@@ -2,34 +2,31 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"io"
-	"strings"
 	"testing"
 
 	shell "github.com/vaslabs/pi-web-agent/internal"
 )
 
 func TestRunCommandWithOutput(t *testing.T) {
-	buffer := bytes.NewBuffer(make([]byte, 0))
-	writer := io.Writer(buffer)
-	reader := bufio.NewReader(buffer)
-	shell.RunWithOutput(&writer, "echo", "hello\n", "hello2\n")
+	t.Log("Starting command")
 
-	l, _ := reader.ReadString('\n')
-	firstLine := strings.Trim(strings.TrimSpace(l), "\x00")
-	l, _ = reader.ReadString('\n')
-	secondLine := strings.Trim(strings.TrimSpace(l), "\x00")
-
-	expected := "hello"
-
-	if firstLine != expected {
-		t.Errorf("Expected '%s' but got '%s'", expected, firstLine)
+	reader, err := shell.RunWithOutput("echo", "hello", "hello")
+	t.Log("Started command")
+	if err != nil {
+		t.Fatalf("Error executing command %s", err.Error())
 	}
 
-	expected = "hello2"
+	buff_reader := bufio.NewReader(reader)
 
-	if secondLine != expected {
-		t.Errorf("Expected %s but got '%s'", expected, secondLine)
+	for {
+		line, err := buff_reader.ReadString('\n')
+		if err != nil && err != io.EOF {
+			t.Errorf("Error parsing package line %s . Delete %s\n", line, err)
+			break
+		} else if err == io.EOF {
+			break
+		}
+		t.Logf("%s\n", line)
 	}
 }

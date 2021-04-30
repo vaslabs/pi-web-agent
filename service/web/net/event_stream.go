@@ -73,9 +73,11 @@ func (session *Session) Send(message interface{}) {
 	session.registered_client.SendJSON(message)
 }
 
-func (session *Session) SendMultiple(reader *bufio.Reader) {
+func (session *Session) SendMultiple(reader io.ReadCloser) {
+	defer reader.Close()
+	buff_reader := bufio.NewReader(reader)
 	for {
-		line, err := reader.ReadString('\n')
+		line, err := buff_reader.ReadString('\n')
 		if err != nil {
 			break
 		}

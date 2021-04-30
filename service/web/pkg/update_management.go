@@ -40,8 +40,8 @@ func Available_Updates() []Package_Update {
 	return Available_Updates_From_File("/usr/lib/piwebagent2/update_check")
 }
 
-func Update(out *io.Writer) {
-	shell.RunWithOutput(out, "/usr/lib/piwebagent2/update_system")
+func Update(out *io.Writer) (io.ReadCloser, error) {
+	return shell.RunWithOutput("/usr/lib/piwebagent2/update_system")
 }
 
 func read_updates(location string) ([]Package_Update, error) {

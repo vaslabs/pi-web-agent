@@ -1,7 +1,6 @@
 package api
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io"
@@ -116,9 +115,13 @@ func (available_updates *Find_Available_Updates) execute(session *net.Session) {
 func (apply_updates *Apply_Updates) execute(session *net.Session) {
 	buffer := bytes.NewBuffer(make([]byte, 0))
 	out := io.Writer(buffer)
-	reader := bufio.NewReader(buffer)
-	session.SendMultiple(reader)
-	Update(&out)
+	reader, err := Update(&out)
+	if err != nil {
+		log.Printf("Error updating %s", err.Error())
+	} else {
+		session.SendMultiple(reader)
+	}
+
 }
 
 func Parse_Action(r *io.Reader) (Action, error) {
