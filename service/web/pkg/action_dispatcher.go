@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -27,16 +28,23 @@ type Set_Passphrase struct {
 	Passphrase string
 }
 
-type Find_Available_Updates struct {}
+type Find_Available_Updates struct{}
+
+type Apply_Updates struct{}
 
 const DISPLAY_LIVE_INFO = "DISPLAY_LIVE_INFO"
 const REBOOT = "REBOOT"
 const POWER_OFF = "POWER_OFF"
 const SET_PASSPHRASE = "SET_PASSPHRASE"
 const AVAILABLE_UPDATES = "AVAILABLE_UPDATES"
+const APPLY_UPDATES = "APPLY_UPDATES"
 
 func (c *Display_Live_Info) Action_Type() string {
 	return DISPLAY_LIVE_INFO
+}
+
+func (apply_updates *Apply_Updates) Action_Type() string {
+	return APPLY_UPDATES
 }
 
 func (r *Reboot) Action_Type() string {
@@ -104,6 +112,12 @@ func (available_updates *Find_Available_Updates) execute(session *net.Session) {
 	session.Send(Available_Updates())
 }
 
+func (apply_updates *Apply_Updates) execute(session *net.Session) {
+	out := bytes.NewBuffer(make([]byte, 1024))
+	defer Update(out)
+	session.SendMultiple(out)
+}
+
 func Parse_Action(r *io.Reader) (Action, error) {
 	json_reader := viper.New()
 	json_reader.SetConfigType("json")
@@ -122,6 +136,8 @@ func Parse_Action(r *io.Reader) (Action, error) {
 		return &Power_Off{}, nil
 	case AVAILABLE_UPDATES:
 		return &Find_Available_Updates{}, nil
+	case APPLY_UPDATES:
+		return &Apply_Updates{}, nil
 	default:
 		return nil, &UnrecognisedAction{action_type}
 	}

@@ -2,9 +2,12 @@ package api
 
 import (
 	"bufio"
+	"bytes"
 	"log"
 	"os"
 	"strings"
+
+	shell "github.com/vaslabs/pi-web-agent/internal"
 )
 
 type Package_Update struct {
@@ -35,6 +38,10 @@ func Available_Updates_From_File(location string) []Package_Update {
 
 func Available_Updates() []Package_Update {
 	return Available_Updates_From_File("/usr/lib/piwebagent2/update_check")
+}
+
+func Update(out *bytes.Buffer) {
+	shell.RunWithOutput(out, "sudo", "apt-get", "upgrade")
 }
 
 func read_updates(location string) ([]Package_Update, error) {

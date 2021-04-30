@@ -1,6 +1,7 @@
 package net
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"io"
@@ -35,6 +36,10 @@ type Client struct {
 	conn *websocket.Conn
 }
 
+type ConsoleMessage struct {
+	Console_Message string
+}
+
 func (client *Client) SendJSON(message interface{}) {
 	client.ExtendWriteDeadline()
 	err := client.conn.WriteJSON(message)
@@ -66,6 +71,16 @@ func NewSession() Session {
 func (session *Session) Send(message interface{}) {
 	log.Printf("Sending message %s", message)
 	session.registered_client.SendJSON(message)
+}
+
+func (session *Session) SendMultiple(out *bytes.Buffer) {
+	for {
+		line, err := out.ReadString('\n')
+		if err != nil {
+			break
+		}
+		session.registered_client.SendJSON(ConsoleMessage{line})
+	}
 }
 
 func (session *Session) receive() (*io.Reader, error) {
