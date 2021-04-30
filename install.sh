@@ -73,6 +73,8 @@ function install_apt_get_cron_daily() {
 function setup_libdir() {
     mkdir -p /$PIWEBAGENT_LIB
     chown -R piwebagent2 /$PIWEBAGENT_LIB
+    cp $SYSTEM_UPDATER /$SYSTEM_UPDATER
+    chmod +x /$SYSTEM_UPDATER
 }
 
 

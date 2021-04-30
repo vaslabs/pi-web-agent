@@ -7,4 +7,5 @@ PWA_CA_PATH=/etc/pwa_ca
 CONFIG_DIR=etc/piwebagent2/config
 CONFIG_FILE=${CONFIG_DIR}/config.env
 CRON_UPDATE_DAILY=etc/cron.daily/update_check
-PIWEBAGENT_LIB=usr/lib/piwebagent2/
+PIWEBAGENT_LIB=usr/lib/piwebagent2
+SYSTEM_UPDATER=${PIWEBAGENT_LIB}/update_system
