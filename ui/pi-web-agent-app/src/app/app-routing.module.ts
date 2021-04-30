@@ -6,8 +6,8 @@ import { UpdateManagementComponent } from './update-management/update-management
 
 const routes: Routes = [
   { path: '', component: LiveInfoComponent },
-  { path: '#power-management', component: PoweroffComponent },
-  { path: '#updates', component: UpdateManagementComponent}
+  { path: 'power-management', component: PoweroffComponent },
+  { path: 'updates', component: UpdateManagementComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
