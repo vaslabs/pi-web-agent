@@ -5,6 +5,7 @@ echo "Working directory ${build_dir}"
 function copy_system_files() {
     cp -r service/system/lib $build_dir/
     cp -r service/system/etc $build_dir/
+    cp -r service/system/usr $build_dir/
 }
 
 function copy_backend_main() {
