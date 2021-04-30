@@ -114,11 +114,11 @@ func (available_updates *Find_Available_Updates) execute(session *net.Session) {
 }
 
 func (apply_updates *Apply_Updates) execute(session *net.Session) {
-	buffer := bytes.NewBuffer(make([]byte, 1024))
+	buffer := bytes.NewBuffer(make([]byte, 0))
 	out := io.Writer(buffer)
-	defer Update(&out)
 	reader := bufio.NewReader(buffer)
 	session.SendMultiple(reader)
+	Update(&out)
 }
 
 func Parse_Action(r *io.Reader) (Action, error) {
