@@ -11,18 +11,23 @@ export class UpdateManagementComponent implements OnInit {
 
   constructor(private piControl: PiControlService) { }
 
-  packageUpdates: PackageUpdate[] = [];
+  packageUpdates: Array<PackageUpdate> = [];
 
   ngOnInit(): void {
     this.piControl.sendCommand({Action_Type: 'AVAILABLE_UPDATES'});
 
     this.piControl.eventSource().subscribe(
-      (packageUpdates: PackageUpdate[]) =>
-        this.packageUpdates = packageUpdates
+        (packageUpdates: Array<PackageUpdate>) => {
+          if (Array.isArray(packageUpdates)) {
+            this.packageUpdates = packageUpdates;
+          }
+        }
+
     );
   }
 
   update_system(): void {
+    this.packageUpdates = [];
     this.piControl.sendCommand({Action_Type: 'APPLY_UPDATES'});
   }
 

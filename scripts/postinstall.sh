@@ -37,3 +37,6 @@ systemctl start piwebagent2.service
 
 echo "Giving permissions to the config directory"
 chown -R piwebagent2 /etc/piwebagent2/config
+
+echo "Giving permissions to lib directory"
+chown -R piwebagent2 /usr/lib/piwebagent2

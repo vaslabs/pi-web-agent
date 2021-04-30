@@ -16,6 +16,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MainViewComponent } from './main-view/main-view.component';
 import { UpdateManagementComponent } from './update-management/update-management.component';
+import { ConsoleComponent } from './console/console.component';
+import { NgTerminalModule } from 'ng-terminal';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { UpdateManagementComponent } from './update-management/update-management
     LiveInfoComponent,
     PoweroffComponent,
     MainViewComponent,
-    UpdateManagementComponent
+    UpdateManagementComponent,
+    ConsoleComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { UpdateManagementComponent } from './update-management/update-management
     OnlineIndicatorModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    NgTerminalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
