@@ -30,7 +30,7 @@ function install_assets() {
 }
 
 function install_config() {
-    mkdir -p $CONFIG_DIR
+    mkdir -p /$CONFIG_DIR
     cp $CONFIG_FILE /$CONFIG_FILE
     chown -R piwebagent2 /$CONFIG_DIR
 }
