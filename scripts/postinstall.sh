@@ -2,22 +2,24 @@
 
 function install_pwa_ca(){
     PWA_CA_PATH='/etc/pwa_ca'
-    tmp=$(mktemp -d)
-    cd $tmp
-    git clone https://github.com/jsha/minica.git
-    cd minica 
-    go build
-    mkdir -p $PWA_CA_PATH
-    cd $PWA_CA_PATH
-	$tmp/minica/minica --domains rpi
-    groupadd pwassl
-    # group read execute for direcotries
-    find $PWA_CA_PATH -type d -print0 | xargs -0 chmod 750
-    # group read for files
-    find $PWA_CA_PATH -type f -print0 | xargs -0 chmod 640
-    sudo chown root:pwassl -R $PWA_CA_PATH
-    usermod -a -G pwassl piwebagent2 # pi web agent can only read
-    cd -
+    [ -d $PWA_CA_PATH ] || {
+        tmp=$(mktemp -d)
+        cd $tmp
+        git clone https://github.com/jsha/minica.git
+        cd minica 
+        go build
+        mkdir -p $PWA_CA_PATH
+        cd $PWA_CA_PATH
+        $tmp/minica/minica --domains rpi
+        groupadd pwassl
+        # group read execute for direcotries
+        find $PWA_CA_PATH -type d -print0 | xargs -0 chmod 750
+        # group read for files
+        find $PWA_CA_PATH -type f -print0 | xargs -0 chmod 640
+        sudo chown root:pwassl -R $PWA_CA_PATH
+        usermod -a -G pwassl piwebagent2 # pi web agent can only read
+        cd -
+    }
 }
 
 

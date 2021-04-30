@@ -41,6 +41,18 @@ function prepare_unpack() {
     echo $target
 }
 
+function install_apt_get_cron_daily() {
+    which apt-get && {
+        cp $CRON_UPDATE_DAILY /$CRON_UPDATE_DAILY
+        chmod +x /$CRON_UPDATE_DAILY
+    }
+}
+
+function setup_libdir() {
+    mkdir -p /$PIWEBAGENT_LIB
+    chown -R piwebagent2 /$PIWEBAGENT_LIB
+}
+
 
 work_dir=$(prepare_unpack)
 set -e
@@ -50,8 +62,10 @@ cd piwebagent2
 echo "Installing from $work_dir"
 install_binary
 install_assets
+install_apt_get_cron_daily
 create_user
 chown piwebagent2 -R /$SHARED_PATH
+setup_libdir
 install_config
 sudoer_user_priviledges
 register_service

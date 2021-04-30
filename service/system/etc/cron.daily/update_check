@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo apt-get update && apt-get -s -o Debug::NoLocking=true upgrade | grep ^Inst >/usr/lib/piwebagent2/update_check
+chown piwebagent2 /usr/lib/piwebagent2/update_check
