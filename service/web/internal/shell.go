@@ -20,7 +20,7 @@ func RunWithOutput(out *io.Writer, command string, arg ...string) {
 	cmd.Stdout = *out
 	log.Printf("Running %s %v", command, arg)
 	err := cmd.Run()
-	log.Printf("Completed run %s %v", command, arg)
+	log.Printf("Completed run %s %v with %v", command, arg, err)
 	if err != nil {
 		log.Printf("Error running command %s, %v", command, arg)
 	}

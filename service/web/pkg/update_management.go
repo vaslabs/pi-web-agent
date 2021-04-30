@@ -41,7 +41,7 @@ func Available_Updates() []Package_Update {
 }
 
 func Update(out *io.Writer) {
-	shell.RunWithOutput(out, "sudo", "apt-get", "-y", "upgrade")
+	shell.RunWithOutput(out, "sudo", "/usr/bin/apt-get", "-y", "upgrade")
 }
 
 func read_updates(location string) ([]Package_Update, error) {
