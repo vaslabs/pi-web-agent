@@ -12,9 +12,9 @@ import { Terminal } from 'xterm';
 export class ConsoleComponent implements OnInit, AfterViewInit {
   @ViewChild('term', { static: true })
   child!: NgTerminal;
-  underlying!: Terminal;
 
   writeSubject: Subject<string> = new Subject();
+  underlying!: Terminal;
 
   constructor(private piControl: PiControlService) { }
 
@@ -24,7 +24,7 @@ export class ConsoleComponent implements OnInit, AfterViewInit {
       (consoleMessage: ConsoleMessage) => {
         console.log(consoleMessage.Console_Message);
         if (consoleMessage.Console_Message) {
-          this.child.write(consoleMessage.Console_Message + '\r');
+          this.writeSubject.next(consoleMessage.Console_Message + '\r');
         }
       }
     );
@@ -33,6 +33,7 @@ export class ConsoleComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.underlying = this.child.underlying;
     this.underlying.setOption('fontSize', 20);
+    this.underlying.setOption('rendererType', 'dom');
     this.child.write('$ ');
   }
 
