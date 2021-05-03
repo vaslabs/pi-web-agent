@@ -99,7 +99,8 @@ nfpms:
 
       - src: usr/lib/piwebagent2/update_system
         dst: /usr/lib/piwebagent2/update_system
-        mode: 0550
+        file_info:
+          mode: 0550
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process
