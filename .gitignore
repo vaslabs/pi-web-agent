@@ -1,3 +1,9 @@
 .htpasswd
 *.pwa
 *.pyc
+.vscode
+node_modules/
+target/
+*.zip
+service/web/config
+service/system/usr/lib/piwebagent2/update_check

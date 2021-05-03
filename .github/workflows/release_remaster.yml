@@ -1,0 +1,42 @@
+on:
+  push:
+    tags:    
+      - 0.7.*
+name: Release
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+        - uses: actions/checkout@v1
+          with:
+            fetch-depth: 0
+        - name: Cache node modules
+          uses: actions/cache@v1
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-node-
+        - name: Node ${{ matrix.node-version }}
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node-version }}
+        - name: Install dependencies
+          run: npm install -g @angular/cli
+        - name: Prepare debian packaging
+          run: make package-debian
+        - name: Run GoReleaser
+          uses: goreleaser/goreleaser-action@v2
+          with:
+            version: latest
+            args: release --rm-dist
+            workdir: target/piwebagent2/
+          env:
+            GITHUB_TOKEN: ${{ secrets.GH_PAT }}

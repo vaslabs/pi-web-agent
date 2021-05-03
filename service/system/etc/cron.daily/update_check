@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ -z "$PWA_ROOT_PATH_PREFIX" ]; then
+    PWA_ROOT_PATH_PREFIX='/'
+fi;
+UPDATE_CHECK_PATH=${PWA_ROOT_PATH_PREFIX}usr/lib/piwebagent2/update_check 
+echo exporting update check results at $UPDATE_CHECK_PATH ...
+sudo apt-get update && apt-get -s -o Debug::NoLocking=true upgrade | grep ^Inst |\
+ cut -f '2-4' -d ' ' | tr -d '[' | tr -d ']' | tr -d '(' >$UPDATE_CHECK_PATH
+chown piwebagent2 $UPDATE_CHECK_PATH \
+|| echo Warning: Skipping piwebagent2 ownership assignemnt on $UPDATE_CHECK_PATH

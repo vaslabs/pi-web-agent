@@ -1,0 +1,1 @@
+piwebagent2 ALL=NOPASSWD: /sbin/reboot,/sbin/poweroff,/opt/vc/bin/vcgencmd,/usr/bin/apt-get

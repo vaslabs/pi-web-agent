@@ -1,0 +1,112 @@
+# to be run in target/piwebagent2/
+
+builds:
+  - id: piwebagent
+    dir: ../../service/web
+    main: ./cmd/pi-web-agent.go
+    binary: piwebagent2
+    goos:
+      - linux
+
+    goarch:
+      - arm
+      - arm64
+nfpms:
+  # note that this is an array of nfpm configs
+  -
+    # ID of the nfpm config, must be unique.
+    # Defaults to "default".
+    id: piwebagent
+
+    # Name of the package.
+    # Defaults to `ProjectName`.
+    package_name: piwebagent2
+
+    # You can change the file name of the package.
+    # Default: `{{ .PackageName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}_{{ .Mips }}{{ end }}`
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+    # Build IDs for the builds you want to create NFPM packages for.
+    # Defaults to all builds.
+    builds:
+      - piwebagent
+
+    # Your app's vendor.
+    # Default is empty.
+    vendor: vaslabs
+    # Your app's homepage.
+    # Default is empty.
+    homepage: https://github.com/vaslabs/pi-web-agent
+
+    # Your app's maintainer (probably you).
+    # Default is empty.
+    maintainer: Vasilis Nicolaou <vaslabsco@gmail.com>
+
+    # Your app's description.
+    # Default is empty.
+    description: A web based desktop replacement for our beloved Raspberry PI's
+
+    # Your app's license.
+    # Default is empty.
+    license: GNU GENERAL PUBLIC LICENSE Version 2
+
+    # Formats to be generated.
+    formats:
+      - deb
+
+    # Override default /usr/local/bin destination for binaries
+    bindir: /usr/bin
+
+    # Version Epoch.
+    # Default is extracted from `version` if it is semver compatible.
+    epoch: 2
+
+    # Version Prerelease.
+    # Default is extracted from `version` if it is semver compatible.
+    prerelease: beta1
+
+    # Version Metadata (previously deb.metadata).
+    # Default is extracted from `version` if it is semver compatible.
+    # Setting metadata might interfere with version comparisons depending on the packager.
+    version_metadata: git
+
+    # Version Release.
+    release: 1
+
+    # Section.
+    section: default
+
+    # Priority.
+    priority: extra
+
+    # Contents to add to the package.
+    # GoReleaser will automatically add the binaries.
+    contents:
+      - src: etc/sudoers.d/piwebagent2
+        dst: /etc/sudoers.d/piwebagent2
+
+      - src: lib/systemd/system/piwebagent2.service
+        dst: /lib/systemd/system/piwebagent2.service
+        file_info:
+          mode: 0644
+
+      - src: etc/piwebagent2/config/config.env
+        dst: /etc/piwebagent2/config/config.env
+        type: "config|noreplace"
+        
+      - src: usr/share/piwebagent2/assets
+        dst: /usr/share/piwebagent2/assets
+
+      - src: usr/lib/piwebagent2/update_system
+        dst: /usr/lib/piwebagent2/update_system
+        file_info:
+          mode: 0550
+
+    # Scripts to execute during the installation of the package.
+    # Keys are the possible targets during the installation process
+    # Values are the paths to the scripts which will be executed
+    scripts:
+      preinstall: "scripts/preinstall.sh"
+      postinstall: "scripts/postinstall.sh"
+      preremove: "scripts/preremove.sh"
+      postremove: "scripts/postremove.sh"
