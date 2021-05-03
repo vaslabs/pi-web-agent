@@ -1,17 +1,20 @@
 package shell
 
 import (
-	"bufio"
-	"bytes"
+	"io"
 	"log"
 	"os/exec"
 )
 
-func RunWithInput(input *bytes.Buffer, out *bytes.Buffer, command string, arg ...string) {
+func RunWithOutput(command string, arg ...string) (io.ReadCloser, error) {
 	cmd := exec.Command(command, arg...)
-	cmd.Stdin = bufio.NewReader(input)
-	cmd.Stdout = out
-	cmd.Run()
+	log.Printf("Running %s %v", command, arg)
+	reader, err := cmd.StdoutPipe()
+	if err == nil {
+		return reader, cmd.Start()
+	} else {
+		return reader, err
+	}
 }
 
 func RunSingle(command string, arg ...string) (string, error) {

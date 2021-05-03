@@ -1,14 +1,13 @@
 ![sanity build](https://github.com/vaslabs/pi-web-agent/actions/workflows/sanity.yml/badge.svg?branch=remaster)
 
-
 # Description
 
-This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser. 
-
+This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser.
 
 # How to install
 
 ## Early adapters
+
 On your raspberry pi download and install the latest 0.7.x debian package from
 from https://github.com/vaslabs/pi-web-agent/releases .
 
@@ -29,10 +28,12 @@ We are not supporting the old version anymore, all hands are to build a brand ne
 - [angular](https://angular.io/)
 
 ### Back-End development
+
 The service will be communicating via a websocket. To test the service without
 FE you can use https://chrome.google.com/webstore/detail/smart-websocket-client/omalebghpgejjiaoknljcfmglgbpocdp/related?utm_source=chrome-app-launcher-info-dialog
 
 #### Setup hook
+
 ```
 make check-hook
 ```
@@ -44,18 +45,35 @@ make run-backend
 ```
 
 #### Run tests
+
 ```
 make test-backend
 ```
+
+### Dev Environment Wrapper
+
+Given that you have all dependencies setup on your machine
+rpi in your `/etc/hosts` and `.ssh/config` entry for `pi` user
+called `rpi` you can run `./dev.sh` to spin a reloadable front-end with
+current backend build.
+
+If you you update backend just `ctrl-c` and run `./dev.sh` again
+
+The dev app is accessible to your lan via your local ip since dev server
+listens to `0.0.0.0`.
+(and to the public via your public ip if you did any port forwarding
+to your machine)
 
 ### Front-End development
 
 Associate pi web agent address with the name `rpi` in `/etc/hosts`
 
 For example:
+
 ```
 192.168.0.12 rpi
 ```
+
 (that name is used to proxy requests to your raspberry pi)
 
 ```
@@ -71,15 +89,14 @@ make build
 
 # Old versions
 
-
 ## Raspbian Jessie
 
 Get release from:
 
 https://github.com/vaslabs/pi-web-agent/releases/tag/0.5
 
-
 ## Raspbian Wheezy
+
 Get release from:
 
 https://github.com/vaslabs/pi-web-agent/releases/tag/0.4-rc-2

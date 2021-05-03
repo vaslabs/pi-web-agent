@@ -29,6 +29,11 @@ function unregister_sudoer() {
     rm /$SUDOERS_PATH
 }
 
+function remove_certificates() {
+    rm -r /etc/pwa_ca || echo "Could not remove piwebagent2 certificates"
+    groupdel pwassl || echo "Could not remove pwassl"
+}
+
 stop_service || echo "Could not stop service"
 unregister_service || echo "Could not unregister service"
 unregister_sudoer || echo "Could not remove from sudoers"

@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ -z "$PWA_ROOT_PATH_PREFIX" ]; then
+    PWA_ROOT_PATH_PREFIX='/'
+fi;
+
+UPDATE_CHECK_PATH=${PWA_ROOT_PATH_PREFIX}usr/lib/piwebagent2/update_check 
+rm $UPDATE_CHECK_PATH
+
+sudo /usr/bin/apt-get update && sudo /usr/bin/apt-get -y upgrade
