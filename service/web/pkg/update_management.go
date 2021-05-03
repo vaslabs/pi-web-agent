@@ -37,11 +37,13 @@ func Available_Updates_From_File(location string) []Package_Update {
 }
 
 func Available_Updates() []Package_Update {
-	return Available_Updates_From_File("/usr/lib/piwebagent2/update_check")
+	path := shell.GetPwaPathResolver().Resolve_Path("usr/lib/piwebagent2/update_check")
+	return Available_Updates_From_File(path)
 }
 
 func Update(out *io.Writer) (io.ReadCloser, error) {
-	return shell.RunWithOutput("/usr/lib/piwebagent2/update_system")
+	path := shell.GetPwaPathResolver().Resolve_Path("usr/lib/piwebagent2/update_system")
+	return shell.RunWithOutput(path)
 }
 
 func read_updates(location string) ([]Package_Update, error) {

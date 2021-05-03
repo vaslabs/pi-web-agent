@@ -1,9 +1,10 @@
 <h2>Available Updates</h2>
+<ng-container *ngIf="packageUpdates$| async as packageUpdates">
+  <button (click)="updateSystem($event)" *ngIf="packageUpdates.length > 0" mat-raised-button color="primary">Update</button>
 
-<button (click)="update_system()" *ngIf="packageUpdates.length > 0" mat-raised-button color="primary">Update</button>
+  <mat-list>
+      <mat-list-item *ngFor="let pkg of packageUpdates"> {{pkg.Name}} : {{pkg.Current_Version}} -> {{pkg.Next_Version}}</mat-list-item>
+  </mat-list>
+</ng-container>
 
-<mat-list>
-    <mat-list-item *ngFor="let pkg of packageUpdates"> {{pkg.Name}} : {{pkg.Current_Version}} -> {{pkg.Next_Version}}</mat-list-item>
-</mat-list>
-
-<app-console></app-console>
+<app-console [source]="console$|async"></app-console>
