@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { NgTerminal } from 'ng-terminal';
 import { Subject } from 'rxjs';
 import { PiControlService } from '../pi-control.service';
@@ -7,39 +14,29 @@ import { Terminal } from 'xterm';
 @Component({
   selector: 'app-console',
   templateUrl: './console.component.html',
-  styleUrls: ['./console.component.scss']
+  styleUrls: ['./console.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConsoleComponent implements OnInit, AfterViewInit {
   @ViewChild('term', { static: true })
   child!: NgTerminal;
-
-  writeSubject: Subject<string> = new Subject();
   underlying!: Terminal;
+  source$ = new Subject<string>();
+  @Input() fontSize = 16;
 
-  constructor(private piControl: PiControlService) { }
-
-  ngOnInit(): void {
-    this.writeSubject.next('$');
-    this.piControl.eventSource().subscribe(
-      (consoleMessage: ConsoleMessage) => {
-        console.log(consoleMessage.Console_Message);
-        if (consoleMessage.Console_Message) {
-          this.writeSubject.next(consoleMessage.Console_Message + '\r');
-        }
-      }
-    );
+  @Input() set source(state: string | null) {
+    if (this.underlying && state !== null) {
+      console.log(state);
+      this.source$.next(`${state}\r\n`);
+    }
   }
+
+  constructor(private piControl: PiControlService) {}
+
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.underlying = this.child.underlying;
-    this.underlying.setOption('fontSize', 20);
-    this.underlying.setOption('rendererType', 'dom');
-    this.child.write('$ ');
+    this.underlying.setOption('fontSize', this.fontSize);
   }
-
-}
-
-
-interface ConsoleMessage {
-  Console_Message: string;
 }

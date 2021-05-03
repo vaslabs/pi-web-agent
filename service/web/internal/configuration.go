@@ -2,8 +2,6 @@ package shell
 
 import (
 	"fmt"
-	"os"
-	"path"
 
 	"github.com/spf13/viper"
 )
@@ -61,12 +59,8 @@ func Load_PWA_config(path string) RPI_Config {
 }
 
 func Load_RPI_PWA_Config() RPI_Config {
-	pwa_path := "/etc/piwebagent2"
-	config_path := "config"
-	if _, err := os.Stat(pwa_path); err == nil {
-		return Load_PWA_config(path.Join(pwa_path, config_path))
-	}
-	return Load_PWA_config(config_path)
+	pwa_path := GetPwaPathResolver().Resolve_Path("etc/piwebagent2/config")
+	return Load_PWA_config(pwa_path)
 }
 
 func load_PWA_config(path string) (*viper.Viper, error) {

@@ -1,40 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ConsoleService } from './../console/console.service';
+import {
+  PackageUpdate,
+  UpdateManagementService
+} from './update-management.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { merge, Observable, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { PiControlService } from '../pi-control.service';
 
 @Component({
   selector: 'app-update-management',
   templateUrl: './update-management.component.html',
-  styleUrls: ['./update-management.component.scss']
+  styleUrls: ['./update-management.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpdateManagementComponent implements OnInit {
-
-  constructor(private piControl: PiControlService) { }
-
-  packageUpdates: Array<PackageUpdate> = [];
+  packageUpdates$: Observable<Array<PackageUpdate>>;
+  console$: Observable<string>;
+  constructor(
+    private updateManagementService: UpdateManagementService,
+    private consoleService: ConsoleService
+  ) {
+    this.packageUpdates$ = this.updateManagementService.getPackageUpdateStream();
+    this.console$ = this.consoleService.getConsoleStream();
+  }
 
   ngOnInit(): void {
-    this.piControl.sendCommand({Action_Type: 'AVAILABLE_UPDATES'});
-
-    this.piControl.eventSource().subscribe(
-        (packageUpdates: Array<PackageUpdate>) => {
-          if (Array.isArray(packageUpdates)) {
-            this.packageUpdates = packageUpdates;
-          }
-        }
-
-    );
+    this.updateManagementService.initialize();
   }
 
-  update_system(): void {
-    this.packageUpdates = [];
-    this.piControl.sendCommand({Action_Type: 'APPLY_UPDATES'});
+  updateSystem(event: Event): void {
+    event.stopPropagation();
+    this.updateManagementService.applyUpdates();
   }
-
-}
-
-interface PackageUpdate {
-  Name: string;
-  Current_Version: string;
-  Next_Version: string;
 }
