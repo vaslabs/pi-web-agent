@@ -1,0 +1,55 @@
+body {
+height: 90vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.section {
+position: absolute;
+left: 50%;
+top: 50%;
+width: 20rem;
+height: 30rem;
+transform: translate(-50%, -50%);
+display: flex;
+flex-wrap: wrap;
+box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
+    -2px -2px 10px rgba(255, 255, 255, 1),
+    inset 0px 0px 4px rgba(255, 255, 255, 0.2),
+    inset 7px 7px 15px rgba(55, 84, 170, 0),
+    inset -7px -7px 20px rgba(255, 255, 255, 0),
+    0px 0px 4px rgba(255, 255, 255, 0);
+
+}
+
+
+.bg {
+  height: 100%;
+  background: url();
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fade-in-image {
+  animation: fadeIn 5s;
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@media screen and (min-width : 991px ){
+  .bg{
+    display: flex;
+    align-items: center;
+  }
+}

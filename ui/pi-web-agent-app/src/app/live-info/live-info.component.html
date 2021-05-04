@@ -1,9 +1,20 @@
-
-
-<mat-list *ngIf='systemInfo$ | async as systemInfo'>
-    <mat-list-item>OS: {{systemInfo.OS_Info.Id}} {{systemInfo.OS_Info.Version_Codename}}</mat-list-item>
+<div class='bg'>
+<mat-card class='example-card' class='section'>
+  <mat-card-header>
+    <mat-card-title class='fade-in-image' ><b>System Info</b></mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src='/assets/images/info.png' alt="SYstem Infomrmation">
+  <mat-card-content>
+  <mat-list *ngIf='systemInfo$ | async as systemInfo' >
+    <mat-list-item ><b>OS:</b>&nbsp; {{systemInfo.OS_Info.Id}} {{systemInfo.OS_Info.Version_Codename}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Kernel: {{systemInfo.Kernel}}</mat-list-item>
+    <mat-list-item><b>Kernel:</b>&nbsp; {{systemInfo.Kernel}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Temperature: {{systemInfo.Temperature}}</mat-list-item>
+    <mat-list-item><b>Temperature:</b>&nbsp; {{systemInfo.Temperature}}</mat-list-item>
 </mat-list>
+  </mat-card-content>
+</mat-card></div>
+
+
+
