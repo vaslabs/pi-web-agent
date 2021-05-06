@@ -1,5 +1,5 @@
 body {
-height: 90vh;
+  height: 90vh;
   background-color: black;
   display: flex;
   justify-content: center;
@@ -11,20 +11,20 @@ height: 90vh;
 }
 
 .section {
-position: absolute;
-left: 50%;
-top: 50%;
-width: 20rem;
-height: 30rem;
-transform: translate(-50%, -50%);
-display: flex;
-flex-wrap: wrap;
-box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
-    -2px -2px 10px rgba(255, 255, 255, 1),
-    inset 0px 0px 4px rgba(255, 255, 255, 0.2),
-    inset 7px 7px 15px rgba(55, 84, 170, 0),
-    inset -7px -7px 20px rgba(255, 255, 255, 0),
-    0px 0px 4px rgba(255, 255, 255, 0);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20rem;
+  height: 30rem;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
+  -2px -2px 10px rgba(255, 255, 255, 1),
+  inset 0px 0px 4px rgba(255, 255, 255, 0.2),
+  inset 7px 7px 15px rgba(55, 84, 170, 0),
+  inset -7px -7px 20px rgba(255, 255, 255, 0),
+  0px 0px 4px rgba(255, 255, 255, 0);
 
 }
 
@@ -48,8 +48,8 @@ box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
 }
 
 @media screen and (min-width : 991px ){
-  .bg{
-    display: flex;
-    align-items: center;
-  }
+.bg{
+  display: flex;
+  align-items: center;
+}
 }
