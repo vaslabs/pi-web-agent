@@ -18,6 +18,8 @@ import { MainViewComponent } from './main-view/main-view.component';
 import { UpdateManagementComponent } from './update-management/update-management.component';
 import { ConsoleComponent } from './console/console.component';
 import { NgTerminalModule } from 'ng-terminal';
+import { MatCardModule } from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import { NgTerminalModule } from 'ng-terminal';
     PoweroffComponent,
     MainViewComponent,
     UpdateManagementComponent,
-    ConsoleComponent
+    ConsoleComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { NgTerminalModule } from 'ng-terminal';
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
-    NgTerminalModule
+    NgTerminalModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
