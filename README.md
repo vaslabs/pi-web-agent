@@ -2,7 +2,7 @@
 
 # Description
 
-This is a web-app agent for the raspberry pi. It allows you to interact easily with your Pi via your browser.
+This is a web-app agent for the Raspberry Pi. It allows you to interact easily with your Pi via your browser.
 
 # How to install
 
